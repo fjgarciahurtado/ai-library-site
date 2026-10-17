@@ -1,0 +1,32 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageList from '../../components/PageList.astro';
+import { getLibrary, type Page } from '../../lib/library';
+
+const lib = getLibrary();
+const byMonth = new Map<string, Page[]>();
+for (const page of lib.daily) {
+  const month = page.date.slice(0, 7);
+  if (!byMonth.has(month)) byMonth.set(month, []);
+  byMonth.get(month)!.push(page);
+}
+const monthName = (month: string) =>
+  new Date(`${month}-01T00:00:00Z`).toLocaleDateString('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+---
+
+<Base title="Digest archive" description="Every daily digest and weekly summary, newest first.">
+  <h1>Digest archive</h1>
+  <p class="lede">What was added to the library each day, newest first.</p>
+  {lib.weekly.length > 0 && (
+    <>
+      <h2>Weekly summaries</h2>
+      <PageList pages={lib.weekly} show="date" />
+    </>
+  )}
+  {[...byMonth].map(([month, pages]) => (
+    <>
+      <h2>{monthName(month)}</h2>
+      <PageList pages={pages} show="date" />
+    </>
+  ))}
+</Base>

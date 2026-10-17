@@ -1,0 +1,66 @@
+---
+import '../styles/global.css';
+import { url } from '../lib/library';
+
+interface Props {
+  title: string;
+  description?: string;
+  type?: 'website' | 'article';
+}
+
+const SITE_NAME = 'AI library';
+const { title, description = 'A personal, continuously updated library of AI knowledge with a daily digest.', type = 'website' } = Astro.props;
+const fullTitle = title === SITE_NAME ? title : `${title} · ${SITE_NAME}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+// Route without the base path, to match against the nav routes.
+const path = '/' + Astro.url.pathname.slice(url('/').length);
+const nav = [
+  { href: '/', label: 'Today' },
+  { href: '/digest/', label: 'Digest' },
+  { href: '/topics/', label: 'Topics' },
+  { href: '/sources/', label: 'Sources' },
+  { href: '/tags/', label: 'Tags' },
+];
+const current = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="color-scheme" content="light dark" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
+    <link rel="sitemap" href={url('/sitemap-index.xml')} />
+    <link rel="alternate" type="application/rss+xml" title={`${SITE_NAME} digest`} href={url('/rss.xml')} />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href={url('/')}>AI library</a>
+        <nav aria-label="Main">
+          {nav.map((item) => (
+            <a href={url(item.href)} aria-current={current(item.href) ? 'page' : undefined}>{item.label}</a>
+          ))}
+        </nav>
+      </div>
+    </header>
+    <main class="wrap">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap">
+        Generated from the library's Markdown. <a href={url('/rss.xml')}>RSS feed</a>
+      </div>
+    </footer>
+  </body>
+</html>

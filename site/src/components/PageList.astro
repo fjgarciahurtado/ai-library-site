@@ -1,0 +1,24 @@
+---
+import { asList, formatDate, url, type Page } from '../lib/library';
+
+interface Props {
+  pages: Page[];
+  show?: 'date' | 'description' | 'source';
+}
+
+const { pages, show = 'description' } = Astro.props;
+const sub = (page: Page) => {
+  if (show === 'date') return page.kind === 'daily' ? `${page.meta.items ?? 0} new sources` : formatDate(page.date);
+  if (show === 'source') return [page.meta.type, page.meta.author, formatDate(asList(page.meta.date_published)[0] ?? '')].filter(Boolean).join(' · ');
+  return page.description;
+};
+---
+
+<ul class="list">
+  {pages.map((page) => (
+    <li>
+      <a href={url(page.route)}>{page.title}</a>
+      {sub(page) && <span class="sub">{sub(page)}</span>}
+    </li>
+  ))}
+</ul>

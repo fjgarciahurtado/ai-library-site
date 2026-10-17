@@ -1,0 +1,20 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageList from '../../components/PageList.astro';
+import { TOPIC_AREAS, areaTitle, getLibrary, topicArea, url } from '../../lib/library';
+
+const lib = getLibrary();
+const areas = [...new Set([...Object.keys(TOPIC_AREAS), ...lib.topics.map(topicArea)])];
+const groups = areas.map((area) => ({ area, pages: lib.topics.filter((p) => topicArea(p) === area) })).filter((g) => g.pages.length);
+---
+
+<Base title="Topics" description="Long-lived knowledge pages about AI, grouped by area and kept current.">
+  <h1>Topics</h1>
+  <p class="lede">Long-lived knowledge pages, kept current. Each page cites the source notes it draws on.</p>
+  {groups.map(({ area, pages }) => (
+    <section>
+      <h2><a href={url(`/topics/${area}/`)}>{areaTitle(area)}</a></h2>
+      <PageList pages={pages} />
+    </section>
+  ))}
+</Base>

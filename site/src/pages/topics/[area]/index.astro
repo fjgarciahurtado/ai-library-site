@@ -1,0 +1,20 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageList from '../../../components/PageList.astro';
+import { areaTitle, getLibrary, topicArea, url } from '../../../lib/library';
+
+export function getStaticPaths() {
+  const areas = new Set(getLibrary().topics.map(topicArea));
+  return [...areas].map((area) => ({ params: { area } }));
+}
+
+const { area } = Astro.params;
+const pages = getLibrary().topics.filter((p) => topicArea(p) === area);
+const title = areaTitle(area);
+---
+
+<Base title={`${title} topics`} description={`Topic pages in the ${title} area: ${pages.map((p) => p.title).join(', ')}.`}>
+  <p class="eyebrow"><a href={url('/topics/')}>Topics</a></p>
+  <h1>{title}</h1>
+  <PageList pages={pages} />
+</Base>

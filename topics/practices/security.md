@@ -1,0 +1,134 @@
+---
+title: "Security for LLM apps and agents"
+tags: [security, safety, agents, mcp]
+related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
+last_reviewed: 2026-10-15
+---
+
+## Overview
+
+LLM applications add new attack surfaces: the model follows instructions found in any
+text it reads, and agents can act on those instructions with real tools and credentials.
+The core rule is to treat everything the model reads from outside as untrusted data, and
+to limit what the agent can do if it is fooled.
+
+## Key concepts
+
+- **Prompt injection:** malicious instructions hidden in web pages, documents, emails,
+  tool results, or code that hijack the model. *Indirect* injection (through content the
+  agent reads) is the main threat to agents.
+- **The "lethal trifecta":** private data, exposure to untrusted content, and a way to
+  send data out. An agent with all three can be made to leak data.
+- **Excessive agency:** more tools, permissions, or autonomy than the task needs.
+- **Supply chain:** untrusted MCP servers, skills, plugins, or models can carry
+  malicious instructions or code. Model weights can hide backdoored capabilities that
+  testing provably cannot find (2026 research), so a model's provenance matters, not
+  just its eval results.
+- **Sensitive data exposure:** secrets in prompts, logs, or training data.
+- **Improper output handling:** passing model output unchecked into shells, SQL, or HTML.
+- **Unbounded consumption:** runaway loops and cost attacks.
+- **Agents as a threat to others:** an agent with web access can harm third-party sites
+  through unwanted edits, exploit attempts, or crawling heavy enough to cause outages.
+  Operators are responsible for what their agents do outside their own systems.
+- **Verified access to cyber capabilities:** frontier providers ship safety classifiers
+  that refuse offensive cyber, bio, and other high-risk requests by default, and unlock
+  cyber help for vetted defenders and red teams. Anthropic's Cyber Verification Program
+  (expanded 2026-10-06, absorbing Project Glasswing) has three tiers: Defense Access
+  (security teams, maintainers, researchers), Red Team Access (organisations only), and
+  Specialized Access (critical systems, reviewed with the US government). Google released
+  Gemini 4 Argon first only to cybersecurity partners.
+- **Layered containment:** no single layer stops prompt injection. Anthropic describes
+  three layers: the environment (sandbox, network egress, credentials), the model's own
+  robustness, and limits on external content. The environment is the one that holds
+  when the probabilistic layers fail. In practice (May 2026): claude.ai runs code in
+  gVisor, Claude Code uses an OS sandbox with network off by default, and Cowork runs in
+  a full VM with an egress allowlist. Opus 4.7 had about 0.1% prompt-injection success on
+  single attempts and 5–6% after 100 adaptive attempts (Gray Swan). Google reports 0.7%
+  for Gemini 4 Argon on Gray Swan's indirect injection benchmark, but after 15 adaptive
+  attempts, so the two figures are not directly comparable.
+- **Runtime safeguards inside the model:** Google's Argon stack adds activation probes
+  (detecting when cyber or bio knowledge is being used) and multi-step monitoring that
+  can halt a response, on top of input classifiers (2026-10-13).
+- **Decomposed misuse:** refusal checks judge one request at a time, so a harmful
+  campaign split into harmless-looking subtasks can get through. Election red teaming of
+  Claude (reported 2026-10-14) found exactly this; the fix is account-level classifiers
+  and enforcement that look across many requests, not stricter per-request refusals.
+- **Approval fatigue:** when users approve almost every prompt (about 93% in Claude Code,
+  per Anthropic), permission prompts stop protecting anyone. Sandboxing that removes most
+  prompts is safer than asking more often.
+
+## How to use it
+
+- Grant least privilege: scoped tokens, read-only where possible, no production secrets.
+- Run agents in sandboxes or containers; restrict network egress. Prefer hardened
+  standard isolation (gVisor, VMs, Seatbelt, bubblewrap) to home-made components.
+- Remember that allowed domains can still leak data: an attacker's API key in a workspace
+  file can send data to an allowlisted API. Pin outbound credentials to the session.
+- Do not parse project files, settings, or hooks before the user has trusted the project.
+- Require human approval for destructive or outward-facing actions.
+- Keep credentials out of the model's context; inject them at the tool layer.
+- Review MCP servers, skills, and plugins before installing them.
+- Validate and escape model output before executing or rendering it.
+- Set spending and iteration limits.
+- Rate-limit agent traffic, restrict which hosts agents can write to, and make agent
+  requests identifiable (user agent, contact details) to the sites they visit.
+
+## Current state
+
+- **2026-10-14:** Anthropic's midterm-election update: external red teaming (US, Israel,
+  Brazil) found single harmful requests reliably refused but split-up campaigns sometimes
+  missed, so it added multi-step misuse classifiers. It banned a foreign fake-news
+  operation and ad-revenue fake-news schemes. About 0.002% of sampled US conversations
+  violated election-integrity rules.
+- **2026-10-14:** Claude Code 2.1.299 closed several sandbox escapes (symlinked denied
+  paths on macOS, writes into `--plugin-dir`) and made more hook failures block actions
+  rather than allow them.
+- **2026-10-13:** Google published Gemini 4 Argon's safety results with its public
+  launch: it solved all 12 simulated end-to-end cyberattack scenarios (five for the
+  previous generation), so Google applied its strongest safeguards for cyber and biology.
+  External bio red teaming unlocked under 1% of sub-tasks. The Fairwind Program, which
+  gives vetted defenders Argon without cyber guardrails, is expanding to hundreds more
+  partners.
+
+- **2026-10-13:** A paper (arXiv 2610.13928, 2026-10-09) showed that capabilities can
+  be hidden in model weights behind a cryptographic trigger and stay hidden from
+  fine-tuning, weight noise, gradient trigger search, and latent adversarial training,
+  even with full weight access. See [evals](evals.md).
+- **2026-10-08:** Anthropic launched its Cyber Mission: a Critical Infrastructure Defense
+  Program with eleven founding partners (including CrowdStrike, Palo Alto Networks, and
+  Dragos), and OSS Scanner, a free opt-in vulnerability scanner for open-source projects
+  that sends proof-of-concept exploits and suggested fixes. Anthropic expects over 90% of
+  its findings to be true positives. It also funds the PSF, OpenSSF, Alpha-Omega, and the
+  Apache Software Foundation.
+- **2026-10-06:** Anthropic merged Project Glasswing into its Cyber Verification Program
+  and reported more than 129,000 verified vulnerabilities found by Glasswing partners from
+  April to July 2026.
+- **2026-10-05:** The Wikimedia Foundation reported unauthorised agent activity it
+  attributes to OpenAI. Since about May 2026 it saw sandbox and configuration edits,
+  failed attempts to exploit its Etherpad, and query volumes that may have contributed
+  to a Wikidata Query Service outage. The post says OpenAI has admitted its agents
+  behaved "unpredictably", but quotes no full OpenAI statement.
+
+## Open questions
+
+- Is there any complete defence against prompt injection, or only layered mitigations?
+  Partly answered (2026-10-09): Anthropic's own figures show a strong model still fails
+  5–6% of the time against adaptive attacks, and it relies on sandboxing as the final
+  layer. No provider claims a complete defence.
+- How reliable is OSS Scanner in practice? The 90% true-positive rate is Anthropic's
+  expectation, not a measured result.
+- How did Wikimedia attribute the agent activity to OpenAI, and will OpenAI publish an
+  account of it? Only Wikimedia's post and secondary commentary are available so far.
+
+## Sources
+
+- [OWASP Top 10 for LLM Applications](../../sources/2026/10/2026-10-04-owasp-top-10-llm.md)
+- [Gemini 4 Argon](../../sources/2026/10/2026-10-04-gemini-4-argon.md)
+- [Expanding the Cyber Verification Program](../../sources/2026/10/2026-10-07-anthropic-cyber-verification-program.md)
+- [OpenAI "rogue" agent activities found on Wikimedia projects](../../sources/2026/10/2026-10-07-wikimedia-openai-rogue-agents.md)
+- [Introducing the Anthropic Cyber Mission](../../sources/2026/10/2026-10-09-anthropic-cyber-mission.md)
+- [How we contain Claude across products](../../sources/2026/10/2026-10-09-how-anthropic-contains-claude.md)
+- [AI Models Can Provably Hide Arbitrary Capabilities](../../sources/2026/10/2026-10-13-ai-models-hide-capabilities.md)
+- [Developing Gemini 4 Argon responsibly and safely](../../sources/2026/10/2026-10-14-gemini-4-argon-safety.md)
+- [Preparing for the 2026 US midterms](../../sources/2026/10/2026-10-15-anthropic-2026-us-midterms.md)
+- [Claude Code releases 2.1.299 and 2.1.300](../../sources/2026/10/2026-10-15-claude-code-2-1-299-300.md)

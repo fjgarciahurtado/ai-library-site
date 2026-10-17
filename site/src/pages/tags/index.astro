@@ -1,0 +1,31 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getLibrary, pagesByTag, url } from '../../lib/library';
+
+const lib = getLibrary();
+const used = pagesByTag();
+const known = new Set(lib.tags.flatMap((g) => g.tags.map((t) => t.tag)));
+const groups = lib.tags
+  .map(({ group, tags }) => ({ group, tags: tags.filter((t) => used.has(t.tag)) }))
+  .filter((g) => g.tags.length);
+const unknown = [...used.keys()].filter((tag) => !known.has(tag)).sort();
+if (unknown.length) groups.push({ group: 'other', tags: unknown.map((tag) => ({ tag, description: '' })) });
+const title = (group: string) => group.charAt(0).toUpperCase() + group.slice(1);
+---
+
+<Base title="Tags" description="Browse topic pages and source notes by tag.">
+  <h1>Tags</h1>
+  {groups.map(({ group, tags }) => (
+    <section>
+      <h2>{title(group)}</h2>
+      <ul class="list">
+        {tags.map(({ tag, description }) => (
+          <li>
+            <a href={url(`/tags/${tag}/`)}>{tag}</a> ({used.get(tag)!.length})
+            {description && <span class="sub">{description}</span>}
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</Base>

@@ -1,0 +1,30 @@
+---
+// One daily or weekly digest, with links to the previous and next one of the same kind.
+import { formatDate, getLibrary, url, type Page } from '../lib/library';
+
+interface Props {
+  page: Page;
+}
+
+const { page } = Astro.props;
+const lib = getLibrary();
+const series = page.kind === 'daily' ? lib.daily : lib.weekly; // newest first
+const index = series.findIndex((p) => p.route === page.route);
+const newer = index > 0 ? series[index - 1] : undefined;
+const older = index >= 0 ? series[index + 1] : undefined;
+const label = (p: Page) => (p.kind === 'daily' ? formatDate(p.date) : p.title);
+---
+
+<article>
+  <p class="eyebrow">{page.kind === 'daily' ? 'Daily digest' : 'Weekly summary'}</p>
+  <h1>{page.title}</h1>
+  <p class="meta">
+    {formatDate(page.date)}
+    {page.kind === 'daily' && page.meta.items != null && <> · {page.meta.items} new sources</>}
+  </p>
+  <div class="prose" set:html={page.html} />
+  <nav class="pager" aria-label="Digest navigation">
+    {older && <a class="prev" href={url(older.route)} rel="prev">← {label(older)}</a>}
+    {newer && <a class="next" href={url(newer.route)} rel="next">{label(newer)} →</a>}
+  </nav>
+</article>

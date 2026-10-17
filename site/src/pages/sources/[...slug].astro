@@ -1,0 +1,43 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageList from '../../components/PageList.astro';
+import Tags from '../../components/Tags.astro';
+import { asList, backlinks, formatDate, getLibrary, topicRoute, url } from '../../lib/library';
+
+export function getStaticPaths() {
+  return getLibrary().sources.map((page) => ({ params: { slug: page.key }, props: { page } }));
+}
+
+const { page } = Astro.props;
+const lib = getLibrary();
+const m = page.meta;
+const isUrl = (value: unknown) => typeof value === 'string' && /^https?:\/\//.test(value);
+const topics = asList(m.topics)
+  .map((key) => lib.byRoute.get(topicRoute(key)))
+  .filter((p) => p !== undefined);
+const digests = [...backlinks(page.route, 'daily'), ...backlinks(page.route, 'weekly')].sort((a, b) => b.date.localeCompare(a.date));
+---
+
+<Base title={page.title} description={page.description} type="article">
+  <article>
+    <p class="eyebrow"><a href={url('/sources/')}>Source</a>{m.type && <> · {m.type}</>}</p>
+    <h1>{page.title}</h1>
+    <div class="meta">
+      <dl>
+        {m.author && (<><dt>Author</dt><dd>{m.author}</dd></>)}
+        {m.date_published && (<><dt>Published</dt><dd>{formatDate(String(m.date_published))}</dd></>)}
+        {m.date_added && (<><dt>Added</dt><dd>{formatDate(String(m.date_added))}</dd></>)}
+        {isUrl(m.url) && (<><dt>Original</dt><dd><a href={m.url} rel="noopener">{m.url}</a></dd></>)}
+        {isUrl(m.archived) && (<><dt>Archived</dt><dd><a href={m.archived} rel="noopener">web.archive.org snapshot</a></dd></>)}
+      </dl>
+      <p><Tags tags={m.tags} /></p>
+    </div>
+    <div class="prose" set:html={page.html} />
+  </article>
+  {(topics.length > 0 || digests.length > 0) && (
+    <aside class="related">
+      {topics.length > 0 && (<><h2>Topics</h2><PageList pages={topics} /></>)}
+      {digests.length > 0 && (<><h2>Mentioned in digests</h2><PageList pages={digests} show="date" /></>)}
+    </aside>
+  )}
+</Base>

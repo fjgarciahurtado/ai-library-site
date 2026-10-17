@@ -1,0 +1,19 @@
+---
+import Base from '../../layouts/Base.astro';
+import Digest from '../../components/Digest.astro';
+import { getLibrary } from '../../lib/library';
+
+export function getStaticPaths() {
+  const lib = getLibrary();
+  return [...lib.daily, ...lib.weekly].map((page) => ({
+    params: { slug: page.route.replace(/^\/digest\//, '').replace(/\/$/, '') },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+---
+
+<Base title={page.title} description={page.description} type="article">
+  <Digest page={page} />
+</Base>

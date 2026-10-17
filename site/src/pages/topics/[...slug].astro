@@ -1,0 +1,40 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageList from '../../components/PageList.astro';
+import Tags from '../../components/Tags.astro';
+import { areaTitle, asList, backlinks, formatDate, getLibrary, topicArea, topicRoute, url } from '../../lib/library';
+
+export function getStaticPaths() {
+  return getLibrary()
+    .topics.filter((page) => page.key.includes('/'))
+    .map((page) => ({ params: { slug: page.key }, props: { page } }));
+}
+
+const { page } = Astro.props;
+const lib = getLibrary();
+const area = topicArea(page);
+const related = asList(page.meta.related)
+  .map((key) => lib.byRoute.get(topicRoute(key)))
+  .filter((p) => p !== undefined);
+const citing = lib.sources.filter((s) => asList(s.meta.topics).includes(page.key));
+const digests = [...backlinks(page.route, 'daily'), ...backlinks(page.route, 'weekly')].sort((a, b) => b.date.localeCompare(a.date));
+---
+
+<Base title={page.title} description={page.description} type="article">
+  <article>
+    <p class="eyebrow"><a href={url(`/topics/${area}/`)}>{areaTitle(area)}</a></p>
+    <h1>{page.title}</h1>
+    <div class="meta">
+      {page.date && <p>Last reviewed {formatDate(page.date)}</p>}
+      <Tags tags={page.meta.tags} />
+    </div>
+    <div class="prose" set:html={page.html} />
+  </article>
+  {(related.length > 0 || citing.length > 0 || digests.length > 0) && (
+    <aside class="related">
+      {related.length > 0 && (<><h2>Related topics</h2><PageList pages={related} /></>)}
+      {citing.length > 0 && (<><h2>Source notes on this topic</h2><PageList pages={citing} show="source" /></>)}
+      {digests.length > 0 && (<><h2>Mentioned in digests</h2><PageList pages={digests} show="date" /></>)}
+    </aside>
+  )}
+</Base>

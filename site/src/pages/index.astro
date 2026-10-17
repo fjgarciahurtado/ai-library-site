@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import Digest from '../components/Digest.astro';
+import PageList from '../components/PageList.astro';
+import { getLibrary, url } from '../lib/library';
+
+const lib = getLibrary();
+const [latest, ...older] = lib.daily;
+---
+
+<Base title="AI library" description={latest?.description}>
+  {latest ? <Digest page={latest} /> : <p>No digests yet.</p>}
+  {(older.length > 0 || lib.weekly.length > 0) && (
+    <section class="related">
+      {older.length > 0 && (
+        <>
+          <h2>Earlier digests</h2>
+          <PageList pages={older.slice(0, 14)} show="date" />
+        </>
+      )}
+      {lib.weekly.length > 0 && (
+        <>
+          <h2>Weekly summaries</h2>
+          <PageList pages={lib.weekly.slice(0, 4)} show="date" />
+        </>
+      )}
+      <p><a href={url('/digest/')}>Full archive →</a></p>
+    </section>
+  )}
+</Base>

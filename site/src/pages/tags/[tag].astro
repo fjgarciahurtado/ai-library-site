@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageList from '../../components/PageList.astro';
+import { getLibrary, pagesByTag, url } from '../../lib/library';
+
+export function getStaticPaths() {
+  return [...pagesByTag()].map(([tag, pages]) => ({ params: { tag }, props: { pages } }));
+}
+
+const { tag } = Astro.params;
+const { pages } = Astro.props;
+const description = getLibrary().tagDescriptions.get(tag) ?? '';
+const topics = pages.filter((p) => p.kind === 'topic');
+const sources = pages.filter((p) => p.kind === 'source');
+---
+
+<Base title={`Tag: ${tag}`} description={description || `Pages tagged ${tag}.`}>
+  <p class="eyebrow"><a href={url('/tags/')}>Tags</a></p>
+  <h1>{tag}</h1>
+  {description && <p class="lede">{description}</p>}
+  {topics.length > 0 && (<><h2>Topics</h2><PageList pages={topics} /></>)}
+  {sources.length > 0 && (<><h2>Sources</h2><PageList pages={sources} show="source" /></>)}
+</Base>

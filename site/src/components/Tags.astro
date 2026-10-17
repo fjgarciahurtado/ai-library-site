@@ -1,0 +1,11 @@
+---
+import { asList, url } from '../lib/library';
+
+const tags = asList(Astro.props.tags);
+---
+
+{tags.length > 0 && (
+  <ul class="chips" aria-label="Tags">
+    {tags.map((tag) => <li><a href={url(`/tags/${tag}/`)}>{tag}</a></li>)}
+  </ul>
+)}

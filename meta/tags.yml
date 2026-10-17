@@ -1,0 +1,56 @@
+# Controlled tag vocabulary. Every tag used in frontmatter must be listed here.
+# Add a new tag only when no existing one fits, and give it a one-line description.
+
+fundamentals:
+  llm: Large language models in general
+  transformers: Transformer architecture and attention
+  tokens: Tokenization, context windows, token economics
+  embeddings: Vector representations and similarity search
+  training: Pre-training, post-training, RLHF and related methods
+  fine-tuning: Adapting models to tasks (LoRA, SFT, distillation)
+  reasoning: Extended thinking, chain-of-thought, test-time compute
+  multimodal: Vision, audio, video input and output
+  robotics: Embodied AI, robot control, and robotics foundation models
+
+techniques:
+  prompting: Prompt design and context engineering
+  rag: Retrieval-augmented generation
+  tool-use: Function calling and tool integration
+  structured-output: JSON, schemas, constrained decoding
+  evals: Evaluation methods and benchmarks
+  caching: Prompt caching and response caching
+  memory: Persistent memory for agents and assistants
+
+agents:
+  agents: Agent design, loops, and autonomy
+  multi-agent: Orchestration of several agents
+  coding-agents: Agents that write and modify code
+  computer-use: Agents that operate GUIs and browsers
+
+tooling:
+  mcp: Model Context Protocol servers and clients
+  skills: Packaged agent skills and instructions
+  plugins: Plugins and extensions for AI tools
+  sdk: Official SDKs and client libraries
+  cli: Command-line AI tools
+  ide: Editor and IDE integrations
+
+frameworks:
+  frameworks: Agent and LLM application frameworks
+  open-source: Open-weight models and open-source projects
+
+providers:
+  anthropic: Anthropic and Claude
+  openai: OpenAI and GPT models
+  google: Google and Gemini
+  meta: Meta and Llama
+  mistral: Mistral AI
+  other-provider: Any other model provider
+
+practices:
+  deployment: Serving, hosting, latency, scaling
+  cost: Pricing and cost optimisation
+  safety: Safety, alignment, guardrails
+  security: Prompt injection, data exposure, supply chain
+  research: Research papers and results
+  industry: Business, policy, and ecosystem news

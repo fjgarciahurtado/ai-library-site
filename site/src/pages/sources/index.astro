@@ -1,0 +1,26 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageList from '../../components/PageList.astro';
+import { getLibrary, url, type Page } from '../../lib/library';
+
+const lib = getLibrary();
+const byMonth = new Map<string, Page[]>();
+for (const page of lib.sources) {
+  const month = page.key.slice(0, 7).replace('/', '-');
+  if (!byMonth.has(month)) byMonth.set(month, []);
+  byMonth.get(month)!.push(page);
+}
+const monthName = (month: string) =>
+  new Date(`${month}-01T00:00:00Z`).toLocaleDateString('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+---
+
+<Base title="Sources" description={`${lib.sources.length} source notes: articles, papers, releases and docs about AI, each with a summary.`}>
+  <h1>Sources</h1>
+  <p class="lede">{lib.sources.length} source notes, newest first. Browse by <a href={url('/tags/')}>tag</a>.</p>
+  {[...byMonth].map(([month, pages]) => (
+    <>
+      <h2>{monthName(month)}</h2>
+      <PageList pages={pages} show="source" />
+    </>
+  ))}
+</Base>
