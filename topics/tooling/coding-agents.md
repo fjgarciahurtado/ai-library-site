@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-10-16
+last_reviewed: 2026-10-18
 ---
 
 ## Overview
@@ -13,9 +13,12 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Key concepts
 
-- **Main tools:** Claude Code (Anthropic; terminal, IDE, desktop, web), Codex (OpenAI),
-  Gemini CLI and Jules (Google), GitHub Copilot's agent mode, and editors such as Cursor.
-  Open-source options include Aider, Cline, and OpenCode.
+- **Main tools:** Claude Code (Anthropic; CLI, desktop app, web app, IDE extensions, and
+  cloud scheduled routines), Codex (OpenAI; GPT-6 models since October 2026), Gemini CLI
+  and Jules (Google), GitHub Copilot's agent mode, and editors such as Cursor.
+  Open-source options include Aider, Cline, and OpenCode. Adoption extends to government:
+  over 1,500 engineers and technical staff at Singapore's GovTech use Claude Code
+  (Anthropic, 2026-10-14).
 - **Project instructions:** files such as `CLAUDE.md` or `AGENTS.md` describe build
   commands, conventions, and rules.
 - **Permissions:** modes from "ask every time" to automatic approval with safety checks;
@@ -34,9 +37,11 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   library for building your own agents.
 - **Infrastructure at agent scale:** when most commits come from agents, source control
   and review become the bottleneck. Anthropic's merges grew from about 2,500 a day (May
-  2026) to over 30,000 (September 2026), and it replaced git with a server-side,
-  on-demand system (Scion), dropped its global merge queue in favour of post-merge
-  testing, and added review rules that separate cosmetic from sensitive changes.
+  2026) to over 30,000 (September 2026), with about 25 million CI checkouts a day. In
+  five months it replaced git with a server-side, on-demand system (Scion), dropped its
+  global merge queue in favour of post-merge testing, and added review rules that
+  separate cosmetic from sensitive changes. Claude resolves most merge conflicts, and
+  engineers' role shifted to setting constraints and reviewing intent.
 
 ## How to use it
 
@@ -54,20 +59,13 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - **2026-10-14:** Claude Code 2.1.299 and 2.1.300: idle compaction before the prompt
   cache expires, `@` mentions that pass paths instead of contents, stricter MCP allow
   rules, more fail-closed hook and sandbox behaviour, and OpenTelemetry GenAI attributes.
-- **2026-10-14:** Singapore's GovTech has over 1,500 engineers and technical staff using
-  Claude Code to modernise government systems (Anthropic, Singapore office launch).
-- **2026-10-13:** Anthropic described Scion, its in-house git replacement built in five
-  months to handle about 25 million CI checkouts and over 30,000 merges a day. Engineers'
-  role shifted to setting constraints and reviewing intent; Claude resolves most merge
-  conflicts.
-
+- **2026-10-13:** Anthropic described Scion, its in-house git replacement (see
+  Infrastructure at agent scale).
 - **2026-10-06 to 2026-10-09:** Claude Code 2.1.292–2.1.296: the stateless MCP protocol
   becomes the default for local servers, the Agent tool takes an `effort` parameter for
-  subagents, hooks can fail closed, and 2.1.294 fixed a bug that let instruction-style
-  `prompt` hooks allow what they should block.
-- **2026-10-07:** Claude Code 2.1.293 made Claude Haiku 5.5 its default Haiku model.
-- **2026-10-04:** Claude Code runs as CLI, desktop app, web app, and IDE extensions, with
-  cloud scheduled routines. OpenAI's GPT-6 models are available in Codex.
+  subagents, hooks can fail closed, Claude Haiku 5.5 becomes the default Haiku (2.1.293),
+  and 2.1.294 fixed a bug that let instruction-style `prompt` hooks allow what they
+  should block.
 
 ## Open questions
 

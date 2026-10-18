@@ -2,7 +2,7 @@
 title: "Open-weight models"
 tags: [open-source, llm, deployment, fine-tuning]
 related: [fundamentals/training-and-fine-tuning, practices/cost-and-caching]
-last_reviewed: 2026-10-16
+last_reviewed: 2026-10-18
 ---
 
 ## Overview
@@ -59,11 +59,19 @@ linear attention in most layers, and Qwen3.8-Flash-Next adds sparse attention to
 (see [transformers](../fundamentals/transformers.md)).
 
 Open weights are also spreading to non-language foundation models. Mistral's Timestral
-(2026-10-15) is a family of four time-series forecasting models (5M to 209M parameters,
-Modified MIT licence) that run zero-shot on a CPU.
+(2026-10-15) is its first family of time-series forecasting models: four sizes (5M, 28M,
+123M, 209M) on Hugging Face under a Modified MIT licence, with 32K-step context and
+21-quantile probabilistic forecasts, running zero-shot on a CPU. Mistral says the 209M
+model leads pre-trained zero-shot models on GIFT-Eval, TIME, and fev-bench, ahead of
+Chronos-2 and TimesFM-3 (vendor claims). Google's EmbeddingGemma 2 (2026-10-06, 740M
+parameters, Apache 2.0) is an open multimodal embedding model small enough for phones;
+see [embeddings](../fundamentals/embeddings.md).
 
 Meta has not released open weights since Llama 4. Its newer Muse models are API-only:
-Muse Spark 1.1 (2026-07-09) and Muse Wonder / Muse Wonder Full (2026-10-12).
+Muse Spark 1.1 (2026-07-09) and Muse Wonder / Muse Wonder Full (2026-10-12), its
+strongest agent models, with cross-session "Active Memory". Muse Wonder is on the Meta
+Model API and Muse Code; Wonder Full is for Muse Code subscribers only. Meta published no
+licence or prices and deferred benchmark scores to a separate report.
 
 Sources disagree on Gemma 4: it was announced on 2026-04-03, but the model card cites a
 July 2026 technical report and lists a 12B size that launch coverage did not mention.
@@ -75,27 +83,15 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 
 ## Current state
 
-- **2026-10-15:** Mistral released Timestral, its first time-series foundation models:
-  four sizes (5M, 28M, 123M, 209M) with weights on Hugging Face under a Modified MIT
-  licence, 32K-step context, and 21-quantile probabilistic forecasts. Mistral says the
-  209M model leads pre-trained zero-shot models on GIFT-Eval, TIME, and fev-bench,
-  ahead of Chronos-2 and TimesFM-3 (vendor claims).
+- **2026-10-15:** Mistral released Timestral, open time-series models (see above).
 - **2026-10-14:** Google DeepMind and Singapore's government announced an on-device scam
   detector built on a fine-tuned lightweight Gemma, an example of small open models
   adapted for private, on-device use. The fine-tuned model itself is not being released.
-- **2026-10-12:** Meta released Muse Wonder (Meta Model API and Muse Code) and Muse
-  Wonder Full (Muse Code subscribers only), its strongest agent models, with
-  cross-session "Active Memory". Again no open weights, licence, or prices; benchmark
-  scores are deferred to a separate report.
+- **2026-10-12:** Meta released Muse Wonder, again without open weights (see above).
 - **2026-10-06:** Mistral Large 4 (1T total / 49B active, multimodal MoE) entered API
   preview as `mistral-large-4-0` at $1.36 / $4.18 per 1M tokens. Mistral promises open
   weights at the end of October 2026, but has not stated the licence or context length.
   Mistral reports strong cyber and agentic scores, including 93% on Cybench.
-- **2026-10-06:** Google released EmbeddingGemma 2 (740M parameters, Apache 2.0), an
-  open multimodal embedding model small enough for phones. It is an embedding model, not
-  a chat model, so it is not in the table; see [embeddings](../fundamentals/embeddings.md).
-- **2026-10-04:** Alibaba's Qwen 3.7 Max (May 2026) shipped as API-only without weights
-  (secondary report, not yet confirmed from a primary source).
 
 ## Open questions
 
@@ -106,6 +102,8 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 - What does the Qwen Community 1.0 licence allow for commercial use? It has not been read
   yet.
 - Did Llama 4 Behemoth ever ship? No primary source has been found.
+- Did Alibaba's Qwen 3.7 Max (May 2026) ship as API-only, without weights? Only a
+  secondary report says so (noted 2026-10-04); no primary source has been found.
 - Add primary sources for Kimi, GLM, and gpt-oss.
 
 ## Sources

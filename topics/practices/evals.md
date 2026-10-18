@@ -2,7 +2,7 @@
 title: "Evaluating LLM applications"
 tags: [evals, prompting, agents]
 related: [practices/prompting, agents/agent-patterns]
-last_reviewed: 2026-10-16
+last_reviewed: 2026-10-18
 ---
 
 ## Overview
@@ -26,10 +26,14 @@ models in general; your own evals tell you what works for your use case.
 - **Common benchmarks:** SWE-bench (coding), Terminal-Bench (command-line work), GPQA
   (science), tau-bench (tool-using agents), OSWorld (computer use), Humanity's Last
   Exam. Benchmarks saturate and leak into training data, so treat them as rough guides.
+  By 2026, agentic benchmarks (long coding tasks, computer use, multi-hour work) had
+  replaced static quizzes as the headline comparisons for frontier models.
 - **Limits of capability evals:** dangerous-capability evals try to elicit what a model
-  can do. A 2026 paper shows a developer can hide an arbitrary capability behind a
-  cryptographic trigger so that fine-tuning, weight noise, and trigger search cannot
-  surface it. Evals measure what a model shows, not what it can do.
+  can do. "AI Models Can Provably Hide Arbitrary Capabilities" (arXiv, 2026-10-09) embeds
+  encrypted networks in model weights that run only on a secret trigger. A
+  proof-of-concept on a CBRN proxy task resisted fine-tuning, weight noise, gradient
+  trigger search, and latent adversarial training; the authors released the models for
+  defence research. Evals measure what a model shows, not what it can do.
 - **Third-party evaluator access:** external evaluators are only as useful as their
   access and their freedom to publish. Anthropic's 2026 scheme defines three tiers:
   (1) narrow access with lab approval to publish; (2) broader information and
@@ -49,12 +53,8 @@ models in general; your own evals tell you what works for your use case.
   (Tier 3). Anthropic cannot veto publication, only redact customer data, privileged
   legal material, and architecture details. SecureBio (Tier 2-style review of the CBRN
   chapter), Accenture, Faculty, and Hugging Face are at earlier stages.
-- **2026-10-13:** "AI Models Can Provably Hide Arbitrary Capabilities" (arXiv, 2026-10-09)
-  embeds encrypted networks in model weights that run only on a secret trigger. A
-  proof-of-concept on a CBRN proxy task resisted four elicitation methods; the authors
-  released the models for defence research.
-- **2026-10-04:** Agentic benchmarks (long coding tasks, computer use, multi-hour work)
-  have replaced static quizzes as the headline comparisons for frontier models.
+- **2026-10-13:** A paper showed that capabilities can be provably hidden from
+  elicitation (see Limits of capability evals).
 
 ## Open questions
 

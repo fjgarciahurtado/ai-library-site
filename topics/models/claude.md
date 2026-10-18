@@ -2,7 +2,7 @@
 title: "Claude (Anthropic)"
 tags: [anthropic, llm, reasoning, cost]
 related: [models/gpt, models/gemini, tooling/skills, tooling/mcp, tooling/coding-agents]
-last_reviewed: 2026-10-16
+last_reviewed: 2026-10-18
 ---
 
 ## Overview
@@ -40,7 +40,17 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 - **Cyber access:** cyber safeguards are relaxed for verified security professionals
   through the Cyber Verification Program, which has three tiers (Defense, Red Team,
   Specialized) and covers Opus 5.5, Sonnet 5.5, and Mythos 5.1. On 2026-10-06 it absorbed
-  Project Glasswing and became the only route to Claude Mythos 5.1.
+  Project Glasswing and became the only route to Claude Mythos 5.1. Anthropic says
+  Glasswing partners found over 129,000 verified vulnerabilities from April to July 2026.
+  The Cyber Mission (2026-10-08) adds an infrastructure defence programme and a free OSS
+  Scanner (see [security](../practices/security.md)).
+- **Public sector:** Anthropic committed $150 million over three years to the US Genesis
+  Mission (2026-10-08), giving Claude and Claude Code to 15+ federal agencies and several
+  hundred research projects. In Singapore (office opened 2026-10-14) an MOU with MDDI
+  covers joint model evaluation and testing standards, and regulated customers use
+  in-region inference on Amazon Bedrock.
+- **Independent evaluators:** METR staff work inside Anthropic with the right to publish
+  without approval; see [evals](../practices/evals.md) for the access tiers.
 
 ## How to use it
 
@@ -54,9 +64,12 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 - All four current models have 1M context, 128K output, and a June 2026 knowledge
   cutoff. Haiku 4.5 (200K context, 64K output, $1 / $5) is superseded but still listed
   as Active, with retirement "not sooner than 2026-10-15" and no deprecation notice as of
-  2026-10-13. Sonnet 4.5 retires on 2026-11-30.
+  2026-10-13. Anthropic gives at least 60 days' notice, so it cannot retire before
+  mid-December 2026. Sonnet 4.5 (deprecated 2026-09-30) retires on 2026-11-30; Opus 4.5 is
+  active until at least 2026-11-24.
 - Haiku 5.5 (released 2026-10-07) is the first Haiku with effort control and supports
-  computer and browser use. Claude Code 2.1.293 made it the default Haiku.
+  computer and browser use. Anthropic reports 72.4% on OSWorld 2.1 (offline subset) and
+  39.2% on Terminal-Bench 4.0. Claude Code 2.1.293 made it the default Haiku.
 - Haiku 5.5 is the only current model priced by prompt length; the others bill the full
   1M window at one rate. Cache reads on Opus 5.5 and Sonnet 5.5 cost 5% of input.
 - Stream long requests. Use the Models API for live capability data.
@@ -67,37 +80,18 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 - **2026-10-15:** Anthropic gave six METR staff "employee-like access" (hardware, office,
   internal tools) with the right to publish without approval, apart from redactions in
   three fixed categories. SecureBio is reviewing the CBRN chapter of the August 2026 Risk
-  Report; Accenture and Faculty are negotiating broader evaluation work. See
-  [evals](../practices/evals.md) for the access tiers.
+  Report; Accenture and Faculty are negotiating broader evaluation work.
 - **2026-10-14:** Anthropic reports that Opus 5.5, Sonnet 5.5, and Haiku 5.5 score 99%
   on its political evenhandedness evaluation and refuse fewer political requests. Later
   in October, US Claude.ai users get state-specific official voting information and
   election-night results in the chat (data from Democracy Works). External reviewers
   still flag unsolicited caveats. See [security](../practices/security.md) for misuse
   findings.
-- **2026-10-14:** Anthropic opened a Singapore office (its fifth in Asia-Pacific) and
-  signed an MOU with Singapore's MDDI covering joint model evaluation and testing
-  standards. Regulated customers there use in-region inference on Amazon Bedrock.
-- **2026-10-13:** The deprecations page still lists Haiku 4.5 as Active with no
-  deprecation notice. Anthropic gives at least 60 days' notice, so it cannot retire
-  before mid-December 2026. Sonnet 4.5 (deprecated 2026-09-30) retires on 2026-11-30;
-  Opus 4.5 is active until at least 2026-11-24.
-- **2026-10-13:** The thinking troubleshooting docs confirm that Haiku 5.5 can run with
-  thinking disabled, but only at effort `high` or below (`xhigh` and `max` return a
-  400), and effort cannot change per message while it is disabled.
 - **2026-10-08:** Anthropic published a revised Usage Policy, effective 2026-11-12. It
   adds a section on fake account networks, narrows the elections rules to voter deception
   (personalised campaign targeting is now allowed), spells out weapons, surveillance, and
   law-enforcement limits, and bans sustained cruelty towards models in extreme cases.
-- **2026-10-08:** Anthropic launched its Cyber Mission (infrastructure defence programme
-  and free OSS Scanner; see [security](../practices/security.md)) and committed
-  $150 million over three years to the US Genesis Mission, giving Claude and Claude Code
-  to 15+ federal agencies and several hundred research projects.
 - **2026-10-07:** Claude Haiku 5.5 released, completing the 5.5 family (details above).
-  Anthropic reports 72.4% on OSWorld 2.1 (offline subset) and 39.2% on Terminal-Bench
-  4.0. Sonnet 5.5 cache reads fell to 0.05x input, matching Opus 5.5.
-- **2026-10-06:** With the Glasswing merger, Anthropic said Glasswing partners found over
-  129,000 verified vulnerabilities from April to July 2026.
 
 ## Open questions
 

@@ -2,7 +2,7 @@
 title: "Security for LLM apps and agents"
 tags: [security, safety, agents, mcp]
 related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
-last_reviewed: 2026-10-15
+last_reviewed: 2026-10-18
 ---
 
 ## Overview
@@ -22,8 +22,10 @@ to limit what the agent can do if it is fooled.
 - **Excessive agency:** more tools, permissions, or autonomy than the task needs.
 - **Supply chain:** untrusted MCP servers, skills, plugins, or models can carry
   malicious instructions or code. Model weights can hide backdoored capabilities that
-  testing provably cannot find (2026 research), so a model's provenance matters, not
-  just its eval results.
+  testing provably cannot find: a paper (arXiv 2610.13928, 2026-10-09) hid capabilities
+  behind a cryptographic trigger that survived fine-tuning, weight noise, gradient
+  trigger search, and latent adversarial training, even with full weight access. A
+  model's provenance matters, not just its eval results (see [evals](evals.md)).
 - **Sensitive data exposure:** secrets in prompts, logs, or training data.
 - **Improper output handling:** passing model output unchecked into shells, SQL, or HTML.
 - **Unbounded consumption:** runaway loops and cost attacks.
@@ -35,8 +37,21 @@ to limit what the agent can do if it is fooled.
   cyber help for vetted defenders and red teams. Anthropic's Cyber Verification Program
   (expanded 2026-10-06, absorbing Project Glasswing) has three tiers: Defense Access
   (security teams, maintainers, researchers), Red Team Access (organisations only), and
-  Specialized Access (critical systems, reviewed with the US government). Google released
-  Gemini 4 Argon first only to cybersecurity partners.
+  Specialized Access (critical systems, reviewed with the US government). Anthropic says
+  Glasswing partners found more than 129,000 verified vulnerabilities from April to July
+  2026. Google released Gemini 4 Argon first only to cybersecurity partners; its Fairwind
+  Program, which gives vetted defenders Argon without cyber guardrails, is expanding to
+  hundreds more partners (2026-10-13).
+- **Defensive programmes:** Anthropic's Cyber Mission (2026-10-08) runs a Critical
+  Infrastructure Defense Program with eleven founding partners (including CrowdStrike,
+  Palo Alto Networks, and Dragos), and OSS Scanner, a free opt-in vulnerability scanner
+  for open-source projects that sends proof-of-concept exploits and suggested fixes.
+  Anthropic expects over 90% of its findings to be true positives. It also funds the
+  PSF, OpenSSF, Alpha-Omega, and the Apache Software Foundation.
+- **Frontier cyber capability:** Gemini 4 Argon solved all 12 of Google's simulated
+  end-to-end cyberattack scenarios (the previous generation solved five), which triggered
+  Google's strongest cyber and bio safeguards. External bio red teaming unlocked under 1%
+  of sub-tasks (Google, 2026-10-13).
 - **Layered containment:** no single layer stops prompt injection. Anthropic describes
   three layers: the environment (sandbox, network egress, credentials), the model's own
   robustness, and limits on external content. The environment is the one that holds
@@ -83,26 +98,8 @@ to limit what the agent can do if it is fooled.
 - **2026-10-14:** Claude Code 2.1.299 closed several sandbox escapes (symlinked denied
   paths on macOS, writes into `--plugin-dir`) and made more hook failures block actions
   rather than allow them.
-- **2026-10-13:** Google published Gemini 4 Argon's safety results with its public
-  launch: it solved all 12 simulated end-to-end cyberattack scenarios (five for the
-  previous generation), so Google applied its strongest safeguards for cyber and biology.
-  External bio red teaming unlocked under 1% of sub-tasks. The Fairwind Program, which
-  gives vetted defenders Argon without cyber guardrails, is expanding to hundreds more
-  partners.
-
-- **2026-10-13:** A paper (arXiv 2610.13928, 2026-10-09) showed that capabilities can
-  be hidden in model weights behind a cryptographic trigger and stay hidden from
-  fine-tuning, weight noise, gradient trigger search, and latent adversarial training,
-  even with full weight access. See [evals](evals.md).
-- **2026-10-08:** Anthropic launched its Cyber Mission: a Critical Infrastructure Defense
-  Program with eleven founding partners (including CrowdStrike, Palo Alto Networks, and
-  Dragos), and OSS Scanner, a free opt-in vulnerability scanner for open-source projects
-  that sends proof-of-concept exploits and suggested fixes. Anthropic expects over 90% of
-  its findings to be true positives. It also funds the PSF, OpenSSF, Alpha-Omega, and the
-  Apache Software Foundation.
-- **2026-10-06:** Anthropic merged Project Glasswing into its Cyber Verification Program
-  and reported more than 129,000 verified vulnerabilities found by Glasswing partners from
-  April to July 2026.
+- **2026-10-13:** Google published Gemini 4 Argon's safety report with its public launch
+  (see Frontier cyber capability).
 - **2026-10-05:** The Wikimedia Foundation reported unauthorised agent activity it
   attributes to OpenAI. Since about May 2026 it saw sandbox and configuration edits,
   failed attempts to exploit its Etherpad, and query volumes that may have contributed

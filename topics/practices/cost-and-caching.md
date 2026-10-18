@@ -2,7 +2,7 @@
 title: "Cost and caching"
 tags: [cost, caching, tokens]
 related: [fundamentals/tokens-and-context, models/claude, fundamentals/reasoning-models]
-last_reviewed: 2026-10-15
+last_reviewed: 2026-10-18
 ---
 
 ## Overview
@@ -50,7 +50,9 @@ Other levers:
 - **Cache lifetime matters for idle sessions:** once a cache expires, the next request
   pays full input price for the whole context. Claude Code (2.1.299, 2026-10-14) compacts
   conversations over 200K tokens after about 54 idle minutes, just before the one-hour
-  cache expires, trading one compaction for a full uncached re-read.
+  cache expires, trading one compaction for a full uncached re-read. Since 2.1.300 it
+  reports 5-minute and 1-hour cache writes separately in OpenTelemetry, which helps
+  check whether caching is working.
 - **Classification-only endpoints:** for routing and yes/no checks, OpenAI's Decisions API
   charges only for input ($0.10 per 1M tokens on `gpt-6-luna`, as of 2026-10-07) and
   returns probabilities instead of generated text.
@@ -67,12 +69,12 @@ on the date shown; prices change often, so recheck before relying on them.
 |---|---|---|---|
 | Claude Fable 5.1 | $10 / $0.25 / $50 | | 2026-10-08 |
 | Claude Opus 5.5 | $4 / $0.20 / $20 | Fast mode $8 / $40 | 2026-10-08 |
-| Claude Sonnet 5.5 | $2 / $0.10 / $10 | Cache reads cut from $0.20 around 2026-10-07 | 2026-10-08 |
+| Claude Sonnet 5.5 | $2 / $0.10 / $10 | Cache reads cut from $0.20, around 2026-10-07 per Simon Willison (the docs give no date) | 2026-10-08 |
 | Claude Haiku 5.5 | $0.10 / $0.01 / $0.50 | Prompts ≤100K; 5x above. Batch halves both tiers | 2026-10-08 |
 | GPT-6 Astra | $10 / $1.00 / $50 | Above 272K input: input 2x, output 1.5x (all GPT-6) | 2026-10-06 |
 | GPT-6.1 Sol | $2 / $0.10 / $10 | | 2026-10-06 |
 | GPT-6 Luna | $0.10 / $0.01 / $0.50 | Decisions API: $0.10 input only | 2026-10-07 |
-| Gemini 4 Argon | $2 / $0.10 / $10 | Introductory; $4 / $20 after 2026-11-30. Cached input 95% off. 1M shared input-output limit | 2026-10-14 |
+| Gemini 4 Argon | $2 / $0.10 / $10 | Introductory; $4 / $20 after 2026-11-30 (same as Opus 5.5). Cached price applies to implicit cache hits only. 1M shared input-output limit | 2026-10-15 |
 | Gemini 3.1 Pro Preview | $2.00 / $0.20 / $12.00 | Above 200K: $4.00 / $0.40 / $18.00 | 2026-10-07 |
 | Gemini 2.5 Pro | $1.25 / $0.125 / $10.00 | Above 200K: $2.50 / $0.25 / $15.00 | 2026-10-07 |
 | Gemini 3.8 Flash | $0.75 / $0.075 / $3.75 | Doubles to $1.50 / $0.15 / $7.50 on 2027-01-01; cache storage $0.50 per 1M per hour (rising to $1.00) | 2026-10-06 |
@@ -87,19 +89,11 @@ legacy, costs $1 / $5.
 
 ## Current state
 
-- **2026-10-15:** The Gemini 4 Argon model page lists implicit caching only, with no
-  explicit caching. The 95% cached-input discount above applies to implicit cache hits.
-- **2026-10-14:** Claude Code 2.1.299 added idle compaction ahead of prompt-cache expiry;
-  2.1.300 reports 5-minute and 1-hour cache writes separately in OpenTelemetry.
-- **2026-10-13:** Gemini 4 Argon reached the paid Gemini API at $2 / $10 per 1M tokens
-  until 2026-11-30, then $4 / $20, the same as Claude Opus 5.5. Its launch price equals
-  GPT-6.1 Sol.
+- **2026-10-13:** Gemini 4 Argon launched at introductory prices equal to GPT-6.1 Sol
+  ($2 / $10), doubling after 2026-11-30.
 - **2026-10-08:** OpenAI extended the Ultrafast service tier to GPT-6.1 Sol. Prices are
   on a separate Ultrafast pricing table, not checked in this library yet.
-- **2026-10-07:** Claude Haiku 5.5 launched with prompt-length pricing (table above), and
-  Sonnet 5.5 cache reads halved to 0.05x input. Simon Willison dates the cut to the Haiku
-  launch; the docs give no date.
-- **2026-10-06:** Gemini 3.8 Flash introductory prices run until 2026-12-31.
+- **2026-10-07:** Claude Haiku 5.5 launched with prompt-length pricing (table above).
 
 ## Open questions
 

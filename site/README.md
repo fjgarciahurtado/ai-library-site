@@ -45,7 +45,8 @@ To build from another copy of the library, set `LIBRARY_ROOT=/path/to/library`.
 
 The library repo is private, so the site is published through a public mirror,
 [ai-library-site](https://github.com/fjgarciahurtado/ai-library-site), on GitHub Pages:
-<https://fjgarciahurtado.github.io/ai-library-site/>.
+<https://ai-digest.fjgarciahurtado.com/>. The custom domain is set in the public repo's
+Settings → Pages, with a `CNAME` record to `fjgarciahurtado.github.io` in AWS Route 53.
 
 1. After each push, `scripts/update.sh` runs `scripts/publish_site.sh`. It copies the
    committed `digest/`, `topics/`, `sources/`, `assets/`, `meta/tags.yml`, and `site/` into

@@ -57,7 +57,6 @@ scam detector (fine-tuned Gemma, announced 2026-10-14) is an example.
   Intelligence opened a waitlisted API beta to fine-tune its robot foundation models on
   customers' own demonstration data and serve them through hosted inference (no prices
   published).
-
 - **2026-10-04:** Most capability gains now come from post-training, especially RL on
   verifiable tasks and agentic environments, rather than from pre-training scale alone.
 

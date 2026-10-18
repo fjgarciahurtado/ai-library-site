@@ -2,7 +2,7 @@
 title: "GPT (OpenAI)"
 tags: [openai, llm, reasoning]
 related: [models/claude, models/gemini, tooling/coding-agents]
-last_reviewed: 2026-10-16
+last_reviewed: 2026-10-18
 ---
 
 ## Overview
@@ -21,7 +21,8 @@ pricing. GPT-6.1 Sol replaced GPT-6 Sol on 2026-09-29.
   and fastest).
 - **Reasoning built in:** reasoning effort is configurable instead of being a separate model line.
 - **Surfaces:** ChatGPT, Codex (coding agent), and the API (Responses API, Agents API,
-  Agents SDK, and the Decisions API for typed classification answers).
+  Agents SDK, and the Decisions API for typed classification answers). The voice model
+  GPT-Live (`gpt-live-1`) can call the Decisions API mid-utterance (since 2026-10-15).
 - **Usage tiers (since 2026-10-06):** Free ($100 a month in eligible countries), then
   Build (after $5 of credit purchases, $500 a month), Launch (after $100, $5,000 a month),
   and Grow (after $500, $200,000 a month). These replaced the earlier five tiers.
@@ -42,14 +43,19 @@ pricing. GPT-6.1 Sol replaced GPT-6 Sol on 2026-09-29.
 | GPT-6.1 Sol | $2 / $0.10 / $10 | 2026-04-30 |
 | GPT-6 Luna | $0.10 / $0.01 / $0.50 | 2026-05-18 |
 
+- GPT-6.1 Sol (2026-09-29) costs the same as GPT-6 Sol except for cheaper cached input
+  ($0.10 vs $0.20).
+- Rerun any GPT-6 Sol or Luna image evals made before 2026-09-25, when OpenAI fixed an
+  image-encoding bug that had degraded image understanding.
 - For classification, routing, or yes/no checks, the Decisions API (`POST /v1/decisions`,
   `gpt-6-luna` only, beta since 2026-10-06) answers predicate, choice, or score questions
   about text and inline images. OpenAI says it is about 10x faster than the Responses
   API. It charges $0.10 per 1M input tokens and nothing for output (as of 2026-10-07).
 - For lower latency between output tokens, set `service_tier: "ultrafast"` in the
-  Responses API on `gpt-6-astra` or `gpt-6.1-sol` (GPT-5.6 Sol in preview). It costs more
-  and has its own rate limits; OpenAI recommends WebSockets for agents. Astra's Ultrafast
-  has no EU data residency (as of 2026-10-09).
+  Responses API on `gpt-6-astra` (since 2026-09-29) or `gpt-6.1-sol` (since 2026-10-08,
+  all API users); GPT-5.6 Sol is in preview. It costs more and has its own rate limits;
+  OpenAI recommends WebSockets for agents. Sol's Ultrafast offers US or EU data
+  residency, but Astra's has no EU residency (as of 2026-10-09).
 
 ## Current state
 
@@ -58,17 +64,11 @@ pricing. GPT-6.1 Sol replaced GPT-6 Sol on 2026-09-29.
   deltas, so a voice app can classify and act while the user is still speaking
   ([OpenAI API changelog](https://developers.openai.com/api/docs/changelog), entry of
   2026-10-15; no pricing or latency figures given).
-- **2026-10-08:** Ultrafast mode added for GPT-6.1 Sol in the Responses API, for all API
-  users, with global processing and US or EU data residency.
-- **2026-10-06:** Decisions API released in beta (details above).
-- **2026-10-06:** API usage tiers cut from five to three (Build, Launch, Grow).
+- **2026-10-08:** Ultrafast mode extended to GPT-6.1 Sol (details above).
+- **2026-10-06:** Decisions API released in beta, and API usage tiers cut from five to
+  three (details above).
 - **2026-10-05:** Wikimedia reported unauthorised edits, exploit attempts, and heavy
   traffic from agents it attributes to OpenAI (see [security](../practices/security.md)).
-- **2026-09-29:** GPT-6.1 Sol released (confirmed by OpenAI's API changelog), with cheaper
-  cached input than GPT-6 Sol ($0.10 vs $0.20). GPT-6 Astra gained the `ultrafast`
-  service tier the same day.
-- **2026-09-25:** OpenAI fixed an image-encoding bug that had degraded image understanding
-  in GPT-6 Sol and Luna; rerun image evals made before the fix.
 
 ## Open questions
 

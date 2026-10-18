@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-10-15
+last_reviewed: 2026-10-18
 ---
 
 ## Overview
@@ -20,7 +20,13 @@ the de facto standard, with official SDKs in many languages.
   read), *prompts* (reusable templates).
 - **Stateless core:** since the 2026-07-28 spec there is no `initialize` handshake and
   no protocol session; each request stands alone, so remote servers can run behind
-  ordinary load balancers (routing uses `Mcp-Method` and `Mcp-Name` headers).
+  ordinary load balancers (routing uses `Mcp-Method` and `Mcp-Name` headers). This was
+  the largest revision since launch, so servers and clients built on earlier versions
+  need changes.
+- **Deprecated features:** the 2026-07-28 spec deprecated Roots, Sampling, and Logging
+  with a 12-month removal window, so they may disappear from around July 2027.
+- **Scale:** the maintainers reported SDK downloads approaching 500 million a month
+  (2026-07-28).
 - **Transports:** stdio for local servers; HTTP for remote ones.
 - **Authorization:** OAuth-based for remote servers, aligned with OpenID Connect.
 - **Extensions:** a formal extensions framework and deprecation policy. Tasks (for
@@ -48,11 +54,6 @@ the de facto standard, with official SDKs in many languages.
   descriptions rose to 4,096 characters on 2026-10-09.
 - **2026-10-02:** Google ADK for Python 2.11 adds opt-in support for MCP SDK 2.x, an
   example of frameworks starting to move to the newer protocol.
-- **2026-07-28:** The current specification (the largest revision since launch, now
-  described in Key concepts) deprecated Roots, Sampling, and Logging with a 12-month
-  removal window, so they may disappear from around July 2027. Servers and clients
-  built on earlier versions need changes.
-- **2026-07-28:** The maintainers reported SDK downloads approaching 500 million a month.
 
 ## Open questions
 

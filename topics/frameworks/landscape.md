@@ -2,7 +2,7 @@
 title: "Agent and LLM framework landscape"
 tags: [frameworks, agents, sdk]
 related: [agents/agent-patterns, agents/tool-use, tooling/mcp]
-last_reviewed: 2026-10-16
+last_reviewed: 2026-10-18
 ---
 
 ## Overview
@@ -17,8 +17,10 @@ now start from vendor SDKs and add a framework only when it clearly helps.
 - **Vendor SDKs and agent kits:**
   - Anthropic SDKs (with tool runner) and the Claude Agent SDK (the Claude Code harness
     as a library), plus Managed Agents for hosted agents.
-  - OpenAI SDKs and the OpenAI Agents SDK.
-  - Google's Agent Development Kit (ADK).
+  - OpenAI SDKs and the OpenAI Agents SDK (still 0.x; 0.23 hardened sandboxes,
+    sessions, MCP, and realtime agents).
+  - Google's Agent Development Kit (ADK); 2.11 added run cancellation, tool approval in
+    workflows, SQLite memory, and opt-in MCP SDK 2.x support.
 - **Orchestration frameworks:**
   - LangChain / LangGraph: components plus graph-based, stateful agent workflows.
     LangGraph 1.2 (2026-05-12) resumes error handlers durably after host crashes and
@@ -26,11 +28,15 @@ now start from vendor SDKs and add a framework only when it clearly helps.
   - LlamaIndex: data and retrieval focus, with agent workflows.
   - CrewAI: role-based multi-agent teams ("crews") plus Flows, an event-driven
     workflow layer. Since 1.15 (2026-06-25) flows and crews can be declared in
-    configuration files, and `crewai eval` compares models.
+    configuration files. 1.15.24 (2026-10-07) added `crewai eval`, which compares
+    models by swapping them in via `llm_overlay`, plus Oracle integrations and an
+    experimental job runner.
   - Microsoft Agent Framework: successor to AutoGen and Semantic Kernel, for .NET and
     Python. Version 1.0 (2026-04-03) brought stable APIs, long-term support, MCP and A2A
     interop, and migration guides from both predecessors.
-  - Pydantic AI: typed, Python-first agents.
+  - Pydantic AI: typed, Python-first agents, with near-daily minor releases. The 2.5x
+    line added sandboxed workspaces (E2B, SSH, Bubblewrap, Sprites), plugins, and its own
+    `clai2` terminal agent.
   - Vercel AI SDK: TypeScript toolkit for AI apps, UIs, and agents. Version 7
     (2026-06-25) adds per-tool approval policies, durable resumable runs
     (`WorkflowAgent`), layered timeouts, a portable sandbox abstraction, OpenTelemetry
@@ -38,8 +44,9 @@ now start from vendor SDKs and add a framework only when it clearly helps.
     other harnesses behind one interface.
   - DSPy: programming LLM pipelines with automatic prompt optimisation. Its GEPA
     optimiser can also change program structure (Flex, since 3.3). 3.4 (2026-09-25)
-    moves model calls to native engines with LiteLLM as fallback and deprecates the
-    legacy LM interfaces for removal in 3.5.
+    is the "LM transition" release: model calls move to native engines with LiteLLM as
+    fallback, and it adds experimental typed decision outputs and async ReActV2. The
+    legacy LM interfaces are deprecated for removal in 3.5 (no date given).
 - **Observability and evals:** Langfuse, LangSmith, Braintrust, Arize Phoenix,
   OpenTelemetry GenAI conventions.
 - **Interop standards:** [MCP](../tooling/mcp.md) for tools and data; agent-to-agent
@@ -73,24 +80,14 @@ LangGraph, checked later on PyPI because their GitHub release pages show wrong y
 | DSPy | 3.4.0 | 2026-09-25 | 3.0.0 on 2025-08-12; dates from PyPI (checked 2026-10-12) |
 | Vercel AI SDK | 7.x | 2026-06-25 (7.0) | Latest 7.x patch not checked; date from Vercel's announcement (checked 2026-10-16) |
 
-- **2026-10-07:** CrewAI 1.15.24 added `crewai eval` with model swapping via
-  `llm_overlay`, Oracle integrations, and an experimental job runner.
-- **2026-10-06:** LangGraph 1.2.14, the fourteenth patch on the 1.2 line.
-- **2026-10-02:** Google ADK 2.11 adds run cancellation, tool approval in workflows,
-  SQLite memory, and opt-in MCP SDK 2.x support.
-- **2026-10-02:** OpenAI Agents SDK 0.23 focuses on hardening sandboxes, sessions, MCP,
-  and realtime agents.
-- **2026-10-02:** Pydantic AI 2.54; recent 2.5x releases added sandboxed workspaces
-  (E2B, SSH, Bubblewrap, Sprites), plugins, and its own `clai2` terminal agent.
-- **2026-09-25:** DSPy 3.4, the "LM transition" release: native LM engines, experimental
-  typed decision outputs, and async ReActV2. Legacy interfaces will be removed in 3.5
-  (no date given).
+Release features are described under Key concepts.
 
 ## Open questions
 
 - Add a primary source for a LlamaIndex major release; it was still on 0.14.x on
-  2026-10-12. Vercel AI SDK 7 answered on 2026-10-16: Vercel's own announcement confirms
-  the 2026-06-25 release date given by secondary sources.
+  2026-10-12.
+- When will DSPy 3.5 remove the legacy LM interfaces? No date given (checked
+  2026-10-12).
 
 ## Sources
 

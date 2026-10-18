@@ -1,7 +1,7 @@
 # AI library: website
 
 The published content of a personal AI knowledge library, and the site built from it:
-https://fjgarciahurtado.github.io/ai-library-site/
+https://ai-digest.fjgarciahurtado.com/
 
 | Folder | Holds |
 |---|---|
