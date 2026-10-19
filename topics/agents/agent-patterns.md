@@ -2,7 +2,7 @@
 title: "Agent patterns"
 tags: [agents, multi-agent, tool-use]
 related: [agents/tool-use, agents/memory, tooling/coding-agents, frameworks/landscape]
-last_reviewed: 2026-10-16
+last_reviewed: 2026-10-19
 ---
 
 ## Overview
@@ -32,6 +32,11 @@ cannot be predicted. For predictable tasks, a fixed workflow is cheaper and more
   while the agent chains database queries, model calls, and literature search over a
   long multi-turn session. A shared canvas (for example a 3D structure viewer both can
   annotate) keeps human and agent looking at the same evidence.
+- **Parallel review with voting:** several agents look for problems independently, a
+  separate group votes on each finding, and only confirmed findings are reported. This
+  combines parallelisation (voting) with evaluator-optimiser, and cuts noise. A round cap
+  stops the evaluator-optimiser loop from running forever on old issues. Anthropic uses
+  this for code review (2026-10-15; see [coding agents](../tooling/coding-agents.md)).
 
 ## How to use it
 
@@ -44,6 +49,10 @@ cannot be predicted. For predictable tasks, a fixed workflow is cheaper and more
 
 ## Current state
 
+- **2026-10-15:** The Claude Code team's code reviewer runs parallel bug-hunting agents
+  and a voting step. After one PR went through over fifty overnight review rounds, a
+  three-round cap and diff-only re-review cut PRs needing five or more rounds from 8.9%
+  to 1.5%.
 - **2026-10-15:** Google DeepMind used its Antigravity agent platform to search UniProt
   for antimicrobial peptides. The agent shortlisted a novel 97-amino-acid bacteriocin,
   gathered structural and genomic evidence, and drafted a wet-lab plan. Candidates are in
@@ -61,3 +70,4 @@ cannot be predicted. For predictable tasks, a fixed workflow is cheaper and more
 - [Building effective agents](../../sources/2026/10/2026-10-04-building-effective-agents.md)
 - [ReAct](../../sources/2026/10/2026-10-04-react-reasoning-and-acting.md)
 - [Antimicrobial peptides with Google Antigravity](../../sources/2026/10/2026-10-16-deepmind-antimicrobial-peptides-antigravity.md)
+- [How the Claude Code team does code review](../../sources/2026/10/2026-10-19-claude-code-team-code-review.md)

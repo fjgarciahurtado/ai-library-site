@@ -16,22 +16,22 @@ Long-lived knowledge pages, kept current. Each page cites the source notes it dr
 
 ## Models
 
-- [Claude (Anthropic)](models/claude.md) (reviewed 2026-10-18)
-- [GPT (OpenAI)](models/gpt.md) (reviewed 2026-10-18)
+- [Claude (Anthropic)](models/claude.md) (reviewed 2026-10-19)
+- [GPT (OpenAI)](models/gpt.md) (reviewed 2026-10-19)
 - [Gemini (Google)](models/gemini.md) (reviewed 2026-10-18)
-- [Open-weight models](models/open-weight.md) (reviewed 2026-10-18)
+- [Open-weight models](models/open-weight.md) (reviewed 2026-10-19)
 
 ## Agents
 
-- [Agent patterns](agents/agent-patterns.md) (reviewed 2026-10-16)
+- [Agent patterns](agents/agent-patterns.md) (reviewed 2026-10-19)
 - [Memory for agents](agents/memory.md) (reviewed 2026-10-13)
 - [Tool use (function calling)](agents/tool-use.md) (reviewed 2026-10-11)
 
 ## Tooling
 
 - [Agent skills](tooling/skills.md) (reviewed 2026-10-04)
-- [Coding agents](tooling/coding-agents.md) (reviewed 2026-10-18)
-- [Model Context Protocol (MCP)](tooling/mcp.md) (reviewed 2026-10-18)
+- [Coding agents](tooling/coding-agents.md) (reviewed 2026-10-19)
+- [Model Context Protocol (MCP)](tooling/mcp.md) (reviewed 2026-10-19)
 
 ## Frameworks
 

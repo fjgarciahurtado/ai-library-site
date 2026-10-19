@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-10-18
+last_reviewed: 2026-10-19
 ---
 
 ## Overview
@@ -44,6 +44,10 @@ the de facto standard, with official SDKs in many languages.
 
 ## Current state
 
+- **2026-10-16:** Claude Code 2.1.302 fixed servers that negotiate the 2026-07-28
+  protocol but omit `resultType`, `ttlMs`, or `cacheScope`: they had shown no tools or
+  failed every call. Servers on the new spec do not all send these fields yet, so clients
+  need to tolerate their absence.
 - **2026-10-14:** Claude Code 2.1.299 extends the 2026-07-28 protocol default to cloud
   session and Remote Control connectors, so remote connections now negotiate it too.
   MCP permission rules were tightened: `mcp__a` no longer matches a server named `a__b`,
@@ -69,3 +73,4 @@ the de facto standard, with official SDKs in many languages.
 - [Google ADK (Python) v2.11.0](../../sources/2026/10/2026-10-04-google-adk-python-v2-11.md)
 - [Claude Code 2.1.292 to 2.1.296](../../sources/2026/10/2026-10-12-claude-code-2-1-292-296.md)
 - [Claude Code releases 2.1.299 and 2.1.300](../../sources/2026/10/2026-10-15-claude-code-2-1-299-300.md)
+- [Claude Code releases 2.1.302 and 2.1.303](../../sources/2026/10/2026-10-19-claude-code-2-1-302-303.md)

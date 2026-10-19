@@ -2,7 +2,7 @@
 title: "Claude (Anthropic)"
 tags: [anthropic, llm, reasoning, cost]
 related: [models/gpt, models/gemini, tooling/skills, tooling/mcp, tooling/coding-agents]
-last_reviewed: 2026-10-18
+last_reviewed: 2026-10-19
 ---
 
 ## Overview
@@ -77,6 +77,12 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 
 ## Current state
 
+- **2026-10-18:** Anthropic created the Anthropic Public Benefit Fund, an LLC holding 5%
+  of its shares (subject to stockholder approval), with 2% more possible per 50% rise in
+  valuation above an unpublished baseline. The equity would otherwise have gone to
+  executive compensation and may not fund lobbying or political giving. Anthropic puts
+  the total share of equity dedicated to the public good at about 20%, counting founder
+  and employee pledges. Governance details are promised "in the coming months".
 - **2026-10-15:** Anthropic gave six METR staff "employee-like access" (hardware, office,
   internal tools) with the right to publish without approval, apart from redactions in
   three fixed categories. SecureBio is reviewing the CBRN chapter of the August 2026 Risk
@@ -100,6 +106,8 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 - Simon Willison reported that reasoning cannot be disabled on Haiku 5.5, but Anthropic's
   docs (2026-10-13) say it can at effort `high` or below. He may have tested at `xhigh`
   or `max`; the docs are treated as authoritative here.
+- Who governs the Public Benefit Fund, and what is the valuation baseline for the extra
+  2% grants? Anthropic says it will publish this in the coming months (noted 2026-10-19).
 - Haiku 4.5 retirement date: not yet announced (checked 2026-10-13). Check the
   deprecations page for a notice.
 
@@ -119,3 +127,4 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 - [Preparing for the 2026 US midterms](../../sources/2026/10/2026-10-15-anthropic-2026-us-midterms.md)
 - [Anthropic opens Singapore office](../../sources/2026/10/2026-10-15-anthropic-singapore-office.md)
 - [An update on independent evaluators](../../sources/2026/10/2026-10-16-anthropic-independent-evaluators-update.md)
+- [Investing in the public benefit](../../sources/2026/10/2026-10-19-anthropic-public-benefit-fund.md)

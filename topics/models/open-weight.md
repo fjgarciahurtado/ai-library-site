@@ -2,7 +2,7 @@
 title: "Open-weight models"
 tags: [open-source, llm, deployment, fine-tuning]
 related: [fundamentals/training-and-fine-tuning, practices/cost-and-caching]
-last_reviewed: 2026-10-18
+last_reviewed: 2026-10-19
 ---
 
 ## Overview
@@ -32,10 +32,11 @@ data and code are usually not released, and licences range from fully permissive
 
 ## Main families
 
-As of 2026-10-07, checked against official model cards and announcements:
+As of 2026-10-19, checked against official model cards and announcements:
 
 | Model | Released | Parameters (total / active) | Context | Licence |
 |---|---|---|---|---|
+| DeepSeek-V4.1-Flash-1017 | 2026-10-17 | 763B per Hugging Face; active not stated | 1M | MIT |
 | DeepSeek-V4.1-Flash | 2026-09-10 | 552B / 8B prefill, 16B decode (encoder-decoder MoE) | 1M | MIT |
 | DeepSeek-V4-Pro | 2026-04-24 | 1.6T / 49B (MoE) | 1M | MIT |
 | DeepSeek-V4-Flash | 2026-04-24 | 284B / 13B (MoE) | 1M | MIT |
@@ -44,6 +45,7 @@ As of 2026-10-07, checked against official model cards and announcements:
 | Gemma 4 (E2B to 31B) | 2026-04-03 | 2.3B effective to 31B dense; 26B A4B MoE | 128K–256K | Apache 2.0 |
 | Mistral Large 4 (weights due end of Oct 2026) | 2026-10-06 (API preview) | 1T / 49B (MoE) | not stated | not stated |
 | Mistral Large 3 | 2025-12-02 | ~675B / 41B (MoE) | 256K | Apache 2.0 |
+| gpt-oss-120b / gpt-oss-20b (OpenAI) | 2025-08 | 117B / 5.1B; 21B / 3.6B (MoE, MXFP4) | not stated on model cards | Apache 2.0 |
 | Llama 4 Scout / Maverick | 2025-04-05 | 109B / 17B; 400B / 17B (MoE) | Scout 10M | Llama 4 licence (custom) |
 
 DeepSeek-V4-Pro is the largest open-weight model in the library. The newer, smaller
@@ -51,7 +53,15 @@ V4.1-Flash beats it on DeepSeek's own benchmarks, and since 2026-09-14 DeepSeek'
 routes `deepseek-v4-pro` requests to V4.1-Flash. DeepSeek's own news pages give the V4
 timeline: V4-Pro and V4-Flash preview with open weights on 2026-04-24, V4-Pro general
 availability on 2026-08-13, V4-Flash-Vision-Exp on 2026-08-21, and V4.1-Flash on
-2026-09-10. (A news report gave 2026-07-31 for V4-Flash; DeepSeek's date is used here.)
+2026-09-10, and the V4.1-Flash-1017 update (more RL for agentic coding) on 2026-10-17.
+(A news report gave 2026-07-31 for V4-Flash; DeepSeek's date is used here.) The 1017
+Hugging Face page lists 763B parameters against the 552B DeepSeek gave for V4.1-Flash,
+although DeepSeek calls 1017 a minor update; the gap is unexplained (see Open questions).
+
+OpenAI's gpt-oss models (August 2025) are reasoning models with three effort levels,
+built-in browsing and Python tools, and a required "harmony" response format. Their MoE
+weights ship already quantised to MXFP4, so the 120B model fits one 80 GB GPU and the 20B
+model runs in 16 GB.
 Qwen3.8-Flash-Next previews the Qwen4 architecture. Licences are moving in opposite
 directions: Gemma 4 moved from Google's custom terms to Apache 2.0, while Qwen moved from
 Apache 2.0 (Qwen3.5) to a custom community licence for Qwen3.8-Flash-Next. Qwen3.5 uses
@@ -83,6 +93,10 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 
 ## Current state
 
+- **2026-10-17:** DeepSeek released V4.1-Flash-1017 (MIT weights, 1M context) with large
+  agentic-coding gains on its own benchmarks, for example Terminal-Bench 4.0 42.3 vs 31.2
+  for V4.1-Flash. It also opened Search and Fetch APIs at $0.75 per 1,000 calls, free
+  through Claude Code, Codex, and DeepSeek Harness until 2026-10-31.
 - **2026-10-15:** Mistral released Timestral, open time-series models (see above).
 - **2026-10-14:** Google DeepMind and Singapore's government announced an on-device scam
   detector built on a fine-tuned lightweight Gemma, an example of small open models
@@ -104,7 +118,12 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 - Did Llama 4 Behemoth ever ship? No primary source has been found.
 - Did Alibaba's Qwen 3.7 Max (May 2026) ship as API-only, without weights? Only a
   secondary report says so (noted 2026-10-04); no primary source has been found.
-- Add primary sources for Kimi, GLM, and gpt-oss.
+- Add primary sources for Kimi and GLM. (gpt-oss added 2026-10-19 from the model card
+  paper and Hugging Face cards; its context length is still to be confirmed from the
+  full paper.)
+- Why does the V4.1-Flash-1017 Hugging Face page list 763B parameters when V4.1-Flash
+  was announced at 552B? Possibly the count includes extra modules (vision encoder,
+  speculative-decoding heads); not confirmed.
 
 ## Sources
 
@@ -123,3 +142,5 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 - [Muse Wonder](../../sources/2026/10/2026-10-13-meta-muse-wonder.md)
 - [On-device scam detection with a fine-tuned Gemma](../../sources/2026/10/2026-10-15-gemma-on-device-scam-detection.md)
 - [Introducing Timestral](../../sources/2026/10/2026-10-16-mistral-timestral-time-series-models.md)
+- [DeepSeek-V4.1-Flash-1017](../../sources/2026/10/2026-10-19-deepseek-v4-1-flash-1017.md)
+- [gpt-oss-120b & gpt-oss-20b Model Card](../../sources/2026/10/2026-10-19-gpt-oss-model-card.md)

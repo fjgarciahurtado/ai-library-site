@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-10-18
+last_reviewed: 2026-10-19
 ---
 
 ## Overview
@@ -42,6 +42,15 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   global merge queue in favour of post-merge testing, and added review rules that
   separate cosmetic from sensitive changes. Claude resolves most merge conflicts, and
   engineers' role shifted to setting constraints and reviewing intent.
+- **Reviewing agent-written code:** the Claude Code team (about 90% of its code written
+  by Claude) aims for the least human review time that does not raise revert or incident
+  rates. Every PR gets a multi-agent AI review (parallel bug hunters, a voting step, only
+  confirmed findings posted) and a security pass; open findings block merge. Human
+  approvals scale with risk set by a classifier: none for low-risk changes, one person for
+  ordinary changes, two for the riskiest paths. An agent's approval never replaces a
+  human's. Review rounds are capped at three to make review converge. Anthropic reports
+  merged PRs more than doubled from June to September 2026 while the reverted share fell
+  by over 40% (Anthropic's own figures).
 
 ## How to use it
 
@@ -49,9 +58,18 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - Keep project instruction files short, current, and specific.
 - Start with small, well-scoped tasks; review diffs before merging.
 - Never give an agent production credentials it does not need.
+- Add a `REVIEW.md` saying what failure looks like in each area, and fix recurring
+  review comments at the source (a lint rule, a skill, or `CLAUDE.md`).
 
 ## Current state
 
+- **2026-10-16:** Claude Code 2.1.302: fork subagents on by default in `claude -p`, the
+  Agent SDK, desktop, and VS Code; desktop and VS Code always run subagents in the
+  background; headless sessions on third-party providers start in `default` permission
+  mode; `CLAUDE_CODE_AUTO_MODE_MODEL` for the client-side classifier; at most 12 hooks per
+  event at once; an MCP compatibility fix. 2.1.303 is fixes only.
+- **2026-10-15:** The Claude Code team described its code review process (see
+  Reviewing agent-written code).
 - **2026-10-15:** Claude Code 2.1.301: a cap on how long unattended retry mode waits for
   usage limits, OpenTelemetry fields that show why auto mode allowed or blocked a tool
   call, summarise-first switching to smaller-context models, and fixes for silent
@@ -71,7 +89,9 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 - How teams should review the volume of code agents produce. Partly answered
   (2026-10-13): Anthropic uses semantic approval rules and post-merge testing rather
-  than reviewing every change equally, but gives no data on defect rates.
+  than reviewing every change equally. On 2026-10-15 the Claude Code team published
+  outcome data (reverted share down over 40% while merged PRs doubled), but only for its
+  own repositories; no independent or cross-company figures yet.
 
 ## Sources
 
@@ -84,3 +104,5 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [Claude Code releases 2.1.299 and 2.1.300](../../sources/2026/10/2026-10-15-claude-code-2-1-299-300.md)
 - [Anthropic opens Singapore office](../../sources/2026/10/2026-10-15-anthropic-singapore-office.md)
 - [Claude Code release 2.1.301](../../sources/2026/10/2026-10-16-claude-code-2-1-301.md)
+- [How the Claude Code team does code review](../../sources/2026/10/2026-10-19-claude-code-team-code-review.md)
+- [Claude Code releases 2.1.302 and 2.1.303](../../sources/2026/10/2026-10-19-claude-code-2-1-302-303.md)

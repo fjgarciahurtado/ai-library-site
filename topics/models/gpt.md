@@ -2,7 +2,7 @@
 title: "GPT (OpenAI)"
 tags: [openai, llm, reasoning]
 related: [models/claude, models/gemini, tooling/coding-agents]
-last_reviewed: 2026-10-18
+last_reviewed: 2026-10-19
 ---
 
 ## Overview
@@ -59,6 +59,12 @@ pricing. GPT-6.1 Sol replaced GPT-6 Sol on 2026-09-29.
 
 ## Current state
 
+- **2026-10-16:** Prompt-to-voice is available to all API customers: describe a voice in
+  text (API or voice Playground) and use it in GPT-Live sessions. Creating a voice is
+  free; speech is billed at normal GPT-Live rates. Nine new voices were added for German,
+  French, Hindi, Japanese, and Korean
+  ([OpenAI API changelog](https://developers.openai.com/api/docs/changelog), entry of
+  2026-10-16).
 - **2026-10-15:** GPT-Live (`gpt-live-1`) now integrates natively with the Decisions
   API: it can delegate to Decisions directly, or Decisions calls can fire on transcript
   deltas, so a voice app can classify and act while the user is still speaking
