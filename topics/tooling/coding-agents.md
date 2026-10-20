@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-10-19
+last_reviewed: 2026-10-20
 ---
 
 ## Overview
@@ -28,6 +28,9 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   network by default. Claude Code's auto mode adds a classifier that catches about 83% of
   overeager actions, and project settings and hooks are not parsed before the user
   trusts the project (Anthropic, May 2026; see [security](../practices/security.md)).
+  Since 2.1.304 (2026-10-19), `/auto-mode-setup` teaches the auto mode classifier about
+  a project, and a permission mod can answer `decider: "person"` to require a human
+  decision even under auto mode.
 - **Extensibility:** [skills](skills.md), slash commands, hooks, subagents, plugins,
   and [MCP](mcp.md) servers. Hooks used as guardrails should fail closed: since 2.1.295
   (2026-10-08), Claude Code hooks can set `onFailure: "block"` so that a hook that
@@ -50,7 +53,8 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   ordinary changes, two for the riskiest paths. An agent's approval never replaces a
   human's. Review rounds are capped at three to make review converge. Anthropic reports
   merged PRs more than doubled from June to September 2026 while the reverted share fell
-  by over 40% (Anthropic's own figures).
+  by over 40% (Anthropic's own figures). The hosted Claude Code Review product offers
+  Quick, Standard, and Deep levels per organization or repository (since 2026-10-19).
 
 ## How to use it
 
@@ -63,6 +67,11 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
+- **2026-10-19:** Claude Code 2.1.304: `/auto-mode-setup`, Code Review levels (Quick,
+  Standard, Deep) and an option to review every repository in an organization,
+  `decider: "person"` and `e.isReadOnly` for permission mods, settings-layer rewriting
+  for managed mods, a usage warning before expensive resumes on Pro and Max, and tool
+  search on by default behind custom gateways.
 - **2026-10-16:** Claude Code 2.1.302: fork subagents on by default in `claude -p`, the
   Agent SDK, desktop, and VS Code; desktop and VS Code always run subagents in the
   background; headless sessions on third-party providers start in `default` permission
@@ -106,3 +115,4 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [Claude Code release 2.1.301](../../sources/2026/10/2026-10-16-claude-code-2-1-301.md)
 - [How the Claude Code team does code review](../../sources/2026/10/2026-10-19-claude-code-team-code-review.md)
 - [Claude Code releases 2.1.302 and 2.1.303](../../sources/2026/10/2026-10-19-claude-code-2-1-302-303.md)
+- [Claude Code release 2.1.304](../../sources/2026/10/2026-10-20-claude-code-2-1-304.md)

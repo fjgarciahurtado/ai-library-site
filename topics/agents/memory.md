@@ -2,7 +2,7 @@
 title: "Memory for agents"
 tags: [memory, agents, tokens]
 related: [agents/agent-patterns, fundamentals/tokens-and-context, fundamentals/rag]
-last_reviewed: 2026-10-13
+last_reviewed: 2026-10-20
 ---
 
 ## Overview
@@ -25,6 +25,10 @@ knowledge outside it.
 - **Memory tools and stores:** vendor features such as Claude's memory tool and Managed
   Agents memory stores.
 - **Retrieval:** looking up memories by search or [embeddings](../fundamentals/embeddings.md).
+- **Code graphs as memory:** for coding agents, a local index of the codebase (calls,
+  imports, dependencies) plus captured past sessions can be served over
+  [MCP](../tooling/mcp.md), giving cited answers instead of re-reading files each time.
+  Graphicle is one example.
 
 ## How to use it
 
@@ -35,6 +39,9 @@ knowledge outside it.
 
 ## Current state
 
+- **2026-10-20:** Graphicle, a new open-source Rust MCP server (pre-release), combines a
+  code graph with memory of project decisions and past agent sessions. It runs locally
+  with no account, and `graphicle setup` wires it into Claude Code, Codex, and Cursor.
 - **2026-10-12:** Meta's Muse Wonder ships "Active Memory": the model carries context
   about the user across conversations and retrieves what is relevant to the current
   task. Meta has not said how it is stored or controlled. Memory is becoming a headline
@@ -51,3 +58,4 @@ knowledge outside it.
 
 - [Building effective agents](../../sources/2026/10/2026-10-04-building-effective-agents.md)
 - [Muse Wonder](../../sources/2026/10/2026-10-13-meta-muse-wonder.md)
+- [Graphicle: code graph and memory for coding agents](../../sources/2026/10/2026-10-20-graphicle-code-graph-memory-mcp.md)

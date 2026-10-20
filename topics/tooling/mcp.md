@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-10-19
+last_reviewed: 2026-10-20
 ---
 
 ## Overview
@@ -44,6 +44,12 @@ the de facto standard, with official SDKs in many languages.
 
 ## Current state
 
+- **2026-10-20:** Graphicle (new, pre-release) is a local MCP server that gives coding
+  agents code-graph tools (`query_graph`, `get_neighbors`, `shortest_path`) and memory
+  tools. See [memory](../agents/memory.md).
+- **2026-10-19:** Claude Code 2.1.304: cloud sessions no longer wait for a plugin's
+  stdio MCP servers to start unless the server sets `alwaysLoad: true`, and tool search
+  is on by default behind a custom `ANTHROPIC_BASE_URL`.
 - **2026-10-16:** Claude Code 2.1.302 fixed servers that negotiate the 2026-07-28
   protocol but omit `resultType`, `ttlMs`, or `cacheScope`: they had shown no tools or
   failed every call. Servers on the new spec do not all send these fields yet, so clients
@@ -74,3 +80,5 @@ the de facto standard, with official SDKs in many languages.
 - [Claude Code 2.1.292 to 2.1.296](../../sources/2026/10/2026-10-12-claude-code-2-1-292-296.md)
 - [Claude Code releases 2.1.299 and 2.1.300](../../sources/2026/10/2026-10-15-claude-code-2-1-299-300.md)
 - [Claude Code releases 2.1.302 and 2.1.303](../../sources/2026/10/2026-10-19-claude-code-2-1-302-303.md)
+- [Claude Code release 2.1.304](../../sources/2026/10/2026-10-20-claude-code-2-1-304.md)
+- [Graphicle: code graph and memory for coding agents](../../sources/2026/10/2026-10-20-graphicle-code-graph-memory-mcp.md)

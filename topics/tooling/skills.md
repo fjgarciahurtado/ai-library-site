@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-10-04
+last_reviewed: 2026-10-20
 ---
 
 ## Overview
@@ -35,6 +35,9 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 
 ## Current state
 
+- **2026-10-19:** Claude Code 2.1.304 resends the full skill list after compaction, so
+  skills stay discoverable in long sessions. `/reload-skills` now sends only new or
+  changed skills, and one source can register at most 1,024 skill hooks per session.
 - **2026-10-04:** The Skills API (`/v1/skills`) is generally available; the earlier beta
   header is no longer needed.
 
@@ -45,3 +48,4 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 ## Sources
 
 - [Agent Skills overview](../../sources/2026/10/2026-10-04-claude-agent-skills-overview.md)
+- [Claude Code release 2.1.304](../../sources/2026/10/2026-10-20-claude-code-2-1-304.md)

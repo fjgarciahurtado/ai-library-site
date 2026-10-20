@@ -2,7 +2,7 @@
 title: "Claude (Anthropic)"
 tags: [anthropic, llm, reasoning, cost]
 related: [models/gpt, models/gemini, tooling/skills, tooling/mcp, tooling/coding-agents]
-last_reviewed: 2026-10-19
+last_reviewed: 2026-10-20
 ---
 
 ## Overview
@@ -72,11 +72,22 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
   39.2% on Terminal-Bench 4.0. Claude Code 2.1.293 made it the default Haiku.
 - Haiku 5.5 is the only current model priced by prompt length; the others bill the full
   1M window at one rate. Cache reads on Opus 5.5 and Sonnet 5.5 cost 5% of input.
-- Stream long requests. Use the Models API for live capability data.
+- Fast mode (`speed: "fast"`) is generally available on Opus 5.5 since 2026-10-15, at
+  $8 / $40 with up to 2.5x output speed. On Opus 5 and Opus 4.8 it is still a research
+  preview that needs the `fast-mode-2026-02-01` beta header.
+- Max and Team subscribers get monthly API credits ($100 for Max 5x, $200 for Max 20x,
+  up to $500 pooled for Team) for the API, Managed Agents, and the Agent SDK. They do not
+  cover Claude Code (as of 2026-10-20; see
+  [cost and caching](../practices/cost-and-caching.md)).
+- Stream long requests. Use the Models API for live capability data; since 2026-10-15 it
+  also reports whether a model accepts `between_tools` thinking.
 - Try lower effort on a strong model before adding a cascade of smaller models.
 
 ## Current state
 
+- **2026-10-15:** Fast mode left research preview for Opus 5.5: no beta header or access
+  request, with a default fast mode rate limit in the Start, Build, and Scale tiers. It
+  is also available on Microsoft Foundry deployments hosted on Azure.
 - **2026-10-18:** Anthropic created the Anthropic Public Benefit Fund, an LLC holding 5%
   of its shares (subject to stockholder approval), with 2% more possible per 50% rise in
   valuation above an unpublished baseline. The equity would otherwise have gone to
@@ -98,11 +109,11 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
   (personalised campaign targeting is now allowed), spells out weapons, surveillance, and
   law-enforcement limits, and bans sustained cruelty towards models in extreme cases.
 - **2026-10-07:** Claude Haiku 5.5 released, completing the 5.5 family (details above).
+  Monthly API credits for Max and Team plans launched the same day. Anthropic's docs
+  confirm the amounts Simon Willison reported (answered 2026-10-20).
 
 ## Open questions
 
-- Simon Willison reports new monthly API credits for Max and Team subscribers ($100 to
-  $500) announced with Haiku 5.5; no Anthropic primary source found on 2026-10-08.
 - Simon Willison reported that reasoning cannot be disabled on Haiku 5.5, but Anthropic's
   docs (2026-10-13) say it can at effort `high` or below. He may have tested at `xhigh`
   or `max`; the docs are treated as authoritative here.
@@ -128,3 +139,5 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 - [Anthropic opens Singapore office](../../sources/2026/10/2026-10-15-anthropic-singapore-office.md)
 - [An update on independent evaluators](../../sources/2026/10/2026-10-16-anthropic-independent-evaluators-update.md)
 - [Investing in the public benefit](../../sources/2026/10/2026-10-19-anthropic-public-benefit-fund.md)
+- [Fast mode (Claude API docs)](../../sources/2026/10/2026-10-20-claude-opus-5-5-fast-mode-ga.md)
+- [API credits for Max and Team plans](../../sources/2026/10/2026-10-20-claude-api-credits-max-team.md)

@@ -2,7 +2,7 @@
 title: "Cost and caching"
 tags: [cost, caching, tokens]
 related: [fundamentals/tokens-and-context, models/claude, fundamentals/reasoning-models]
-last_reviewed: 2026-10-18
+last_reviewed: 2026-10-20
 ---
 
 ## Overview
@@ -57,8 +57,15 @@ Other levers:
   charges only for input ($0.10 per 1M tokens on `gpt-6-luna`, as of 2026-10-07) and
   returns probabilities instead of generated text.
 - **Paying for speed:** the same model can be bought at higher speed for a higher price:
-  Claude Opus 5.5 fast mode (2x price) and OpenAI's `ultrafast` service tier on GPT-6
-  Astra and GPT-6.1 Sol. Use them only where latency matters to users.
+  Claude Opus 5.5 fast mode (2x price, generally available since 2026-10-15) and
+  OpenAI's `ultrafast` service tier on GPT-6 Astra and GPT-6.1 Sol. Use them only where
+  latency matters to users. Falling back from Claude fast mode to standard speed misses
+  the prompt cache, because the two speeds do not share cached prefixes.
+- **Subscription-included API credits:** Claude Max and Team plans include monthly
+  Claude API credits ($100 to $500, as of 2026-10-20). They expire each billing cycle and
+  do not cover Claude Code, so they suit small Agent SDK or Managed Agents workloads.
+  Give each project its own workspace with a spend limit, because all keys share the
+  balance.
 
 ## Reference prices
 
@@ -68,7 +75,7 @@ on the date shown; prices change often, so recheck before relying on them.
 | Model | Price | Notes | Checked |
 |---|---|---|---|
 | Claude Fable 5.1 | $10 / $0.25 / $50 | | 2026-10-08 |
-| Claude Opus 5.5 | $4 / $0.20 / $20 | Fast mode $8 / $40 | 2026-10-08 |
+| Claude Opus 5.5 | $4 / $0.20 / $20 | Fast mode $8 / $40 (GA since 2026-10-15) | 2026-10-20 |
 | Claude Sonnet 5.5 | $2 / $0.10 / $10 | Cache reads cut from $0.20, around 2026-10-07 per Simon Willison (the docs give no date) | 2026-10-08 |
 | Claude Haiku 5.5 | $0.10 / $0.01 / $0.50 | Prompts ≤100K; 5x above. Batch halves both tiers | 2026-10-08 |
 | GPT-6 Astra | $10 / $1.00 / $50 | Above 272K input: input 2x, output 1.5x (all GPT-6) | 2026-10-06 |
@@ -89,6 +96,10 @@ legacy, costs $1 / $5.
 
 ## Current state
 
+- **2026-10-15:** Claude Opus 5.5 fast mode became generally available, with default
+  rate limits in the Start, Build, and Scale tiers. Its price is unchanged.
+- **2026-10-07:** Claude Max and Team plans started including monthly API credits
+  (details above).
 - **2026-10-13:** Gemini 4 Argon launched at introductory prices equal to GPT-6.1 Sol
   ($2 / $10), doubling after 2026-11-30.
 - **2026-10-08:** OpenAI extended the Ultrafast service tier to GPT-6.1 Sol. Prices are
@@ -118,3 +129,5 @@ legacy, costs $1 / $5.
 - [Gemini 4 Argon: Built to solve your hardest problems](../../sources/2026/10/2026-10-14-gemini-4-argon-public-launch.md)
 - [Gemini 4 Argon model page](../../sources/2026/10/2026-10-15-gemini-4-argon-model-page.md)
 - [Claude Code releases 2.1.299 and 2.1.300](../../sources/2026/10/2026-10-15-claude-code-2-1-299-300.md)
+- [Fast mode (Claude API docs)](../../sources/2026/10/2026-10-20-claude-opus-5-5-fast-mode-ga.md)
+- [API credits for Max and Team plans](../../sources/2026/10/2026-10-20-claude-api-credits-max-team.md)
