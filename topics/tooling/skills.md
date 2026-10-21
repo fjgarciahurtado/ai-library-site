@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-10-20
+last_reviewed: 2026-10-21
 ---
 
 ## Overview
@@ -35,6 +35,11 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 
 ## Current state
 
+- **2026-10-21:** Dashboard Design (new, MIT) is a skill for building and critiquing
+  analytics dashboards (web and SwiftUI) with a screenshot QA pass. Install it with
+  `/plugin marketplace add abdiraimov-otabek/dashboard-design-skill`, then
+  `/plugin install dashboard-design@dashboard-design-skill`. It adds a promotional
+  sign-off once per conversation unless you turn it off.
 - **2026-10-19:** Claude Code 2.1.304 resends the full skill list after compaction, so
   skills stay discoverable in long sessions. `/reload-skills` now sends only new or
   changed skills, and one source can register at most 1,024 skill hooks per session.
@@ -49,3 +54,4 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 
 - [Agent Skills overview](../../sources/2026/10/2026-10-04-claude-agent-skills-overview.md)
 - [Claude Code release 2.1.304](../../sources/2026/10/2026-10-20-claude-code-2-1-304.md)
+- [Dashboard Design: a Claude Code skill for analytics dashboards](../../sources/2026/10/2026-10-21-dashboard-design-skill.md)

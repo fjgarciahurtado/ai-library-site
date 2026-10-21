@@ -2,7 +2,7 @@
 title: "Claude (Anthropic)"
 tags: [anthropic, llm, reasoning, cost]
 related: [models/gpt, models/gemini, tooling/skills, tooling/mcp, tooling/coding-agents]
-last_reviewed: 2026-10-20
+last_reviewed: 2026-10-21
 ---
 
 ## Overview
@@ -85,6 +85,11 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 
 ## Current state
 
+- **2026-10-20:** Inference hooks reached GA for Claude Enterprise (server-side
+  allow/deny on every governed prompt; see [security](../practices/security.md)). The
+  API added `/v1/user_profiles`, so platforms can tag requests by end customer and an
+  enforcement action hits only that customer. It also added organization webhooks to
+  the Admin API (beta, header `webhooks-2026-10-07`) for profile restrictions.
 - **2026-10-15:** Fast mode left research preview for Opus 5.5: no beta header or access
   request, with a default fast mode rate limit in the Start, Build, and Scale tiers. It
   is also available on Microsoft Foundry deployments hosted on Azure.
@@ -141,3 +146,4 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 - [Investing in the public benefit](../../sources/2026/10/2026-10-19-anthropic-public-benefit-fund.md)
 - [Fast mode (Claude API docs)](../../sources/2026/10/2026-10-20-claude-opus-5-5-fast-mode-ga.md)
 - [API credits for Max and Team plans](../../sources/2026/10/2026-10-20-claude-api-credits-max-team.md)
+- [Inference hooks (Claude docs)](../../sources/2026/10/2026-10-21-claude-inference-hooks-ga.md)

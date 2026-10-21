@@ -2,7 +2,7 @@
 title: "GPT (OpenAI)"
 tags: [openai, llm, reasoning]
 related: [models/claude, models/gemini, tooling/coding-agents]
-last_reviewed: 2026-10-19
+last_reviewed: 2026-10-21
 ---
 
 ## Overview
@@ -53,12 +53,27 @@ pricing. GPT-6.1 Sol replaced GPT-6 Sol on 2026-09-29.
   API. It charges $0.10 per 1M input tokens and nothing for output (as of 2026-10-07).
 - For lower latency between output tokens, set `service_tier: "ultrafast"` in the
   Responses API on `gpt-6-astra` (since 2026-09-29) or `gpt-6.1-sol` (since 2026-10-08,
-  all API users); GPT-5.6 Sol is in preview. It costs more and has its own rate limits;
-  OpenAI recommends WebSockets for agents. Sol's Ultrafast offers US or EU data
-  residency, but Astra's has no EU residency (as of 2026-10-09).
+  all API users); GPT-5.6 Sol is in preview. It costs 6x Standard (Sol $12 / $0.60 /
+  $60, Astra $60 / $6 / $300, as of 2026-10-21) and has its own rate limits. OpenAI
+  recommends WebSockets for agents. Sol's Ultrafast offers US or EU data residency, but
+  Astra's has no EU residency (as of 2026-10-09). Since 2026-10-16 the Agents API also
+  accepts `agent.service_tier: "ultrafast"`.
+- For prefixes reused across long gaps, set `prompt_cache_options.ttl: "12h"` in the
+  Responses API (GPT-5.6 and later, since 2026-10-20). A write costs 2.5x input, compared
+  with 1.25x for the 30-minute default, and reads cost the same. See
+  [cost and caching](../practices/cost-and-caching.md).
 
 ## Current state
 
+- **2026-10-21:** Ultrafast prices checked: 6x Standard on both models. The current
+  guide says all API users have access. Older OpenAI pages still call it
+  access-controlled.
+- **2026-10-20:** 12-hour prompt caching added to the Responses API (details above).
+- **2026-10-16:** The Agents API added Ultrafast mode (`agent.service_tier:
+  "ultrafast"`). Hosted sandboxes now include the Artifact SDK and skills for
+  spreadsheets, presentations, and Word documents
+  ([OpenAI API changelog](https://developers.openai.com/api/docs/changelog), entry of
+  2026-10-16).
 - **2026-10-16:** Prompt-to-voice is available to all API customers: describe a voice in
   text (API or voice Playground) and use it in GPT-Live sessions. Creating a voice is
   free; speech is billed at normal GPT-Live rates. Nine new voices were added for German,
@@ -92,3 +107,4 @@ pricing. GPT-6.1 Sol replaced GPT-6 Sol on 2026-09-29.
 - [OpenAI Decisions API guide](../../sources/2026/10/2026-10-07-openai-decisions-api.md)
 - [OpenAI API rate limits and usage tiers](../../sources/2026/10/2026-10-07-openai-api-usage-tiers.md)
 - [OpenAI Ultrafast mode guide](../../sources/2026/10/2026-10-09-openai-ultrafast-mode.md)
+- [Prompt caching: 12-hour lifetime (OpenAI API docs)](../../sources/2026/10/2026-10-21-openai-12-hour-prompt-caching.md)

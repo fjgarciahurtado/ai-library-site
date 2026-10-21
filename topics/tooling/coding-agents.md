@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-10-20
+last_reviewed: 2026-10-21
 ---
 
 ## Overview
@@ -67,6 +67,14 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
+- **2026-10-20/21:** Claude Code 2.1.305 fixes a 2.1.304 regression that broke all
+  requests on Bedrock, Vertex, and gateways that reject tool search, so skip 2.1.304
+  there. It adds `sandbox.allowNestedUserNamespaces` on Linux (Chromium and rootless
+  podman inside the sandbox, at the cost of weaker file protection), a `/usage` view
+  where `f` applies the suggested fixes, and a usage-limit recheck for the unattended
+  retry watchdog. Workflow resume now reuses completed agents from the journal. 2.1.306
+  fixes `claude -p` in cloud sessions and spurious "prompt is too long" errors with many
+  MCP tools.
 - **2026-10-19:** Claude Code 2.1.304: `/auto-mode-setup`, Code Review levels (Quick,
   Standard, Deep) and an option to review every repository in an organization,
   `decider: "person"` and `e.isReadOnly` for permission mods, settings-layer rewriting
@@ -116,3 +124,4 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [How the Claude Code team does code review](../../sources/2026/10/2026-10-19-claude-code-team-code-review.md)
 - [Claude Code releases 2.1.302 and 2.1.303](../../sources/2026/10/2026-10-19-claude-code-2-1-302-303.md)
 - [Claude Code release 2.1.304](../../sources/2026/10/2026-10-20-claude-code-2-1-304.md)
+- [Claude Code releases 2.1.305 and 2.1.306](../../sources/2026/10/2026-10-21-claude-code-2-1-305-306.md)

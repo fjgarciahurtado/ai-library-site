@@ -2,7 +2,7 @@
 title: "Agent and LLM framework landscape"
 tags: [frameworks, agents, sdk]
 related: [agents/agent-patterns, agents/tool-use, tooling/mcp]
-last_reviewed: 2026-10-18
+last_reviewed: 2026-10-21
 ---
 
 ## Overview
@@ -73,7 +73,7 @@ LangGraph, checked later on PyPI because their GitHub release pages show wrong y
 | Microsoft Agent Framework | Python 1.20.0 / .NET 1.23.0 | 2026-10-02 / 2026-10-01 | 1.0 GA on 2026-04-03 |
 | OpenAI Agents SDK (Python) | 0.23.1 | 2026-10-02 | Still 0.x |
 | Google ADK (Python) | 2.11.0 | 2026-10-02 | |
-| Pydantic AI | 2.54.0 | 2026-10-02 | Near-daily minor releases |
+| Pydantic AI | 2.58.0 | 2026-10-20 | Near-daily minor releases (checked 2026-10-21) |
 | CrewAI | 1.15.26 | 2026-10-08 | 1.15.0 on 2026-06-25; dates from PyPI (checked 2026-10-09) |
 | LlamaIndex | 0.14.25 | 2026-09-21 | Patch release; no note |
 | LangGraph | 1.2.14 | 2026-10-06 | 1.2.0 on 2026-05-12; dates from PyPI (checked 2026-10-08) |
@@ -81,6 +81,14 @@ LangGraph, checked later on PyPI because their GitHub release pages show wrong y
 | Vercel AI SDK | 7.x | 2026-06-25 (7.0) | Latest 7.x patch not checked; date from Vercel's announcement (checked 2026-10-16) |
 
 Release features are described under Key concepts.
+
+- **2026-10-21:** Ollama v0.40.7: `ollama show` reports each model's chat template
+  source, more draft models work for speculative decoding, and `ollama launch claude`
+  clamps Claude Code's auto-compact window. It adds Perplexity's `pplx-decider` (27B).
+- **2026-10-20:** Pydantic AI v2.58.0 adds hard limits on agent runs (`timeout=`,
+  `RunContext.deadline`) and model requests (`request_timeout`, `max_retries`), steering
+  for delegated tasks, an `openai-chatgpt` provider that lets users sign in with their
+  ChatGPT plan, and ElevenLabs realtime support.
 
 ## Open questions
 
@@ -100,3 +108,5 @@ Release features are described under Key concepts.
 - [crewAI 1.15.0 release notes](../../sources/2026/10/2026-10-09-crewai-1-15-release.md)
 - [DSPy 3.4.0 release notes](../../sources/2026/10/2026-10-12-dspy-3-4-release.md)
 - [AI SDK 7](../../sources/2026/10/2026-10-16-vercel-ai-sdk-7.md)
+- [Pydantic AI v2.58.0](../../sources/2026/10/2026-10-21-pydantic-ai-v2-58.md)
+- [Ollama v0.40.7](../../sources/2026/10/2026-10-21-ollama-v0-40-7.md)

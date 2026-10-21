@@ -2,7 +2,7 @@
 title: "Security for LLM apps and agents"
 tags: [security, safety, agents, mcp]
 related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
-last_reviewed: 2026-10-18
+last_reviewed: 2026-10-21
 ---
 
 ## Overview
@@ -84,12 +84,25 @@ to limit what the agent can do if it is fooled.
 - Keep credentials out of the model's context; inject them at the tool layer.
 - Review MCP servers, skills, and plugins before installing them.
 - Validate and escape model output before executing or rendering it.
+- For organization-wide data-loss prevention, inspect prompts server-side before
+  inference. Claude Enterprise's inference hooks (GA 2026-10-20) send every governed
+  prompt, and optionally each batch of tool calls, to your own allow/deny server across
+  all Claude apps, including Claude Code. They cannot redact content or inspect images.
 - Set spending and iteration limits.
 - Rate-limit agent traffic, restrict which hosts agents can write to, and make agent
   requests identifiable (user agent, contact details) to the sites they visit.
 
 ## Current state
 
+- **2026-10-20:** Anthropic's inference hooks came out of beta for Claude Enterprise.
+  They offer allow or deny verdicts from a customer-run server, shadow mode, gradual
+  rollout, a choice between failing open and failing closed, and a circuit breaker. They
+  do not cover API organizations, Bedrock, or Vertex. The same day,
+  Claude API user profiles let resellers confine a safety enforcement action to one end
+  customer, and Admin API webhooks (beta) report profile restrictions.
+- **2026-10-20:** Claude Code 2.1.305 added `sandbox.allowNestedUserNamespaces` for
+  Linux. It lets sandboxed commands create user namespaces, which Chromium and rootless
+  podman need, but the changelog warns that this weakens the sandbox's file protections.
 - **2026-10-14:** Anthropic's midterm-election update: external red teaming (US, Israel,
   Brazil) found single harmful requests reliably refused but split-up campaigns sometimes
   missed, so it added multi-step misuse classifiers. It banned a foreign fake-news
@@ -129,3 +142,4 @@ to limit what the agent can do if it is fooled.
 - [Developing Gemini 4 Argon responsibly and safely](../../sources/2026/10/2026-10-14-gemini-4-argon-safety.md)
 - [Preparing for the 2026 US midterms](../../sources/2026/10/2026-10-15-anthropic-2026-us-midterms.md)
 - [Claude Code releases 2.1.299 and 2.1.300](../../sources/2026/10/2026-10-15-claude-code-2-1-299-300.md)
+- [Inference hooks (Claude docs)](../../sources/2026/10/2026-10-21-claude-inference-hooks-ga.md)

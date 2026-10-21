@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-10-20
+last_reviewed: 2026-10-21
 ---
 
 ## Overview
@@ -44,6 +44,10 @@ the de facto standard, with official SDKs in many languages.
 
 ## Current state
 
+- **2026-10-20:** In Claude Code 2.1.305, `allowedMcpServers` no longer filters
+  `managed-mcp.json` stdio servers that use `${VAR}` only in `env`. Organizations should
+  add servers they mean to block to `deniedMcpServers`. A server set through the SDK's
+  `setMcpServers` is no longer overridden by a same-named server from user settings.
 - **2026-10-20:** Graphicle (new, pre-release) is a local MCP server that gives coding
   agents code-graph tools (`query_graph`, `get_neighbors`, `shortest_path`) and memory
   tools. See [memory](../agents/memory.md).
@@ -82,3 +86,4 @@ the de facto standard, with official SDKs in many languages.
 - [Claude Code releases 2.1.302 and 2.1.303](../../sources/2026/10/2026-10-19-claude-code-2-1-302-303.md)
 - [Claude Code release 2.1.304](../../sources/2026/10/2026-10-20-claude-code-2-1-304.md)
 - [Graphicle: code graph and memory for coding agents](../../sources/2026/10/2026-10-20-graphicle-code-graph-memory-mcp.md)
+- [Claude Code releases 2.1.305 and 2.1.306](../../sources/2026/10/2026-10-21-claude-code-2-1-305-306.md)

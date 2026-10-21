@@ -2,7 +2,7 @@
 title: "Open-weight models"
 tags: [open-source, llm, deployment, fine-tuning]
 related: [fundamentals/training-and-fine-tuning, practices/cost-and-caching]
-last_reviewed: 2026-10-19
+last_reviewed: 2026-10-21
 ---
 
 ## Overview
@@ -75,7 +75,9 @@ Open weights are also spreading to non-language foundation models. Mistral's Tim
 model leads pre-trained zero-shot models on GIFT-Eval, TIME, and fev-bench, ahead of
 Chronos-2 and TimesFM-3 (vendor claims). Google's EmbeddingGemma 2 (2026-10-06, 740M
 parameters, Apache 2.0) is an open multimodal embedding model small enough for phones;
-see [embeddings](../fundamentals/embeddings.md).
+see [embeddings](../fundamentals/embeddings.md). Mistral's Voxtral 3 speech family
+(2026-10-20) offers self-hosting, but unlike Voxtral 1 (Apache 2.0) its announcement
+names no licence and does not say whether the weights are downloadable.
 
 Meta has not released open weights since Llama 4. Its newer Muse models are API-only:
 Muse Spark 1.1 (2026-07-09) and Muse Wonder / Muse Wonder Full (2026-10-12), its
@@ -93,6 +95,11 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 
 ## Current state
 
+- **2026-10-20:** Mistral released Voxtral 3 for voice agents: Small and Mini (4B) batch
+  transcription, a realtime model under 500 ms, a TTS model, and a Voice Agent SDK on
+  LiveKit. Prices start at $0.0035 per minute for transcription and $13 per 1M
+  characters for TTS. Mistral reports about 4.1% WER on FLEURS for Small, against about
+  16% for Whisper large-v3 (vendor figures). The licence is not stated.
 - **2026-10-17:** DeepSeek released V4.1-Flash-1017 (MIT weights, 1M context) with large
   agentic-coding gains on its own benchmarks, for example Terminal-Bench 4.0 42.3 vs 31.2
   for V4.1-Flash. It also opened Search and Fetch APIs at $0.75 per 1,000 calls, free
@@ -109,6 +116,8 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 
 ## Open questions
 
+- Are Voxtral 3 weights downloadable, and under which licence? The announcement
+  (2026-10-20) offers self-hosting but names no licence.
 - Will leading labs keep releasing their largest models as open weights? DeepSeek still
   does (MIT). Meta's newest line is API-only. Qwen still releases weights, but under a
   custom licence. Mistral promises Large 4 weights; check at the end of October 2026
@@ -144,3 +153,4 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 - [Introducing Timestral](../../sources/2026/10/2026-10-16-mistral-timestral-time-series-models.md)
 - [DeepSeek-V4.1-Flash-1017](../../sources/2026/10/2026-10-19-deepseek-v4-1-flash-1017.md)
 - [gpt-oss-120b & gpt-oss-20b Model Card](../../sources/2026/10/2026-10-19-gpt-oss-model-card.md)
+- [Voxtral 3](../../sources/2026/10/2026-10-21-mistral-voxtral-3.md)
