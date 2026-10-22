@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-10-21
+last_reviewed: 2026-10-22
 ---
 
 ## Overview
@@ -44,6 +44,13 @@ the de facto standard, with official SDKs in many languages.
 
 ## Current state
 
+- **2026-10-22:** stalemap (new) offers a `search_changes` MCP tool for dependency changes
+  after a model's cutoff. Any MCP client can run it with `npx -y stalemap@latest mcp`
+  (see [coding agents](coding-agents.md)).
+- **2026-10-21:** Claude Code 2.1.307 retries an HTTP MCP tool call after a dropped
+  connection only if the tool is read-only or idempotent, because calls were being sent
+  twice. Servers recover after sleep instead of staying timed out in headless runs. On
+  macOS, `claude -p` explains "needs authentication" when the keychain is locked.
 - **2026-10-20:** In Claude Code 2.1.305, `allowedMcpServers` no longer filters
   `managed-mcp.json` stdio servers that use `${VAR}` only in `env`. Organizations should
   add servers they mean to block to `deniedMcpServers`. A server set through the SDK's
@@ -87,3 +94,5 @@ the de facto standard, with official SDKs in many languages.
 - [Claude Code release 2.1.304](../../sources/2026/10/2026-10-20-claude-code-2-1-304.md)
 - [Graphicle: code graph and memory for coding agents](../../sources/2026/10/2026-10-20-graphicle-code-graph-memory-mcp.md)
 - [Claude Code releases 2.1.305 and 2.1.306](../../sources/2026/10/2026-10-21-claude-code-2-1-305-306.md)
+- [Claude Code release 2.1.307](../../sources/2026/10/2026-10-22-claude-code-2-1-307.md)
+- [stalemap](../../sources/2026/10/2026-10-22-stalemap-post-cutoff-dependency-changes.md)

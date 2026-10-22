@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-10-21
+last_reviewed: 2026-10-22
 ---
 
 ## Overview
@@ -67,6 +67,16 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
+- **2026-10-22:** stalemap (new, MIT, JS/TS only) tells an agent which npm dependencies
+  changed after its training cutoff. It writes notes into `CLAUDE.md`/`AGENTS.md`, adds
+  an edit-time type-check guard, and provides a `search_changes` MCP tool. Install with
+  `/plugin marketplace add Umair/stalemap` and then `/plugin install stalemap@stalemap`.
+- **2026-10-21:** Claude Code 2.1.307: `/claude-api api-version` migrates Claude API code
+  to API version `2026-10-21` (see [Claude](../models/claude.md)). A
+  `claude_code.safety_event` OpenTelemetry event fires for every tool call stopped or
+  prompted by rules, auto mode, hooks, or the sandbox. `@claude review stop` ends an
+  always-on Code Review subscription. Unparseable tool calls are retried twice. Self-hosted
+  runner checkout hooks now time out after 30 minutes by default.
 - **2026-10-20/21:** Claude Code 2.1.305 fixes a 2.1.304 regression that broke all
   requests on Bedrock, Vertex, and gateways that reject tool search, so skip 2.1.304
   there. It adds `sandbox.allowNestedUserNamespaces` on Linux (Chromium and rootless
@@ -125,3 +135,5 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [Claude Code releases 2.1.302 and 2.1.303](../../sources/2026/10/2026-10-19-claude-code-2-1-302-303.md)
 - [Claude Code release 2.1.304](../../sources/2026/10/2026-10-20-claude-code-2-1-304.md)
 - [Claude Code releases 2.1.305 and 2.1.306](../../sources/2026/10/2026-10-21-claude-code-2-1-305-306.md)
+- [Claude Code release 2.1.307](../../sources/2026/10/2026-10-22-claude-code-2-1-307.md)
+- [stalemap](../../sources/2026/10/2026-10-22-stalemap-post-cutoff-dependency-changes.md)

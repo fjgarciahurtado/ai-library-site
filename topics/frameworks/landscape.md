@@ -2,7 +2,7 @@
 title: "Agent and LLM framework landscape"
 tags: [frameworks, agents, sdk]
 related: [agents/agent-patterns, agents/tool-use, tooling/mcp]
-last_reviewed: 2026-10-21
+last_reviewed: 2026-10-22
 ---
 
 ## Overview
@@ -16,11 +16,18 @@ now start from vendor SDKs and add a framework only when it clearly helps.
 
 - **Vendor SDKs and agent kits:**
   - Anthropic SDKs (with tool runner) and the Claude Agent SDK (the Claude Code harness
-    as a library), plus Managed Agents for hosted agents.
+    as a library), plus Managed Agents for hosted agents. New SDK majors on 2026-10-21
+    (Python 2.0, TypeScript 1.0, Go 2.0, Java 3.0, and others) target API version
+    `2026-10-21`, drop sampling parameters and Text Completions, send keys as
+    `Authorization: Bearer`, and move from MIT to Apache 2.0 (see
+    [Claude](../models/claude.md)).
   - OpenAI SDKs and the OpenAI Agents SDK (still 0.x; 0.23 hardened sandboxes,
     sessions, MCP, and realtime agents).
   - Google's Agent Development Kit (ADK); 2.11 added run cancellation, tool approval in
-    workflows, SQLite memory, and opt-in MCP SDK 2.x support.
+    workflows, SQLite memory, and opt-in MCP SDK 2.x support. Google's Agents CLI
+    (scaffold, eval, deploy) no longer requires ADK: since 1.8.0 a LangChain extension
+    deploys LangChain or LangGraph agents to Cloud Run, and Git-hosted extensions can
+    override commands, for example to add an SBOM scan before deploy.
 - **Orchestration frameworks:**
   - LangChain / LangGraph: components plus graph-based, stateful agent workflows.
     LangGraph 1.2 (2026-05-12) resumes error handlers durably after host crashes and
@@ -35,8 +42,8 @@ now start from vendor SDKs and add a framework only when it clearly helps.
     Python. Version 1.0 (2026-04-03) brought stable APIs, long-term support, MCP and A2A
     interop, and migration guides from both predecessors.
   - Pydantic AI: typed, Python-first agents, with near-daily minor releases. The 2.5x
-    line added sandboxed workspaces (E2B, SSH, Bubblewrap, Sprites), plugins, and its own
-    `clai2` terminal agent.
+    line added sandboxed workspaces (E2B, SSH, Bubblewrap, Sprites, and Daytona since
+    2.59), plugins, and its own `clai2` terminal agent.
   - Vercel AI SDK: TypeScript toolkit for AI apps, UIs, and agents. Version 7
     (2026-06-25) adds per-tool approval policies, durable resumable runs
     (`WorkflowAgent`), layered timeouts, a portable sandbox abstraction, OpenTelemetry
@@ -65,23 +72,35 @@ now start from vendor SDKs and add a framework only when it clearly helps.
 
 ## Current state
 
-Latest versions checked on 2026-10-04 (GitHub releases pages), except CrewAI and
-LangGraph, checked later on PyPI because their GitHub release pages show wrong years:
+Latest versions from GitHub release feeds or PyPI, with the check date in each row
+(rows without one were checked on 2026-10-04):
 
 | Framework | Latest stable | Date | Note |
 |---|---|---|---|
-| Microsoft Agent Framework | Python 1.20.0 / .NET 1.23.0 | 2026-10-02 / 2026-10-01 | 1.0 GA on 2026-04-03 |
-| OpenAI Agents SDK (Python) | 0.23.1 | 2026-10-02 | Still 0.x |
-| Google ADK (Python) | 2.11.0 | 2026-10-02 | |
-| Pydantic AI | 2.58.0 | 2026-10-20 | Near-daily minor releases (checked 2026-10-21) |
-| CrewAI | 1.15.26 | 2026-10-08 | 1.15.0 on 2026-06-25; dates from PyPI (checked 2026-10-09) |
+| Microsoft Agent Framework | Python 1.22.0 / .NET 1.25.0 | 2026-10-15 / 2026-10-14 | 1.0 GA on 2026-04-03 (checked 2026-10-22) |
+| OpenAI Agents SDK (Python) | 0.24.0 | 2026-10-15 | Still 0.x; adds MCP annotations on converted tools (checked 2026-10-22) |
+| Google ADK (Python) | 2.12.0 | 2026-10-13 | `after_tool_callback` output filtering, workflow node confirmation (checked 2026-10-22) |
+| Pydantic AI | 2.59.0 | 2026-10-20 | Near-daily minor releases (checked 2026-10-22) |
+| CrewAI | 1.15.28 | 2026-10-14 | 1.15.0 on 2026-06-25 (checked 2026-10-22 on GitHub) |
 | LlamaIndex | 0.14.25 | 2026-09-21 | Patch release; no note |
 | LangGraph | 1.2.14 | 2026-10-06 | 1.2.0 on 2026-05-12; dates from PyPI (checked 2026-10-08) |
-| DSPy | 3.4.0 | 2026-09-25 | 3.0.0 on 2025-08-12; dates from PyPI (checked 2026-10-12) |
+| DSPy | 3.4.1 | 2026-10-12 | 3.4.0 on 2026-09-25; 3.0.0 on 2025-08-12 (checked 2026-10-22) |
 | Vercel AI SDK | 7.x | 2026-06-25 (7.0) | Latest 7.x patch not checked; date from Vercel's announcement (checked 2026-10-16) |
 
 Release features are described under Key concepts.
 
+- **2026-10-21:** Anthropic released new major SDK versions for API version
+  `2026-10-21`; upgrading breaks code that sets `temperature`, `top_p`, or `top_k`, or
+  proxies that read `X-Api-Key`.
+- **2026-10-21:** Google's Agents CLI 1.8.0 ships a first-party LangChain extension
+  (`agents-cli create my-agent --agent google/agents-cli/extensions/langchain/template@v1.8.0 -d cloud_run`)
+  and an experimental extension system with commit-pinned, Git-hosted extensions.
+- **2026-10-20/21:** Pydantic AI v2.59.0 fixes a high-severity `web_fetch` HTML
+  denial-of-service issue (GHSA-4whf-38hw-pxxh, also fixed in 1.107.9). It adds
+  `DaytonaSandbox`, `ElevenLabsRealtimeModel`, `non_retryable_model_errors` for
+  Temporal, and cache-preserving `on_change='append'` instructions.
+- **2026-10-21:** Ollama v0.40.8 adds Recursive's Flint coding model (macOS only for
+  now; see [open-weight models](../models/open-weight.md)).
 - **2026-10-21:** Ollama v0.40.7: `ollama show` reports each model's chat template
   source, more draft models work for speculative decoding, and `ollama launch claude`
   clamps Claude Code's auto-compact window. It adds Perplexity's `pplx-decider` (27B).
@@ -110,3 +129,7 @@ Release features are described under Key concepts.
 - [AI SDK 7](../../sources/2026/10/2026-10-16-vercel-ai-sdk-7.md)
 - [Pydantic AI v2.58.0](../../sources/2026/10/2026-10-21-pydantic-ai-v2-58.md)
 - [Ollama v0.40.7](../../sources/2026/10/2026-10-21-ollama-v0-40-7.md)
+- [Migrating to API version 2026-10-21](../../sources/2026/10/2026-10-22-claude-api-version-2026-10-21.md)
+- [Agents CLI extensions and LangChain template](../../sources/2026/10/2026-10-22-google-agents-cli-extensions.md)
+- [Pydantic AI v2.59.0](../../sources/2026/10/2026-10-22-pydantic-ai-v2-59.md)
+- [Ollama v0.40.8 and Flint](../../sources/2026/10/2026-10-22-ollama-flint-coding-model.md)

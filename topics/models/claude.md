@@ -2,7 +2,7 @@
 title: "Claude (Anthropic)"
 tags: [anthropic, llm, reasoning, cost]
 related: [models/gpt, models/gemini, tooling/skills, tooling/mcp, tooling/coding-agents]
-last_reviewed: 2026-10-21
+last_reviewed: 2026-10-22
 ---
 
 ## Overview
@@ -29,6 +29,13 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
   `tool_choice` (`any` / `tool`).
 - **No prefill:** the newest generation no longer accepts a prefilled assistant turn;
   use structured outputs or instructions instead.
+- **API versions and sampling:** every request carries an `anthropic-version` header.
+  Version `2026-10-21` (the first since `2023-06-01`) removes `temperature`, `top_p`,
+  and `top_k`: sending any of them returns 400 on every model. Claude 4.7 and later
+  already accepted only the defaults. Steer output with prompting instead. The SDK
+  majors released the same day (Python 2.0, TypeScript 1.0, and others) send the new
+  version, send keys as `Authorization: Bearer`, and are Apache 2.0 licensed.
+  `2023-06-01` has no retirement date (checked 2026-10-22).
 - **Prompt caching:** reuse of stable prompt prefixes at a large discount.
 - **Batch API:** asynchronous processing at about half price.
 - **Structured outputs:** JSON responses guaranteed to match a schema.
@@ -63,9 +70,9 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 
 - All four current models have 1M context, 128K output, and a June 2026 knowledge
   cutoff. Haiku 4.5 (200K context, 64K output, $1 / $5) is superseded but still listed
-  as Active, with retirement "not sooner than 2026-10-15" and no deprecation notice as of
-  2026-10-13. Anthropic gives at least 60 days' notice, so it cannot retire before
-  mid-December 2026. Sonnet 4.5 (deprecated 2026-09-30) retires on 2026-11-30; Opus 4.5 is
+  as Active, with retirement "not sooner than 2026-10-15". That date has passed, but
+  there was still no deprecation notice on 2026-10-22. Anthropic gives at least 60 days'
+  notice, so it cannot retire before late December 2026. Sonnet 4.5 (deprecated 2026-09-30) retires on 2026-11-30; Opus 4.5 is
   active until at least 2026-11-24.
 - Haiku 5.5 (released 2026-10-07) is the first Haiku with effort control and supports
   computer and browser use. Anthropic reports 72.4% on OSWorld 2.1 (offline subset) and
@@ -85,6 +92,14 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 
 ## Current state
 
+- **2026-10-21:** API version `2026-10-21` and new major SDK and `ant` CLI versions
+  (see API versions and sampling). Other breaking changes: a `document` block in an
+  `assistant` message and `citations` on `user` text now return 400, Admin and Analytics
+  API fields were renamed (API keys report `scope` instead of `workspace_id`), Text
+  Completions is gone from most SDKs, and the CLI drops `--api-key`. On Bedrock the new
+  version works only for Claude 4.7 and later. Claude Code 2.1.307 adds
+  `/claude-api api-version` to migrate code. User profiles now show
+  `enforcement_status`, so platforms can see which end customers Anthropic restricted.
 - **2026-10-20:** Inference hooks reached GA for Claude Enterprise (server-side
   allow/deny on every governed prompt; see [security](../practices/security.md)). The
   API added `/v1/user_profiles`, so platforms can tag requests by end customer and an
@@ -124,8 +139,11 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
   or `max`; the docs are treated as authoritative here.
 - Who governs the Public Benefit Fund, and what is the valuation baseline for the extra
   2% grants? Anthropic says it will publish this in the coming months (noted 2026-10-19).
-- Haiku 4.5 retirement date: not yet announced (checked 2026-10-13). Check the
-  deprecations page for a notice.
+- Haiku 4.5 retirement date: still not announced (checked 2026-10-22). The deprecations
+  page lists it as Active with "not sooner than 2026-10-15", a date already past, and
+  Haiku 5.5 is not yet named as its replacement. Check again in November.
+- When will API version `2023-06-01` be retired? The versioning page gives no date
+  (checked 2026-10-22).
 
 ## Sources
 
@@ -147,3 +165,4 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 - [Fast mode (Claude API docs)](../../sources/2026/10/2026-10-20-claude-opus-5-5-fast-mode-ga.md)
 - [API credits for Max and Team plans](../../sources/2026/10/2026-10-20-claude-api-credits-max-team.md)
 - [Inference hooks (Claude docs)](../../sources/2026/10/2026-10-21-claude-inference-hooks-ga.md)
+- [Migrating to API version 2026-10-21](../../sources/2026/10/2026-10-22-claude-api-version-2026-10-21.md)

@@ -2,7 +2,7 @@
 title: "Security for LLM apps and agents"
 tags: [security, safety, agents, mcp]
 related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
-last_reviewed: 2026-10-21
+last_reviewed: 2026-10-22
 ---
 
 ## Overview
@@ -94,6 +94,14 @@ to limit what the agent can do if it is fooled.
 
 ## Current state
 
+- **2026-10-21:** Pydantic AI 2.59.0 / 1.107.9 fix GHSA-4whf-38hw-pxxh (high), where
+  hostile HTML fetched by `web_fetch` could slow down the whole process. They also escape
+  `SummarizingCompaction` transcripts so tool output cannot forge messages in compacted
+  history. Upgrade agents that fetch untrusted pages.
+- **2026-10-21:** Claude's new SDK majors send API keys as `Authorization: Bearer`, and
+  the `ant` CLI no longer accepts keys as flag values, which kept them out of shell
+  history. Claude Code 2.1.307 emits a `claude_code.safety_event` for every tool call
+  blocked or prompted by guardrails.
 - **2026-10-20:** Anthropic's inference hooks came out of beta for Claude Enterprise.
   They offer allow or deny verdicts from a customer-run server, shadow mode, gradual
   rollout, a choice between failing open and failing closed, and a circuit breaker. They
@@ -143,3 +151,6 @@ to limit what the agent can do if it is fooled.
 - [Preparing for the 2026 US midterms](../../sources/2026/10/2026-10-15-anthropic-2026-us-midterms.md)
 - [Claude Code releases 2.1.299 and 2.1.300](../../sources/2026/10/2026-10-15-claude-code-2-1-299-300.md)
 - [Inference hooks (Claude docs)](../../sources/2026/10/2026-10-21-claude-inference-hooks-ga.md)
+- [Pydantic AI v2.59.0](../../sources/2026/10/2026-10-22-pydantic-ai-v2-59.md)
+- [Migrating to API version 2026-10-21](../../sources/2026/10/2026-10-22-claude-api-version-2026-10-21.md)
+- [Claude Code release 2.1.307](../../sources/2026/10/2026-10-22-claude-code-2-1-307.md)
