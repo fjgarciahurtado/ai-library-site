@@ -2,7 +2,7 @@
 title: "Open-weight models"
 tags: [open-source, llm, deployment, fine-tuning]
 related: [fundamentals/training-and-fine-tuning, practices/cost-and-caching]
-last_reviewed: 2026-10-22
+last_reviewed: 2026-10-23
 ---
 
 ## Overview
@@ -42,7 +42,7 @@ As of 2026-10-22, checked against official model cards and announcements:
 | DeepSeek-V4-Flash | 2026-04-24 | 284B / 13B (MoE) | 1M | MIT |
 | Qwen3.8-Flash-Next | 2026-08 | 125B / 6B (MoE), plus 51B n-gram embeddings | 262K native, 1M with RoPE scaling | Qwen Community 1.0 (custom) |
 | Qwen3.5-397B-A17B | 2026-02-16 | 397B / 17B (MoE) | 262K native, ~1M with YaRN | Apache 2.0 |
-| Flint (Recursive, coding agents) | 2026-10-21 (on Ollama) | 39.8B / ~2.5B (MoE), per Ollama | 262K | Apache 2.0 |
+| Flint (Recursive, coding agents) | 2026-10-21 (on Ollama) | 39.8B / ~2.5B (MoE), per model card | 262K | Apache 2.0 |
 | Gemma 4 (E2B to 31B) | 2026-04-03 | 2.3B effective to 31B dense; 26B A4B MoE | 128K–256K | Apache 2.0 |
 | Mistral Large 4 (weights due end of Oct 2026) | 2026-10-06 (API preview) | 1T / 49B (MoE) | not stated | not stated |
 | Mistral Large 3 | 2025-12-02 | ~675B / 41B (MoE) | 256K | Apache 2.0 |
@@ -96,11 +96,20 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 
 ## Current state
 
+- **2026-10-23:** Ollama v0.40.9 runs Flint on Linux and Windows as well as macOS. It
+  adds d3 decision models (2B, 4B, 9B, 27B, from vLLM Semantic Router) for local
+  classification and yes/no scoring, and Phonon speech on Apple Silicon.
+- **2026-10-23 (gap filled):** Recursive's model card confirms Flint's figures: 39.8B
+  total, about 2.5B active (2.2B without the output head), 256 experts with 6 active,
+  mixed sliding-window and full attention, 262K context, trained from scratch, June 2026
+  cutoff, Apache 2.0. Full precision needs one B300 or H200 per replica (SGLang); Ollama
+  and quantized builds cover local use. The benchmark scores are Recursive's own: average
+  pass@1 over at least 5 runs, with mini-swe-agent and Terminus 2.
 - **2026-10-21:** Recursive's Flint, an Apache 2.0 MoE model built for coding agents
-  (39.8B total, about 2.5B active, 23 GB), arrived in Ollama v0.40.8 (`ollama run flint`;
-  macOS only for now). It works with `ollama launch` for Claude Code and OpenCode.
-  Publisher scores: SWE-bench Verified 74.2%, Terminal-Bench 2.1 54.9%, and an unusually
-  high 89.7% on SWE-bench Pro v2.
+  (39.8B total, about 2.5B active, 23 GB), arrived in Ollama v0.40.8 (`ollama run flint`).
+  It works with `ollama launch` for Claude Code and OpenCode. Publisher scores: SWE-bench
+  Verified 74.2%, Terminal-Bench 2.1 54.9%, and an unusually high 89.7% on SWE-bench Pro
+  v2.
 - **2026-10-20:** Mistral released Voxtral 3 for voice agents: Small and Mini (4B) batch
   transcription, a realtime model under 500 ms, a TTS model, and a Voice Agent SDK on
   LiveKit. Prices start at $0.0035 per minute for transcription and $13 per 1M
@@ -122,9 +131,11 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 
 ## Open questions
 
-- Flint: find Recursive's own announcement or model card to confirm the parameter
-  counts and benchmarks. Its SWE-bench Pro v2 score (89.7%) is above its Verified score
-  (74.2%), the reverse of the usual pattern. Only Ollama's page was read (2026-10-22).
+- Flint benchmarks: the parameter counts and licence are confirmed by Recursive's model
+  card (2026-10-23). Still open: why its SWE-bench Pro v2 score (89.7%) is above its
+  Verified score (74.2%), the reverse of the usual pattern. The card names neither the
+  subsets nor which scores Recursive measured itself, and there are no independent
+  results yet. No release date or announcement post was found.
 - Are Voxtral 3 weights downloadable, and under which licence? The announcement
   (2026-10-20) offers self-hosting but names no licence.
 - Will leading labs keep releasing their largest models as open weights? DeepSeek still
@@ -164,3 +175,5 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 - [gpt-oss-120b & gpt-oss-20b Model Card](../../sources/2026/10/2026-10-19-gpt-oss-model-card.md)
 - [Voxtral 3](../../sources/2026/10/2026-10-21-mistral-voxtral-3.md)
 - [Ollama v0.40.8 and Flint](../../sources/2026/10/2026-10-22-ollama-flint-coding-model.md)
+- [Flint model card (Recursive)](../../sources/2026/10/2026-10-23-recursive-flint-model-card.md)
+- [Ollama v0.40.9](../../sources/2026/10/2026-10-23-ollama-v0-40-9-phonon-d3.md)

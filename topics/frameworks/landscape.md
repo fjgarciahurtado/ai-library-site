@@ -2,7 +2,7 @@
 title: "Agent and LLM framework landscape"
 tags: [frameworks, agents, sdk]
 related: [agents/agent-patterns, agents/tool-use, tooling/mcp]
-last_reviewed: 2026-10-22
+last_reviewed: 2026-10-23
 ---
 
 ## Overview
@@ -77,10 +77,10 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 
 | Framework | Latest stable | Date | Note |
 |---|---|---|---|
-| Microsoft Agent Framework | Python 1.22.0 / .NET 1.25.0 | 2026-10-15 / 2026-10-14 | 1.0 GA on 2026-04-03 (checked 2026-10-22) |
+| Microsoft Agent Framework | Python 1.23.0 / .NET 1.25.0 | 2026-10-22 / 2026-10-14 | 1.0 GA on 2026-04-03; Python 1.23 moves to MCP 2.x (checked 2026-10-23) |
 | OpenAI Agents SDK (Python) | 0.24.0 | 2026-10-15 | Still 0.x; adds MCP annotations on converted tools (checked 2026-10-22) |
 | Google ADK (Python) | 2.12.0 | 2026-10-13 | `after_tool_callback` output filtering, workflow node confirmation (checked 2026-10-22) |
-| Pydantic AI | 2.59.0 | 2026-10-20 | Near-daily minor releases (checked 2026-10-22) |
+| Pydantic AI | 2.60.0 | 2026-10-22 | Near-daily minor releases (checked 2026-10-23) |
 | CrewAI | 1.15.28 | 2026-10-14 | 1.15.0 on 2026-06-25 (checked 2026-10-22 on GitHub) |
 | LlamaIndex | 0.14.25 | 2026-09-21 | Patch release; no note |
 | LangGraph | 1.2.14 | 2026-10-06 | 1.2.0 on 2026-05-12; dates from PyPI (checked 2026-10-08) |
@@ -89,6 +89,17 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 
 Release features are described under Key concepts.
 
+- **2026-10-22:** Pydantic AI v2.60.0 adds local sandboxes for its harness
+  (`DockerSandbox` for Docker/Podman, `BoxLiteSandbox` micro-VMs), judge-model
+  `SmartSearch` code search and `RelevanceCompaction`, and per-run `auth`/`headers` for
+  `MCPToolset`.
+- **2026-10-22:** Microsoft Agent Framework (Python) 1.23.0 migrates to MCP 2.x
+  (breaking). AG-UI endpoints now need an explicit auth scope or a single-user
+  declaration, and the Docker shell's `extra_run_args` is renamed
+  `unsafe_extra_run_args`.
+- **2026-10-23:** Ollama v0.40.9 adds Phonon text-to-speech (Apple Silicon, also on
+  `/v1/audio/speech`), d3 decision models (2B–27B, from vLLM Semantic Router) for local
+  classification, and Flint on Linux and Windows.
 - **2026-10-21:** Anthropic released new major SDK versions for API version
   `2026-10-21`; upgrading breaks code that sets `temperature`, `top_p`, or `top_k`, or
   proxies that read `X-Api-Key`.
@@ -99,8 +110,8 @@ Release features are described under Key concepts.
   denial-of-service issue (GHSA-4whf-38hw-pxxh, also fixed in 1.107.9). It adds
   `DaytonaSandbox`, `ElevenLabsRealtimeModel`, `non_retryable_model_errors` for
   Temporal, and cache-preserving `on_change='append'` instructions.
-- **2026-10-21:** Ollama v0.40.8 adds Recursive's Flint coding model (macOS only for
-  now; see [open-weight models](../models/open-weight.md)).
+- **2026-10-21:** Ollama v0.40.8 adds Recursive's Flint coding model (macOS only until
+  v0.40.9; see [open-weight models](../models/open-weight.md)).
 - **2026-10-21:** Ollama v0.40.7: `ollama show` reports each model's chat template
   source, more draft models work for speculative decoding, and `ollama launch claude`
   clamps Claude Code's auto-compact window. It adds Perplexity's `pplx-decider` (27B).
@@ -133,3 +144,6 @@ Release features are described under Key concepts.
 - [Agents CLI extensions and LangChain template](../../sources/2026/10/2026-10-22-google-agents-cli-extensions.md)
 - [Pydantic AI v2.59.0](../../sources/2026/10/2026-10-22-pydantic-ai-v2-59.md)
 - [Ollama v0.40.8 and Flint](../../sources/2026/10/2026-10-22-ollama-flint-coding-model.md)
+- [Pydantic AI v2.60.0](../../sources/2026/10/2026-10-23-pydantic-ai-v2-60.md)
+- [Microsoft Agent Framework (Python) 1.23.0](../../sources/2026/10/2026-10-23-microsoft-agent-framework-python-1-23.md)
+- [Ollama v0.40.9](../../sources/2026/10/2026-10-23-ollama-v0-40-9-phonon-d3.md)

@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-10-22
+last_reviewed: 2026-10-23
 ---
 
 ## Overview
@@ -67,6 +67,19 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
+- **2026-10-22:** Claude Code 2.1.309 (2.1.308 is fixes only) closes several sandbox
+  gaps: shell startup files ran outside the sandbox, `denyWrite` failed through symlinks,
+  and sandboxed commands could edit the `--mcp-config` file. It also tightens `Edit` deny
+  rules, `cd`+git prompts, and worktree isolation. Behaviour changes: `sed -i` now gets a
+  normal Bash prompt and `/rewind` does not undo it. `claude ultrareview` needs workspace
+  trust (`--trust-workspace` in scripts). Dangerous `rm` in bypass mode on Desktop and
+  VS Code is denied with a rewrite hint.
+- **2026-10-22:** Ribbon (new, MIT) is a Claude Code plugin that shows usage left, reset
+  times, and whether the prompt cache is warm or cold above the prompt. Install it with
+  `/plugin install ribbon --marketplace robonuggets/ribbon`. See
+  [cost and caching](../practices/cost-and-caching.md).
+- **2026-10-22:** Ollama 0.40.9 brings the Flint coding model to Linux and Windows, and
+  `ollama launch` now passes cloud model context lengths to coding tools.
 - **2026-10-22:** stalemap (new, MIT, JS/TS only) tells an agent which npm dependencies
   changed after its training cutoff. It writes notes into `CLAUDE.md`/`AGENTS.md`, adds
   an edit-time type-check guard, and provides a `search_changes` MCP tool. Install with
@@ -137,3 +150,5 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [Claude Code releases 2.1.305 and 2.1.306](../../sources/2026/10/2026-10-21-claude-code-2-1-305-306.md)
 - [Claude Code release 2.1.307](../../sources/2026/10/2026-10-22-claude-code-2-1-307.md)
 - [stalemap](../../sources/2026/10/2026-10-22-stalemap-post-cutoff-dependency-changes.md)
+- [Claude Code releases 2.1.308 and 2.1.309](../../sources/2026/10/2026-10-23-claude-code-2-1-308-309.md)
+- [Ribbon](../../sources/2026/10/2026-10-23-ribbon-claude-code-usage-band.md)

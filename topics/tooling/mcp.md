@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-10-22
+last_reviewed: 2026-10-23
 ---
 
 ## Overview
@@ -39,11 +39,25 @@ the de facto standard, with official SDKs in many languages.
 - Use existing servers for common services before writing your own.
 - Install only servers you trust; a server's tool descriptions and outputs go straight
   into the model's context (see [security](../practices/security.md)).
-- Keep tool lists small; prefer clients that load tools on demand.
+- Keep tool lists small; prefer clients that load tools on demand. With many servers, a
+  "code mode" proxy such as MCPtoCodeMode exposes only search/describe/execute tools and
+  lets the model chain calls in sandboxed code.
 - Build a server when you want one integration usable from many AI clients.
 
 ## Current state
 
+- **2026-10-22:** MCPtoCodeMode (new, MIT) puts all your MCP servers behind three tools
+  (`search`, `describe`, `execute`). The model writes JavaScript that runs in a QuickJS
+  sandbox with no network or filesystem. Add it to Claude Code with
+  `claude mcp add codemode -- npx -y mcptocodemode serve`, or run
+  `npx -y mcptocodemode setup` for other agents. It claims about 5.7× fewer input tokens
+  (self-reported).
+- **2026-10-22:** Microsoft Agent Framework (Python) 1.23.0 migrates to MCP 2.x as a
+  breaking change: new transports, errors, and schemas, and separate caller-owned and
+  framework-owned client lifecycles.
+- **2026-10-22:** Claude Code 2.1.309: sandboxed commands can no longer modify the
+  `--mcp-config` file, and a disabled server is no longer reconnected by a later
+  permission prompt in print and SDK sessions.
 - **2026-10-22:** stalemap (new) offers a `search_changes` MCP tool for dependency changes
   after a model's cutoff. Any MCP client can run it with `npx -y stalemap@latest mcp`
   (see [coding agents](coding-agents.md)).
@@ -81,8 +95,9 @@ the de facto standard, with official SDKs in many languages.
 - How quickly clients and servers migrate to the stateless spec. Partly answered: Google
   ADK supports MCP SDK 2.x only as an opt-in (2026-10-02), while Claude Code has used the
   new protocol by default for local servers since 2026-10-06 and for its cloud and
-  Remote Control connectors since 2026-10-14. Still unknown: other major clients, and how
-  many servers support it.
+  Remote Control connectors since 2026-10-14. Microsoft Agent Framework (Python) moved to
+  MCP 2.x in 1.23.0 (2026-10-22). Still unknown: other major clients, and how many
+  servers support it.
 
 ## Sources
 
@@ -96,3 +111,6 @@ the de facto standard, with official SDKs in many languages.
 - [Claude Code releases 2.1.305 and 2.1.306](../../sources/2026/10/2026-10-21-claude-code-2-1-305-306.md)
 - [Claude Code release 2.1.307](../../sources/2026/10/2026-10-22-claude-code-2-1-307.md)
 - [stalemap](../../sources/2026/10/2026-10-22-stalemap-post-cutoff-dependency-changes.md)
+- [MCPtoCodeMode](../../sources/2026/10/2026-10-23-mcptocodemode-mcp-code-mode-proxy.md)
+- [Microsoft Agent Framework (Python) 1.23.0](../../sources/2026/10/2026-10-23-microsoft-agent-framework-python-1-23.md)
+- [Claude Code releases 2.1.308 and 2.1.309](../../sources/2026/10/2026-10-23-claude-code-2-1-308-309.md)

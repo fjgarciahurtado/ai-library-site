@@ -2,7 +2,7 @@
 title: "Tool use (function calling)"
 tags: [tool-use, agents, structured-output]
 related: [agents/agent-patterns, tooling/mcp, tooling/skills]
-last_reviewed: 2026-10-11
+last_reviewed: 2026-10-23
 ---
 
 ## Overview
@@ -24,7 +24,9 @@ how LLMs act in the world and the core of every agent.
 - **Tool search / deferred loading:** with many tools, load definitions only when needed
   to save context.
 - **Programmatic tool calling:** the model writes code that calls your tools, so large
-  intermediate results never enter its context.
+  intermediate results never enter its context. "Code mode" proxies apply this to MCP:
+  MCPtoCodeMode (2026-10-22) puts any set of MCP servers behind `search`, `describe`, and
+  `execute`, and runs the model's JavaScript in a QuickJS sandbox.
 - **Tool runners:** SDK helpers that run the loop for you.
 - **Standard connections:** [MCP](../tooling/mcp.md) packages tools as reusable servers.
 - **Forcing a tool:** `tool_choice` can require a tool call on many APIs, but Claude
@@ -45,13 +47,18 @@ how LLMs act in the world and the core of every agent.
 
 ## Current state
 
+- **2026-10-22:** MCPtoCodeMode (MIT) is a code-mode proxy for MCP tools. Its author
+  reports about 5.7× fewer input tokens on test tasks (self-reported). See
+  [MCP](../tooling/mcp.md) for install commands.
 - **2026-10-07:** Claude Haiku 5.5 added computer and browser use to Anthropic's
   smallest tier.
 - **2026-09-29:** OpenAI's Agents API added hosted computer use.
 
 ## Open questions
 
-- Best practices for very large tool catalogues (hundreds of tools).
+- Best practices for very large tool catalogues (hundreds of tools). Two approaches so
+  far: tool search / deferred loading, and code-mode proxies that hide tools behind
+  search and execute (2026-10-22). There is no independent comparison of the two yet.
 
 ## Sources
 
@@ -59,3 +66,4 @@ how LLMs act in the world and the core of every agent.
 - [Claude models overview](../../sources/2026/10/2026-10-04-claude-models-overview.md)
 - [OpenAI API changelog: GPT-6.1 Sol](../../sources/2026/10/2026-10-06-openai-api-changelog-gpt-6-1-sol.md)
 - [Claude Haiku 5.5](../../sources/2026/10/2026-10-08-claude-haiku-5-5.md)
+- [MCPtoCodeMode](../../sources/2026/10/2026-10-23-mcptocodemode-mcp-code-mode-proxy.md)

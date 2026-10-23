@@ -2,7 +2,7 @@
 title: "Security for LLM apps and agents"
 tags: [security, safety, agents, mcp]
 related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
-last_reviewed: 2026-10-22
+last_reviewed: 2026-10-23
 ---
 
 ## Overview
@@ -94,6 +94,16 @@ to limit what the agent can do if it is fooled.
 
 ## Current state
 
+- **2026-10-22:** Claude Code 2.1.309 fixes several sandbox and permission bypasses: on
+  macOS and Linux, shell startup files ran outside the sandbox before each command;
+  macOS `denyWrite` globs did not apply through symlinks; sandboxed commands could edit
+  the `--mcp-config` file; `Edit(path)` deny rules missed some redirects; and worktree
+  isolation accepted some locale-prefixed and zsh arithmetic commands. Upgrade before
+  relying on the sandbox for unattended runs. The same release stops Claude from writing
+  role names as GitHub @-mentions that notified unrelated users.
+- **2026-10-22:** Microsoft Agent Framework (Python) 1.23.0 makes AG-UI endpoints declare
+  an authorization scope (or single-user mode) and renames the Docker shell's
+  `extra_run_args` to `unsafe_extra_run_args`.
 - **2026-10-21:** Pydantic AI 2.59.0 / 1.107.9 fix GHSA-4whf-38hw-pxxh (high), where
   hostile HTML fetched by `web_fetch` could slow down the whole process. They also escape
   `SummarizingCompaction` transcripts so tool output cannot forge messages in compacted
@@ -152,5 +162,6 @@ to limit what the agent can do if it is fooled.
 - [Claude Code releases 2.1.299 and 2.1.300](../../sources/2026/10/2026-10-15-claude-code-2-1-299-300.md)
 - [Inference hooks (Claude docs)](../../sources/2026/10/2026-10-21-claude-inference-hooks-ga.md)
 - [Pydantic AI v2.59.0](../../sources/2026/10/2026-10-22-pydantic-ai-v2-59.md)
+- [Claude Code releases 2.1.308 and 2.1.309](../../sources/2026/10/2026-10-23-claude-code-2-1-308-309.md)
 - [Migrating to API version 2026-10-21](../../sources/2026/10/2026-10-22-claude-api-version-2026-10-21.md)
 - [Claude Code release 2.1.307](../../sources/2026/10/2026-10-22-claude-code-2-1-307.md)

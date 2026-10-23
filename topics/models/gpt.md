@@ -2,7 +2,7 @@
 title: "GPT (OpenAI)"
 tags: [openai, llm, reasoning]
 related: [models/claude, models/gemini, tooling/coding-agents]
-last_reviewed: 2026-10-21
+last_reviewed: 2026-10-23
 ---
 
 ## Overview
@@ -48,9 +48,13 @@ pricing. GPT-6.1 Sol replaced GPT-6 Sol on 2026-09-29.
 - Rerun any GPT-6 Sol or Luna image evals made before 2026-09-25, when OpenAI fixed an
   image-encoding bug that had degraded image understanding.
 - For classification, routing, or yes/no checks, the Decisions API (`POST /v1/decisions`,
-  `gpt-6-luna` only, beta since 2026-10-06) answers predicate, choice, or score questions
-  about text and inline images. OpenAI says it is about 10x faster than the Responses
-  API. It charges $0.10 per 1M input tokens and nothing for output (as of 2026-10-07).
+  `gpt-6-luna` only, beta from 2026-10-06, GA since 2026-10-22) answers predicate,
+  choice, or score questions about text and images. OpenAI says it is about 10x faster
+  than the Responses API. It charges $0.10 per 1M input tokens and nothing for output (as
+  of 2026-10-07). Since GA a request can hold up to 400 questions, shared input gets
+  prompt-cache discounts, question instructions can include images, and `input_json`
+  takes structured data directly. For a local alternative, see Ollama's d3 models in
+  [open-weight models](open-weight.md).
 - For lower latency between output tokens, set `service_tier: "ultrafast"` in the
   Responses API on `gpt-6-astra` (since 2026-09-29) or `gpt-6.1-sol` (since 2026-10-08,
   all API users); GPT-5.6 Sol is in preview. It costs 6x Standard (Sol $12 / $0.60 /
@@ -65,6 +69,10 @@ pricing. GPT-6.1 Sol replaced GPT-6 Sol on 2026-09-29.
 
 ## Current state
 
+- **2026-10-22:** The Decisions API is generally available: 400 questions per request
+  (up from 200), cached shared input, images in question instructions, and `input_json`
+  (details above). The announcement post could not be read (403), so the latency and
+  pricing claims at GA are unchecked.
 - **2026-10-21:** Ultrafast prices checked: 6x Standard on both models. The current
   guide says all API users have access. Older OpenAI pages still call it
   access-controlled.
@@ -105,6 +113,7 @@ pricing. GPT-6.1 Sol replaced GPT-6 Sol on 2026-09-29.
 - [OpenAI API changelog: GPT-6.1 Sol](../../sources/2026/10/2026-10-06-openai-api-changelog-gpt-6-1-sol.md)
 - [OpenAI API models and pricing: GPT-6 family](../../sources/2026/10/2026-10-06-openai-gpt-6-models-and-pricing.md)
 - [OpenAI Decisions API guide](../../sources/2026/10/2026-10-07-openai-decisions-api.md)
+- [OpenAI Decisions API generally available](../../sources/2026/10/2026-10-23-openai-decisions-api-ga.md)
 - [OpenAI API rate limits and usage tiers](../../sources/2026/10/2026-10-07-openai-api-usage-tiers.md)
 - [OpenAI Ultrafast mode guide](../../sources/2026/10/2026-10-09-openai-ultrafast-mode.md)
 - [Prompt caching: 12-hour lifetime (OpenAI API docs)](../../sources/2026/10/2026-10-21-openai-12-hour-prompt-caching.md)

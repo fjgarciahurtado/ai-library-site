@@ -2,7 +2,7 @@
 title: "Cost and caching"
 tags: [cost, caching, tokens]
 related: [fundamentals/tokens-and-context, models/claude, fundamentals/reasoning-models]
-last_reviewed: 2026-10-21
+last_reviewed: 2026-10-23
 ---
 
 ## Overview
@@ -61,7 +61,12 @@ Other levers:
   gap, such as a daily job or an agent idle overnight.
 - **Classification-only endpoints:** for routing and yes/no checks, OpenAI's Decisions API
   charges only for input ($0.10 per 1M tokens on `gpt-6-luna`, as of 2026-10-07) and
-  returns probabilities instead of generated text.
+  returns probabilities instead of generated text. Since GA (2026-10-22), shared input is
+  cached across requests and one request can ask up to 400 questions. Ollama's d3 models
+  (2B–27B, 2026-10-23) do the same job locally at no per-token cost.
+- **Watch the cache state:** the Ribbon plugin for Claude Code shows whether the prompt
+  cache is warm or cold and estimates the cost of the next message, so you can send
+  follow-ups before the cache expires.
 - **Paying for speed:** the same model can be bought at higher speed for a higher price.
   Claude Opus 5.5 fast mode costs 2x (generally available since 2026-10-15). OpenAI's
   Fast tier costs 2x, and its `ultrafast` tier on GPT-6 Astra and GPT-6.1 Sol costs 6x
@@ -102,6 +107,10 @@ legacy, costs $1 / $5.
 
 ## Current state
 
+- **2026-10-22:** The OpenAI Decisions API went GA with prompt-cache discounts on shared
+  input and 400 questions per request. Ribbon (new Claude Code plugin) shows cache
+  warmth and usage left above the prompt
+  (`/plugin install ribbon --marketplace robonuggets/ribbon`).
 - **2026-10-21:** Checked OpenAI's Ultrafast prices. They are 6x Standard (3x Fast) for
   both GPT-6 Astra and GPT-6.1 Sol (table above). Sources disagree on access: the current
   guide says Ultrafast is open to all API users, while an older API reference page and
@@ -142,4 +151,6 @@ legacy, costs $1 / $5.
 - [Claude Code releases 2.1.299 and 2.1.300](../../sources/2026/10/2026-10-15-claude-code-2-1-299-300.md)
 - [Fast mode (Claude API docs)](../../sources/2026/10/2026-10-20-claude-opus-5-5-fast-mode-ga.md)
 - [API credits for Max and Team plans](../../sources/2026/10/2026-10-20-claude-api-credits-max-team.md)
+- [OpenAI Decisions API generally available](../../sources/2026/10/2026-10-23-openai-decisions-api-ga.md)
+- [Ribbon](../../sources/2026/10/2026-10-23-ribbon-claude-code-usage-band.md)
 - [Prompt caching: 12-hour lifetime (OpenAI API docs)](../../sources/2026/10/2026-10-21-openai-12-hour-prompt-caching.md)

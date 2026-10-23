@@ -2,14 +2,15 @@
 title: "Claude (Anthropic)"
 tags: [anthropic, llm, reasoning, cost]
 related: [models/gpt, models/gemini, tooling/skills, tooling/mcp, tooling/coding-agents]
-last_reviewed: 2026-10-22
+last_reviewed: 2026-10-23
 ---
 
 ## Overview
 
 Claude is Anthropic's family of models, offered through claude.ai, the Claude API,
 Claude Code, and cloud platforms (Amazon Bedrock, Google Vertex AI, Microsoft Foundry,
-and Claude Platform on AWS). The lineup has tiers trading capability against price and
+Claude Platform on AWS, and, since 2026-10-22, Claude Models on Google Cloud
+(Anthropic managed)). The lineup has tiers trading capability against price and
 speed. Claude is especially strong at coding, agentic work, and long documents.
 
 ## Key concepts
@@ -86,12 +87,26 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
   up to $500 pooled for Team) for the API, Managed Agents, and the Agent SDK. They do not
   cover Claude Code (as of 2026-10-20; see
   [cost and caching](../practices/cost-and-caching.md)).
+- On Google Cloud there are two options. Vertex AI is run by Google. Claude Models on
+  Google Cloud (Anthropic managed, since 2026-10-22) is Anthropic's own API reached
+  through `claude.googleapis.com`, with Google IAM, Marketplace billing (1 Claude
+  Consumption Unit = $0.01), and Cloud Audit Logs. It supports nearly all first-party
+  features, including fast mode, skills, and Managed Agents, but not API keys or MCP
+  tunnels. Setup creates a new Anthropic organization, so files, skills, and agents do
+  not carry over.
 - Stream long requests. Use the Models API for live capability data; since 2026-10-15 it
   also reports whether a model accepts `between_tools` thinking.
 - Try lower effort on a strong model before adding a cascade of smaller models.
 
 ## Current state
 
+- **2026-10-22:** Claude Models on Google Cloud (Anthropic managed) launched, with Opus
+  5.5 fast mode available from day one (see How to use it). Python setup:
+  `pip install -U "anthropic[google_cloud]"`, then set `ANTHROPIC_GOOGLE_CLOUD_PROJECT`
+  and `ANTHROPIC_GOOGLE_CLOUD_WORKSPACE_ID`. Revoking IAM access does not stop Managed
+  Agents sessions or scheduled deployments that are already running.
+- **2026-10-22:** Anthropic donated the Agent Skills standard to the Agentic AI
+  Foundation (see [skills](../tooling/skills.md)).
 - **2026-10-21:** API version `2026-10-21` and new major SDK and `ant` CLI versions
   (see API versions and sampling). Other breaking changes: a `document` block in an
   `assistant` message and `citations` on `user` text now return 400, Admin and Analytics
@@ -166,3 +181,5 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 - [API credits for Max and Team plans](../../sources/2026/10/2026-10-20-claude-api-credits-max-team.md)
 - [Inference hooks (Claude docs)](../../sources/2026/10/2026-10-21-claude-inference-hooks-ga.md)
 - [Migrating to API version 2026-10-21](../../sources/2026/10/2026-10-22-claude-api-version-2026-10-21.md)
+- [Claude Models on Google Cloud (Anthropic managed)](../../sources/2026/10/2026-10-23-claude-on-google-cloud-anthropic-managed.md)
+- [Donating Agent Skills to the Agentic AI Foundation](../../sources/2026/10/2026-10-23-agent-skills-donated-to-aaif.md)
