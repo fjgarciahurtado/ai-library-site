@@ -2,7 +2,7 @@
 title: "GPT (OpenAI)"
 tags: [openai, llm, reasoning]
 related: [models/claude, models/gemini, tooling/coding-agents]
-last_reviewed: 2026-10-23
+last_reviewed: 2026-10-25
 ---
 
 ## Overview
@@ -21,14 +21,26 @@ pricing. GPT-6.1 Sol replaced GPT-6 Sol on 2026-09-29.
   and fastest).
 - **Reasoning built in:** reasoning effort is configurable instead of being a separate model line.
 - **Surfaces:** ChatGPT, Codex (coding agent), and the API (Responses API, Agents API,
-  Agents SDK, and the Decisions API for typed classification answers). The voice model
-  GPT-Live (`gpt-live-1`) can call the Decisions API mid-utterance (since 2026-10-15).
+  Agents SDK, and the Decisions API for typed classification answers).
+- **Voice:** GPT-Live (`gpt-live-1`) integrates natively with the Decisions API (since
+  2026-10-15): it can delegate to Decisions directly, or Decisions calls can fire on
+  transcript deltas, so a voice app can classify and act while the user is still
+  speaking (no pricing or latency figures given). Since 2026-10-16 prompt-to-voice lets
+  all API customers describe a voice in text and use it in GPT-Live sessions; creating
+  a voice is free and speech is billed at GPT-Live rates. Nine voices were added for
+  German, French, Hindi, Japanese, and Korean
+  ([OpenAI API changelog](https://developers.openai.com/api/docs/changelog), entries of
+  2026-10-15 and 2026-10-16).
 - **Usage tiers (since 2026-10-06):** Free ($100 a month in eligible countries), then
   Build (after $5 of credit purchases, $500 a month), Launch (after $100, $5,000 a month),
   and Grow (after $500, $200,000 a month). These replaced the earlier five tiers.
   Organisations move up automatically as their total credit purchases grow.
 - **Hosted agents:** the Responses API supports multi-agent runs (beta), and the Agents
-  API has hosted computer use (both since 2026-09-29).
+  API has hosted computer use (both since 2026-09-29). Since 2026-10-16 the Agents API's
+  hosted sandboxes include the Artifact SDK and skills for spreadsheets, presentations,
+  and Word documents. Agents attributed to OpenAI have also caused problems in the wild:
+  Wikimedia reported unauthorised edits, exploit attempts, and heavy traffic (2026-10-05;
+  see [security](../practices/security.md)).
 
 ## How to use it
 
@@ -58,7 +70,9 @@ pricing. GPT-6.1 Sol replaced GPT-6 Sol on 2026-09-29.
 - For lower latency between output tokens, set `service_tier: "ultrafast"` in the
   Responses API on `gpt-6-astra` (since 2026-09-29) or `gpt-6.1-sol` (since 2026-10-08,
   all API users); GPT-5.6 Sol is in preview. It costs 6x Standard (Sol $12 / $0.60 /
-  $60, Astra $60 / $6 / $300, as of 2026-10-21) and has its own rate limits. OpenAI
+  $60, Astra $60 / $6 / $300, as of 2026-10-21) and has its own rate limits. The current
+  guide says all API users have access, but older OpenAI pages still call it
+  access-controlled. OpenAI
   recommends WebSockets for agents. Sol's Ultrafast offers US or EU data residency, but
   Astra's has no EU residency (as of 2026-10-09). Since 2026-10-16 the Agents API also
   accepts `agent.service_tier: "ultrafast"`.
@@ -73,31 +87,10 @@ pricing. GPT-6.1 Sol replaced GPT-6 Sol on 2026-09-29.
   (up from 200), cached shared input, images in question instructions, and `input_json`
   (details above). The announcement post could not be read (403), so the latency and
   pricing claims at GA are unchecked.
-- **2026-10-21:** Ultrafast prices checked: 6x Standard on both models. The current
-  guide says all API users have access. Older OpenAI pages still call it
-  access-controlled.
-- **2026-10-20:** 12-hour prompt caching added to the Responses API (details above).
-- **2026-10-16:** The Agents API added Ultrafast mode (`agent.service_tier:
-  "ultrafast"`). Hosted sandboxes now include the Artifact SDK and skills for
-  spreadsheets, presentations, and Word documents
-  ([OpenAI API changelog](https://developers.openai.com/api/docs/changelog), entry of
-  2026-10-16).
-- **2026-10-16:** Prompt-to-voice is available to all API customers: describe a voice in
-  text (API or voice Playground) and use it in GPT-Live sessions. Creating a voice is
-  free; speech is billed at normal GPT-Live rates. Nine new voices were added for German,
-  French, Hindi, Japanese, and Korean
-  ([OpenAI API changelog](https://developers.openai.com/api/docs/changelog), entry of
-  2026-10-16).
-- **2026-10-15:** GPT-Live (`gpt-live-1`) now integrates natively with the Decisions
-  API: it can delegate to Decisions directly, or Decisions calls can fire on transcript
-  deltas, so a voice app can classify and act while the user is still speaking
-  ([OpenAI API changelog](https://developers.openai.com/api/docs/changelog), entry of
-  2026-10-15; no pricing or latency figures given).
-- **2026-10-08:** Ultrafast mode extended to GPT-6.1 Sol (details above).
-- **2026-10-06:** Decisions API released in beta, and API usage tiers cut from five to
-  three (details above).
-- **2026-10-05:** Wikimedia reported unauthorised edits, exploit attempts, and heavy
-  traffic from agents it attributes to OpenAI (see [security](../practices/security.md)).
+- **2026-10-20:** 12-hour prompt caching added to the Responses API for GPT-5.6 and
+  later (details above).
+- **2026-10-16:** Ultrafast mode reached the Agents API (`agent.service_tier:
+  "ultrafast"`), after GPT-6.1 Sol on 2026-10-08.
 
 ## Open questions
 

@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-10-23
+last_reviewed: 2026-10-25
 ---
 
 ## Overview
@@ -33,6 +33,31 @@ the de facto standard, with official SDKs in many languages.
   long-running operations) is an opt-in extension.
 - **MCP Apps:** servers can render interactive HTML UIs in a sandboxed iframe.
 - **MCP connector:** some APIs (including Claude's) can connect to remote MCP servers directly.
+- **Adoption of the stateless spec:** Claude Code negotiates the 2026-07-28 protocol by
+  default for local stdio servers since 2.1.292 (2026-10-06; opt out with
+  `MCP_PROTOCOL_NEGOTIATION=legacy`, and servers that do not answer fall back to the old
+  handshake), and for cloud session and Remote Control connectors since 2.1.299
+  (2026-10-14). Google ADK for Python supports MCP SDK 2.x as an opt-in (2.11,
+  2026-10-02), and Microsoft Agent Framework (Python) moved to MCP 2.x as a breaking
+  change in 1.23.0 (2026-10-22). Some servers on the new spec omit `resultType`, `ttlMs`,
+  or `cacheScope`, so clients must tolerate their absence (Claude Code fixed this in
+  2.1.302).
+- **Client behaviour in Claude Code:** MCP permission rules match exact server names
+  (`mcp__a` no longer matches `a__b`), and policy-blocked servers are not contacted
+  (2.1.299). Tool descriptions are capped at 4,096 characters by default. After a
+  dropped connection, an HTTP tool call is retried only if the tool is read-only or
+  idempotent (2.1.307). Cloud sessions do not wait for a plugin's stdio servers unless
+  the server sets `alwaysLoad: true`, and tool search is on by default behind a custom
+  `ANTHROPIC_BASE_URL` (2.1.304). Since 2.1.309 sandboxed commands cannot modify the
+  `--mcp-config` file.
+- **Notable new servers (October 2026):** MCPtoCodeMode (MIT) puts all your MCP servers
+  behind three tools (`search`, `describe`, `execute`); the model writes JavaScript that
+  runs in a QuickJS sandbox with no network or filesystem, and the project claims about
+  5.7× fewer input tokens (self-reported). Graphicle (pre-release) gives coding agents
+  code-graph tools (`query_graph`, `get_neighbors`, `shortest_path`) and memory tools
+  (see [memory](../agents/memory.md)). stalemap's `search_changes` tool reports
+  dependency changes after a model's cutoff (`npx -y stalemap@latest mcp`; see
+  [coding agents](coding-agents.md)).
 
 ## How to use it
 
@@ -41,54 +66,23 @@ the de facto standard, with official SDKs in many languages.
   into the model's context (see [security](../practices/security.md)).
 - Keep tool lists small; prefer clients that load tools on demand. With many servers, a
   "code mode" proxy such as MCPtoCodeMode exposes only search/describe/execute tools and
-  lets the model chain calls in sandboxed code.
+  lets the model chain calls in sandboxed code. Add it to Claude Code with
+  `claude mcp add codemode -- npx -y mcptocodemode serve`, or run
+  `npx -y mcptocodemode setup` for other agents.
 - Build a server when you want one integration usable from many AI clients.
 
 ## Current state
 
-- **2026-10-22:** MCPtoCodeMode (new, MIT) puts all your MCP servers behind three tools
-  (`search`, `describe`, `execute`). The model writes JavaScript that runs in a QuickJS
-  sandbox with no network or filesystem. Add it to Claude Code with
-  `claude mcp add codemode -- npx -y mcptocodemode serve`, or run
-  `npx -y mcptocodemode setup` for other agents. It claims about 5.7× fewer input tokens
-  (self-reported).
 - **2026-10-22:** Microsoft Agent Framework (Python) 1.23.0 migrates to MCP 2.x as a
   breaking change: new transports, errors, and schemas, and separate caller-owned and
   framework-owned client lifecycles.
-- **2026-10-22:** Claude Code 2.1.309: sandboxed commands can no longer modify the
-  `--mcp-config` file, and a disabled server is no longer reconnected by a later
-  permission prompt in print and SDK sessions.
-- **2026-10-22:** stalemap (new) offers a `search_changes` MCP tool for dependency changes
-  after a model's cutoff. Any MCP client can run it with `npx -y stalemap@latest mcp`
-  (see [coding agents](coding-agents.md)).
-- **2026-10-21:** Claude Code 2.1.307 retries an HTTP MCP tool call after a dropped
-  connection only if the tool is read-only or idempotent, because calls were being sent
-  twice. Servers recover after sleep instead of staying timed out in headless runs. On
-  macOS, `claude -p` explains "needs authentication" when the keychain is locked.
+- **2026-10-22:** Claude Code 2.1.309: a disabled server is no longer reconnected by a
+  later permission prompt in print and SDK sessions. 2.1.307 (2026-10-21) made servers
+  recover after sleep instead of staying timed out in headless runs.
 - **2026-10-20:** In Claude Code 2.1.305, `allowedMcpServers` no longer filters
   `managed-mcp.json` stdio servers that use `${VAR}` only in `env`. Organizations should
   add servers they mean to block to `deniedMcpServers`. A server set through the SDK's
   `setMcpServers` is no longer overridden by a same-named server from user settings.
-- **2026-10-20:** Graphicle (new, pre-release) is a local MCP server that gives coding
-  agents code-graph tools (`query_graph`, `get_neighbors`, `shortest_path`) and memory
-  tools. See [memory](../agents/memory.md).
-- **2026-10-19:** Claude Code 2.1.304: cloud sessions no longer wait for a plugin's
-  stdio MCP servers to start unless the server sets `alwaysLoad: true`, and tool search
-  is on by default behind a custom `ANTHROPIC_BASE_URL`.
-- **2026-10-16:** Claude Code 2.1.302 fixed servers that negotiate the 2026-07-28
-  protocol but omit `resultType`, `ttlMs`, or `cacheScope`: they had shown no tools or
-  failed every call. Servers on the new spec do not all send these fields yet, so clients
-  need to tolerate their absence.
-- **2026-10-14:** Claude Code 2.1.299 extends the 2026-07-28 protocol default to cloud
-  session and Remote Control connectors, so remote connections now negotiate it too.
-  MCP permission rules were tightened: `mcp__a` no longer matches a server named `a__b`,
-  and policy-blocked servers are reported as blocked without being contacted.
-- **2026-10-06:** Claude Code 2.1.292 negotiates the 2026-07-28 protocol by default for
-  local stdio servers (opt out with `MCP_PROTOCOL_NEGOTIATION=legacy`); servers that do
-  not answer the newer check fall back to the old handshake. Its default cap on MCP tool
-  descriptions rose to 4,096 characters on 2026-10-09.
-- **2026-10-02:** Google ADK for Python 2.11 adds opt-in support for MCP SDK 2.x, an
-  example of frameworks starting to move to the newer protocol.
 
 ## Open questions
 

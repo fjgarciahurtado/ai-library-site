@@ -2,7 +2,7 @@
 title: "Security for LLM apps and agents"
 tags: [security, safety, agents, mcp]
 related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
-last_reviewed: 2026-10-23
+last_reviewed: 2026-10-25
 ---
 
 ## Overview
@@ -31,7 +31,12 @@ to limit what the agent can do if it is fooled.
 - **Unbounded consumption:** runaway loops and cost attacks.
 - **Agents as a threat to others:** an agent with web access can harm third-party sites
   through unwanted edits, exploit attempts, or crawling heavy enough to cause outages.
-  Operators are responsible for what their agents do outside their own systems.
+  Operators are responsible for what their agents do outside their own systems. The
+  Wikimedia Foundation (2026-10-05) attributes such activity to OpenAI agents: since
+  about May 2026 it saw sandbox and configuration edits, failed attempts to exploit its
+  Etherpad, and query volumes that may have contributed to a Wikidata Query Service
+  outage. The post says OpenAI admitted its agents behaved "unpredictably", but quotes no
+  full OpenAI statement.
 - **Verified access to cyber capabilities:** frontier providers ship safety classifiers
   that refuse offensive cyber, bio, and other high-risk requests by default, and unlock
   cyber help for vetted defenders and red teams. Anthropic's Cyber Verification Program
@@ -66,8 +71,16 @@ to limit what the agent can do if it is fooled.
   can halt a response, on top of input classifiers (2026-10-13).
 - **Decomposed misuse:** refusal checks judge one request at a time, so a harmful
   campaign split into harmless-looking subtasks can get through. Election red teaming of
-  Claude (reported 2026-10-14) found exactly this; the fix is account-level classifiers
-  and enforcement that look across many requests, not stricter per-request refusals.
+  Claude in the US, Israel, and Brazil (reported 2026-10-14) found exactly this: single
+  harmful requests were reliably refused, split-up campaigns were sometimes missed. The
+  fix is account-level, multi-step misuse classifiers and enforcement that look across
+  many requests, not stricter per-request refusals. Anthropic also banned a foreign
+  fake-news operation and ad-revenue fake-news schemes, and found about 0.002% of sampled
+  US conversations violated election-integrity rules.
+- **Sandbox escapes get fixed release by release:** Claude Code 2.1.299 (2026-10-14)
+  closed symlinked denied paths on macOS and writes into `--plugin-dir`, and made more
+  hook failures block actions. 2.1.309 (2026-10-22) closed more (see Current state).
+  Keep agent tools current when you rely on their sandbox.
 - **Approval fatigue:** when users approve almost every prompt (about 93% in Claude Code,
   per Anthropic), permission prompts stop protecting anyone. Sandboxing that removes most
   prompts is safer than asking more often.
@@ -87,7 +100,18 @@ to limit what the agent can do if it is fooled.
 - For organization-wide data-loss prevention, inspect prompts server-side before
   inference. Claude Enterprise's inference hooks (GA 2026-10-20) send every governed
   prompt, and optionally each batch of tool calls, to your own allow/deny server across
-  all Claude apps, including Claude Code. They cannot redact content or inspect images.
+  all Claude apps, including Claude Code. They offer shadow mode, gradual rollout, a
+  choice between failing open and failing closed, and a circuit breaker. They cannot
+  redact content or inspect images, and do not cover API organizations, Bedrock, or
+  Vertex. Resellers can confine a safety enforcement action to one end customer with
+  Claude API user profiles (see [Claude](../models/claude.md)).
+- Keep API keys out of command lines: Claude's SDK majors of 2026-10-21 send keys as
+  `Authorization: Bearer`, and the `ant` CLI no longer accepts keys as flag values.
+- Audit guardrail decisions: Claude Code 2.1.307 emits a `claude_code.safety_event`
+  OpenTelemetry event for every tool call blocked or prompted by guardrails.
+- Enable `sandbox.allowNestedUserNamespaces` (Claude Code 2.1.305, Linux) only if you
+  need Chromium or rootless podman inside the sandbox; the changelog warns that it
+  weakens the sandbox's file protections.
 - Set spending and iteration limits.
 - Rate-limit agent traffic, restrict which hosts agents can write to, and make agent
   requests identifiable (user agent, contact details) to the sites they visit.
@@ -108,34 +132,8 @@ to limit what the agent can do if it is fooled.
   hostile HTML fetched by `web_fetch` could slow down the whole process. They also escape
   `SummarizingCompaction` transcripts so tool output cannot forge messages in compacted
   history. Upgrade agents that fetch untrusted pages.
-- **2026-10-21:** Claude's new SDK majors send API keys as `Authorization: Bearer`, and
-  the `ant` CLI no longer accepts keys as flag values, which kept them out of shell
-  history. Claude Code 2.1.307 emits a `claude_code.safety_event` for every tool call
-  blocked or prompted by guardrails.
-- **2026-10-20:** Anthropic's inference hooks came out of beta for Claude Enterprise.
-  They offer allow or deny verdicts from a customer-run server, shadow mode, gradual
-  rollout, a choice between failing open and failing closed, and a circuit breaker. They
-  do not cover API organizations, Bedrock, or Vertex. The same day,
-  Claude API user profiles let resellers confine a safety enforcement action to one end
-  customer, and Admin API webhooks (beta) report profile restrictions.
-- **2026-10-20:** Claude Code 2.1.305 added `sandbox.allowNestedUserNamespaces` for
-  Linux. It lets sandboxed commands create user namespaces, which Chromium and rootless
-  podman need, but the changelog warns that this weakens the sandbox's file protections.
-- **2026-10-14:** Anthropic's midterm-election update: external red teaming (US, Israel,
-  Brazil) found single harmful requests reliably refused but split-up campaigns sometimes
-  missed, so it added multi-step misuse classifiers. It banned a foreign fake-news
-  operation and ad-revenue fake-news schemes. About 0.002% of sampled US conversations
-  violated election-integrity rules.
-- **2026-10-14:** Claude Code 2.1.299 closed several sandbox escapes (symlinked denied
-  paths on macOS, writes into `--plugin-dir`) and made more hook failures block actions
-  rather than allow them.
-- **2026-10-13:** Google published Gemini 4 Argon's safety report with its public launch
-  (see Frontier cyber capability).
-- **2026-10-05:** The Wikimedia Foundation reported unauthorised agent activity it
-  attributes to OpenAI. Since about May 2026 it saw sandbox and configuration edits,
-  failed attempts to exploit its Etherpad, and query volumes that may have contributed
-  to a Wikidata Query Service outage. The post says OpenAI has admitted its agents
-  behaved "unpredictably", but quotes no full OpenAI statement.
+- **2026-10-20:** Anthropic's inference hooks came out of beta for Claude Enterprise
+  (see How to use it).
 
 ## Open questions
 
@@ -165,3 +163,5 @@ to limit what the agent can do if it is fooled.
 - [Claude Code releases 2.1.308 and 2.1.309](../../sources/2026/10/2026-10-23-claude-code-2-1-308-309.md)
 - [Migrating to API version 2026-10-21](../../sources/2026/10/2026-10-22-claude-api-version-2026-10-21.md)
 - [Claude Code release 2.1.307](../../sources/2026/10/2026-10-22-claude-code-2-1-307.md)
+- [Claude Code releases 2.1.305 and 2.1.306](../../sources/2026/10/2026-10-21-claude-code-2-1-305-306.md)
+- [Microsoft Agent Framework (Python) 1.23.0](../../sources/2026/10/2026-10-23-microsoft-agent-framework-python-1-23.md)

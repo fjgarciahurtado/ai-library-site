@@ -1,6 +1,6 @@
 ---
 title: "Building effective agents"
-url: https://www.anthropic.com/engineering/building-effective-agents
+url: https://www.anthropic.com/research/building-effective-agents
 archived:
 type: article
 author: Anthropic

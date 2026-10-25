@@ -1,6 +1,6 @@
 ---
 title: "How we contain Claude across products"
-url: https://www.anthropic.com/engineering/how-we-contain-claude
+url: https://www.anthropic.com/research/how-we-contain-claude
 archived:
 type: article
 author: Max McGuinness, Mikaela Grace, Jiri De Jonghe, Jake Eaton, Abel Ribbink (Anthropic)

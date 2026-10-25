@@ -2,7 +2,7 @@
 title: "Claude (Anthropic)"
 tags: [anthropic, llm, reasoning, cost]
 related: [models/gpt, models/gemini, tooling/skills, tooling/mcp, tooling/coding-agents]
-last_reviewed: 2026-10-23
+last_reviewed: 2026-10-25
 ---
 
 ## Overview
@@ -35,14 +35,25 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
   and `top_k`: sending any of them returns 400 on every model. Claude 4.7 and later
   already accepted only the defaults. Steer output with prompting instead. The SDK
   majors released the same day (Python 2.0, TypeScript 1.0, and others) send the new
-  version, send keys as `Authorization: Bearer`, and are Apache 2.0 licensed.
-  `2023-06-01` has no retirement date (checked 2026-10-22).
+  version, send keys as `Authorization: Bearer`, and are Apache 2.0 licensed. Other
+  breaking changes in `2026-10-21`: a `document` block in an `assistant` message and
+  `citations` on `user` text return 400, and Admin and Analytics API fields were renamed
+  (API keys report `scope` instead of `workspace_id`). Text Completions is gone from most
+  SDKs, and the `ant` CLI drops `--api-key`. On Bedrock the new version works only for
+  Claude 4.7 and later. `2023-06-01` has no retirement date (checked 2026-10-22).
 - **Prompt caching:** reuse of stable prompt prefixes at a large discount.
 - **Batch API:** asynchronous processing at about half price.
 - **Structured outputs:** JSON responses guaranteed to match a schema.
 - **Agent features:** [Skills](../tooling/skills.md), an [MCP](../tooling/mcp.md)
   connector, memory tool, compaction, and Managed Agents (Anthropic-hosted agent loop
-  and sandbox).
+  and sandbox). Anthropic donated the Agent Skills standard to the Agentic AI Foundation
+  on 2026-10-22.
+- **Platform governance:** inference hooks (GA for Claude Enterprise since 2026-10-20)
+  allow or deny every governed prompt server-side (see
+  [security](../practices/security.md)). `/v1/user_profiles` lets platforms tag requests
+  by end customer, so an enforcement action hits only that customer; profiles show
+  `enforcement_status`. Organization webhooks in the Admin API (beta, header
+  `webhooks-2026-10-07`) report profile restrictions.
 - **Refusals:** safety classifiers can end a response with `stop_reason: "refusal"`;
   server-side fallbacks can retry on another model.
 - **Cyber access:** cyber safeguards are relaxed for verified security professionals
@@ -57,8 +68,16 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
   hundred research projects. In Singapore (office opened 2026-10-14) an MOU with MDDI
   covers joint model evaluation and testing standards, and regulated customers use
   in-region inference on Amazon Bedrock.
-- **Independent evaluators:** METR staff work inside Anthropic with the right to publish
-  without approval; see [evals](../practices/evals.md) for the access tiers.
+- **Independent evaluators:** since 2026-10-15 six METR staff have "employee-like
+  access" (hardware, office, internal tools) and can publish without approval, apart
+  from redactions in three fixed categories. SecureBio reviews the CBRN chapter of the
+  August 2026 Risk Report, and Accenture and Faculty are negotiating broader evaluation
+  work. See [evals](../practices/evals.md) for the access tiers.
+- **Political neutrality:** Anthropic reports 99% on its political evenhandedness
+  evaluation for Opus 5.5, Sonnet 5.5, and Haiku 5.5 (2026-10-14), with fewer refusals of
+  political requests; external reviewers still flag unsolicited caveats. US Claude.ai
+  users get state-specific voting information and election-night results from Democracy
+  Works for the 2026 midterms.
 
 ## How to use it
 
@@ -81,8 +100,10 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 - Haiku 5.5 is the only current model priced by prompt length; the others bill the full
   1M window at one rate. Cache reads on Opus 5.5 and Sonnet 5.5 cost 5% of input.
 - Fast mode (`speed: "fast"`) is generally available on Opus 5.5 since 2026-10-15, at
-  $8 / $40 with up to 2.5x output speed. On Opus 5 and Opus 4.8 it is still a research
-  preview that needs the `fast-mode-2026-02-01` beta header.
+  $8 / $40 with up to 2.5x output speed. It needs no beta header or access request, has
+  a default fast mode rate limit in the Start, Build, and Scale tiers, and also works on
+  Microsoft Foundry deployments hosted on Azure. On Opus 5 and Opus 4.8 it is still a
+  research preview that needs the `fast-mode-2026-02-01` beta header.
 - Max and Team subscribers get monthly API credits ($100 for Max 5x, $200 for Max 20x,
   up to $500 pooled for Team) for the API, Managed Agents, and the Agent SDK. They do not
   cover Claude Code (as of 2026-10-20; see
@@ -93,7 +114,8 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
   Consumption Unit = $0.01), and Cloud Audit Logs. It supports nearly all first-party
   features, including fast mode, skills, and Managed Agents, but not API keys or MCP
   tunnels. Setup creates a new Anthropic organization, so files, skills, and agents do
-  not carry over.
+  not carry over. Python setup: `pip install -U "anthropic[google_cloud]"`, then set
+  `ANTHROPIC_GOOGLE_CLOUD_PROJECT` and `ANTHROPIC_GOOGLE_CLOUD_WORKSPACE_ID`.
 - Stream long requests. Use the Models API for live capability data; since 2026-10-15 it
   also reports whether a model accepts `between_tools` thinking.
 - Try lower effort on a strong model before adding a cascade of smaller models.
@@ -101,51 +123,21 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 ## Current state
 
 - **2026-10-22:** Claude Models on Google Cloud (Anthropic managed) launched, with Opus
-  5.5 fast mode available from day one (see How to use it). Python setup:
-  `pip install -U "anthropic[google_cloud]"`, then set `ANTHROPIC_GOOGLE_CLOUD_PROJECT`
-  and `ANTHROPIC_GOOGLE_CLOUD_WORKSPACE_ID`. Revoking IAM access does not stop Managed
-  Agents sessions or scheduled deployments that are already running.
-- **2026-10-22:** Anthropic donated the Agent Skills standard to the Agentic AI
-  Foundation (see [skills](../tooling/skills.md)).
+  5.5 fast mode from day one (see How to use it). Revoking IAM access does not stop
+  Managed Agents sessions or scheduled deployments that are already running.
 - **2026-10-21:** API version `2026-10-21` and new major SDK and `ant` CLI versions
-  (see API versions and sampling). Other breaking changes: a `document` block in an
-  `assistant` message and `citations` on `user` text now return 400, Admin and Analytics
-  API fields were renamed (API keys report `scope` instead of `workspace_id`), Text
-  Completions is gone from most SDKs, and the CLI drops `--api-key`. On Bedrock the new
-  version works only for Claude 4.7 and later. Claude Code 2.1.307 adds
-  `/claude-api api-version` to migrate code. User profiles now show
-  `enforcement_status`, so platforms can see which end customers Anthropic restricted.
-- **2026-10-20:** Inference hooks reached GA for Claude Enterprise (server-side
-  allow/deny on every governed prompt; see [security](../practices/security.md)). The
-  API added `/v1/user_profiles`, so platforms can tag requests by end customer and an
-  enforcement action hits only that customer. It also added organization webhooks to
-  the Admin API (beta, header `webhooks-2026-10-07`) for profile restrictions.
-- **2026-10-15:** Fast mode left research preview for Opus 5.5: no beta header or access
-  request, with a default fast mode rate limit in the Start, Build, and Scale tiers. It
-  is also available on Microsoft Foundry deployments hosted on Azure.
+  (see API versions and sampling). Claude Code 2.1.307 adds `/claude-api api-version`
+  to migrate code; check code and gateways for the new Bearer key header before upgrading.
 - **2026-10-18:** Anthropic created the Anthropic Public Benefit Fund, an LLC holding 5%
   of its shares (subject to stockholder approval), with 2% more possible per 50% rise in
   valuation above an unpublished baseline. The equity would otherwise have gone to
   executive compensation and may not fund lobbying or political giving. Anthropic puts
   the total share of equity dedicated to the public good at about 20%, counting founder
   and employee pledges. Governance details are promised "in the coming months".
-- **2026-10-15:** Anthropic gave six METR staff "employee-like access" (hardware, office,
-  internal tools) with the right to publish without approval, apart from redactions in
-  three fixed categories. SecureBio is reviewing the CBRN chapter of the August 2026 Risk
-  Report; Accenture and Faculty are negotiating broader evaluation work.
-- **2026-10-14:** Anthropic reports that Opus 5.5, Sonnet 5.5, and Haiku 5.5 score 99%
-  on its political evenhandedness evaluation and refuse fewer political requests. Later
-  in October, US Claude.ai users get state-specific official voting information and
-  election-night results in the chat (data from Democracy Works). External reviewers
-  still flag unsolicited caveats. See [security](../practices/security.md) for misuse
-  findings.
 - **2026-10-08:** Anthropic published a revised Usage Policy, effective 2026-11-12. It
   adds a section on fake account networks, narrows the elections rules to voter deception
   (personalised campaign targeting is now allowed), spells out weapons, surveillance, and
   law-enforcement limits, and bans sustained cruelty towards models in extreme cases.
-- **2026-10-07:** Claude Haiku 5.5 released, completing the 5.5 family (details above).
-  Monthly API credits for Max and Team plans launched the same day. Anthropic's docs
-  confirm the amounts Simon Willison reported (answered 2026-10-20).
 
 ## Open questions
 

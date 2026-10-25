@@ -2,7 +2,7 @@
 title: "Cost and caching"
 tags: [cost, caching, tokens]
 related: [fundamentals/tokens-and-context, models/claude, fundamentals/reasoning-models]
-last_reviewed: 2026-10-23
+last_reviewed: 2026-10-25
 ---
 
 ## Overview
@@ -39,8 +39,8 @@ Other levers:
   off-peak rates are half its peak rates, so scheduling flexible work matters.
 - **Long-context surcharges and introductory prices:** check where price tiers change.
   OpenAI charges more above 272K input tokens, Google's Gemini 4 Argon prices double
-  after 2026-11-30, and Gemini 3.8 Flash prices double on 2027-01-01. Google's Pro models also charge more above 200K input tokens.
-  Claude Haiku 5.5 costs 5x more above 100K prompt tokens, while other current Claude
+  after 2026-11-30, and Gemini 3.8 Flash prices double on 2027-01-01. Google's Pro
+  models also charge more above 200K input tokens. Claude Haiku 5.5 costs 5x more above 100K prompt tokens, while other current Claude
   models charge one rate across their 1M window.
 - **Cache read discounts differ by model:** most providers charge about 10% of input for
   cache reads, but Claude Opus 5.5 and Sonnet 5.5 charge 5% and Fable 5.1 2.5% (as of
@@ -70,8 +70,12 @@ Other levers:
 - **Paying for speed:** the same model can be bought at higher speed for a higher price.
   Claude Opus 5.5 fast mode costs 2x (generally available since 2026-10-15). OpenAI's
   Fast tier costs 2x, and its `ultrafast` tier on GPT-6 Astra and GPT-6.1 Sol costs 6x
-  Standard (checked 2026-10-21). Use them only where latency matters to users. Falling back from Claude fast mode to standard speed misses
-  the prompt cache, because the two speeds do not share cached prefixes.
+  Standard (checked 2026-10-21). Sources disagree on Ultrafast access: the current guide
+  says it is open to all API users, while an older API reference page and the Fast mode
+  FAQ still call it access-controlled with an `OpenAI-Service-Tier` header. Use these
+  tiers only where latency matters to users. Falling back from Claude fast mode to
+  standard speed misses the prompt cache, because the two speeds do not share cached
+  prefixes.
 - **Subscription-included API credits:** Claude Max and Team plans include monthly
   Claude API credits ($100 to $500, as of 2026-10-20). They expire each billing cycle and
   do not cover Claude Code, so they suit small Agent SDK or Managed Agents workloads.
@@ -108,23 +112,13 @@ legacy, costs $1 / $5.
 ## Current state
 
 - **2026-10-22:** The OpenAI Decisions API went GA with prompt-cache discounts on shared
-  input and 400 questions per request. Ribbon (new Claude Code plugin) shows cache
-  warmth and usage left above the prompt
-  (`/plugin install ribbon --marketplace robonuggets/ribbon`).
-- **2026-10-21:** Checked OpenAI's Ultrafast prices. They are 6x Standard (3x Fast) for
-  both GPT-6 Astra and GPT-6.1 Sol (table above). Sources disagree on access: the current
-  guide says Ultrafast is open to all API users, while an older API reference page and
-  the Fast mode FAQ still call it access-controlled with an `OpenAI-Service-Tier` header.
+  input and 400 questions per request; GA pricing is still unchecked because the
+  announcement returns 403. Ribbon (new Claude Code plugin) shows cache warmth and usage
+  left above the prompt (`/plugin install ribbon --marketplace robonuggets/ribbon`).
 - **2026-10-20:** OpenAI added a 12-hour prompt cache lifetime to the Responses API
-  (details above).
-- **2026-10-15:** Claude Opus 5.5 fast mode became generally available, with default
-  rate limits in the Start, Build, and Scale tiers. Its price is unchanged.
-- **2026-10-07:** Claude Max and Team plans started including monthly API credits
   (details above).
 - **2026-10-13:** Gemini 4 Argon launched at introductory prices equal to GPT-6.1 Sol
   ($2 / $10), doubling after 2026-11-30.
-- **2026-10-08:** OpenAI extended the Ultrafast service tier to GPT-6.1 Sol.
-- **2026-10-07:** Claude Haiku 5.5 launched with prompt-length pricing (table above).
 
 ## Open questions
 

@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-10-23
+last_reviewed: 2026-10-25
 ---
 
 ## Overview
@@ -30,6 +30,16 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
   across agents.
 - **Plugins:** bundles of skills, commands, hooks, agents, and MCP servers that can be
   shared through marketplaces (Claude Code plugins).
+- **Skills API:** `/v1/skills` manages skills on the Claude API; it is generally
+  available and no longer needs the beta header (as of 2026-10-04).
+- **Long sessions in Claude Code:** since 2.1.304 (2026-10-19) the full skill list is
+  resent after compaction, so skills stay discoverable; `/reload-skills` sends only new
+  or changed skills, and one source can register at most 1,024 skill hooks per session.
+- **Example third-party skill:** Dashboard Design (MIT, 2026-10-21) builds and critiques
+  analytics dashboards (web and SwiftUI) with a screenshot QA pass. Install it with
+  `/plugin marketplace add abdiraimov-otabek/dashboard-design-skill`, then
+  `/plugin install dashboard-design@dashboard-design-skill`. It adds a promotional
+  sign-off once per conversation unless you turn it off.
 
 ## How to use it
 
@@ -50,16 +60,6 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
   clashes with another is offered as `<folder>:<name>`. The bundled `/claude-api` skill
   builds Managed Agents teams on `multiagent_20261001`, and dataviz adds APCA contrast
   checks.
-- **2026-10-21:** Dashboard Design (new, MIT) is a skill for building and critiquing
-  analytics dashboards (web and SwiftUI) with a screenshot QA pass. Install it with
-  `/plugin marketplace add abdiraimov-otabek/dashboard-design-skill`, then
-  `/plugin install dashboard-design@dashboard-design-skill`. It adds a promotional
-  sign-off once per conversation unless you turn it off.
-- **2026-10-19:** Claude Code 2.1.304 resends the full skill list after compaction, so
-  skills stay discoverable in long sessions. `/reload-skills` now sends only new or
-  changed skills, and one source can register at most 1,024 skill hooks per session.
-- **2026-10-04:** The Skills API (`/v1/skills`) is generally available; the earlier beta
-  header is no longer needed.
 
 ## Open questions
 

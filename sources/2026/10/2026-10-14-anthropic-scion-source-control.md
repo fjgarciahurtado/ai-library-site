@@ -1,6 +1,6 @@
 ---
 title: "Redesigning source control at Anthropic"
-url: https://www.anthropic.com/engineering/redesigning-source-control
+url: https://www.anthropic.com/research/redesigning-source-control
 archived: http://web.archive.org/web/20261013191925/https://www.anthropic.com/engineering/redesigning-source-control
 type: article
 author: Anthropic

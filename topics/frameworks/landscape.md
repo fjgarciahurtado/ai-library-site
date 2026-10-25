@@ -2,7 +2,7 @@
 title: "Agent and LLM framework landscape"
 tags: [frameworks, agents, sdk]
 related: [agents/agent-patterns, agents/tool-use, tooling/mcp]
-last_reviewed: 2026-10-23
+last_reviewed: 2026-10-25
 ---
 
 ## Overview
@@ -27,7 +27,17 @@ now start from vendor SDKs and add a framework only when it clearly helps.
     workflows, SQLite memory, and opt-in MCP SDK 2.x support. Google's Agents CLI
     (scaffold, eval, deploy) no longer requires ADK: since 1.8.0 a LangChain extension
     deploys LangChain or LangGraph agents to Cloud Run, and Git-hosted extensions can
-    override commands, for example to add an SBOM scan before deploy.
+    override commands, for example to add an SBOM scan before deploy (`agents-cli create
+    my-agent --agent google/agents-cli/extensions/langchain/template@v1.8.0 -d
+    cloud_run`). Extensions are experimental and pinned to a commit.
+- **Local runtimes:** Ollama runs open models locally behind an OpenAI-compatible API,
+  and `ollama launch` wires them into coding agents such as Claude Code (it clamps
+  Claude Code's auto-compact window since 0.40.7). Recent releases: 0.40.7
+  reports each model's chat template source, widens speculative decoding, and adds
+  Perplexity's `pplx-decider` (27B); 0.40.8 adds Recursive's Flint coding model; 0.40.9
+  (2026-10-22) adds Phonon text-to-speech (Apple Silicon, also on `/v1/audio/speech`),
+  d3 decision models (2B–27B) for local classification, and Flint on Linux and Windows
+  (see [open-weight models](../models/open-weight.md)).
 - **Orchestration frameworks:**
   - LangChain / LangGraph: components plus graph-based, stateful agent workflows.
     LangGraph 1.2 (2026-05-12) resumes error handlers durably after host crashes and
@@ -40,10 +50,20 @@ now start from vendor SDKs and add a framework only when it clearly helps.
     experimental job runner.
   - Microsoft Agent Framework: successor to AutoGen and Semantic Kernel, for .NET and
     Python. Version 1.0 (2026-04-03) brought stable APIs, long-term support, MCP and A2A
-    interop, and migration guides from both predecessors.
+    interop, and migration guides from both predecessors. Python 1.23.0 (2026-10-22)
+    moved to MCP 2.x as a breaking change, requires AG-UI endpoints to declare an auth
+    scope or single-user mode, and renames the Docker shell's `extra_run_args` to
+    `unsafe_extra_run_args`.
   - Pydantic AI: typed, Python-first agents, with near-daily minor releases. The 2.5x
-    line added sandboxed workspaces (E2B, SSH, Bubblewrap, Sprites, and Daytona since
-    2.59), plugins, and its own `clai2` terminal agent.
+    line added sandboxed workspaces (E2B, SSH, Bubblewrap, Sprites, Daytona since 2.59,
+    and local `DockerSandbox` for Docker/Podman and `BoxLiteSandbox` micro-VMs since
+    2.60), plugins, and its own `clai2` terminal agent. 2.58 (2026-10-20) added hard
+    limits on runs (`timeout=`, `RunContext.deadline`) and model requests
+    (`request_timeout`, `max_retries`), steering for delegated tasks, and an
+    `openai-chatgpt` provider that signs in with a ChatGPT plan. 2.59 added ElevenLabs
+    realtime, `non_retryable_model_errors` for Temporal, and cache-preserving
+    `on_change='append'` instructions. 2.60 (2026-10-22) added judge-model `SmartSearch`
+    code search, `RelevanceCompaction`, and per-run `auth`/`headers` for `MCPToolset`.
   - Vercel AI SDK: TypeScript toolkit for AI apps, UIs, and agents. Version 7
     (2026-06-25) adds per-tool approval policies, durable resumable runs
     (`WorkflowAgent`), layered timeouts, a portable sandbox abstraction, OpenTelemetry
@@ -89,36 +109,13 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 
 Release features are described under Key concepts.
 
-- **2026-10-22:** Pydantic AI v2.60.0 adds local sandboxes for its harness
-  (`DockerSandbox` for Docker/Podman, `BoxLiteSandbox` micro-VMs), judge-model
-  `SmartSearch` code search and `RelevanceCompaction`, and per-run `auth`/`headers` for
-  `MCPToolset`.
-- **2026-10-22:** Microsoft Agent Framework (Python) 1.23.0 migrates to MCP 2.x
-  (breaking). AG-UI endpoints now need an explicit auth scope or a single-user
-  declaration, and the Docker shell's `extra_run_args` is renamed
-  `unsafe_extra_run_args`.
-- **2026-10-23:** Ollama v0.40.9 adds Phonon text-to-speech (Apple Silicon, also on
-  `/v1/audio/speech`), d3 decision models (2B–27B, from vLLM Semantic Router) for local
-  classification, and Flint on Linux and Windows.
-- **2026-10-21:** Anthropic released new major SDK versions for API version
-  `2026-10-21`; upgrading breaks code that sets `temperature`, `top_p`, or `top_k`, or
-  proxies that read `X-Api-Key`.
-- **2026-10-21:** Google's Agents CLI 1.8.0 ships a first-party LangChain extension
-  (`agents-cli create my-agent --agent google/agents-cli/extensions/langchain/template@v1.8.0 -d cloud_run`)
-  and an experimental extension system with commit-pinned, Git-hosted extensions.
-- **2026-10-20/21:** Pydantic AI v2.59.0 fixes a high-severity `web_fetch` HTML
-  denial-of-service issue (GHSA-4whf-38hw-pxxh, also fixed in 1.107.9). It adds
-  `DaytonaSandbox`, `ElevenLabsRealtimeModel`, `non_retryable_model_errors` for
-  Temporal, and cache-preserving `on_change='append'` instructions.
-- **2026-10-21:** Ollama v0.40.8 adds Recursive's Flint coding model (macOS only until
-  v0.40.9; see [open-weight models](../models/open-weight.md)).
-- **2026-10-21:** Ollama v0.40.7: `ollama show` reports each model's chat template
-  source, more draft models work for speculative decoding, and `ollama launch claude`
-  clamps Claude Code's auto-compact window. It adds Perplexity's `pplx-decider` (27B).
-- **2026-10-20:** Pydantic AI v2.58.0 adds hard limits on agent runs (`timeout=`,
-  `RunContext.deadline`) and model requests (`request_timeout`, `max_retries`), steering
-  for delegated tasks, an `openai-chatgpt` provider that lets users sign in with their
-  ChatGPT plan, and ElevenLabs realtime support.
+- **2026-10-22:** Microsoft Agent Framework (Python) 1.23.0 is a breaking upgrade (MCP
+  2.x, AG-UI auth); check MCP client code before upgrading.
+- **2026-10-21:** Anthropic's new SDK majors break code that sets `temperature`,
+  `top_p`, or `top_k`, and proxies that read `X-Api-Key`.
+- **2026-10-20/21:** Pydantic AI v2.59.0 (and 1.107.9) fix a high-severity `web_fetch`
+  HTML denial-of-service issue (GHSA-4whf-38hw-pxxh); upgrade agents that fetch
+  untrusted pages.
 
 ## Open questions
 

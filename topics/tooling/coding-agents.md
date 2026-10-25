@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-10-23
+last_reviewed: 2026-10-25
 ---
 
 ## Overview
@@ -30,11 +30,35 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   trusts the project (Anthropic, May 2026; see [security](../practices/security.md)).
   Since 2.1.304 (2026-10-19), `/auto-mode-setup` teaches the auto mode classifier about
   a project, and a permission mod can answer `decider: "person"` to require a human
-  decision even under auto mode.
+  decision even under auto mode (`e.isReadOnly` is also available to mods). Since
+  2.1.302, headless sessions on third-party providers start in `default` permission
+  mode, and `CLAUDE_CODE_AUTO_MODE_MODEL` picks the client-side classifier model.
 - **Extensibility:** [skills](skills.md), slash commands, hooks, subagents, plugins,
   and [MCP](mcp.md) servers. Hooks used as guardrails should fail closed: since 2.1.295
   (2026-10-08), Claude Code hooks can set `onFailure: "block"` so that a hook that
-  crashes or times out blocks the action.
+  crashes or times out blocks the action; 2.1.294 fixed a bug that let instruction-style
+  `prompt` hooks allow what they should block. At most 12 hooks run per event at once
+  (2.1.302). Subagents take an `effort` parameter (2.1.292), and fork subagents are on
+  by default in `claude -p`, the Agent SDK, desktop, and VS Code (2.1.302), where
+  subagents always run in the background.
+- **Observability:** Claude Code emits OpenTelemetry with GenAI attributes (2.1.300),
+  fields that explain why auto mode allowed or blocked a tool call (2.1.301), and a
+  `claude_code.safety_event` for every tool call stopped or prompted by rules, auto mode,
+  hooks, or the sandbox (2.1.307). `/usage` (2.1.305) shows usage and applies suggested
+  fixes with `f`.
+- **Context handling:** idle sessions are compacted before the prompt cache expires
+  (2.1.299), `@` mentions pass paths instead of contents, and switching to a
+  smaller-context model summarises first (2.1.301).
+- **Add-ons for everyday work** (all new in October 2026, MIT): Ribbon shows usage left,
+  reset times, and prompt-cache warmth above the prompt
+  (`/plugin install ribbon --marketplace robonuggets/ribbon`; see
+  [cost and caching](../practices/cost-and-caching.md)). stalemap (JS/TS only) tells an
+  agent which npm dependencies changed after its training cutoff: it writes notes into
+  `CLAUDE.md`/`AGENTS.md`, adds an edit-time type-check guard, and provides a
+  `search_changes` MCP tool (`/plugin marketplace add Umair/stalemap`, then
+  `/plugin install stalemap@stalemap`). For local models, Ollama 0.40.9 (2026-10-22) runs
+  the Flint coding model on macOS, Linux, and Windows, and `ollama launch` passes cloud
+  model context lengths to coding tools.
 - **Background and scheduled agents:** run in the cloud on a schedule or trigger.
 - **SDKs:** for example the Claude Agent SDK packages the Claude Code harness as a
   library for building your own agents.
@@ -54,7 +78,9 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   human's. Review rounds are capped at three to make review converge. Anthropic reports
   merged PRs more than doubled from June to September 2026 while the reverted share fell
   by over 40% (Anthropic's own figures). The hosted Claude Code Review product offers
-  Quick, Standard, and Deep levels per organization or repository (since 2026-10-19).
+  Quick, Standard, and Deep levels per organization or repository and can review every
+  repository in an organization (since 2026-10-19); `@claude review stop` ends an
+  always-on subscription (2.1.307).
 
 ## How to use it
 
@@ -74,56 +100,16 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   normal Bash prompt and `/rewind` does not undo it. `claude ultrareview` needs workspace
   trust (`--trust-workspace` in scripts). Dangerous `rm` in bypass mode on Desktop and
   VS Code is denied with a rewrite hint.
-- **2026-10-22:** Ribbon (new, MIT) is a Claude Code plugin that shows usage left, reset
-  times, and whether the prompt cache is warm or cold above the prompt. Install it with
-  `/plugin install ribbon --marketplace robonuggets/ribbon`. See
-  [cost and caching](../practices/cost-and-caching.md).
-- **2026-10-22:** Ollama 0.40.9 brings the Flint coding model to Linux and Windows, and
-  `ollama launch` now passes cloud model context lengths to coding tools.
-- **2026-10-22:** stalemap (new, MIT, JS/TS only) tells an agent which npm dependencies
-  changed after its training cutoff. It writes notes into `CLAUDE.md`/`AGENTS.md`, adds
-  an edit-time type-check guard, and provides a `search_changes` MCP tool. Install with
-  `/plugin marketplace add Umair/stalemap` and then `/plugin install stalemap@stalemap`.
 - **2026-10-21:** Claude Code 2.1.307: `/claude-api api-version` migrates Claude API code
-  to API version `2026-10-21` (see [Claude](../models/claude.md)). A
-  `claude_code.safety_event` OpenTelemetry event fires for every tool call stopped or
-  prompted by rules, auto mode, hooks, or the sandbox. `@claude review stop` ends an
-  always-on Code Review subscription. Unparseable tool calls are retried twice. Self-hosted
-  runner checkout hooks now time out after 30 minutes by default.
+  to API version `2026-10-21` (see [Claude](../models/claude.md)). Unparseable tool
+  calls are retried twice, and self-hosted runner checkout hooks now time out after 30
+  minutes by default.
 - **2026-10-20/21:** Claude Code 2.1.305 fixes a 2.1.304 regression that broke all
   requests on Bedrock, Vertex, and gateways that reject tool search, so skip 2.1.304
   there. It adds `sandbox.allowNestedUserNamespaces` on Linux (Chromium and rootless
-  podman inside the sandbox, at the cost of weaker file protection), a `/usage` view
-  where `f` applies the suggested fixes, and a usage-limit recheck for the unattended
-  retry watchdog. Workflow resume now reuses completed agents from the journal. 2.1.306
-  fixes `claude -p` in cloud sessions and spurious "prompt is too long" errors with many
-  MCP tools.
-- **2026-10-19:** Claude Code 2.1.304: `/auto-mode-setup`, Code Review levels (Quick,
-  Standard, Deep) and an option to review every repository in an organization,
-  `decider: "person"` and `e.isReadOnly` for permission mods, settings-layer rewriting
-  for managed mods, a usage warning before expensive resumes on Pro and Max, and tool
-  search on by default behind custom gateways.
-- **2026-10-16:** Claude Code 2.1.302: fork subagents on by default in `claude -p`, the
-  Agent SDK, desktop, and VS Code; desktop and VS Code always run subagents in the
-  background; headless sessions on third-party providers start in `default` permission
-  mode; `CLAUDE_CODE_AUTO_MODE_MODEL` for the client-side classifier; at most 12 hooks per
-  event at once; an MCP compatibility fix. 2.1.303 is fixes only.
-- **2026-10-15:** The Claude Code team described its code review process (see
-  Reviewing agent-written code).
-- **2026-10-15:** Claude Code 2.1.301: a cap on how long unattended retry mode waits for
-  usage limits, OpenTelemetry fields that show why auto mode allowed or blocked a tool
-  call, summarise-first switching to smaller-context models, and fixes for silent
-  Grep/Glob failures and hook-created worktrees deleted on quit.
-- **2026-10-14:** Claude Code 2.1.299 and 2.1.300: idle compaction before the prompt
-  cache expires, `@` mentions that pass paths instead of contents, stricter MCP allow
-  rules, more fail-closed hook and sandbox behaviour, and OpenTelemetry GenAI attributes.
-- **2026-10-13:** Anthropic described Scion, its in-house git replacement (see
-  Infrastructure at agent scale).
-- **2026-10-06 to 2026-10-09:** Claude Code 2.1.292–2.1.296: the stateless MCP protocol
-  becomes the default for local servers, the Agent tool takes an `effort` parameter for
-  subagents, hooks can fail closed, Claude Haiku 5.5 becomes the default Haiku (2.1.293),
-  and 2.1.294 fixed a bug that let instruction-style `prompt` hooks allow what they
-  should block.
+  podman inside the sandbox, at the cost of weaker file protection). 2.1.306 fixes
+  `claude -p` in cloud sessions and spurious "prompt is too long" errors with many MCP
+  tools.
 
 ## Open questions
 
@@ -152,3 +138,4 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [stalemap](../../sources/2026/10/2026-10-22-stalemap-post-cutoff-dependency-changes.md)
 - [Claude Code releases 2.1.308 and 2.1.309](../../sources/2026/10/2026-10-23-claude-code-2-1-308-309.md)
 - [Ribbon](../../sources/2026/10/2026-10-23-ribbon-claude-code-usage-band.md)
+- [Ollama v0.40.9](../../sources/2026/10/2026-10-23-ollama-v0-40-9-phonon-d3.md)

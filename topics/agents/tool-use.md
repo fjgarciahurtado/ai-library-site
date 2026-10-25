@@ -2,7 +2,7 @@
 title: "Tool use (function calling)"
 tags: [tool-use, agents, structured-output]
 related: [agents/agent-patterns, tooling/mcp, tooling/skills]
-last_reviewed: 2026-10-23
+last_reviewed: 2026-10-25
 ---
 
 ## Overview
@@ -34,7 +34,8 @@ how LLMs act in the world and the core of every agent.
   `auto` with clear instructions, strict schemas, or structured outputs instead.
 - **Hosted computer use:** providers increasingly run the browser or desktop for the
   agent (OpenAI's Agents API since 2026-09-29), while the application handles site
-  approvals and sign-in.
+  approvals and sign-in. Computer use has also reached small models: Claude Haiku 5.5
+  (2026-10-07) supports computer and browser use.
 
 ## How to use it
 
@@ -50,9 +51,6 @@ how LLMs act in the world and the core of every agent.
 - **2026-10-22:** MCPtoCodeMode (MIT) is a code-mode proxy for MCP tools. Its author
   reports about 5.7× fewer input tokens on test tasks (self-reported). See
   [MCP](../tooling/mcp.md) for install commands.
-- **2026-10-07:** Claude Haiku 5.5 added computer and browser use to Anthropic's
-  smallest tier.
-- **2026-09-29:** OpenAI's Agents API added hosted computer use.
 
 ## Open questions
 

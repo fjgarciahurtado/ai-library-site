@@ -2,7 +2,7 @@
 title: "Open-weight models"
 tags: [open-source, llm, deployment, fine-tuning]
 related: [fundamentals/training-and-fine-tuning, practices/cost-and-caching]
-last_reviewed: 2026-10-23
+last_reviewed: 2026-10-25
 ---
 
 ## Overview
@@ -69,6 +69,22 @@ Apache 2.0 (Qwen3.5) to a custom community licence for Qwen3.8-Flash-Next. Qwen3
 linear attention in most layers, and Qwen3.8-Flash-Next adds sparse attention to that
 (see [transformers](../fundamentals/transformers.md)).
 
+Recursive's Flint (2026-10-21) is a small MoE built for coding agents. Its model card
+gives 39.8B total and about 2.5B active parameters (2.2B without the output head), 256
+experts with 6 active, mixed sliding-window and full attention, 262K context, training
+from scratch, a June 2026 cutoff, and Apache 2.0. Full precision needs one B300 or H200
+per replica (SGLang); for local use, `ollama run flint` (about 23 GB) works on macOS
+since Ollama 0.40.8 and on Linux and Windows since 0.40.9, and `ollama launch` connects
+it to Claude Code and OpenCode. Recursive reports SWE-bench Verified 74.2%,
+Terminal-Bench 2.1 54.9%, and an unusually high 89.7% on SWE-bench Pro v2 (average
+pass@1 over at least 5 runs, with mini-swe-agent and Terminus 2; publisher figures only).
+Ollama 0.40.9 also added d3 decision models (2B, 4B, 9B, 27B, from vLLM Semantic Router)
+for local classification and yes/no scoring.
+
+Small open models are also adapted for private, on-device use: Google DeepMind and
+Singapore's government built a scam detector on a fine-tuned lightweight Gemma
+(2026-10-14), though the fine-tuned model is not being released.
+
 Open weights are also spreading to non-language foundation models. Mistral's Timestral
 (2026-10-15) is its first family of time-series forecasting models: four sizes (5M, 28M,
 123M, 209M) on Hugging Face under a Modified MIT licence, with 32K-step context and
@@ -77,8 +93,13 @@ model leads pre-trained zero-shot models on GIFT-Eval, TIME, and fev-bench, ahea
 Chronos-2 and TimesFM-3 (vendor claims). Google's EmbeddingGemma 2 (2026-10-06, 740M
 parameters, Apache 2.0) is an open multimodal embedding model small enough for phones;
 see [embeddings](../fundamentals/embeddings.md). Mistral's Voxtral 3 speech family
-(2026-10-20) offers self-hosting, but unlike Voxtral 1 (Apache 2.0) its announcement
-names no licence and does not say whether the weights are downloadable.
+(2026-10-20) covers voice agents: Small and Mini (4B) batch transcription, a realtime
+model under 500 ms, a TTS model, and a Voice Agent SDK on LiveKit, from $0.0035 per
+minute for transcription and $13 per 1M characters for TTS. Mistral reports about 4.1%
+WER on FLEURS for Small, against about 16% for Whisper large-v3 (vendor figures). It
+offers self-hosting, but unlike Voxtral 1 (Apache 2.0) its announcement names no licence
+and does not say whether the weights are downloadable. Ollama 0.40.9 added Phonon speech
+models on Apple Silicon.
 
 Meta has not released open weights since Llama 4. Its newer Muse models are API-only:
 Muse Spark 1.1 (2026-07-09) and Muse Wonder / Muse Wonder Full (2026-10-12), its
@@ -96,34 +117,15 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 
 ## Current state
 
-- **2026-10-23:** Ollama v0.40.9 runs Flint on Linux and Windows as well as macOS. It
-  adds d3 decision models (2B, 4B, 9B, 27B, from vLLM Semantic Router) for local
-  classification and yes/no scoring, and Phonon speech on Apple Silicon.
-- **2026-10-23 (gap filled):** Recursive's model card confirms Flint's figures: 39.8B
-  total, about 2.5B active (2.2B without the output head), 256 experts with 6 active,
-  mixed sliding-window and full attention, 262K context, trained from scratch, June 2026
-  cutoff, Apache 2.0. Full precision needs one B300 or H200 per replica (SGLang); Ollama
-  and quantized builds cover local use. The benchmark scores are Recursive's own: average
-  pass@1 over at least 5 runs, with mini-swe-agent and Terminus 2.
-- **2026-10-21:** Recursive's Flint, an Apache 2.0 MoE model built for coding agents
-  (39.8B total, about 2.5B active, 23 GB), arrived in Ollama v0.40.8 (`ollama run flint`).
-  It works with `ollama launch` for Claude Code and OpenCode. Publisher scores: SWE-bench
-  Verified 74.2%, Terminal-Bench 2.1 54.9%, and an unusually high 89.7% on SWE-bench Pro
-  v2.
-- **2026-10-20:** Mistral released Voxtral 3 for voice agents: Small and Mini (4B) batch
-  transcription, a realtime model under 500 ms, a TTS model, and a Voice Agent SDK on
-  LiveKit. Prices start at $0.0035 per minute for transcription and $13 per 1M
-  characters for TTS. Mistral reports about 4.1% WER on FLEURS for Small, against about
-  16% for Whisper large-v3 (vendor figures). The licence is not stated.
+- **2026-10-21:** Recursive's Flint coding model arrived in Ollama (see above); local
+  builds now cover macOS, Linux, and Windows, but its benchmarks have no independent
+  results yet.
+- **2026-10-20:** Mistral released Voxtral 3 (see above); the licence and weight
+  availability are still not stated.
 - **2026-10-17:** DeepSeek released V4.1-Flash-1017 (MIT weights, 1M context) with large
   agentic-coding gains on its own benchmarks, for example Terminal-Bench 4.0 42.3 vs 31.2
   for V4.1-Flash. It also opened Search and Fetch APIs at $0.75 per 1,000 calls, free
   through Claude Code, Codex, and DeepSeek Harness until 2026-10-31.
-- **2026-10-15:** Mistral released Timestral, open time-series models (see above).
-- **2026-10-14:** Google DeepMind and Singapore's government announced an on-device scam
-  detector built on a fine-tuned lightweight Gemma, an example of small open models
-  adapted for private, on-device use. The fine-tuned model itself is not being released.
-- **2026-10-12:** Meta released Muse Wonder, again without open weights (see above).
 - **2026-10-06:** Mistral Large 4 (1T total / 49B active, multimodal MoE) entered API
   preview as `mistral-large-4-0` at $1.36 / $4.18 per 1M tokens. Mistral promises open
   weights at the end of October 2026, but has not stated the licence or context length.
