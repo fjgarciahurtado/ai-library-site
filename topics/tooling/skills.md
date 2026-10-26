@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-10-25
+last_reviewed: 2026-10-26
 ---
 
 ## Overview
@@ -40,6 +40,11 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
   `/plugin marketplace add abdiraimov-otabek/dashboard-design-skill`, then
   `/plugin install dashboard-design@dashboard-design-skill`. It adds a promotional
   sign-off once per conversation unless you turn it off.
+- **Learning skill:** rederive (MIT) teaches you a codebase by having you work out its
+  design decisions yourself, while a background agent maps the repo. It works with about
+  25 agents: `npx skills add EricJujianZou/rederive` (add `-g` for all projects), then
+  `/rederive`. In Claude Code you can also run
+  `/plugin marketplace add EricJujianZou/rederive`.
 
 ## How to use it
 
@@ -51,6 +56,9 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 
 ## Current state
 
+- **2026-10-26:** rederive, a new MIT skill that teaches a codebase by asking questions
+  instead of explaining (246 stars in its first week), is in today's GitHub trends. It
+  keeps its map and your progress log in a local `.rederive/` folder that git ignores.
 - **2026-10-22:** Anthropic donated Agent Skills (spec, name, GitHub org, agentskills.io)
   to the Agentic AI Foundation. Maintainers from Anthropic, Google, OpenAI, and others
   now steer it. Anthropic reports about 1 million skills published and nearly 280
@@ -75,3 +83,4 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 - [Dashboard Design: a Claude Code skill for analytics dashboards](../../sources/2026/10/2026-10-21-dashboard-design-skill.md)
 - [Donating Agent Skills to the Agentic AI Foundation](../../sources/2026/10/2026-10-23-agent-skills-donated-to-aaif.md)
 - [Claude Code releases 2.1.308 and 2.1.309](../../sources/2026/10/2026-10-23-claude-code-2-1-308-309.md)
+- [rederive](../../sources/2026/10/2026-10-26-rederive-learn-codebase-skill.md)

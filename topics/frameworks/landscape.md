@@ -2,7 +2,7 @@
 title: "Agent and LLM framework landscape"
 tags: [frameworks, agents, sdk]
 related: [agents/agent-patterns, agents/tool-use, tooling/mcp]
-last_reviewed: 2026-10-25
+last_reviewed: 2026-10-26
 ---
 
 ## Overview
@@ -24,7 +24,13 @@ now start from vendor SDKs and add a framework only when it clearly helps.
   - OpenAI SDKs and the OpenAI Agents SDK (still 0.x; 0.23 hardened sandboxes,
     sessions, MCP, and realtime agents).
   - Google's Agent Development Kit (ADK); 2.11 added run cancellation, tool approval in
-    workflows, SQLite memory, and opt-in MCP SDK 2.x support. Google's Agents CLI
+    workflows, SQLite memory, and opt-in MCP SDK 2.x support. 2.13 (2026-10-22)
+    promoted 12 experimental features to stable. It added classifier nodes for routing
+    (`LlmClassifier`, `TypesafeClassifier`, `ClassifierNode`), MongoDB session and
+    memory services, live-audio barge-in, and eval commands whose exit code reflects
+    pass or fail. Breaking change: telemetry now defaults to OpenTelemetry GenAI v2 and
+    drops the `call_llm` span (opt out with
+    `ADK_TELEMETRY_SCHEMA_VERSION_OPT_IN=otel_semconv_1_36`). Google's Agents CLI
     (scaffold, eval, deploy) no longer requires ADK: since 1.8.0 a LangChain extension
     deploys LangChain or LangGraph agents to Cloud Run, and Git-hosted extensions can
     override commands, for example to add an SBOM scan before deploy (`agents-cli create
@@ -64,6 +70,9 @@ now start from vendor SDKs and add a framework only when it clearly helps.
     realtime, `non_retryable_model_errors` for Temporal, and cache-preserving
     `on_change='append'` instructions. 2.60 (2026-10-22) added judge-model `SmartSearch`
     code search, `RelevanceCompaction`, and per-run `auth`/`headers` for `MCPToolset`.
+    2.61 (2026-10-23) added structured citations on `TextPart`, normalized across
+    Bedrock, OpenRouter, and xAI. It also added Kimi K3.1 Pro models and
+    `Shell.max_log_bytes`, and made the durable engine's extension API public.
   - Vercel AI SDK: TypeScript toolkit for AI apps, UIs, and agents. Version 7
     (2026-06-25) adds per-tool approval policies, durable resumable runs
     (`WorkflowAgent`), layered timeouts, a portable sandbox abstraction, OpenTelemetry
@@ -97,18 +106,23 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 
 | Framework | Latest stable | Date | Note |
 |---|---|---|---|
-| Microsoft Agent Framework | Python 1.23.0 / .NET 1.25.0 | 2026-10-22 / 2026-10-14 | 1.0 GA on 2026-04-03; Python 1.23 moves to MCP 2.x (checked 2026-10-23) |
-| OpenAI Agents SDK (Python) | 0.24.0 | 2026-10-15 | Still 0.x; adds MCP annotations on converted tools (checked 2026-10-22) |
-| Google ADK (Python) | 2.12.0 | 2026-10-13 | `after_tool_callback` output filtering, workflow node confirmation (checked 2026-10-22) |
-| Pydantic AI | 2.60.0 | 2026-10-22 | Near-daily minor releases (checked 2026-10-23) |
+| Microsoft Agent Framework | Python 1.23.0 / .NET 1.26.0 | 2026-10-22 / 2026-10-23 | 1.0 GA on 2026-04-03; Python 1.23 moves to MCP 2.x; .NET 1.26 has breaking AG-UI auth-scope and Docker parameter changes (checked 2026-10-26) |
+| OpenAI Agents SDK (Python) | 0.24.0 | 2026-10-15 | Still 0.x; adds MCP annotations on converted tools (checked 2026-10-26) |
+| Google ADK (Python) | 2.13.0 | 2026-10-22 | Classifier nodes, 12 features stable, OTel GenAI v2 default (checked 2026-10-26) |
+| Pydantic AI | 2.61.0 | 2026-10-23 | Near-daily minor releases (checked 2026-10-26) |
 | CrewAI | 1.15.28 | 2026-10-14 | 1.15.0 on 2026-06-25 (checked 2026-10-22 on GitHub) |
 | LlamaIndex | 0.14.25 | 2026-09-21 | Patch release; no note |
-| LangGraph | 1.2.14 | 2026-10-06 | 1.2.0 on 2026-05-12; dates from PyPI (checked 2026-10-08) |
+| LangGraph | 1.2.17 | 2026-10-24 | 1.2.0 on 2026-05-12; 1.2.17 is fixes only, and langgraph-sdk 0.4.9 adds thread priority (checked 2026-10-26 on GitHub) |
 | DSPy | 3.4.1 | 2026-10-12 | 3.4.0 on 2026-09-25; 3.0.0 on 2025-08-12 (checked 2026-10-22) |
 | Vercel AI SDK | 7.x | 2026-06-25 (7.0) | Latest 7.x patch not checked; date from Vercel's announcement (checked 2026-10-16) |
 
 Release features are described under Key concepts.
 
+- **2026-10-23:** Pydantic AI 2.61.0 adds structured citations that work the same across
+  providers.
+- **2026-10-22:** Google ADK (Python) 2.13.0 changes the default telemetry schema to
+  OpenTelemetry GenAI v2. Dashboards that use the `call_llm` span need changes, or set
+  the opt-in variable, before you upgrade.
 - **2026-10-22:** Microsoft Agent Framework (Python) 1.23.0 is a breaking upgrade (MCP
   2.x, AG-UI auth); check MCP client code before upgrading.
 - **2026-10-21:** Anthropic's new SDK majors break code that sets `temperature`,
@@ -144,3 +158,5 @@ Release features are described under Key concepts.
 - [Pydantic AI v2.60.0](../../sources/2026/10/2026-10-23-pydantic-ai-v2-60.md)
 - [Microsoft Agent Framework (Python) 1.23.0](../../sources/2026/10/2026-10-23-microsoft-agent-framework-python-1-23.md)
 - [Ollama v0.40.9](../../sources/2026/10/2026-10-23-ollama-v0-40-9-phonon-d3.md)
+- [Google ADK (Python) v2.13.0](../../sources/2026/10/2026-10-26-google-adk-python-v2-13.md)
+- [Pydantic AI v2.61.0](../../sources/2026/10/2026-10-26-pydantic-ai-v2-61.md)

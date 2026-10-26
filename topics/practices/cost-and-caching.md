@@ -2,7 +2,7 @@
 title: "Cost and caching"
 tags: [cost, caching, tokens]
 related: [fundamentals/tokens-and-context, models/claude, fundamentals/reasoning-models]
-last_reviewed: 2026-10-25
+last_reviewed: 2026-10-26
 ---
 
 ## Overview
@@ -95,12 +95,16 @@ on the date shown; prices change often, so recheck before relying on them.
 | Claude Haiku 5.5 | $0.10 / $0.01 / $0.50 | Prompts ≤100K; 5x above. Batch halves both tiers | 2026-10-08 |
 | GPT-6 Astra | $10 / $1.00 / $50 | Above 272K input: input 2x, output 1.5x (all GPT-6). Fast $20 / $2 / $100; Ultrafast $60 / $6 / $300; Batch and Flex $5 / $0.50 / $25 | 2026-10-21 |
 | GPT-6.1 Sol | $2 / $0.10 / $10 | Fast $4 / $0.20 / $20; Ultrafast $12 / $0.60 / $60; Batch and Flex $1 / $0.05 / $5 | 2026-10-21 |
+| Kimi K3.1 Pro (Moonshot) | $2 / not checked / $10 | From Simon Willison's post, not Moonshot's pricing page. Highspeed variant costs 2x; cached input costs the same | 2026-10-23 |
 | GPT-6 Luna | $0.10 / $0.01 / $0.50 | Decisions API: $0.10 input only | 2026-10-07 |
 | Gemini 4 Argon | $2 / $0.10 / $10 | Introductory; $4 / $20 after 2026-11-30 (same as Opus 5.5). Cached price applies to implicit cache hits only. 1M shared input-output limit | 2026-10-15 |
 | Gemini 3.1 Pro Preview | $2.00 / $0.20 / $12.00 | Above 200K: $4.00 / $0.40 / $18.00 | 2026-10-07 |
 | Gemini 2.5 Pro | $1.25 / $0.125 / $10.00 | Above 200K: $2.50 / $0.25 / $15.00 | 2026-10-07 |
 | Gemini 3.8 Flash | $0.75 / $0.075 / $3.75 | Doubles to $1.50 / $0.15 / $7.50 on 2027-01-01; cache storage $0.50 per 1M per hour (rising to $1.00) | 2026-10-06 |
+| Gemini 3.6 Flash | $0.75 / $0.075 / $3.75 | Same as 3.8 Flash, including the doubling on 2027-01-01 | 2026-10-26 |
 | Gemini 3.5 Flash | $1.50 / $0.15 / $9.00 | | 2026-10-07 |
+| Gemini 3.5 Flash-Lite | $0.30 / $0.03 / $2.50 | One price for all input types; no change scheduled. Plus cache storage | 2026-10-26 |
+| Gemini 3.1 Flash-Lite | $0.25 / $0.025 / $1.50 | Audio input $0.50 | 2026-10-26 |
 | Gemini 2.5 Flash | $0.30 / $0.03 / $2.50 | Audio input costs more | 2026-10-07 |
 | Gemini 2.5 Flash-Lite | $0.10 / $0.01 / $0.40 | Audio input costs more | 2026-10-07 |
 | DeepSeek `deepseek-flash` (V4.1-Flash) | $0.30 / $0.006 / $1.20 | Peak rate; off-peak is half | 2026-10-05 |
@@ -111,6 +115,13 @@ legacy, costs $1 / $5.
 
 ## Current state
 
+- **2026-10-26:** Rechecked Google's
+  [pricing page](../../sources/2026/10/2026-10-07-gemini-api-pricing.md) (updated
+  2026-10-22). It now lists Gemini 3.5
+  Flash-Lite at $0.30 / $2.50, more than 3.1 Flash-Lite ($0.25 / $1.50), and 3.6 Flash
+  at the same price as 3.8 Flash.
+- **2026-10-23:** Kimi K3.1 Pro launched at $2 / $10 (reported by Simon Willison), the
+  same as GPT-6.1 Sol and Gemini 4 Argon's introductory price.
 - **2026-10-22:** The OpenAI Decisions API went GA with prompt-cache discounts on shared
   input and 400 questions per request; GA pricing is still unchecked because the
   announcement returns 403. Ribbon (new Claude Code plugin) shows cache warmth and usage
@@ -122,9 +133,6 @@ legacy, costs $1 / $5.
 
 ## Open questions
 
-- Prices for Gemini 3.5 Flash-Lite and 3.6 Flash. Partly answered on 2026-10-07: the
-  pricing page lists Pro prices (3.1 Pro Preview, 2.5 Pro) and 2.5 Flash-Lite, but has no
-  3.x Flash-Lite price.
 - OpenAI Ultrafast prices: answered 2026-10-21 (6x Standard). Still unknown: how much
   faster it is. OpenAI gives no tokens-per-second figure.
 
@@ -148,3 +156,4 @@ legacy, costs $1 / $5.
 - [OpenAI Decisions API generally available](../../sources/2026/10/2026-10-23-openai-decisions-api-ga.md)
 - [Ribbon](../../sources/2026/10/2026-10-23-ribbon-claude-code-usage-band.md)
 - [Prompt caching: 12-hour lifetime (OpenAI API docs)](../../sources/2026/10/2026-10-21-openai-12-hour-prompt-caching.md)
+- [Kimi K3.1 Pro](../../sources/2026/10/2026-10-26-kimi-k3-1-pro.md)

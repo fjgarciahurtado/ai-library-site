@@ -2,7 +2,7 @@
 title: "Gemini (Google)"
 tags: [google, llm, multimodal]
 related: [models/claude, models/gpt, models/open-weight]
-last_reviewed: 2026-10-18
+last_reviewed: 2026-10-26
 ---
 
 ## Overview
@@ -65,11 +65,18 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
   2026-10-14): 4 Argon $2 / $10 until 2026-11-30, then $4 / $20; 3.8 Flash
   $0.75 / $3.75 (doubling on 2027-01-01; 3.7 Flash was priced the same), 3.5 Flash
   $1.50 / $9.00 (deprecated), 3.1 Pro Preview $2 / $12 ($4 / $18 above 200K), 2.5 Pro
-  $1.25 / $10, 2.5 Flash-Lite $0.10 / $0.40 (the only Flash-Lite model with a listed
-  price). See [cost and caching](../practices/cost-and-caching.md).
+  $1.25 / $10, 2.5 Flash-Lite $0.10 / $0.40. Added on 2026-10-26 from the page updated
+  2026-10-22: 3.6 Flash $0.75 / $3.75 (the same as 3.8 Flash, including the doubling),
+  3.5 Flash-Lite $0.30 / $2.50, and 3.1 Flash-Lite $0.25 / $1.50. See
+  [cost and caching](../practices/cost-and-caching.md).
 
 ## Current state
 
+- **2026-10-26:** Rechecked the [Gemini Developer API pricing](../../sources/2026/10/2026-10-07-gemini-api-pricing.md)
+  page (updated 2026-10-22). It now lists the July 2026 models.
+  3.5 Flash-Lite, which Google recommends for new projects, costs $0.30 / $2.50, more
+  than 3.1 Flash-Lite. 3.6 Flash costs the same as 3.8 Flash, so there is no saving in
+  choosing it.
 - **2026-10-15:** The Gemini API model page labels `gemini-4-argon` Stable, and the
   changelog lists it as GA from 2026-10-13.
 - **2026-10-14:** Google DeepMind and Singapore's government announced an on-device scam
@@ -88,8 +95,6 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
   2026-10-15).
 - Argon is Stable and GA on the Gemini API (answered 2026-10-15). Its status on the Gemini
   Enterprise Agent Platform (Vertex AI) was not checked.
-- Google directs new projects to Gemini 3.5 Flash-Lite, but the pricing page (2026-10-07)
-  lists no price for it or for 3.6 Flash.
 - Is traffic routed from deprecated 3.5 Flash to 3.6 Flash billed at the 3.6 Flash
   price? Neither the deprecations page nor the changelog says (checked 2026-10-12).
 - Nano Banana 2.1 per-image prices were not on its model page on 2026-10-07.

@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-10-25
+last_reviewed: 2026-10-26
 ---
 
 ## Overview
@@ -49,7 +49,8 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - **Context handling:** idle sessions are compacted before the prompt cache expires
   (2.1.299), `@` mentions pass paths instead of contents, and switching to a
   smaller-context model summarises first (2.1.301).
-- **Add-ons for everyday work** (all new in October 2026, MIT): Ribbon shows usage left,
+- **Add-ons for everyday work** (added to the library in October 2026; MIT unless
+  noted): Ribbon shows usage left,
   reset times, and prompt-cache warmth above the prompt
   (`/plugin install ribbon --marketplace robonuggets/ribbon`; see
   [cost and caching](../practices/cost-and-caching.md)). stalemap (JS/TS only) tells an
@@ -58,7 +59,15 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   `search_changes` MCP tool (`/plugin marketplace add Umair/stalemap`, then
   `/plugin install stalemap@stalemap`). For local models, Ollama 0.40.9 (2026-10-22) runs
   the Flint coding model on macOS, Linux, and Windows, and `ollama launch` passes cloud
-  model context lengths to coding tools.
+  model context lengths to coding tools. Context Mode (Elastic License 2.0) keeps large
+  tool output in a sandbox and returns only what the code prints
+  (`/plugin marketplace add mksglu/context-mode`, then
+  `/plugin install context-mode@context-mode`; see [MCP](mcp.md)). The rederive skill
+  helps you learn a repo by asking you to work out its design
+  (`npx skills add EricJujianZou/rederive`; see [skills](skills.md)).
+- **Comparing models on one task:** VS Code 1.143 (2026-10-22) has this built in as a
+  preview. Each model works in its own session, and a judge model can pick the best
+  result or merge them. Before, people ran parallel worktrees by hand.
 - **Background and scheduled agents:** run in the cloud on a schedule or trigger.
 - **SDKs:** for example the Claude Agent SDK packages the Claude Code harness as a
   library for building your own agents.
@@ -93,6 +102,22 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
+- **2026-10-23:** Claude Code 2.1.310: the Monitor tool and plugin monitors now work on
+  Bedrock, Vertex, and Foundry and with telemetry off, where long foreground sleeps are
+  now blocked. It retries without the `effort` beta or mid-conversation system messages
+  when a gateway rejects them. On Windows it closes a fail-open path for hooks whose
+  command is only quoted strings. Enterprise custom roles now cover cloud sessions and
+  Remote Control.
+- **2026-10-23:** Codex CLI 0.164.0 adds `/presets` (ten slots for prompts, slash
+  commands, or permission settings) and inline `/model` and `/permissions` arguments,
+  image previews in Kitty and Sixel terminals, enterprise MCP sign-in, and credential
+  masking in remote shells.
+- **2026-10-22:** VS Code 1.143 makes the Copilot harness (Copilot SDK, Agent Host) the
+  default for new sessions. It adds a preview that runs one task with several models,
+  with a Judge model to score the results and **Synthesize** to merge them
+  (`sessions.chat.compareAgents.enabled`). Experimental: a local MAI Code 1.1 Flash
+  model (needs a 96 GB NVIDIA GPU). Admins can require plugins with `enabledPlugins`,
+  and those plugins install automatically.
 - **2026-10-22:** Claude Code 2.1.309 (2.1.308 is fixes only) closes several sandbox
   gaps: shell startup files ran outside the sandbox, `denyWrite` failed through symlinks,
   and sandboxed commands could edit the `--mcp-config` file. It also tightens `Edit` deny
@@ -139,3 +164,6 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [Claude Code releases 2.1.308 and 2.1.309](../../sources/2026/10/2026-10-23-claude-code-2-1-308-309.md)
 - [Ribbon](../../sources/2026/10/2026-10-23-ribbon-claude-code-usage-band.md)
 - [Ollama v0.40.9](../../sources/2026/10/2026-10-23-ollama-v0-40-9-phonon-d3.md)
+- [Claude Code release 2.1.310](../../sources/2026/10/2026-10-26-claude-code-2-1-310.md)
+- [Codex CLI 0.164.0](../../sources/2026/10/2026-10-26-codex-cli-0-164-presets.md)
+- [VS Code 1.143](../../sources/2026/10/2026-10-26-vscode-1-143-compare-models.md)

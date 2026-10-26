@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-10-25
+last_reviewed: 2026-10-26
 ---
 
 ## Overview
@@ -57,7 +57,12 @@ the de facto standard, with official SDKs in many languages.
   code-graph tools (`query_graph`, `get_neighbors`, `shortest_path`) and memory tools
   (see [memory](../agents/memory.md)). stalemap's `search_changes` tool reports
   dependency changes after a model's cutoff (`npx -y stalemap@latest mcp`; see
-  [coding agents](coding-agents.md)).
+  [coding agents](coding-agents.md)). Context Mode (Elastic License 2.0, about 32,000
+  stars) handles the output side. It runs large tool calls in a sandbox
+  (`ctx_execute`, 12 runtimes) and returns only stdout. It indexes fetched pages for
+  search and keeps session events in SQLite so work state survives compaction
+  ([memory](../agents/memory.md)). It claims about 98% less output in one example
+  (self-reported).
 
 ## How to use it
 
@@ -69,10 +74,20 @@ the de facto standard, with official SDKs in many languages.
   lets the model chain calls in sandboxed code. Add it to Claude Code with
   `claude mcp add codemode -- npx -y mcptocodemode serve`, or run
   `npx -y mcptocodemode setup` for other agents.
+- If tool *results* (logs, test output, web pages) are what fill your context, try
+  Context Mode: `claude mcp add context-mode -- npx -y context-mode`, or install it as a
+  plugin (`/plugin marketplace add mksglu/context-mode`) to get its routing hooks.
 - Build a server when you want one integration usable from many AI clients.
 
 ## Current state
 
+- **2026-10-23:** Codex CLI 0.164.0 lets MCP connections sign in with Codex account
+  grants or a dedicated sign-in, including OAuth clients that need a secret. Tool-list
+  changes now apply within a turn, and coordinated OAuth refresh is on by default.
+  Claude Code 2.1.310 tells Claude not to repeat a call that timed out waiting for an
+  unanswered elicitation in a headless session.
+- **2026-10-22:** Google ADK (Python) 2.13.0 has only MCP fixes. Its notes do not say
+  MCP SDK 2.x became the default.
 - **2026-10-22:** Microsoft Agent Framework (Python) 1.23.0 migrates to MCP 2.x as a
   breaking change: new transports, errors, and schemas, and separate caller-owned and
   framework-owned client lifecycles.
@@ -90,8 +105,10 @@ the de facto standard, with official SDKs in many languages.
   ADK supports MCP SDK 2.x only as an opt-in (2026-10-02), while Claude Code has used the
   new protocol by default for local servers since 2026-10-06 and for its cloud and
   Remote Control connectors since 2026-10-14. Microsoft Agent Framework (Python) moved to
-  MCP 2.x in 1.23.0 (2026-10-22). Still unknown: other major clients, and how many
-  servers support it.
+  MCP 2.x in 1.23.0 (2026-10-22). Checked 2026-10-26: the Codex 0.164 and ADK 2.13
+  release notes do not mention the 2026-07-28 protocol, and modelcontextprotocol.io has
+  no client support matrix. Still unknown: other major clients, and how many servers
+  support it.
 
 ## Sources
 
@@ -108,3 +125,6 @@ the de facto standard, with official SDKs in many languages.
 - [MCPtoCodeMode](../../sources/2026/10/2026-10-23-mcptocodemode-mcp-code-mode-proxy.md)
 - [Microsoft Agent Framework (Python) 1.23.0](../../sources/2026/10/2026-10-23-microsoft-agent-framework-python-1-23.md)
 - [Claude Code releases 2.1.308 and 2.1.309](../../sources/2026/10/2026-10-23-claude-code-2-1-308-309.md)
+- [Codex CLI 0.164.0](../../sources/2026/10/2026-10-26-codex-cli-0-164-presets.md)
+- [Context Mode](../../sources/2026/10/2026-10-26-context-mode-tool-output-sandbox.md)
+- [Google ADK (Python) v2.13.0](../../sources/2026/10/2026-10-26-google-adk-python-v2-13.md)

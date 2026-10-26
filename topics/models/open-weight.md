@@ -2,7 +2,7 @@
 title: "Open-weight models"
 tags: [open-source, llm, deployment, fine-tuning]
 related: [fundamentals/training-and-fine-tuning, practices/cost-and-caching]
-last_reviewed: 2026-10-25
+last_reviewed: 2026-10-26
 ---
 
 ## Overview
@@ -44,6 +44,7 @@ As of 2026-10-22, checked against official model cards and announcements:
 | Qwen3.5-397B-A17B | 2026-02-16 | 397B / 17B (MoE) | 262K native, ~1M with YaRN | Apache 2.0 |
 | Flint (Recursive, coding agents) | 2026-10-21 (on Ollama) | 39.8B / ~2.5B (MoE), per model card | 262K | Apache 2.0 |
 | Gemma 4 (E2B to 31B) | 2026-04-03 | 2.3B effective to 31B dense; 26B A4B MoE | 128K–256K | Apache 2.0 |
+| Kimi K3.1 Pro (Moonshot; weights due by 2026-11-04) | 2026-10-23 (API) | "3T-class"; no details | 1M | not stated |
 | Mistral Large 4 (weights due end of Oct 2026) | 2026-10-06 (API preview) | 1T / 49B (MoE) | not stated | not stated |
 | Mistral Large 3 | 2025-12-02 | ~675B / 41B (MoE) | 256K | Apache 2.0 |
 | gpt-oss-120b / gpt-oss-20b (OpenAI) | 2025-08 | 117B / 5.1B; 21B / 3.6B (MoE, MXFP4) | not stated on model cards | Apache 2.0 |
@@ -117,6 +118,12 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 
 ## Current state
 
+- **2026-10-23:** Moonshot released Kimi K3.1 Pro (`kimi-k3.1-pro`, plus a 2–3× faster
+  `-highspeed` variant at twice the price) on its API, apps, and Kimi Code, with a 1M
+  context. It promises full weights by 2026-11-04 but names no licence. On Moonshot's own
+  figures it scores 65.7% on Terminal-Bench 4.0 (Opus 5.5: 66.4%). Artificial Analysis
+  ranks it second, behind Opus 5.5 (both reported by Simon Willison). Price per Willison:
+  $2 / $10 per 1M tokens.
 - **2026-10-21:** Recursive's Flint coding model arrived in Ollama (see above); local
   builds now cover macOS, Linux, and Windows, but its benchmarks have no independent
   results yet.
@@ -149,7 +156,11 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 - Did Llama 4 Behemoth ever ship? No primary source has been found.
 - Did Alibaba's Qwen 3.7 Max (May 2026) ship as API-only, without weights? Only a
   secondary report says so (noted 2026-10-04); no primary source has been found.
-- Add primary sources for Kimi and GLM. (gpt-oss added 2026-10-19 from the model card
+- Kimi K3.1 Pro: check on or after 2026-11-04 whether the weights shipped, under which
+  licence, and with what architecture. The price comes from Simon Willison, not from
+  Moonshot's pricing page.
+- Add a primary source for GLM. (Kimi was added 2026-10-26 from Moonshot's K3.1 Pro
+  post; gpt-oss added 2026-10-19 from the model card
   paper and Hugging Face cards; its context length is still to be confirmed from the
   full paper.)
 - Why does the V4.1-Flash-1017 Hugging Face page list 763B parameters when V4.1-Flash
@@ -179,3 +190,4 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 - [Ollama v0.40.8 and Flint](../../sources/2026/10/2026-10-22-ollama-flint-coding-model.md)
 - [Flint model card (Recursive)](../../sources/2026/10/2026-10-23-recursive-flint-model-card.md)
 - [Ollama v0.40.9](../../sources/2026/10/2026-10-23-ollama-v0-40-9-phonon-d3.md)
+- [Kimi K3.1 Pro](../../sources/2026/10/2026-10-26-kimi-k3-1-pro.md)
