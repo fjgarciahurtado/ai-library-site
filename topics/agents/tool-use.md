@@ -2,7 +2,7 @@
 title: "Tool use (function calling)"
 tags: [tool-use, agents, structured-output]
 related: [agents/agent-patterns, tooling/mcp, tooling/skills]
-last_reviewed: 2026-10-25
+last_reviewed: 2026-10-27
 ---
 
 ## Overview
@@ -48,6 +48,12 @@ how LLMs act in the world and the core of every agent.
 
 ## Current state
 
+- **2026-10-26:** webframe (MIT, Go) runs a page in the system's own web view from the
+  shell: console output goes to stdout, and JavaScript can be piped in on stdin. It is a
+  light, Playwright-free browser tool an agent can call (`go install
+  tractor.dev/webframe/cmd/webframe@latest`). Simon Willison's evaluation found it fast
+  for scraping but limited: CSP failures, a 0×0 viewport, hanging loads, and no HTTP
+  metadata.
 - **2026-10-22:** MCPtoCodeMode (MIT) is a code-mode proxy for MCP tools. Its author
   reports about 5.7× fewer input tokens on test tasks (self-reported). See
   [MCP](../tooling/mcp.md) for install commands.
@@ -65,3 +71,4 @@ how LLMs act in the world and the core of every agent.
 - [OpenAI API changelog: GPT-6.1 Sol](../../sources/2026/10/2026-10-06-openai-api-changelog-gpt-6-1-sol.md)
 - [Claude Haiku 5.5](../../sources/2026/10/2026-10-08-claude-haiku-5-5.md)
 - [MCPtoCodeMode](../../sources/2026/10/2026-10-23-mcptocodemode-mcp-code-mode-proxy.md)
+- [webframe](../../sources/2026/10/2026-10-27-webframe-headless-webview-runner.md)

@@ -2,7 +2,7 @@
 title: "Gemini (Google)"
 tags: [google, llm, multimodal]
 related: [models/claude, models/gpt, models/open-weight]
-last_reviewed: 2026-10-26
+last_reviewed: 2026-10-27
 ---
 
 ## Overview
@@ -69,9 +69,15 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
   2026-10-22: 3.6 Flash $0.75 / $3.75 (the same as 3.8 Flash, including the doubling),
   3.5 Flash-Lite $0.30 / $2.50, and 3.1 Flash-Lite $0.25 / $1.50. See
   [cost and caching](../practices/cost-and-caching.md).
+- Data retention: new paid-tier projects created on or after 2026-10-26 log Generate
+  Content API requests by default (`store=true`), and keep them for 55 days unless you
+  choose 7, 14, or 28. Send `store=false` per request, or turn logging off in the Logs
+  and Datasets settings, for sensitive data. Older projects keep their setting.
 
 ## Current state
 
+- **2026-10-26:** The Generate Content API now stores requests by default for new
+  paid-tier projects, as the Interactions API already did (details above).
 - **2026-10-26:** Rechecked the [Gemini Developer API pricing](../../sources/2026/10/2026-10-07-gemini-api-pricing.md)
   page (updated 2026-10-22). It now lists the July 2026 models.
   3.5 Flash-Lite, which Google recommends for new projects, costs $0.30 / $2.50, more
@@ -113,3 +119,4 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
 - [Gemini 4 Argon for Robotics](../../sources/2026/10/2026-10-14-gemini-4-argon-for-robotics.md)
 - [Gemini 4 Argon model page](../../sources/2026/10/2026-10-15-gemini-4-argon-model-page.md)
 - [On-device scam detection with a fine-tuned Gemma](../../sources/2026/10/2026-10-15-gemma-on-device-scam-detection.md)
+- [Gemini API logs and datasets: storage on by default](../../sources/2026/10/2026-10-27-gemini-api-logging-default-on.md)

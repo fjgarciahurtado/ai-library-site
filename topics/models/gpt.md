@@ -2,7 +2,7 @@
 title: "GPT (OpenAI)"
 tags: [openai, llm, reasoning]
 related: [models/claude, models/gemini, tooling/coding-agents]
-last_reviewed: 2026-10-25
+last_reviewed: 2026-10-27
 ---
 
 ## Overview
@@ -11,14 +11,19 @@ OpenAI's GPT models power ChatGPT, Codex, and the OpenAI API. GPT-5 (August 2025
 merged the separate GPT and "o-series" reasoning lines into one family. A series of GPT-5.x
 releases followed through 2026, and GPT-6 arrived in September 2026 in three tiers:
 Astra in early September, then Sol and Luna at API prices 50% below GPT-5.6 promotional
-pricing. GPT-6.1 Sol replaced GPT-6 Sol on 2026-09-29.
+pricing. GPT-6.1 Sol replaced GPT-6 Sol on 2026-09-29. GPT-6.1 Terra, a mid-priced
+model between Sol and Luna, followed on 2026-10-26.
 
 ## Key concepts
 
 - **GPT-6 tiers:** Astra (`gpt-6-astra`, flagship; OpenAI claims state of the art on
   computer use, browsing, software engineering, cybersecurity, and professional work),
-  Sol (`gpt-6.1-sol`, near-Astra quality at lower cost), Luna (`gpt-6-luna`, cheapest
-  and fastest).
+  Sol (`gpt-6.1-sol`, near-Astra quality at lower cost), Terra (`gpt-6.1-terra`, since
+  2026-10-26; fast and mid-priced, aimed at visual reasoning, computer use, and clear
+  writing), Luna (`gpt-6-luna`, cheapest and fastest). According to OpenAI's Ted
+  Sanders, Terra matches Astra and Sol on vision and computer use while being much
+  faster, beats them on technical communication, and is somewhat weaker at most other
+  tasks.
 - **Reasoning built in:** reasoning effort is configurable instead of being a separate model line.
 - **Surfaces:** ChatGPT, Codex (coding agent), and the API (Responses API, Agents API,
   Agents SDK, and the Decisions API for typed classification answers).
@@ -46,14 +51,23 @@ pricing. GPT-6.1 Sol replaced GPT-6 Sol on 2026-09-29.
 
 - Pick a tier by cost and difficulty, as with other vendors.
 - All GPT-6 models have a 1.05M-token context window and 128K output (as of 2026-10-06),
-  but inputs above 272K tokens cost 2x for input and 1.5x for output.
-- Prices per 1M tokens (input / cached input / output, as of 2026-10-06):
+  but inputs above 272K tokens cost 2x for input and 1.5x for output. Terra's model
+  page (2026-10-27) gives a maximum input of 922K tokens and does not mention the
+  long-input surcharge.
+- Prices per 1M tokens (input / cached input / output, as of 2026-10-06; Terra as of
+  2026-10-26):
 
 | Model | Price | Knowledge cutoff |
 |---|---|---|
 | GPT-6 Astra | $10 / $1.00 / $50 | 2026-04-30 |
 | GPT-6.1 Sol | $2 / $0.10 / $10 | 2026-04-30 |
+| GPT-6.1 Terra | $1 / $0.05 / $5 | 2026-06-01 |
 | GPT-6 Luna | $0.10 / $0.01 / $0.50 | 2026-05-18 |
+
+- GPT-6.1 Terra supports reasoning effort from `none` to `max`, and in the Responses API
+  it can use computer use, hosted shell, apply patch, skills, MCP, and tool search. It
+  works with Responses, Chat Completions, and Batch, but not Realtime or fine-tuning. It
+  is a cheaper choice for computer-use and vision agents than Sol or Astra.
 
 - GPT-6.1 Sol (2026-09-29) costs the same as GPT-6 Sol except for cheaper cached input
   ($0.10 vs $0.20).
@@ -83,6 +97,10 @@ pricing. GPT-6.1 Sol replaced GPT-6 Sol on 2026-09-29.
 
 ## Current state
 
+- **2026-10-26:** OpenAI released GPT-6.1 Terra (`gpt-6.1-terra`, $1 / $5 per 1M tokens,
+  details above). It is in the API and rolling out in GitHub Copilot (paid plans, list
+  price under usage-based billing). The announcement post returned 403, so OpenAI's
+  benchmark claims were not checked.
 - **2026-10-22:** The Decisions API is generally available: 400 questions per request
   (up from 200), cached shared input, images in question instructions, and `input_json`
   (details above). The announcement post could not be read (403), so the latency and
@@ -99,6 +117,9 @@ pricing. GPT-6.1 Sol replaced GPT-6 Sol on 2026-09-29.
 - When was the Decisions API first announced? Secondary coverage says DevDay
   (2026-09-29); OpenAI's changelog gives the beta release date as 2026-10-06. Latency
   figures such as ~150 ms come only from secondary reports.
+- Does GPT-6.1 Terra charge more for inputs above 272K tokens, as the other GPT-6 models
+  do? Its model page does not say (checked 2026-10-27). Its benchmark figures are also
+  unchecked, because the announcement post returned 403.
 
 ## Sources
 
@@ -110,3 +131,4 @@ pricing. GPT-6.1 Sol replaced GPT-6 Sol on 2026-09-29.
 - [OpenAI API rate limits and usage tiers](../../sources/2026/10/2026-10-07-openai-api-usage-tiers.md)
 - [OpenAI Ultrafast mode guide](../../sources/2026/10/2026-10-09-openai-ultrafast-mode.md)
 - [Prompt caching: 12-hour lifetime (OpenAI API docs)](../../sources/2026/10/2026-10-21-openai-12-hour-prompt-caching.md)
+- [GPT-6.1 Terra (OpenAI API model page)](../../sources/2026/10/2026-10-27-gpt-6-1-terra.md)

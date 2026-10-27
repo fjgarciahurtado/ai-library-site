@@ -2,7 +2,7 @@
 title: "Open-weight models"
 tags: [open-source, llm, deployment, fine-tuning]
 related: [fundamentals/training-and-fine-tuning, practices/cost-and-caching]
-last_reviewed: 2026-10-26
+last_reviewed: 2026-10-27
 ---
 
 ## Overview
@@ -99,7 +99,12 @@ model under 500 ms, a TTS model, and a Voice Agent SDK on LiveKit, from $0.0035 
 minute for transcription and $13 per 1M characters for TTS. Mistral reports about 4.1%
 WER on FLEURS for Small, against about 16% for Whisper large-v3 (vendor figures). It
 offers self-hosting, but unlike Voxtral 1 (Apache 2.0) its announcement names no licence
-and does not say whether the weights are downloadable. Ollama 0.40.9 added Phonon speech
+and does not say whether the weights are downloadable. On 2026-10-27 the mistralai
+organisation on Hugging Face had no Voxtral 3 model. Its newest Voxtral checkpoints were
+Voxtral-Mini-4B-Realtime-2602 (Apache 2.0), Voxtral-4B-TTS-2603, and a
+Voxtral-Mini-4B-Realtime-Arabic model updated in mid-October. So for now Voxtral 3 is
+API-only or available on request, and "self-hosting" probably means a deployment
+arranged with Mistral. Ollama 0.40.9 added Phonon speech
 models on Apple Silicon.
 
 Meta has not released open weights since Llama 4. Its newer Muse models are API-only:
@@ -118,6 +123,10 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 
 ## Current state
 
+- **2026-10-27:** Checked Hugging Face: there are no Voxtral 3 weights and no Mistral
+  Large 4 weights in the mistralai organisation yet. The newest Large model there is
+  still Large 3 (2512). Mistral's promise of Large 4 weights "at the end of October"
+  has four days left.
 - **2026-10-23:** Moonshot released Kimi K3.1 Pro (`kimi-k3.1-pro`, plus a 2–3× faster
   `-highspeed` variant at twice the price) on its API, apps, and Kimi Code, with a 1M
   context. It promises full weights by 2026-11-04 but names no licence. On Moonshot's own
@@ -146,11 +155,15 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
   subsets nor which scores Recursive measured itself, and there are no independent
   results yet. No release date or announcement post was found.
 - Are Voxtral 3 weights downloadable, and under which licence? The announcement
-  (2026-10-20) offers self-hosting but names no licence.
+  (2026-10-20) offers self-hosting but names no licence. Partly answered (2026-10-27):
+  no Voxtral 3 weights are on Mistral's Hugging Face organisation, so they are not
+  publicly downloadable for now. Still open: whether Mistral plans to release them, and
+  under which licence.
 - Will leading labs keep releasing their largest models as open weights? DeepSeek still
   does (MIT). Meta's newest line is API-only. Qwen still releases weights, but under a
   custom licence. Mistral promises Large 4 weights; check at the end of October 2026
-  whether they ship and under which licence (Large 3 was Apache 2.0).
+  whether they ship and under which licence (Large 3 was Apache 2.0). Not on Hugging
+  Face as of 2026-10-27.
 - What does the Qwen Community 1.0 licence allow for commercial use? It has not been read
   yet.
 - Did Llama 4 Behemoth ever ship? No primary source has been found.

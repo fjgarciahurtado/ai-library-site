@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-10-26
+last_reviewed: 2026-10-27
 ---
 
 ## Overview
@@ -33,6 +33,9 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   decision even under auto mode (`e.isReadOnly` is also available to mods). Since
   2.1.302, headless sessions on third-party providers start in `default` permission
   mode, and `CLAUDE_CODE_AUTO_MODE_MODEL` picks the client-side classifier model.
+  GitHub Copilot has a similar mode, "assisted permissions", generally available since
+  2026-10-26 in Copilot CLI (`/permissions` → assisted), the Copilot app, and VS Code. A
+  model lets clearly safe commands, paths, and URLs through and asks about the rest.
 - **Extensibility:** [skills](skills.md), slash commands, hooks, subagents, plugins,
   and [MCP](mcp.md) servers. Hooks used as guardrails should fail closed: since 2.1.295
   (2026-10-08), Claude Code hooks can set `onFailure: "block"` so that a hook that
@@ -102,6 +105,17 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
+- **2026-10-26:** Claude Code 2.1.311: typing `ultrathink` in the terminal now runs that
+  turn at `xhigh` effort on the 5.5-generation models and Fable 5.1. Standard-context
+  sessions compact instead of stopping when a request passes 200K tokens. Subagents can
+  use MCP servers that connect late, and `SubagentStop` hooks fire once per subagent.
+  Requests the API marks as not retryable are no longer retried, a retry loop that
+  could hang unattended runs. TypeScript Agent SDK 0.3.311 splits cache-write tokens into
+  5-minute and 1-hour counts.
+- **2026-10-26:** GitHub Copilot assisted permissions are generally available in Copilot
+  CLI, the Copilot app, and VS Code: a model approves clearly safe actions and asks
+  about the rest. Admins can allow Assisted while blocking Allow All. GPT-6.1 Terra is
+  also rolling out in Copilot (see [GPT](../models/gpt.md)).
 - **2026-10-23:** Claude Code 2.1.310: the Monitor tool and plugin monitors now work on
   Bedrock, Vertex, and Foundry and with telemetry off, where long foreground sleeps are
   now blocked. It retries without the `effort` beta or mid-conversation system messages
@@ -167,3 +181,5 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [Claude Code release 2.1.310](../../sources/2026/10/2026-10-26-claude-code-2-1-310.md)
 - [Codex CLI 0.164.0](../../sources/2026/10/2026-10-26-codex-cli-0-164-presets.md)
 - [VS Code 1.143](../../sources/2026/10/2026-10-26-vscode-1-143-compare-models.md)
+- [Claude Code release 2.1.311](../../sources/2026/10/2026-10-27-claude-code-2-1-311.md)
+- [GitHub Copilot assisted permissions GA](../../sources/2026/10/2026-10-27-copilot-assisted-permissions-ga.md)

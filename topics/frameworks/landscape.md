@@ -2,7 +2,7 @@
 title: "Agent and LLM framework landscape"
 tags: [frameworks, agents, sdk]
 related: [agents/agent-patterns, agents/tool-use, tooling/mcp]
-last_reviewed: 2026-10-26
+last_reviewed: 2026-10-27
 ---
 
 ## Overview
@@ -72,7 +72,12 @@ now start from vendor SDKs and add a framework only when it clearly helps.
     code search, `RelevanceCompaction`, and per-run `auth`/`headers` for `MCPToolset`.
     2.61 (2026-10-23) added structured citations on `TextPart`, normalized across
     Bedrock, OpenRouter, and xAI. It also added Kimi K3.1 Pro models and
-    `Shell.max_log_bytes`, and made the durable engine's extension API public.
+    `Shell.max_log_bytes`, and made the durable engine's extension API public. 2.62
+    (2026-10-26) lets `SubAgents` delegations run in the background, where you can steer,
+    answer, or cancel them (`task_control`). It added `CompactOnRequest`, so the model can
+    ask for compaction, plus `AnthropicModel.compact_messages()` and provider batch APIs
+    (`BatchModelRequests`). Thinking effort can now change mid-conversation on OpenAI and
+    Anthropic, and Temporal can run tool calls as child workflows.
   - Vercel AI SDK: TypeScript toolkit for AI apps, UIs, and agents. Version 7
     (2026-06-25) adds per-tool approval policies, durable resumable runs
     (`WorkflowAgent`), layered timeouts, a portable sandbox abstraction, OpenTelemetry
@@ -109,15 +114,17 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 | Microsoft Agent Framework | Python 1.23.0 / .NET 1.26.0 | 2026-10-22 / 2026-10-23 | 1.0 GA on 2026-04-03; Python 1.23 moves to MCP 2.x; .NET 1.26 has breaking AG-UI auth-scope and Docker parameter changes (checked 2026-10-26) |
 | OpenAI Agents SDK (Python) | 0.24.0 | 2026-10-15 | Still 0.x; adds MCP annotations on converted tools (checked 2026-10-26) |
 | Google ADK (Python) | 2.13.0 | 2026-10-22 | Classifier nodes, 12 features stable, OTel GenAI v2 default (checked 2026-10-26) |
-| Pydantic AI | 2.61.0 | 2026-10-23 | Near-daily minor releases (checked 2026-10-26) |
-| CrewAI | 1.15.28 | 2026-10-14 | 1.15.0 on 2026-06-25 (checked 2026-10-22 on GitHub) |
+| Pydantic AI | 2.62.0 | 2026-10-26 | Near-daily minor releases (checked 2026-10-27) |
+| CrewAI | 1.15.30 | 2026-10-24 | 1.15.0 on 2026-06-25; 1.15.29 (2026-10-23) promoted AgentExecutor out of experimental (checked 2026-10-27 on GitHub) |
 | LlamaIndex | 0.14.25 | 2026-09-21 | Patch release; no note |
-| LangGraph | 1.2.17 | 2026-10-24 | 1.2.0 on 2026-05-12; 1.2.17 is fixes only, and langgraph-sdk 0.4.9 adds thread priority (checked 2026-10-26 on GitHub) |
+| LangGraph | 1.2.18 | 2026-10-26 | 1.2.0 on 2026-05-12; 1.2.18 snapshots `DeltaChannel` every 100 updates instead of 1000 (faster reads on long threads, more storage; `snapshot_frequency=1000` restores the old value) (checked 2026-10-27 on GitHub) |
 | DSPy | 3.4.1 | 2026-10-12 | 3.4.0 on 2026-09-25; 3.0.0 on 2025-08-12 (checked 2026-10-22) |
 | Vercel AI SDK | 7.x | 2026-06-25 (7.0) | Latest 7.x patch not checked; date from Vercel's announcement (checked 2026-10-16) |
 
 Release features are described under Key concepts.
 
+- **2026-10-26:** Pydantic AI 2.62.0 adds steerable background subagents, compaction the
+  model can request, and provider batch APIs (details above).
 - **2026-10-23:** Pydantic AI 2.61.0 adds structured citations that work the same across
   providers.
 - **2026-10-22:** Google ADK (Python) 2.13.0 changes the default telemetry schema to
@@ -133,8 +140,8 @@ Release features are described under Key concepts.
 
 ## Open questions
 
-- Add a primary source for a LlamaIndex major release; it was still on 0.14.x on
-  2026-10-12.
+- Add a primary source for a LlamaIndex major release; it was still on 0.14.25
+  (2026-09-21) when checked on 2026-10-27.
 - When will DSPy 3.5 remove the legacy LM interfaces? No date given (checked
   2026-10-12).
 
@@ -160,3 +167,4 @@ Release features are described under Key concepts.
 - [Ollama v0.40.9](../../sources/2026/10/2026-10-23-ollama-v0-40-9-phonon-d3.md)
 - [Google ADK (Python) v2.13.0](../../sources/2026/10/2026-10-26-google-adk-python-v2-13.md)
 - [Pydantic AI v2.61.0](../../sources/2026/10/2026-10-26-pydantic-ai-v2-61.md)
+- [Pydantic AI v2.62.0](../../sources/2026/10/2026-10-27-pydantic-ai-v2-62.md)
