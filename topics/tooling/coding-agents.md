@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-10-27
+last_reviewed: 2026-10-28
 ---
 
 ## Overview
@@ -41,13 +41,14 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   (2026-10-08), Claude Code hooks can set `onFailure: "block"` so that a hook that
   crashes or times out blocks the action; 2.1.294 fixed a bug that let instruction-style
   `prompt` hooks allow what they should block. At most 12 hooks run per event at once
-  (2.1.302). Subagents take an `effort` parameter (2.1.292), and fork subagents are on
+  (2.1.302), and since 2.1.312 (2026-10-27) prompt and agent hooks are also capped at 24
+  running at a time per session, subagents included. Subagents take an `effort` parameter (2.1.292), and fork subagents are on
   by default in `claude -p`, the Agent SDK, desktop, and VS Code (2.1.302), where
   subagents always run in the background.
 - **Observability:** Claude Code emits OpenTelemetry with GenAI attributes (2.1.300),
-  fields that explain why auto mode allowed or blocked a tool call (2.1.301), and a
-  `claude_code.safety_event` for every tool call stopped or prompted by rules, auto mode,
-  hooks, or the sandbox (2.1.307). `/usage` (2.1.305) shows usage and applies suggested
+  and fields that explain why auto mode allowed or blocked a tool call (2.1.301). The
+  `claude_code.safety_event` event added in 2.1.307 was removed again in 2.1.312
+  (2026-10-27). `/usage` (2.1.305) shows usage and applies suggested
   fixes with `f`.
 - **Context handling:** idle sessions are compacted before the prompt cache expires
   (2.1.299), `@` mentions pass paths instead of contents, and switching to a
@@ -105,6 +106,17 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
+- **2026-10-27:** Claude Code 2.1.312: Write no longer overwrites a large CLAUDE.md or
+  rules file Claude has only partly read, and `paths:` skills are found after a `cd`.
+  Prompt and agent hooks are capped at 24 concurrent per session. On Bedrock, Vertex,
+  Foundry, and Mantle, unrecognised model names get the short system prompt
+  (`CLAUDE_CODE_SIMPLE_SYSTEM_PROMPT=0` restores the full one). Cloud routines gain an
+  effort setting. The official marketplace's `code-review` plugin now prints to the
+  terminal unless `--comment` is passed.
+- **2026-10-27:** Codex CLI 0.165.0: built-in Vertex AI provider
+  (`model_provider = "gcp"`), Memory v2 on by default for new profiles with import from
+  other agents (see [memory](../agents/memory.md)), effort changes mid-conversation, and
+  GPT-6.1 Terra in the catalogue.
 - **2026-10-26:** Claude Code 2.1.311: typing `ultrathink` in the terminal now runs that
   turn at `xhigh` effort on the 5.5-generation models and Fable 5.1. Standard-context
   sessions compact instead of stopping when a request passes 200K tokens. Subagents can
@@ -183,3 +195,5 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [VS Code 1.143](../../sources/2026/10/2026-10-26-vscode-1-143-compare-models.md)
 - [Claude Code release 2.1.311](../../sources/2026/10/2026-10-27-claude-code-2-1-311.md)
 - [GitHub Copilot assisted permissions GA](../../sources/2026/10/2026-10-27-copilot-assisted-permissions-ga.md)
+- [Claude Code release 2.1.312](../../sources/2026/10/2026-10-28-claude-code-2-1-312.md)
+- [Codex CLI 0.165.0](../../sources/2026/10/2026-10-28-codex-cli-0-165-vertex.md)

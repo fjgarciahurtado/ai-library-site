@@ -2,7 +2,7 @@
 title: "Tool use (function calling)"
 tags: [tool-use, agents, structured-output]
 related: [agents/agent-patterns, tooling/mcp, tooling/skills]
-last_reviewed: 2026-10-27
+last_reviewed: 2026-10-28
 ---
 
 ## Overview
@@ -48,6 +48,10 @@ how LLMs act in the world and the core of every agent.
 
 ## Current state
 
+- **2026-10-27:** Google's `gemini-api` CLI (beta) is another CLI-first alternative to an
+  MCP server: one binary with `--help`, `--schema`, `--dry-run`, and `-o json` built for
+  agents to discover and call, plus a suggested `CLAUDE.md`/`AGENTS.md` snippet instead
+  of a skill (see [Gemini](../models/gemini.md)).
 - **2026-10-26:** webframe (MIT, Go) runs a page in the system's own web view from the
   shell: console output goes to stdout, and JavaScript can be piped in on stdin. It is a
   light, Playwright-free browser tool an agent can call (`go install
@@ -72,3 +76,4 @@ how LLMs act in the world and the core of every agent.
 - [Claude Haiku 5.5](../../sources/2026/10/2026-10-08-claude-haiku-5-5.md)
 - [MCPtoCodeMode](../../sources/2026/10/2026-10-23-mcptocodemode-mcp-code-mode-proxy.md)
 - [webframe](../../sources/2026/10/2026-10-27-webframe-headless-webview-runner.md)
+- [Gemini API CLI (gemini-api) beta](../../sources/2026/10/2026-10-28-gemini-api-cli-beta.md)

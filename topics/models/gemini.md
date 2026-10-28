@@ -2,7 +2,7 @@
 title: "Gemini (Google)"
 tags: [google, llm, multimodal]
 related: [models/claude, models/gpt, models/open-weight]
-last_reviewed: 2026-10-27
+last_reviewed: 2026-10-28
 ---
 
 ## Overview
@@ -73,8 +73,20 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
   Content API requests by default (`store=true`), and keep them for 55 days unless you
   choose 7, 14, or 28. Send `store=false` per request, or turn logging off in the Logs
   and Datasets settings, for sensitive data. Older projects keep their setting.
+- From the shell or a coding agent: the `gemini-api` CLI (open-source beta since
+  2026-10-27) wraps the Interactions API. `gemini-api configure --api-key ...`, then
+  for example `gemini-api analyze -i report.pdf "Summarise"` or `gemini-api agent run
+  "..." --agent deep-research-preview-04-2026 --background --stream=false`. Use
+  `-o json` and `--dry-run` from agents, and pin a version in CI. It is separate from
+  Gemini CLI, the coding agent.
 
 ## Current state
+
+- **2026-10-27:** Google released the Gemini API CLI (`gemini-api`) as an open-source
+  beta: a dependency-free binary for agents, scripts, and CI that generates text, images,
+  speech, music, and video, analyses files, and runs managed agents (details above).
+  The same day, Gemini CLI 0.66.0 started showing a notice that it is not yet optimised
+  for Gemini 4.
 
 - **2026-10-26:** The Generate Content API now stores requests by default for new
   paid-tier projects, as the Interactions API already did (details above).
@@ -120,3 +132,4 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
 - [Gemini 4 Argon model page](../../sources/2026/10/2026-10-15-gemini-4-argon-model-page.md)
 - [On-device scam detection with a fine-tuned Gemma](../../sources/2026/10/2026-10-15-gemma-on-device-scam-detection.md)
 - [Gemini API logs and datasets: storage on by default](../../sources/2026/10/2026-10-27-gemini-api-logging-default-on.md)
+- [Gemini API CLI (gemini-api) beta](../../sources/2026/10/2026-10-28-gemini-api-cli-beta.md)

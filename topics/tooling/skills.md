@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-10-26
+last_reviewed: 2026-10-28
 ---
 
 ## Overview
@@ -45,6 +45,14 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
   25 agents: `npx skills add EricJujianZou/rederive` (add `-g` for all projects), then
   `/rederive`. In Claude Code you can also run
   `/plugin marketplace add EricJujianZou/rederive`.
+- **Language skill pack:** BeautifulRust (MIT) has three Rust skills (write, review with
+  cited findings, port from other languages tests-first) plus a matching clippy config
+  for CI: `/plugin marketplace add morganlinton/BeautifulRust`, then
+  `/plugin install beautiful-rust@beautiful-rust`; for Codex, copy `skills/rust-*` into
+  `~/.agents/skills/`.
+- **Diagram skill:** Archify (Apache-2.0) turns a plan or codebase into an interactive,
+  self-contained HTML diagram (architecture, sequence, ERD, timeline, and more) with PNG
+  and PDF export: `npx skills add tt-a1i/archify -g`.
 
 ## How to use it
 
@@ -56,6 +64,11 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 
 ## Current state
 
+- **2026-10-28:** From today's GitHub trends: BeautifulRust (about 1,300 stars in five
+  days), whose author reports Codex CLI's pass rate on 85 Rust tasks rising from 53 to 76
+  with the skills (single run, graded by a Claude model); and Archify (v3.2.0, about
+  4,000 stars added in a week), a diagram skill for Claude Code, Codex, Cursor, and
+  OpenCode.
 - **2026-10-26:** rederive, a new MIT skill that teaches a codebase by asking questions
   instead of explaining (246 stars in its first week), is in today's GitHub trends. It
   keeps its map and your progress log in a local `.rederive/` folder that git ignores.
@@ -84,3 +97,5 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 - [Donating Agent Skills to the Agentic AI Foundation](../../sources/2026/10/2026-10-23-agent-skills-donated-to-aaif.md)
 - [Claude Code releases 2.1.308 and 2.1.309](../../sources/2026/10/2026-10-23-claude-code-2-1-308-309.md)
 - [rederive](../../sources/2026/10/2026-10-26-rederive-learn-codebase-skill.md)
+- [BeautifulRust](../../sources/2026/10/2026-10-28-beautifulrust-idiomatic-rust-skills.md)
+- [Archify](../../sources/2026/10/2026-10-28-archify-interactive-diagram-skill.md)

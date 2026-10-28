@@ -2,7 +2,7 @@
 title: "Memory for agents"
 tags: [memory, agents, tokens]
 related: [agents/agent-patterns, fundamentals/tokens-and-context, fundamentals/rag]
-last_reviewed: 2026-10-26
+last_reviewed: 2026-10-28
 ---
 
 ## Overview
@@ -43,6 +43,10 @@ knowledge outside it.
 
 ## Current state
 
+- **2026-10-27:** Codex CLI 0.165.0 turns Memory v2 on by default for new profiles and
+  can import memories from other coding agents, a first step towards memory you can
+  carry between tools. The release notes do not say which formats it reads (see Open
+  questions).
 - **2026-10-26:** Context Mode (an MCP server and Claude Code plugin, Elastic License
   2.0, about 32,000 stars) is rising in GitHub trends. It keeps raw tool output in a
   sandbox and stores session events in SQLite, so work state can be recovered after
@@ -61,6 +65,9 @@ knowledge outside it.
 
 - How to decide automatically what is worth remembering.
 - How Muse Wonder's Active Memory is stored, and whether users can inspect or delete it.
+- Which agents' memory files Codex 0.165's import reads (for example Claude Code's
+  `MEMORY.md` or `CLAUDE.md`), and whether it imports them once or keeps them in sync.
+  The release notes do not say (checked 2026-10-28).
 
 ## Sources
 
@@ -68,3 +75,4 @@ knowledge outside it.
 - [Muse Wonder](../../sources/2026/10/2026-10-13-meta-muse-wonder.md)
 - [Graphicle: code graph and memory for coding agents](../../sources/2026/10/2026-10-20-graphicle-code-graph-memory-mcp.md)
 - [Context Mode](../../sources/2026/10/2026-10-26-context-mode-tool-output-sandbox.md)
+- [Codex CLI 0.165.0](../../sources/2026/10/2026-10-28-codex-cli-0-165-vertex.md)

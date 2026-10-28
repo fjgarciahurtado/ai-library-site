@@ -2,7 +2,7 @@
 title: "Open-weight models"
 tags: [open-source, llm, deployment, fine-tuning]
 related: [fundamentals/training-and-fine-tuning, practices/cost-and-caching]
-last_reviewed: 2026-10-27
+last_reviewed: 2026-10-28
 ---
 
 ## Overview
@@ -41,6 +41,7 @@ As of 2026-10-22, checked against official model cards and announcements:
 | DeepSeek-V4-Pro | 2026-04-24 | 1.6T / 49B (MoE) | 1M | MIT |
 | DeepSeek-V4-Flash | 2026-04-24 | 284B / 13B (MoE) | 1M | MIT |
 | Qwen3.8-Flash-Next | 2026-08 | 125B / 6B (MoE), plus 51B n-gram embeddings | 262K native, 1M with RoPE scaling | Qwen Community 1.0 (custom) |
+| GLM-5.3 (Z.ai) | 2026-08-14 (weights ~2026-08-29) | 753B; active not stated (MoE) | not stated (benchmarks up to 1M) | GLM-5.3 License (MIT-style; security review for MaaS providers over $10B revenue) |
 | Qwen3.5-397B-A17B | 2026-02-16 | 397B / 17B (MoE) | 262K native, ~1M with YaRN | Apache 2.0 |
 | Flint (Recursive, coding agents) | 2026-10-21 (on Ollama) | 39.8B / ~2.5B (MoE), per model card | 262K | Apache 2.0 |
 | Gemma 4 (E2B to 31B) | 2026-04-03 | 2.3B effective to 31B dense; 26B A4B MoE | 128K–256K | Apache 2.0 |
@@ -81,6 +82,19 @@ Terminal-Bench 2.1 54.9%, and an unusually high 89.7% on SWE-bench Pro v2 (avera
 pass@1 over at least 5 runs, with mini-swe-agent and Terminus 2; publisher figures only).
 Ollama 0.40.9 also added d3 decision models (2B, 4B, 9B, 27B, from vLLM Semantic Router)
 for local classification and yes/no scoring.
+
+Z.ai's GLM line (added 2026-10-28 from the GLM-5.3 model card) moves fast: GLM-5
+(2026-02), 5.1 (2026-04), 5.2 (2026-06, MIT per secondary reports), and 5.3 (announced
+2026-08-14). GLM-5.3 shares GLM-5.2's 753B base, with gains from post-training only, and
+targets long-horizon coding: Z.ai reports Terminal-Bench 2.1 88.2 and DeepSWE 66.9
+(publisher figures). Its licence is MIT-like for everyone except model-as-a-service
+operators with over US$10 billion in revenue, who need a Z.ai security review. It runs on
+vLLM, SGLang, KTransformers, and Unsloth, with `reasoning_effort` set to `low`, `high`,
+or `max`.
+
+Ollama 0.40.12 (2026-10-27) added Liquid AI's LFM3 small models: a 1.7B text model with
+256K context, plus vision, audio (18 languages), and omni variants, and d1 2B decision
+models built on LFM3. For now they run only on Apple hardware (`ollama run lfm3`).
 
 Small open models are also adapted for private, on-device use: Google DeepMind and
 Singapore's government built a scam detector on a fine-tuned lightweight Gemma
@@ -123,6 +137,9 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 
 ## Current state
 
+- **2026-10-28:** Gap filled: added GLM-5.3 from Z.ai's Hugging Face model card and
+  licence (details above). Ollama 0.40.12 (2026-10-27) adds Liquid AI's LFM3 family and
+  d1 2B, Apple hardware only for now.
 - **2026-10-27:** Checked Hugging Face: there are no Voxtral 3 weights and no Mistral
   Large 4 weights in the mistralai organisation yet. The newest Large model there is
   still Large 3 (2512). Mistral's promise of Large 4 weights "at the end of October"
@@ -172,10 +189,12 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 - Kimi K3.1 Pro: check on or after 2026-11-04 whether the weights shipped, under which
   licence, and with what architecture. The price comes from Simon Willison, not from
   Moonshot's pricing page.
-- Add a primary source for GLM. (Kimi was added 2026-10-26 from Moonshot's K3.1 Pro
-  post; gpt-oss added 2026-10-19 from the model card
-  paper and Hugging Face cards; its context length is still to be confirmed from the
-  full paper.)
+- GLM: a primary source was added on 2026-10-28 (GLM-5.3 model card and licence). Still
+  open: GLM-5.3's active parameter count and context limit, which the card does not
+  state, and its exact weight release date (only a secondary report gives 2026-08-29).
+  gpt-oss's context length is still to be confirmed from the full paper.
+- What licence does Liquid AI's LFM3 use? The Ollama 0.40.12 notes do not say (checked
+  2026-10-28).
 - Why does the V4.1-Flash-1017 Hugging Face page list 763B parameters when V4.1-Flash
   was announced at 552B? Possibly the count includes extra modules (vision encoder,
   speculative-decoding heads); not confirmed.
@@ -204,3 +223,5 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 - [Flint model card (Recursive)](../../sources/2026/10/2026-10-23-recursive-flint-model-card.md)
 - [Ollama v0.40.9](../../sources/2026/10/2026-10-23-ollama-v0-40-9-phonon-d3.md)
 - [Kimi K3.1 Pro](../../sources/2026/10/2026-10-26-kimi-k3-1-pro.md)
+- [Ollama v0.40.12: LFM3 and d1 2B](../../sources/2026/10/2026-10-28-ollama-v0-40-12-lfm3.md)
+- [GLM-5.3 model card (Z.ai)](../../sources/2026/10/2026-10-28-glm-5-3-model-card.md)
