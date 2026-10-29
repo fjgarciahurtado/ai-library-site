@@ -2,7 +2,7 @@
 title: "Security for LLM apps and agents"
 tags: [security, safety, agents, mcp]
 related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
-last_reviewed: 2026-10-27
+last_reviewed: 2026-10-29
 ---
 
 ## Overview
@@ -118,6 +118,11 @@ to limit what the agent can do if it is fooled.
 
 ## Current state
 
+- **2026-10-28:** GitHub Agentic Workflows reached GA with layered defaults for agents in
+  CI: read-only permissions, a sandboxed container behind an egress firewall (Agent
+  Workflow Firewall), writes only through declared "safe outputs", and a threat-detection
+  job that scans proposed changes before they apply. Micro-VMs and enclaves are options
+  for cross-repository work. See [coding agents](../tooling/coding-agents.md).
 - **2026-10-26:** GitHub Copilot's assisted permissions mode is generally available.
   A model approves actions it judges clearly safe and asks the user about the rest.
   Enterprise settings can keep Assisted while blocking Allow All, or turn it off. Like
@@ -171,3 +176,4 @@ to limit what the agent can do if it is fooled.
 - [Claude Code releases 2.1.305 and 2.1.306](../../sources/2026/10/2026-10-21-claude-code-2-1-305-306.md)
 - [Microsoft Agent Framework (Python) 1.23.0](../../sources/2026/10/2026-10-23-microsoft-agent-framework-python-1-23.md)
 - [GitHub Copilot assisted permissions GA](../../sources/2026/10/2026-10-27-copilot-assisted-permissions-ga.md)
+- [GitHub Agentic Workflows GA](../../sources/2026/10/2026-10-29-github-agentic-workflows-ga.md)

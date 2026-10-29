@@ -2,7 +2,7 @@
 title: "Open-weight models"
 tags: [open-source, llm, deployment, fine-tuning]
 related: [fundamentals/training-and-fine-tuning, practices/cost-and-caching]
-last_reviewed: 2026-10-28
+last_reviewed: 2026-10-29
 ---
 
 ## Overview
@@ -94,7 +94,11 @@ or `max`.
 
 Ollama 0.40.12 (2026-10-27) added Liquid AI's LFM3 small models: a 1.7B text model with
 256K context, plus vision, audio (18 languages), and omni variants, and d1 2B decision
-models built on LFM3. For now they run only on Apple hardware (`ollama run lfm3`).
+models built on LFM3. LFM3 ran only on Apple hardware at first; since Ollama 0.40.13
+(2026-10-29) it also runs on Linux and Windows (`ollama run lfm3`). LFM3 uses the LFM
+Open License v1.0: free to use, modify, and redistribute, but commercial use is licensed
+only for entities under $10M annual revenue (corporate group included), so larger
+companies need a separate agreement.
 
 Small open models are also adapted for private, on-device use: Google DeepMind and
 Singapore's government built a scam detector on a fine-tuned lightweight Gemma
@@ -137,6 +141,12 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 
 ## Current state
 
+- **2026-10-29:** Gap filled: LFM3's licence is the LFM Open License v1.0, with a $10M
+  annual-revenue cap on commercial use (from Liquid AI's LFM3-1.7B model card). Ollama
+  0.40.13 brings LFM3, including audio and omni, to Linux and Windows. Mistral Large 4:
+  the mistralai Hugging Face organisation now links a Large 4 collection (updated
+  2026-10-28), but the `mistral-large-4` repo returned 401, so the weights are not
+  publicly downloadable yet.
 - **2026-10-28:** Gap filled: added GLM-5.3 from Z.ai's Hugging Face model card and
   licence (details above). Ollama 0.40.12 (2026-10-27) adds Liquid AI's LFM3 family and
   d1 2B, Apple hardware only for now.
@@ -179,8 +189,9 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 - Will leading labs keep releasing their largest models as open weights? DeepSeek still
   does (MIT). Meta's newest line is API-only. Qwen still releases weights, but under a
   custom licence. Mistral promises Large 4 weights; check at the end of October 2026
-  whether they ship and under which licence (Large 3 was Apache 2.0). Not on Hugging
-  Face as of 2026-10-27.
+  whether they ship and under which licence (Large 3 was Apache 2.0). Not publicly on
+  Hugging Face as of 2026-10-29, though a Large 4 collection now exists there and the
+  model repo returns 401 (probably private until release).
 - What does the Qwen Community 1.0 licence allow for commercial use? It has not been read
   yet.
 - Did Llama 4 Behemoth ever ship? No primary source has been found.
@@ -193,8 +204,9 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
   open: GLM-5.3's active parameter count and context limit, which the card does not
   state, and its exact weight release date (only a secondary report gives 2026-08-29).
   gpt-oss's context length is still to be confirmed from the full paper.
-- What licence does Liquid AI's LFM3 use? The Ollama 0.40.12 notes do not say (checked
-  2026-10-28).
+- LFM3 licence: answered 2026-10-29 (LFM Open License v1.0, $10M revenue cap; read
+  from the LFM3-1.7B repo only). Still open: whether the VL, Audio, and Omni repos and
+  the d1 models use the same licence, and whether d1 2B now runs on Linux and Windows.
 - Why does the V4.1-Flash-1017 Hugging Face page list 763B parameters when V4.1-Flash
   was announced at 552B? Possibly the count includes extra modules (vision encoder,
   speculative-decoding heads); not confirmed.
@@ -225,3 +237,5 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 - [Kimi K3.1 Pro](../../sources/2026/10/2026-10-26-kimi-k3-1-pro.md)
 - [Ollama v0.40.12: LFM3 and d1 2B](../../sources/2026/10/2026-10-28-ollama-v0-40-12-lfm3.md)
 - [GLM-5.3 model card (Z.ai)](../../sources/2026/10/2026-10-28-glm-5-3-model-card.md)
+- [Ollama v0.40.13: LFM3 on Linux and Windows](../../sources/2026/10/2026-10-29-ollama-v0-40-13-lfm3-linux.md)
+- [LFM3-1.7B model card and licence](../../sources/2026/10/2026-10-29-liquid-lfm3-model-card-licence.md)

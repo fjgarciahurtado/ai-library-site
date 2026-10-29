@@ -2,7 +2,7 @@
 title: "Cost and caching"
 tags: [cost, caching, tokens]
 related: [fundamentals/tokens-and-context, models/claude, fundamentals/reasoning-models]
-last_reviewed: 2026-10-26
+last_reviewed: 2026-10-29
 ---
 
 ## Overview
@@ -115,6 +115,11 @@ legacy, costs $1 / $5.
 
 ## Current state
 
+- **2026-10-28:** GitHub Copilot Fusion (GA) routes coding prompts across several
+  models (single, cascade, or critique) and bills each model at its normal rate, with a
+  30% discount on paid plans for a limited time. GitHub claims Fusion Max nearly matches
+  Claude Code with Opus 5.5 Max on a coding-agent index at about half the API cost and
+  half the tokens (vendor figures, not independently checked).
 - **2026-10-26:** Rechecked Google's
   [pricing page](../../sources/2026/10/2026-10-07-gemini-api-pricing.md) (updated
   2026-10-22). It now lists Gemini 3.5
@@ -157,3 +162,4 @@ legacy, costs $1 / $5.
 - [Ribbon](../../sources/2026/10/2026-10-23-ribbon-claude-code-usage-band.md)
 - [Prompt caching: 12-hour lifetime (OpenAI API docs)](../../sources/2026/10/2026-10-21-openai-12-hour-prompt-caching.md)
 - [Kimi K3.1 Pro](../../sources/2026/10/2026-10-26-kimi-k3-1-pro.md)
+- [GitHub Copilot Fusion GA](../../sources/2026/10/2026-10-29-github-copilot-fusion-ga.md)

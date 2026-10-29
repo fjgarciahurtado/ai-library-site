@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-10-26
+last_reviewed: 2026-10-29
 ---
 
 ## Overview
@@ -33,6 +33,12 @@ the de facto standard, with official SDKs in many languages.
   long-running operations) is an opt-in extension.
 - **MCP Apps:** servers can render interactive HTML UIs in a sandboxed iframe.
 - **MCP connector:** some APIs (including Claude's) can connect to remote MCP servers directly.
+- **Hosted connectors:** clients increasingly offer a curated list of hosted servers you
+  sign in to once, instead of installing servers yourself. Claude has connectors, and
+  since 2026-10-28 GitHub Copilot has "connectors" (GitHub-verified MCP servers, public
+  preview): 26 services such as Slack, Figma, Notion, Sentry, and Linear, shared across
+  the Copilot app, Copilot CLI (`/mcp` → **Connectors**), VS Code, cloud sessions, and
+  GitHub Mobile.
 - **Adoption of the stateless spec:** Claude Code negotiates the 2026-07-28 protocol by
   default for local stdio servers since 2.1.292 (2026-10-06; opt out with
   `MCP_PROTOCOL_NEGOTIATION=legacy`, and servers that do not answer fall back to the old
@@ -81,6 +87,9 @@ the de facto standard, with official SDKs in many languages.
 
 ## Current state
 
+- **2026-10-28:** GitHub Copilot connectors (verified MCP servers, preview, all plans;
+  Business and Enterprise need the `Editor preview features` policy). VS Code's new
+  customizations browser lists MCP servers next to skills and plugins.
 - **2026-10-23:** Codex CLI 0.164.0 lets MCP connections sign in with Codex account
   grants or a dedicated sign-in, including OAuth clients that need a secret. Tool-list
   changes now apply within a turn, and coordinated OAuth refresh is on by default.
@@ -128,3 +137,5 @@ the de facto standard, with official SDKs in many languages.
 - [Codex CLI 0.164.0](../../sources/2026/10/2026-10-26-codex-cli-0-164-presets.md)
 - [Context Mode](../../sources/2026/10/2026-10-26-context-mode-tool-output-sandbox.md)
 - [Google ADK (Python) v2.13.0](../../sources/2026/10/2026-10-26-google-adk-python-v2-13.md)
+- [Copilot connectors](../../sources/2026/10/2026-10-29-copilot-connectors-verified-mcp.md)
+- [Copilot in VS Code: Universe 2026](../../sources/2026/10/2026-10-29-copilot-vscode-universe-agent-host.md)

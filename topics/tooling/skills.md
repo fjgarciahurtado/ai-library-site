@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-10-28
+last_reviewed: 2026-10-29
 ---
 
 ## Overview
@@ -53,6 +53,18 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 - **Diagram skill:** Archify (Apache-2.0) turns a plan or codebase into an interactive,
   self-contained HTML diagram (architecture, sequence, ERD, timeline, and more) with PNG
   and PDF export: `npx skills add tt-a1i/archify -g`.
+- **Process skill packs:** Addy Osmani's agent-skills (MIT, 25 skills) covers the whole
+  lifecycle from spec to ship, with `/spec`, `/plan`, `/build`, `/test`, `/review`, and
+  `/ship` commands: `/plugin marketplace add addyosmani/agent-skills`, then
+  `/plugin install agent-skills@addy-agent-skills` (Codex:
+  `codex plugin marketplace add addyosmani/agent-skills`; others:
+  `npx skills add addyosmani/agent-skills`). MiniMax's mcode-stack (MIT, new in October
+  2026) shares its coding-agent team's own skills for planning, context management, and
+  long sessions: `/plugin marketplace add MiniMax-AI/mcode-stack`, then
+  `/plugin install ronny@mcode-stack`.
+- **Discovery in Copilot:** VS Code's customizations browser (preview, 2026-10-28)
+  lists skills, MCP servers, and plugins from available sources in one place, and a repo
+  can suggest default plugins in `.github/copilot/settings.json`.
 
 ## How to use it
 
@@ -64,6 +76,9 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 
 ## Current state
 
+- **2026-10-29:** From today's GitHub trends: addyosmani/agent-skills (about 111,500
+  stars, +2,100 in a week) and MiniMax's new mcode-stack (about 290 stars in a day). Both
+  install as Claude Code plugins.
 - **2026-10-28:** From today's GitHub trends: BeautifulRust (about 1,300 stars in five
   days), whose author reports Codex CLI's pass rate on 85 Rust tasks rising from 53 to 76
   with the skills (single run, graded by a Claude model); and Archify (v3.2.0, about
@@ -99,3 +114,5 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 - [rederive](../../sources/2026/10/2026-10-26-rederive-learn-codebase-skill.md)
 - [BeautifulRust](../../sources/2026/10/2026-10-28-beautifulrust-idiomatic-rust-skills.md)
 - [Archify](../../sources/2026/10/2026-10-28-archify-interactive-diagram-skill.md)
+- [agent-skills (Addy Osmani)](../../sources/2026/10/2026-10-29-addyosmani-agent-skills.md)
+- [mcode-stack (MiniMax)](../../sources/2026/10/2026-10-29-minimax-mcode-stack-skills.md)

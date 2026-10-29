@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-10-28
+last_reviewed: 2026-10-29
 ---
 
 ## Overview
@@ -72,7 +72,24 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - **Comparing models on one task:** VS Code 1.143 (2026-10-22) has this built in as a
   preview. Each model works in its own session, and a judge model can pick the best
   result or merge them. Before, people ran parallel worktrees by hand.
-- **Background and scheduled agents:** run in the cloud on a schedule or trigger.
+- **Letting the tool pick models:** GitHub Copilot Fusion (GA 2026-10-28) routes each
+  prompt across several models, using a single model, a cascade (cheap draft, escalate if
+  needed), or a critique loop, at Standard, High, or Max effort. GitHub reports Fusion Max
+  within two points of Claude Code with Opus 5.5 Max on the Artificial Analysis Coding
+  Agent Index at about half the cost (vendor figures; see
+  [cost and caching](../practices/cost-and-caching.md)).
+- **Background and scheduled agents:** run in the cloud on a schedule or trigger. Options
+  as of 2026-10-28: Claude Code cloud routines; GitHub Agentic Workflows (GA), which
+  compile a Markdown file into a GitHub Actions job that runs Copilot, Claude, Codex,
+  Gemini, or Pi (`gh extension install github/gh-aw`, then
+  `gh aw add-wizard githubnext/agentics/repo-status`); shared Copilot Automations that
+  belong to a repository and fire on events; and Copilot Agent Merge, which fixes failing
+  checks and merge conflicts on a PR (**Watch and fix** in the merge box).
+- **Long-lived sessions:** sessions increasingly run on a host rather than in the editor
+  window. Claude Code has background sessions and Remote Control; VS Code's Agent Host
+  (`code agent host`, 2026-10-28) keeps Copilot sessions running after the window
+  closes, runs them on remote machines or in the cloud, and lets GitHub Mobile and other
+  clients continue them through the open Agent Host Protocol.
 - **SDKs:** for example the Claude Agent SDK packages the Claude Code harness as a
   library for building your own agents.
 - **Infrastructure at agent scale:** when most commits come from agents, source control
@@ -106,6 +123,15 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
+- **2026-10-28:** GitHub Universe. Agentic Workflows (`gh aw`) is GA on Free, Team, and
+  Enterprise, with read-only sandboxed agents, "safe outputs", and threat detection.
+  Copilot Fusion (multi-model routing) is GA on all plans. Agent Merge now works from
+  any PR on github.com (paid plans). Shared Copilot Automations are rolling out.
+  Copilot connectors put 26 GitHub-verified MCP servers one click away (preview; see
+  [MCP](mcp.md)). VS Code gains the Agent Host, remote and cloud sessions, experimental
+  desktop computer use (`chat.agentHost.computerUse.enabled`, then `/computer on`), and
+  a customizations marketplace; the GitHub Copilot SDK is being renamed the Microsoft
+  Copilot SDK.
 - **2026-10-27:** Claude Code 2.1.312: Write no longer overwrites a large CLAUDE.md or
   rules file Claude has only partly read, and `paths:` skills are found after a `cd`.
   Prompt and agent hooks are capped at 24 concurrent per session. On Bedrock, Vertex,
@@ -169,6 +195,9 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   than reviewing every change equally. On 2026-10-15 the Claude Code team published
   outcome data (reverted share down over 40% while merged PRs doubled), but only for its
   own repositories; no independent or cross-company figures yet.
+- Copilot Fusion's cost and score claims (2026-10-28) are GitHub's own. Are there
+  independent results, and how does it compare with Claude Code at lower effort levels?
+  The details of local-model selection in Fusion were not read.
 
 ## Sources
 
@@ -197,3 +226,9 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [GitHub Copilot assisted permissions GA](../../sources/2026/10/2026-10-27-copilot-assisted-permissions-ga.md)
 - [Claude Code release 2.1.312](../../sources/2026/10/2026-10-28-claude-code-2-1-312.md)
 - [Codex CLI 0.165.0](../../sources/2026/10/2026-10-28-codex-cli-0-165-vertex.md)
+- [GitHub Agentic Workflows GA](../../sources/2026/10/2026-10-29-github-agentic-workflows-ga.md)
+- [Copilot connectors](../../sources/2026/10/2026-10-29-copilot-connectors-verified-mcp.md)
+- [Agent Merge](../../sources/2026/10/2026-10-29-copilot-agent-merge-pull-requests.md)
+- [GitHub Copilot Fusion GA](../../sources/2026/10/2026-10-29-github-copilot-fusion-ga.md)
+- [Shared Copilot Automations](../../sources/2026/10/2026-10-29-copilot-shared-automations.md)
+- [Copilot in VS Code: Universe 2026](../../sources/2026/10/2026-10-29-copilot-vscode-universe-agent-host.md)
