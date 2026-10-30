@@ -2,7 +2,7 @@
 title: "Claude (Anthropic)"
 tags: [anthropic, llm, reasoning, cost]
 related: [models/gpt, models/gemini, tooling/skills, tooling/mcp, tooling/coding-agents]
-last_reviewed: 2026-10-25
+last_reviewed: 2026-10-30
 ---
 
 ## Overview
@@ -116,12 +116,21 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
   tunnels. Setup creates a new Anthropic organization, so files, skills, and agents do
   not carry over. Python setup: `pip install -U "anthropic[google_cloud]"`, then set
   `ANTHROPIC_GOOGLE_CLOUD_PROJECT` and `ANTHROPIC_GOOGLE_CLOUD_WORKSPACE_ID`.
+- Requests to the Messages and Token Counting APIs can be up to 128 MB on the first-party
+  API (raised from 32 MB on 2026-10-28), which matters for large PDFs and images.
+- For spend reports per model, workspace, key, or user, use the Usage and Cost Analytics
+  API (beta since 2026-10-29); the older Usage and Cost API and the Enterprise usage and
+  cost reports are legacy but supported (see
+  [cost and caching](../practices/cost-and-caching.md)).
 - Stream long requests. Use the Models API for live capability data; since 2026-10-15 it
   also reports whether a model accepts `between_tools` thinking.
 - Try lower effort on a strong model before adding a cascade of smaller models.
 
 ## Current state
 
+- **2026-10-29:** Usage and Cost Analytics API launched in beta
+  (`analytics-usage-cost-2026-08-24`), also on Claude Platform on AWS and Anthropic-managed
+  Google Cloud. On 2026-10-28 the maximum request size rose to 128 MB.
 - **2026-10-22:** Claude Models on Google Cloud (Anthropic managed) launched, with Opus
   5.5 fast mode from day one (see How to use it). Revoking IAM access does not stop
   Managed Agents sessions or scheduled deployments that are already running.
@@ -175,3 +184,4 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 - [Migrating to API version 2026-10-21](../../sources/2026/10/2026-10-22-claude-api-version-2026-10-21.md)
 - [Claude Models on Google Cloud (Anthropic managed)](../../sources/2026/10/2026-10-23-claude-on-google-cloud-anthropic-managed.md)
 - [Donating Agent Skills to the Agentic AI Foundation](../../sources/2026/10/2026-10-23-agent-skills-donated-to-aaif.md)
+- [Usage and Cost Analytics API](../../sources/2026/10/2026-10-30-claude-usage-cost-analytics-api.md)

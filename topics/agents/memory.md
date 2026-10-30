@@ -2,7 +2,7 @@
 title: "Memory for agents"
 tags: [memory, agents, tokens]
 related: [agents/agent-patterns, fundamentals/tokens-and-context, fundamentals/rag]
-last_reviewed: 2026-10-28
+last_reviewed: 2026-10-30
 ---
 
 ## Overview
@@ -28,11 +28,17 @@ knowledge outside it.
 - **Code graphs as memory:** for coding agents, a local index of the codebase (calls,
   imports, dependencies) plus captured past sessions can be served over
   [MCP](../tooling/mcp.md), giving cited answers instead of re-reading files each time.
-  Graphicle is one example.
+  Graphicle and codebase-memory-mcp are examples; the latter also graphs infrastructure
+  files such as Helm charts.
 - **Session event logs:** another approach records what happened in a session (file
   edits, git operations, tasks, errors) in a local database. After compaction the agent
   searches the log instead of relying on the summary. Context Mode does this with SQLite
   full-text search.
+- **Automatic session capture:** hooks record each session's tool calls, a background
+  model condenses them into summaries, and relevant summaries are injected into later
+  sessions. claude-mem is the best-known example. It saves effort compared with
+  hand-written notes, but it costs model calls and stores whatever the agent saw, so
+  check its redaction settings.
 
 ## How to use it
 
@@ -43,6 +49,12 @@ knowledge outside it.
 
 ## Current state
 
+- **2026-10-30:** Two memory tools are rising in GitHub trends. claude-mem (Apache-2.0,
+  about 105K stars) is a Claude Code plugin, also available for Codex, Gemini CLI, and
+  others, that captures sessions and feeds summaries back in later; install it with
+  `/plugin marketplace add thedotmack/claude-mem`. codebase-memory-mcp (MIT, about 48K
+  stars) is a local MCP server that keeps a persistent graph of code, docs, and
+  infrastructure.
 - **2026-10-27:** Codex CLI 0.165.0 turns Memory v2 on by default for new profiles and
   can import memories from other coding agents, a first step towards memory you can
   carry between tools. The release notes do not say which formats it reads (see Open
@@ -76,3 +88,5 @@ knowledge outside it.
 - [Graphicle: code graph and memory for coding agents](../../sources/2026/10/2026-10-20-graphicle-code-graph-memory-mcp.md)
 - [Context Mode](../../sources/2026/10/2026-10-26-context-mode-tool-output-sandbox.md)
 - [Codex CLI 0.165.0](../../sources/2026/10/2026-10-28-codex-cli-0-165-vertex.md)
+- [claude-mem](../../sources/2026/10/2026-10-30-claude-mem-persistent-agent-memory.md)
+- [codebase-memory-mcp](../../sources/2026/10/2026-10-30-codebase-memory-mcp-code-graph.md)

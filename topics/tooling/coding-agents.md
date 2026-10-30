@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-10-29
+last_reviewed: 2026-10-30
 ---
 
 ## Overview
@@ -123,6 +123,19 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
+- **2026-10-30:** Claude Code 2.1.314 (no public 2.1.313):
+  `permissions.blockWritesOutsideWorkingDirectories` makes Write, Edit, and NotebookEdit
+  refuse paths outside the working directories in every permission mode, bypass
+  included. Idle compaction in VS Code and the Desktop Code tab summarises an idle
+  conversation over 200K tokens so a cold-cache return costs less. `claude -p` now exits
+  1 with an error when startup fails. Bash hooks also cover the Monitor tool's commands,
+  and cloud routines load your claude.ai plugins.
+- **2026-10-29:** Codex CLI 0.166.0: keyboard selection and search in the transcript,
+  clearer safety-block explanations, `codex queue --resume`, and
+  `codex doctor --network-only`.
+- **2026-10-30:** claude-mem (about 105K stars, Apache-2.0) is the most popular
+  automatic-memory plugin for Claude Code and other agents; see
+  [memory](../agents/memory.md).
 - **2026-10-28:** GitHub Universe. Agentic Workflows (`gh aw`) is GA on Free, Team, and
   Enterprise, with read-only sandboxed agents, "safe outputs", and threat detection.
   Copilot Fusion (multi-model routing) is GA on all plans. Agent Merge now works from
@@ -232,3 +245,6 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [GitHub Copilot Fusion GA](../../sources/2026/10/2026-10-29-github-copilot-fusion-ga.md)
 - [Shared Copilot Automations](../../sources/2026/10/2026-10-29-copilot-shared-automations.md)
 - [Copilot in VS Code: Universe 2026](../../sources/2026/10/2026-10-29-copilot-vscode-universe-agent-host.md)
+- [Claude Code release 2.1.314](../../sources/2026/10/2026-10-30-claude-code-2-1-314.md)
+- [Codex CLI 0.166.0](../../sources/2026/10/2026-10-30-codex-cli-0-166-transcript-selection.md)
+- [claude-mem](../../sources/2026/10/2026-10-30-claude-mem-persistent-agent-memory.md)

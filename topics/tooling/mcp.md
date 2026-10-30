@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-10-29
+last_reviewed: 2026-10-30
 ---
 
 ## Overview
@@ -87,6 +87,12 @@ the de facto standard, with official SDKs in many languages.
 
 ## Current state
 
+- **2026-10-30:** codebase-memory-mcp (MIT, about 48K stars, v0.12.1 on 2026-10-16) is
+  rising in GitHub trends: a local server with 17 tools (`trace_path`, `detect_changes`,
+  `get_architecture`, and others) over a persistent graph of code, docs, and
+  infrastructure, with no API key. See [memory](../agents/memory.md). Claude Code 2.1.314
+  uses MCP servers that also work signed out, without sign-in, when their stored sign-in
+  breaks, instead of marking them "needs authentication".
 - **2026-10-28:** GitHub Copilot connectors (verified MCP servers, preview, all plans;
   Business and Enterprise need the `Editor preview features` policy). VS Code's new
   customizations browser lists MCP servers next to skills and plugins.
@@ -139,3 +145,4 @@ the de facto standard, with official SDKs in many languages.
 - [Google ADK (Python) v2.13.0](../../sources/2026/10/2026-10-26-google-adk-python-v2-13.md)
 - [Copilot connectors](../../sources/2026/10/2026-10-29-copilot-connectors-verified-mcp.md)
 - [Copilot in VS Code: Universe 2026](../../sources/2026/10/2026-10-29-copilot-vscode-universe-agent-host.md)
+- [codebase-memory-mcp](../../sources/2026/10/2026-10-30-codebase-memory-mcp-code-graph.md)

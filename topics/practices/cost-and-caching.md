@@ -2,7 +2,7 @@
 title: "Cost and caching"
 tags: [cost, caching, tokens]
 related: [fundamentals/tokens-and-context, models/claude, fundamentals/reasoning-models]
-last_reviewed: 2026-10-29
+last_reviewed: 2026-10-30
 ---
 
 ## Overview
@@ -80,7 +80,14 @@ Other levers:
   Claude API credits ($100 to $500, as of 2026-10-20). They expire each billing cycle and
   do not cover Claude Code, so they suit small Agent SDK or Managed Agents workloads.
   Give each project its own workspace with a spend limit, because all keys share the
-  balance.
+  balance. Since 2026-10-29 OpenAI does the same for its $100, $200, and $500 ChatGPT
+  plans (equal, expiring credits applied to one API organization; reported by Simon
+  Willison because the help article returned 403).
+- **Attribute spend:** Anthropic's Usage and Cost Analytics API (beta, 2026-10-29)
+  breaks cost and tokens down by model, workspace, API key, actor, and service tier, in
+  1-minute, 1-hour, or 1-day buckets
+  (`anthropic-beta: analytics-usage-cost-2026-08-24`, Admin API credentials). Use it to
+  find which key or agent is spending; it replaces the legacy Usage and Cost API.
 
 ## Reference prices
 
@@ -115,6 +122,12 @@ legacy, costs $1 / $5.
 
 ## Current state
 
+- **2026-10-30:** Claude Code 2.1.314 adds idle compaction in VS Code and the Desktop
+  Code tab, so returning to a long session after the cache has expired re-reads a
+  summary, not the whole history (see [coding agents](../tooling/coding-agents.md)).
+- **2026-10-29:** Anthropic launched the Usage and Cost Analytics API (beta); the old
+  Usage and Cost API is now legacy but still supported. OpenAI added API credits to its
+  $100–$500 ChatGPT plans, matching Anthropic's offer of 2026-10-20.
 - **2026-10-28:** GitHub Copilot Fusion (GA) routes coding prompts across several
   models (single, cascade, or critique) and bills each model at its normal rate, with a
   30% discount on paid plans for a limited time. GitHub claims Fusion Max nearly matches
@@ -163,3 +176,5 @@ legacy, costs $1 / $5.
 - [Prompt caching: 12-hour lifetime (OpenAI API docs)](../../sources/2026/10/2026-10-21-openai-12-hour-prompt-caching.md)
 - [Kimi K3.1 Pro](../../sources/2026/10/2026-10-26-kimi-k3-1-pro.md)
 - [GitHub Copilot Fusion GA](../../sources/2026/10/2026-10-29-github-copilot-fusion-ga.md)
+- [Usage and Cost Analytics API](../../sources/2026/10/2026-10-30-claude-usage-cost-analytics-api.md)
+- [OpenAI API credits for ChatGPT plans](../../sources/2026/10/2026-10-30-openai-api-credits-chatgpt-plans.md)

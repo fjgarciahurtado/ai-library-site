@@ -2,7 +2,7 @@
 title: "GPT (OpenAI)"
 tags: [openai, llm, reasoning]
 related: [models/claude, models/gemini, tooling/coding-agents]
-last_reviewed: 2026-10-27
+last_reviewed: 2026-10-30
 ---
 
 ## Overview
@@ -97,6 +97,11 @@ model between Sol and Luna, followed on 2026-10-26.
 
 ## Current state
 
+- **2026-10-29:** ChatGPT's $100, $200, and $500 plans now include an equal amount of
+  expiring API credits for one API organization (reported by Simon Willison; OpenAI's
+  help article returned 403). OpenAI also published an updated Model Spec the same day,
+  but neither the announcement (403) nor the changes could be read; not summarised here.
+  Codex CLI 0.166 adds GPT-6.1 Terra to its Vertex AI and Bedrock catalogues.
 - **2026-10-26:** OpenAI released GPT-6.1 Terra (`gpt-6.1-terra`, $1 / $5 per 1M tokens,
   details above). It is in the API and rolling out in GitHub Copilot (paid plans, list
   price under usage-based billing). The announcement post returned 403, so OpenAI's
@@ -120,6 +125,11 @@ model between Sol and Luna, followed on 2026-10-26.
 - Does GPT-6.1 Terra charge more for inputs above 272K tokens, as the other GPT-6 models
   do? Its model page does not say (checked 2026-10-27). Its benchmark figures are also
   unchecked, because the announcement post returned 403.
+- What changed in the Model Spec update of 2026-10-29? Both the announcement and the
+  versioned spec page could be fetched only partly (checked 2026-10-30); the changelog
+  is on GitHub.
+- How long do ChatGPT-plan API credits last, and how are they claimed? Not confirmed
+  from the primary page (checked 2026-10-30).
 
 ## Sources
 
@@ -132,3 +142,4 @@ model between Sol and Luna, followed on 2026-10-26.
 - [OpenAI Ultrafast mode guide](../../sources/2026/10/2026-10-09-openai-ultrafast-mode.md)
 - [Prompt caching: 12-hour lifetime (OpenAI API docs)](../../sources/2026/10/2026-10-21-openai-12-hour-prompt-caching.md)
 - [GPT-6.1 Terra (OpenAI API model page)](../../sources/2026/10/2026-10-27-gpt-6-1-terra.md)
+- [OpenAI API credits for ChatGPT plans](../../sources/2026/10/2026-10-30-openai-api-credits-chatgpt-plans.md)

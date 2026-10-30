@@ -2,7 +2,7 @@
 title: "Security for LLM apps and agents"
 tags: [security, safety, agents, mcp]
 related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
-last_reviewed: 2026-10-29
+last_reviewed: 2026-10-30
 ---
 
 ## Overview
@@ -107,8 +107,14 @@ to limit what the agent can do if it is fooled.
   Claude API user profiles (see [Claude](../models/claude.md)).
 - Keep API keys out of command lines: Claude's SDK majors of 2026-10-21 send keys as
   `Authorization: Bearer`, and the `ant` CLI no longer accepts keys as flag values.
-- Audit guardrail decisions: Claude Code 2.1.307 emits a `claude_code.safety_event`
-  OpenTelemetry event for every tool call blocked or prompted by guardrails.
+- Audit guardrail decisions: Claude Code 2.1.307 added a `claude_code.safety_event`
+  OpenTelemetry event for tool calls blocked or prompted by guardrails, but 2.1.312
+  (2026-10-27) stopped sending it. Use `/permissions` → Recently blocked to review
+  blocked calls instead.
+- Fence unattended agents into the repository: Claude Code 2.1.314 adds
+  `permissions.blockWritesOutsideWorkingDirectories` (with the existing
+  `blockReadsOutsideWorkingDirectories`), which applies in every permission mode,
+  including auto and bypass.
 - Enable `sandbox.allowNestedUserNamespaces` (Claude Code 2.1.305, Linux) only if you
   need Chromium or rootless podman inside the sandbox; the changelog warns that it
   weakens the sandbox's file protections.
@@ -118,6 +124,10 @@ to limit what the agent can do if it is fooled.
 
 ## Current state
 
+- **2026-10-30:** Claude Code 2.1.314 can refuse all file writes outside the working
+  directories regardless of permission mode, and Bash hooks now also see shell commands
+  started by the Monitor tool (they can block or ask, but not approve or rewrite them).
+  See [coding agents](../tooling/coding-agents.md).
 - **2026-10-28:** GitHub Agentic Workflows reached GA with layered defaults for agents in
   CI: read-only permissions, a sandboxed container behind an egress firewall (Agent
   Workflow Firewall), writes only through declared "safe outputs", and a threat-detection
@@ -177,3 +187,4 @@ to limit what the agent can do if it is fooled.
 - [Microsoft Agent Framework (Python) 1.23.0](../../sources/2026/10/2026-10-23-microsoft-agent-framework-python-1-23.md)
 - [GitHub Copilot assisted permissions GA](../../sources/2026/10/2026-10-27-copilot-assisted-permissions-ga.md)
 - [GitHub Agentic Workflows GA](../../sources/2026/10/2026-10-29-github-agentic-workflows-ga.md)
+- [Claude Code release 2.1.314](../../sources/2026/10/2026-10-30-claude-code-2-1-314.md)

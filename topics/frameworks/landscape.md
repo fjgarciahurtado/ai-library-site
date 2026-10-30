@@ -2,7 +2,7 @@
 title: "Agent and LLM framework landscape"
 tags: [frameworks, agents, sdk]
 related: [agents/agent-patterns, agents/tool-use, tooling/mcp]
-last_reviewed: 2026-10-28
+last_reviewed: 2026-10-30
 ---
 
 ## Overview
@@ -147,7 +147,8 @@ Release features are described under Key concepts.
 ## Open questions
 
 - Add a primary source for a LlamaIndex major release; it was still on 0.14.25
-  (2026-09-21) when checked on 2026-10-27.
+  (2026-09-21) when checked on 2026-10-30. No 0.15 or 1.0 tag is in the release feed.
+  Its cadence has slowed (0.14.23 in June, 0.14.24 in August, 0.14.25 in September).
 - When will DSPy 3.5 remove the legacy LM interfaces? No date given (checked
   2026-10-12).
 
