@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-10-30
+last_reviewed: 2026-11-01
 ---
 
 ## Overview
@@ -35,16 +35,33 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   mode, and `CLAUDE_CODE_AUTO_MODE_MODEL` picks the client-side classifier model.
   GitHub Copilot has a similar mode, "assisted permissions", generally available since
   2026-10-26 in Copilot CLI (`/permissions` → assisted), the Copilot app, and VS Code. A
-  model lets clearly safe commands, paths, and URLs through and asks about the rest.
+  model lets clearly safe commands, paths, and URLs through and asks about the rest;
+  admins can allow Assisted while blocking Allow All.
+  For a hard boundary, Claude Code 2.1.314 (2026-10-30) adds
+  `permissions.blockWritesOutsideWorkingDirectories: true`: Write, Edit, and
+  NotebookEdit then refuse paths outside the working directories in every mode, bypass
+  included. 2.1.309 (2026-10-22) closed several sandbox gaps (shell startup files ran
+  outside the sandbox, `denyWrite` failed through symlinks, sandboxed commands could edit
+  the `--mcp-config` file); since then `sed -i` gets a normal Bash prompt that `/rewind`
+  does not undo, and `claude ultrareview` needs workspace trust (`--trust-workspace` in
+  scripts). On Linux, `sandbox.allowNestedUserNamespaces` (2.1.305) allows Chromium and
+  rootless podman inside the sandbox at the cost of weaker file protection.
 - **Extensibility:** [skills](skills.md), slash commands, hooks, subagents, plugins,
   and [MCP](mcp.md) servers. Hooks used as guardrails should fail closed: since 2.1.295
   (2026-10-08), Claude Code hooks can set `onFailure: "block"` so that a hook that
   crashes or times out blocks the action; 2.1.294 fixed a bug that let instruction-style
   `prompt` hooks allow what they should block. At most 12 hooks run per event at once
   (2.1.302), and since 2.1.312 (2026-10-27) prompt and agent hooks are also capped at 24
-  running at a time per session, subagents included. Subagents take an `effort` parameter (2.1.292), and fork subagents are on
-  by default in `claude -p`, the Agent SDK, desktop, and VS Code (2.1.302), where
-  subagents always run in the background.
+  running at a time per session, subagents included. Since 2.1.314 Bash hooks also
+  cover the Monitor tool's commands. Subagents take an `effort` parameter (2.1.292), can
+  use MCP servers that connect late (2.1.311), and fork subagents are on by default in
+  `claude -p`, the Agent SDK, desktop, and VS Code (2.1.302), where subagents always run
+  in the background.
+- **Effort:** in Claude Code, typing `ultrathink` runs that one turn at `xhigh` effort on
+  the 5.5-generation models and Fable 5.1 (2.1.311, 2026-10-26); cloud routines have an
+  effort setting (2.1.312). Codex takes model, effort, and speed inline in `/model`
+  (0.164) and lets you change effort mid-conversation (0.165). Codex `/presets` saves
+  prompts, slash commands, or permission settings in ten slots (0.164, 2026-10-23).
 - **Observability:** Claude Code emits OpenTelemetry with GenAI attributes (2.1.300),
   and fields that explain why auto mode allowed or blocked a tool call (2.1.301). The
   `claude_code.safety_event` event added in 2.1.307 was removed again in 2.1.312
@@ -52,7 +69,15 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   fixes with `f`.
 - **Context handling:** idle sessions are compacted before the prompt cache expires
   (2.1.299), `@` mentions pass paths instead of contents, and switching to a
-  smaller-context model summarises first (2.1.301).
+  smaller-context model summarises first (2.1.301). Standard-context sessions compact
+  instead of stopping when a request passes 200K tokens (2.1.311), and idle compaction
+  also runs in VS Code and the Desktop Code tab (2.1.314), so returning to a long session
+  after the cache expires costs less.
+- **Other providers:** Claude Code runs on Bedrock, Vertex, Foundry, and Mantle; the
+  Monitor tool works there since 2.1.310, and 2.1.305 fixed a 2.1.304 regression that
+  broke requests on those providers (skip 2.1.304). Codex has a built-in Vertex AI
+  provider (`model_provider = "gcp"`, 0.165, 2026-10-27) and enterprise MCP sign-in
+  (0.164).
 - **Add-ons for everyday work** (added to the library in October 2026; MIT unless
   noted): Ribbon shows usage left,
   reset times, and prompt-cache warmth above the prompt
@@ -68,10 +93,15 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   (`/plugin marketplace add mksglu/context-mode`, then
   `/plugin install context-mode@context-mode`; see [MCP](mcp.md)). The rederive skill
   helps you learn a repo by asking you to work out its design
-  (`npx skills add EricJujianZou/rederive`; see [skills](skills.md)).
+  (`npx skills add EricJujianZou/rederive`; see [skills](skills.md)). claude-mem (about
+  105K stars, Apache-2.0) is the most popular automatic-memory plugin for Claude Code and
+  other agents (see [memory](../agents/memory.md)).
 - **Comparing models on one task:** VS Code 1.143 (2026-10-22) has this built in as a
-  preview. Each model works in its own session, and a judge model can pick the best
-  result or merge them. Before, people ran parallel worktrees by hand.
+  preview (`sessions.chat.compareAgents.enabled`). Each model works in its own session,
+  and a judge model can pick the best result or **Synthesize** a merge. Before, people
+  ran parallel worktrees by hand. The same release made the Copilot harness (Copilot
+  SDK, Agent Host) the default for new VS Code sessions and lets admins require plugins
+  with `enabledPlugins`, which then install automatically.
 - **Letting the tool pick models:** GitHub Copilot Fusion (GA 2026-10-28) routes each
   prompt across several models, using a single model, a cascade (cheap draft, escalate if
   needed), or a critique loop, at Standard, High, or Max effort. GitHub reports Fusion Max
@@ -123,19 +153,12 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
-- **2026-10-30:** Claude Code 2.1.314 (no public 2.1.313):
-  `permissions.blockWritesOutsideWorkingDirectories` makes Write, Edit, and NotebookEdit
-  refuse paths outside the working directories in every permission mode, bypass
-  included. Idle compaction in VS Code and the Desktop Code tab summarises an idle
-  conversation over 200K tokens so a cold-cache return costs less. `claude -p` now exits
-  1 with an error when startup fails. Bash hooks also cover the Monitor tool's commands,
+- **2026-10-30:** Claude Code 2.1.314 (no public 2.1.313): the write fence and idle
+  compaction described above; `claude -p` now exits 1 with an error when startup fails,
   and cloud routines load your claude.ai plugins.
 - **2026-10-29:** Codex CLI 0.166.0: keyboard selection and search in the transcript,
   clearer safety-block explanations, `codex queue --resume`, and
   `codex doctor --network-only`.
-- **2026-10-30:** claude-mem (about 105K stars, Apache-2.0) is the most popular
-  automatic-memory plugin for Claude Code and other agents; see
-  [memory](../agents/memory.md).
 - **2026-10-28:** GitHub Universe. Agentic Workflows (`gh aw`) is GA on Free, Team, and
   Enterprise, with read-only sandboxed agents, "safe outputs", and threat detection.
   Copilot Fusion (multi-model routing) is GA on all plans. Agent Merge now works from
@@ -147,59 +170,18 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   Copilot SDK.
 - **2026-10-27:** Claude Code 2.1.312: Write no longer overwrites a large CLAUDE.md or
   rules file Claude has only partly read, and `paths:` skills are found after a `cd`.
-  Prompt and agent hooks are capped at 24 concurrent per session. On Bedrock, Vertex,
-  Foundry, and Mantle, unrecognised model names get the short system prompt
-  (`CLAUDE_CODE_SIMPLE_SYSTEM_PROMPT=0` restores the full one). Cloud routines gain an
-  effort setting. The official marketplace's `code-review` plugin now prints to the
-  terminal unless `--comment` is passed.
-- **2026-10-27:** Codex CLI 0.165.0: built-in Vertex AI provider
-  (`model_provider = "gcp"`), Memory v2 on by default for new profiles with import from
-  other agents (see [memory](../agents/memory.md)), effort changes mid-conversation, and
-  GPT-6.1 Terra in the catalogue.
-- **2026-10-26:** Claude Code 2.1.311: typing `ultrathink` in the terminal now runs that
-  turn at `xhigh` effort on the 5.5-generation models and Fable 5.1. Standard-context
-  sessions compact instead of stopping when a request passes 200K tokens. Subagents can
-  use MCP servers that connect late, and `SubagentStop` hooks fire once per subagent.
-  Requests the API marks as not retryable are no longer retried, a retry loop that
-  could hang unattended runs. TypeScript Agent SDK 0.3.311 splits cache-write tokens into
-  5-minute and 1-hour counts.
-- **2026-10-26:** GitHub Copilot assisted permissions are generally available in Copilot
-  CLI, the Copilot app, and VS Code: a model approves clearly safe actions and asks
-  about the rest. Admins can allow Assisted while blocking Allow All. GPT-6.1 Terra is
-  also rolling out in Copilot (see [GPT](../models/gpt.md)).
-- **2026-10-23:** Claude Code 2.1.310: the Monitor tool and plugin monitors now work on
-  Bedrock, Vertex, and Foundry and with telemetry off, where long foreground sleeps are
-  now blocked. It retries without the `effort` beta or mid-conversation system messages
-  when a gateway rejects them. On Windows it closes a fail-open path for hooks whose
-  command is only quoted strings. Enterprise custom roles now cover cloud sessions and
-  Remote Control.
-- **2026-10-23:** Codex CLI 0.164.0 adds `/presets` (ten slots for prompts, slash
-  commands, or permission settings) and inline `/model` and `/permissions` arguments,
-  image previews in Kitty and Sixel terminals, enterprise MCP sign-in, and credential
-  masking in remote shells.
-- **2026-10-22:** VS Code 1.143 makes the Copilot harness (Copilot SDK, Agent Host) the
-  default for new sessions. It adds a preview that runs one task with several models,
-  with a Judge model to score the results and **Synthesize** to merge them
-  (`sessions.chat.compareAgents.enabled`). Experimental: a local MAI Code 1.1 Flash
-  model (needs a 96 GB NVIDIA GPU). Admins can require plugins with `enabledPlugins`,
-  and those plugins install automatically.
-- **2026-10-22:** Claude Code 2.1.309 (2.1.308 is fixes only) closes several sandbox
-  gaps: shell startup files ran outside the sandbox, `denyWrite` failed through symlinks,
-  and sandboxed commands could edit the `--mcp-config` file. It also tightens `Edit` deny
-  rules, `cd`+git prompts, and worktree isolation. Behaviour changes: `sed -i` now gets a
-  normal Bash prompt and `/rewind` does not undo it. `claude ultrareview` needs workspace
-  trust (`--trust-workspace` in scripts). Dangerous `rm` in bypass mode on Desktop and
-  VS Code is denied with a rewrite hint.
-- **2026-10-21:** Claude Code 2.1.307: `/claude-api api-version` migrates Claude API code
-  to API version `2026-10-21` (see [Claude](../models/claude.md)). Unparseable tool
-  calls are retried twice, and self-hosted runner checkout hooks now time out after 30
-  minutes by default.
-- **2026-10-20/21:** Claude Code 2.1.305 fixes a 2.1.304 regression that broke all
-  requests on Bedrock, Vertex, and gateways that reject tool search, so skip 2.1.304
-  there. It adds `sandbox.allowNestedUserNamespaces` on Linux (Chromium and rootless
-  podman inside the sandbox, at the cost of weaker file protection). 2.1.306 fixes
-  `claude -p` in cloud sessions and spurious "prompt is too long" errors with many MCP
-  tools.
+  On Bedrock, Vertex, Foundry, and Mantle, unrecognised model names get the short system
+  prompt (`CLAUDE_CODE_SIMPLE_SYSTEM_PROMPT=0` restores the full one). The official
+  marketplace's `code-review` plugin now prints to the terminal unless `--comment` is
+  passed.
+- **2026-10-27:** Codex CLI 0.165.0: Memory v2 on by default for new profiles, with
+  import from other agents (see [memory](../agents/memory.md)); GPT-6.1 Terra in the
+  catalogue. GPT-6.1 Terra is also rolling out in Copilot (see [GPT](../models/gpt.md)).
+- **2026-10-26:** Claude Code 2.1.311: requests the API marks as not retryable are no
+  longer retried, fixing a retry loop that could hang unattended runs. TypeScript Agent
+  SDK 0.3.311 splits cache-write tokens into 5-minute and 1-hour counts.
+- **2026-10-22:** VS Code 1.143 experimental: a local MAI Code 1.1 Flash model (needs a
+  96 GB NVIDIA GPU).
 
 ## Open questions
 

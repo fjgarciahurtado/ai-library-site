@@ -2,7 +2,7 @@
 title: "Gemini (Google)"
 tags: [google, llm, multimodal]
 related: [models/claude, models/gpt, models/open-weight]
-last_reviewed: 2026-10-28
+last_reviewed: 2026-11-01
 ---
 
 ## Overview
@@ -17,7 +17,9 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
 
 - **Tiers:** Pro (most capable), Flash (fast workhorse), Flash-Lite (cheapest), plus
   specialised variants such as Flash Cyber.
-- **Gemma:** Google's open-weight family, separate from Gemini.
+- **Gemma:** Google's open-weight family, separate from Gemini. A fine-tuned Gemma
+  powers an on-device scam detector built with Singapore's government (2026-10-14, not
+  released; see [open-weight models](open-weight.md)).
 - **Current lineup (as of 2026-10-18):**
   - *Gemini 4 Argon* (`gemini-4-argon`) is the most capable model (see below).
   - *Gemini 3.8 Flash* (GA 2026-09-02) is the newest generally available Flash model,
@@ -30,12 +32,15 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
     3.5 Pro.
   - *Deprecated on 2026-10-08:* Gemini 3.7 Flash (released 2026-08-13) and 3.5 Flash
     (2026-05-19). Their requests are now routed to 3.8 Flash and 3.6 Flash, and no
-    shutdown dates are set.
+    shutdown dates are set. The Deep Research agent
+    `deep-research-pro-preview-12-2025` shut down on 2026-10-23; use
+    `deep-research-preview-04-2026` or `deep-research-max-preview-04-2026`.
   - *Gemini 2.5:* since 2026-09-18, only existing active users can use it. Google directs
     new projects to 3.5 Flash-Lite or 3.8 Flash.
 - **Gemini 4 Argon:** first released to cybersecurity partners in the Fairwind Program on
   2026-09-30, then publicly on 2026-10-13 (paid API tier, Gemini app for Pro and Ultra
-  subscribers, Antigravity). On the Gemini API it is a Stable, GA model. Input and output
+  subscribers, Antigravity). On the Gemini API it is a Stable, GA model (model page
+  checked 2026-10-15). Input and output
   share a 1M-token limit. Output defaults to 64K tokens per synchronous request and goes
   up to 1M with "long decode". Thinking levels are low, medium, and high. It supports
   implicit caching only (no explicit caching), and computer use is still a preview
@@ -83,29 +88,15 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
 ## Current state
 
 - **2026-10-27:** Google released the Gemini API CLI (`gemini-api`) as an open-source
-  beta: a dependency-free binary for agents, scripts, and CI that generates text, images,
-  speech, music, and video, analyses files, and runs managed agents (details above).
-  The same day, Gemini CLI 0.66.0 started showing a notice that it is not yet optimised
-  for Gemini 4.
-
+  beta (details above). The same day, Gemini CLI 0.66.0 started showing a notice that it
+  is not yet optimised for Gemini 4.
 - **2026-10-26:** The Generate Content API now stores requests by default for new
-  paid-tier projects, as the Interactions API already did (details above).
-- **2026-10-26:** Rechecked the [Gemini Developer API pricing](../../sources/2026/10/2026-10-07-gemini-api-pricing.md)
-  page (updated 2026-10-22). It now lists the July 2026 models.
-  3.5 Flash-Lite, which Google recommends for new projects, costs $0.30 / $2.50, more
-  than 3.1 Flash-Lite. 3.6 Flash costs the same as 3.8 Flash, so there is no saving in
-  choosing it.
-- **2026-10-15:** The Gemini API model page labels `gemini-4-argon` Stable, and the
-  changelog lists it as GA from 2026-10-13.
-- **2026-10-14:** Google DeepMind and Singapore's government announced an on-device scam
-  detector built on a fine-tuned Gemma model (not yet released). See
-  [open-weight models](open-weight.md).
-- **2026-10-13:** Gemini 4 Argon became publicly available on the paid Gemini API at
-  introductory prices ($2 / $10), which double after 2026-11-30.
-- **2026-10-08:** Gemini 3.7 Flash and 3.5 Flash deprecated and auto-routed (see Current
-  lineup). The Deep Research agent `deep-research-pro-preview-12-2025` shuts down on
-  2026-10-23 (replacements: `deep-research-preview-04-2026` or
-  `deep-research-max-preview-04-2026`).
+  paid-tier projects, as the Interactions API already did (details above). Google's
+  pricing page (updated 2026-10-22) now lists the July 2026 models: 3.5 Flash-Lite,
+  which Google recommends for new projects, costs more than 3.1 Flash-Lite, and 3.6
+  Flash costs the same as 3.8 Flash.
+- **2026-10-13:** Gemini 4 Argon's introductory prices ($2 / $10) double after
+  2026-11-30.
 
 ## Open questions
 

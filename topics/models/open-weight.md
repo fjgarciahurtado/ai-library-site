@@ -2,7 +2,7 @@
 title: "Open-weight models"
 tags: [open-source, llm, deployment, fine-tuning]
 related: [fundamentals/training-and-fine-tuning, practices/cost-and-caching]
-last_reviewed: 2026-10-29
+last_reviewed: 2026-11-01
 ---
 
 ## Overview
@@ -46,7 +46,7 @@ As of 2026-10-22, checked against official model cards and announcements:
 | Flint (Recursive, coding agents) | 2026-10-21 (on Ollama) | 39.8B / ~2.5B (MoE), per model card | 262K | Apache 2.0 |
 | Gemma 4 (E2B to 31B) | 2026-04-03 | 2.3B effective to 31B dense; 26B A4B MoE | 128K–256K | Apache 2.0 |
 | Kimi K3.1 Pro (Moonshot; weights due by 2026-11-04) | 2026-10-23 (API) | "3T-class"; no details | 1M | not stated |
-| Mistral Large 4 (weights due end of Oct 2026) | 2026-10-06 (API preview) | 1T / 49B (MoE) | not stated | not stated |
+| Mistral Large 4 | 2026-10-06 (API preview); weights public by 2026-11-01 | ~1T / 49B (52B with embeddings; multimodal MoE) | 1M | Mistral Ecosystem Open-Weight License (modified MIT; MaaS needs a commercial licence) |
 | Mistral Large 3 | 2025-12-02 | ~675B / 41B (MoE) | 256K | Apache 2.0 |
 | gpt-oss-120b / gpt-oss-20b (OpenAI) | 2025-08 | 117B / 5.1B; 21B / 3.6B (MoE, MXFP4) | not stated on model cards | Apache 2.0 |
 | Llama 4 Scout / Maverick | 2025-04-05 | 109B / 17B; 400B / 17B (MoE) | Scout 10M | Llama 4 licence (custom) |
@@ -58,6 +58,8 @@ timeline: V4-Pro and V4-Flash preview with open weights on 2026-04-24, V4-Pro ge
 availability on 2026-08-13, V4-Flash-Vision-Exp on 2026-08-21, and V4.1-Flash on
 2026-09-10, and the V4.1-Flash-1017 update (more RL for agentic coding) on 2026-10-17.
 (A news report gave 2026-07-31 for V4-Flash; DeepSeek's date is used here.) The 1017
+release scored 42.3 on Terminal-Bench 4.0 against 31.2 for V4.1-Flash (DeepSeek's
+figures), and came with Search and Fetch APIs at $0.75 per 1,000 calls. The 1017
 Hugging Face page lists 763B parameters against the 552B DeepSeek gave for V4.1-Flash,
 although DeepSeek calls 1017 a minor update; the gap is unexplained (see Open questions).
 
@@ -91,6 +93,22 @@ targets long-horizon coding: Z.ai reports Terminal-Bench 2.1 88.2 and DeepSWE 66
 operators with over US$10 billion in revenue, who need a Z.ai security review. It runs on
 vLLM, SGLang, KTransformers, and Unsloth, with `reasoning_effort` set to `low`, `high`,
 or `max`.
+
+Mistral Large 4 entered API preview on 2026-10-06 (`mistral-large-4-0`, $1.36 / $4.18
+per 1M tokens; Mistral reports 93% on Cybench). Its weights were still private on
+2026-10-29 but public on Hugging Face by 2026-11-01, keeping the "end of October"
+promise. The model card gives about 1T total and 49B active parameters, native
+multimodality, and 1M context. The licence changed: Large 3 was Apache 2.0, while Large
+4 uses the Mistral Ecosystem Open-Weight License, a modified MIT licence that requires a
+separate commercial licence for model-as-a-service use. Like GLM-5.3, it is open for
+almost everyone except competing API hosts.
+
+Moonshot's Kimi K3.1 Pro (2026-10-23, `kimi-k3.1-pro`, plus a 2–3× faster `-highspeed`
+variant at twice the price) has 1M context and is on Moonshot's API, apps, and Kimi
+Code. On Moonshot's figures it scores 65.7% on Terminal-Bench 4.0 (Opus 5.5: 66.4%), and
+Artificial Analysis ranks it second behind Opus 5.5 (both reported by Simon Willison, as
+is the $2 / $10 price). Moonshot promises full weights by 2026-11-04 but names no
+licence.
 
 Ollama 0.40.12 (2026-10-27) added Liquid AI's LFM3 small models: a 1.7B text model with
 256K context, plus vision, audio (18 languages), and omni variants, and d1 2B decision
@@ -141,38 +159,15 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 
 ## Current state
 
-- **2026-10-29:** Gap filled: LFM3's licence is the LFM Open License v1.0, with a $10M
-  annual-revenue cap on commercial use (from Liquid AI's LFM3-1.7B model card). Ollama
-  0.40.13 brings LFM3, including audio and omni, to Linux and Windows. Mistral Large 4:
-  the mistralai Hugging Face organisation now links a Large 4 collection (updated
-  2026-10-28), but the `mistral-large-4` repo returned 401, so the weights are not
-  publicly downloadable yet.
-- **2026-10-28:** Gap filled: added GLM-5.3 from Z.ai's Hugging Face model card and
-  licence (details above). Ollama 0.40.12 (2026-10-27) adds Liquid AI's LFM3 family and
-  d1 2B, Apple hardware only for now.
-- **2026-10-27:** Checked Hugging Face: there are no Voxtral 3 weights and no Mistral
-  Large 4 weights in the mistralai organisation yet. The newest Large model there is
-  still Large 3 (2512). Mistral's promise of Large 4 weights "at the end of October"
-  has four days left.
-- **2026-10-23:** Moonshot released Kimi K3.1 Pro (`kimi-k3.1-pro`, plus a 2–3× faster
-  `-highspeed` variant at twice the price) on its API, apps, and Kimi Code, with a 1M
-  context. It promises full weights by 2026-11-04 but names no licence. On Moonshot's own
-  figures it scores 65.7% on Terminal-Bench 4.0 (Opus 5.5: 66.4%). Artificial Analysis
-  ranks it second, behind Opus 5.5 (both reported by Simon Willison). Price per Willison:
-  $2 / $10 per 1M tokens.
-- **2026-10-21:** Recursive's Flint coding model arrived in Ollama (see above); local
-  builds now cover macOS, Linux, and Windows, but its benchmarks have no independent
-  results yet.
-- **2026-10-20:** Mistral released Voxtral 3 (see above); the licence and weight
-  availability are still not stated.
-- **2026-10-17:** DeepSeek released V4.1-Flash-1017 (MIT weights, 1M context) with large
-  agentic-coding gains on its own benchmarks, for example Terminal-Bench 4.0 42.3 vs 31.2
-  for V4.1-Flash. It also opened Search and Fetch APIs at $0.75 per 1,000 calls, free
-  through Claude Code, Codex, and DeepSeek Harness until 2026-10-31.
-- **2026-10-06:** Mistral Large 4 (1T total / 49B active, multimodal MoE) entered API
-  preview as `mistral-large-4-0` at $1.36 / $4.18 per 1M tokens. Mistral promises open
-  weights at the end of October 2026, but has not stated the licence or context length.
-  Mistral reports strong cyber and agentic scores, including 93% on Cybench.
+- **2026-11-01:** Mistral Large 4 weights are public on Hugging Face under the Mistral
+  Ecosystem Open-Weight License (checked in the weekly review; see above).
+- **2026-10-29:** Ollama 0.40.13 brings LFM3, including audio and omni, to Linux and
+  Windows; LFM3's licence caps commercial use at $10M annual revenue.
+- **2026-10-28:** GLM-5.3 added from Z.ai's model card and licence (see above).
+- **2026-10-23:** Kimi K3.1 Pro launched on Moonshot's API; weights promised by
+  2026-11-04 (see above).
+- **2026-10-20:** Mistral's Voxtral 3 is still API-only; no weights on Hugging Face as of
+  2026-10-27.
 
 ## Open questions
 
@@ -188,10 +183,10 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
   under which licence.
 - Will leading labs keep releasing their largest models as open weights? DeepSeek still
   does (MIT). Meta's newest line is API-only. Qwen still releases weights, but under a
-  custom licence. Mistral promises Large 4 weights; check at the end of October 2026
-  whether they ship and under which licence (Large 3 was Apache 2.0). Not publicly on
-  Hugging Face as of 2026-10-29, though a Large 4 collection now exists there and the
-  model repo returns 401 (probably private until release).
+  custom licence. Mistral shipped Large 4 weights by 2026-11-01, but under a licence that
+  restricts model-as-a-service use (Large 3 was Apache 2.0), as GLM-5.3's does. The
+  trend is toward weights that stay open except for competing API hosts. The exact date
+  the Large 4 repo went public is not known.
 - What does the Qwen Community 1.0 licence allow for commercial use? It has not been read
   yet.
 - Did Llama 4 Behemoth ever ship? No primary source has been found.
@@ -239,3 +234,4 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 - [GLM-5.3 model card (Z.ai)](../../sources/2026/10/2026-10-28-glm-5-3-model-card.md)
 - [Ollama v0.40.13: LFM3 on Linux and Windows](../../sources/2026/10/2026-10-29-ollama-v0-40-13-lfm3-linux.md)
 - [LFM3-1.7B model card and licence](../../sources/2026/10/2026-10-29-liquid-lfm3-model-card-licence.md)
+- [Mistral Large 4 model card](../../sources/2026/11/2026-11-01-mistral-large-4-model-card.md)

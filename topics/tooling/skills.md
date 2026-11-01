@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-10-29
+last_reviewed: 2026-11-01
 ---
 
 ## Overview
@@ -35,6 +35,8 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 - **Long sessions in Claude Code:** since 2.1.304 (2026-10-19) the full skill list is
   resent after compaction, so skills stay discoverable; `/reload-skills` sends only new
   or changed skills, and one source can register at most 1,024 skill hooks per session.
+  Since 2.1.309 a skill in an `--add-dir` folder whose name clashes with another is
+  offered as `<folder>:<name>`, and since 2.1.312 `paths:` skills are found after a `cd`.
 - **Example third-party skill:** Dashboard Design (MIT, 2026-10-21) builds and critiques
   analytics dashboards (web and SwiftUI) with a screenshot QA pass. Install it with
   `/plugin marketplace add abdiraimov-otabek/dashboard-design-skill`, then
@@ -49,7 +51,8 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
   cited findings, port from other languages tests-first) plus a matching clippy config
   for CI: `/plugin marketplace add morganlinton/BeautifulRust`, then
   `/plugin install beautiful-rust@beautiful-rust`; for Codex, copy `skills/rust-*` into
-  `~/.agents/skills/`.
+  `~/.agents/skills/`. Its author reports Codex CLI's pass rate on 85 Rust tasks rising
+  from 53 to 76 with the skills (single run, graded by a Claude model).
 - **Diagram skill:** Archify (Apache-2.0) turns a plan or codebase into an interactive,
   self-contained HTML diagram (architecture, sequence, ERD, timeline, and more) with PNG
   and PDF export: `npx skills add tt-a1i/archify -g`.
@@ -76,26 +79,17 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 
 ## Current state
 
-- **2026-10-29:** From today's GitHub trends: addyosmani/agent-skills (about 111,500
-  stars, +2,100 in a week) and MiniMax's new mcode-stack (about 290 stars in a day). Both
-  install as Claude Code plugins.
-- **2026-10-28:** From today's GitHub trends: BeautifulRust (about 1,300 stars in five
-  days), whose author reports Codex CLI's pass rate on 85 Rust tasks rising from 53 to 76
-  with the skills (single run, graded by a Claude model); and Archify (v3.2.0, about
-  4,000 stars added in a week), a diagram skill for Claude Code, Codex, Cursor, and
-  OpenCode.
-- **2026-10-26:** rederive, a new MIT skill that teaches a codebase by asking questions
-  instead of explaining (246 stars in its first week), is in today's GitHub trends. It
-  keeps its map and your progress log in a local `.rederive/` folder that git ignores.
+- **2026-10-26 to 10-29:** Skill packs rising in GitHub trends: addyosmani/agent-skills
+  (about 111,500 stars, +2,100 in a week), Archify (about 4,000 stars added in a week),
+  BeautifulRust (about 1,300 stars in five days), and newer MiniMax mcode-stack and
+  rederive (a few hundred stars each). Details above.
 - **2026-10-22:** Anthropic donated Agent Skills (spec, name, GitHub org, agentskills.io)
   to the Agentic AI Foundation. Maintainers from Anthropic, Google, OpenAI, and others
   now steer it. Anthropic reports about 1 million skills published and nearly 280
   million installs. The planned versioned releases, proposal process, and security
   guidance have no dates yet.
-- **2026-10-22:** Claude Code 2.1.309: a skill in an `--add-dir` folder whose name
-  clashes with another is offered as `<folder>:<name>`. The bundled `/claude-api` skill
-  builds Managed Agents teams on `multiagent_20261001`, and dataviz adds APCA contrast
-  checks.
+- **2026-10-22:** Claude Code 2.1.309's bundled `/claude-api` skill builds Managed
+  Agents teams on `multiagent_20261001`, and dataviz adds APCA contrast checks.
 
 ## Open questions
 

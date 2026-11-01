@@ -2,7 +2,7 @@
 title: "Memory for agents"
 tags: [memory, agents, tokens]
 related: [agents/agent-patterns, fundamentals/tokens-and-context, fundamentals/rag]
-last_reviewed: 2026-10-30
+last_reviewed: 2026-11-01
 ---
 
 ## Overview
@@ -23,20 +23,29 @@ knowledge outside it.
   inspectable, works well with coding agents (for example `CLAUDE.md` files and memory
   directories).
 - **Memory tools and stores:** vendor features such as Claude's memory tool and Managed
-  Agents memory stores.
+  Agents memory stores. The Claude API also offers server-side compaction and context
+  editing (beta, as of 2026-10-04). Codex CLI's Memory v2 is on by default for new
+  profiles since 0.165.0 (2026-10-27) and can import memories from other coding agents, a
+  first step towards memory you can carry between tools.
+- **Memory in the model product:** Meta's Muse Wonder (2026-10-12) ships "Active
+  Memory", carrying context about the user across conversations and retrieving what is
+  relevant to the task. Memory is becoming a headline model feature, not only an
+  application-layer add-on.
 - **Retrieval:** looking up memories by search or [embeddings](../fundamentals/embeddings.md).
 - **Code graphs as memory:** for coding agents, a local index of the codebase (calls,
   imports, dependencies) plus captured past sessions can be served over
   [MCP](../tooling/mcp.md), giving cited answers instead of re-reading files each time.
-  Graphicle and codebase-memory-mcp are examples; the latter also graphs infrastructure
-  files such as Helm charts.
+  Graphicle (Rust, pre-release; `graphicle setup` wires it into Claude Code, Codex, and
+  Cursor) and codebase-memory-mcp (MIT, about 48K stars) are examples; the latter also
+  graphs infrastructure files such as Helm charts.
 - **Session event logs:** another approach records what happened in a session (file
   edits, git operations, tasks, errors) in a local database. After compaction the agent
-  searches the log instead of relying on the summary. Context Mode does this with SQLite
-  full-text search.
+  searches the log instead of relying on the summary. Context Mode (Elastic License 2.0)
+  does this with SQLite full-text search.
 - **Automatic session capture:** hooks record each session's tool calls, a background
   model condenses them into summaries, and relevant summaries are injected into later
-  sessions. claude-mem is the best-known example. It saves effort compared with
+  sessions. claude-mem (Apache-2.0, about 105K stars; `/plugin marketplace add
+  thedotmack/claude-mem`) is the best-known example. It saves effort compared with
   hand-written notes, but it costs model calls and stores whatever the agent saw, so
   check its redaction settings.
 
@@ -49,29 +58,10 @@ knowledge outside it.
 
 ## Current state
 
-- **2026-10-30:** Two memory tools are rising in GitHub trends. claude-mem (Apache-2.0,
-  about 105K stars) is a Claude Code plugin, also available for Codex, Gemini CLI, and
-  others, that captures sessions and feeds summaries back in later; install it with
-  `/plugin marketplace add thedotmack/claude-mem`. codebase-memory-mcp (MIT, about 48K
-  stars) is a local MCP server that keeps a persistent graph of code, docs, and
-  infrastructure.
-- **2026-10-27:** Codex CLI 0.165.0 turns Memory v2 on by default for new profiles and
-  can import memories from other coding agents, a first step towards memory you can
-  carry between tools. The release notes do not say which formats it reads (see Open
-  questions).
-- **2026-10-26:** Context Mode (an MCP server and Claude Code plugin, Elastic License
-  2.0, about 32,000 stars) is rising in GitHub trends. It keeps raw tool output in a
-  sandbox and stores session events in SQLite, so work state can be recovered after
-  compaction (see [MCP](../tooling/mcp.md)).
-- **2026-10-20:** Graphicle, a new open-source Rust MCP server (pre-release), combines a
-  code graph with memory of project decisions and past agent sessions. It runs locally
-  with no account, and `graphicle setup` wires it into Claude Code, Codex, and Cursor.
-- **2026-10-12:** Meta's Muse Wonder ships "Active Memory": the model carries context
-  about the user across conversations and retrieves what is relevant to the current
-  task. Meta has not said how it is stored or controlled. Memory is becoming a headline
-  model feature, not only an application-layer add-on.
-- **2026-10-04:** Server-side compaction and context editing are available in the Claude
-  API (beta). File-based memory is the common pattern in coding agents.
+- **2026-10-30:** claude-mem and codebase-memory-mcp are rising in GitHub trends (see
+  above), after Context Mode on 2026-10-26.
+- **2026-10-27:** Codex CLI 0.165.0 turns Memory v2 on by default with import from other
+  agents; the release notes do not say which formats it reads (see Open questions).
 
 ## Open questions
 

@@ -2,7 +2,7 @@
 title: "Security for LLM apps and agents"
 tags: [security, safety, agents, mcp]
 related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
-last_reviewed: 2026-10-30
+last_reviewed: 2026-11-01
 ---
 
 ## Overview
@@ -79,11 +79,25 @@ to limit what the agent can do if it is fooled.
   US conversations violated election-integrity rules.
 - **Sandbox escapes get fixed release by release:** Claude Code 2.1.299 (2026-10-14)
   closed symlinked denied paths on macOS and writes into `--plugin-dir`, and made more
-  hook failures block actions. 2.1.309 (2026-10-22) closed more (see Current state).
-  Keep agent tools current when you rely on their sandbox.
+  hook failures block actions. 2.1.309 (2026-10-22) fixed more: on macOS and Linux,
+  shell startup files ran outside the sandbox before each command; macOS `denyWrite`
+  globs did not apply through symlinks; sandboxed commands could edit the
+  `--mcp-config` file; `Edit(path)` deny rules missed some redirects; and worktree
+  isolation accepted some locale-prefixed and zsh arithmetic commands. Keep agent tools
+  current when you rely on their sandbox.
 - **Approval fatigue:** when users approve almost every prompt (about 93% in Claude Code,
   per Anthropic), permission prompts stop protecting anyone. Sandboxing that removes most
-  prompts is safer than asking more often.
+  prompts is safer than asking more often. Model-judged auto-approval is the other
+  answer: Claude Code's auto mode and GitHub Copilot's assisted permissions (GA
+  2026-10-26; admins can keep Assisted while blocking Allow All) let a model approve
+  clearly safe actions and ask about the rest. Both are probabilistic checks, not hard
+  boundaries, so pair them with a sandbox.
+- **Agents in CI:** GitHub Agentic Workflows (GA 2026-10-28) shows a layered default for
+  agents running in Actions: read-only permissions, a sandboxed container behind an
+  egress firewall (Agent Workflow Firewall), writes only through declared "safe
+  outputs", and a threat-detection job that scans proposed changes before they apply.
+  Micro-VMs and enclaves are options for cross-repository work (see
+  [coding agents](../tooling/coding-agents.md)).
 
 ## How to use it
 
@@ -114,7 +128,8 @@ to limit what the agent can do if it is fooled.
 - Fence unattended agents into the repository: Claude Code 2.1.314 adds
   `permissions.blockWritesOutsideWorkingDirectories` (with the existing
   `blockReadsOutsideWorkingDirectories`), which applies in every permission mode,
-  including auto and bypass.
+  including auto and bypass. Since the same release, Bash hooks also see shell commands
+  started by the Monitor tool (they can block or ask, but not approve or rewrite them).
 - Enable `sandbox.allowNestedUserNamespaces` (Claude Code 2.1.305, Linux) only if you
   need Chromium or rootless podman inside the sandbox; the changelog warns that it
   weakens the sandbox's file protections.
@@ -124,27 +139,12 @@ to limit what the agent can do if it is fooled.
 
 ## Current state
 
-- **2026-10-30:** Claude Code 2.1.314 can refuse all file writes outside the working
-  directories regardless of permission mode, and Bash hooks now also see shell commands
-  started by the Monitor tool (they can block or ask, but not approve or rewrite them).
-  See [coding agents](../tooling/coding-agents.md).
-- **2026-10-28:** GitHub Agentic Workflows reached GA with layered defaults for agents in
-  CI: read-only permissions, a sandboxed container behind an egress firewall (Agent
-  Workflow Firewall), writes only through declared "safe outputs", and a threat-detection
-  job that scans proposed changes before they apply. Micro-VMs and enclaves are options
-  for cross-repository work. See [coding agents](../tooling/coding-agents.md).
-- **2026-10-26:** GitHub Copilot's assisted permissions mode is generally available.
-  A model approves actions it judges clearly safe and asks the user about the rest.
-  Enterprise settings can keep Assisted while blocking Allow All, or turn it off. Like
-  Claude Code's auto mode, it is a probabilistic check, not a hard boundary. See
-  [coding agents](../tooling/coding-agents.md).
-- **2026-10-22:** Claude Code 2.1.309 fixes several sandbox and permission bypasses: on
-  macOS and Linux, shell startup files ran outside the sandbox before each command;
-  macOS `denyWrite` globs did not apply through symlinks; sandboxed commands could edit
-  the `--mcp-config` file; `Edit(path)` deny rules missed some redirects; and worktree
-  isolation accepted some locale-prefixed and zsh arithmetic commands. Upgrade before
-  relying on the sandbox for unattended runs. The same release stops Claude from writing
-  role names as GitHub @-mentions that notified unrelated users.
+- **2026-10-30:** Claude Code 2.1.314 adds a write fence that holds in every permission
+  mode (see How to use it).
+- **2026-10-28:** GitHub Agentic Workflows GA and, on 2026-10-26, Copilot assisted
+  permissions GA (see Key concepts).
+- **2026-10-22:** Claude Code 2.1.309 fixes several sandbox bypasses (see Key concepts);
+  upgrade before relying on the sandbox for unattended runs.
 - **2026-10-22:** Microsoft Agent Framework (Python) 1.23.0 makes AG-UI endpoints declare
   an authorization scope (or single-user mode) and renames the Docker shell's
   `extra_run_args` to `unsafe_extra_run_args`.
@@ -152,8 +152,6 @@ to limit what the agent can do if it is fooled.
   hostile HTML fetched by `web_fetch` could slow down the whole process. They also escape
   `SummarizingCompaction` transcripts so tool output cannot forge messages in compacted
   history. Upgrade agents that fetch untrusted pages.
-- **2026-10-20:** Anthropic's inference hooks came out of beta for Claude Enterprise
-  (see How to use it).
 
 ## Open questions
 

@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-10-30
+last_reviewed: 2026-11-01
 ---
 
 ## Overview
@@ -55,7 +55,17 @@ the de facto standard, with official SDKs in many languages.
   idempotent (2.1.307). Cloud sessions do not wait for a plugin's stdio servers unless
   the server sets `alwaysLoad: true`, and tool search is on by default behind a custom
   `ANTHROPIC_BASE_URL` (2.1.304). Since 2.1.309 sandboxed commands cannot modify the
-  `--mcp-config` file.
+  `--mcp-config` file, and a disabled server is no longer reconnected by a later
+  permission prompt. Headless runs recover servers after sleep (2.1.307) and do not
+  repeat a call that timed out waiting for an unanswered elicitation (2.1.310). Since
+  2.1.314 (2026-10-30), servers that also work signed out are used without sign-in when
+  their stored sign-in breaks. For organizations: since 2.1.305, `allowedMcpServers` no
+  longer filters `managed-mcp.json` stdio servers that use `${VAR}` only in `env`, so
+  list servers you mean to block in `deniedMcpServers`.
+- **Client behaviour in Codex:** since Codex CLI 0.164.0 (2026-10-23) MCP connections
+  can sign in with Codex account grants or a dedicated sign-in, including OAuth clients
+  that need a secret; tool-list changes apply within a turn, and coordinated OAuth
+  refresh is on by default.
 - **Notable new servers (October 2026):** MCPtoCodeMode (MIT) puts all your MCP servers
   behind three tools (`search`, `describe`, `execute`); the model writes JavaScript that
   runs in a QuickJS sandbox with no network or filesystem, and the project claims about
@@ -68,7 +78,9 @@ the de facto standard, with official SDKs in many languages.
   (`ctx_execute`, 12 runtimes) and returns only stdout. It indexes fetched pages for
   search and keeps session events in SQLite so work state survives compaction
   ([memory](../agents/memory.md)). It claims about 98% less output in one example
-  (self-reported).
+  (self-reported). codebase-memory-mcp (MIT, about 48K stars) is a local server with 17
+  tools (`trace_path`, `detect_changes`, `get_architecture`, and others) over a
+  persistent graph of code, docs, and infrastructure, with no API key.
 
 ## How to use it
 
@@ -87,32 +99,15 @@ the de facto standard, with official SDKs in many languages.
 
 ## Current state
 
-- **2026-10-30:** codebase-memory-mcp (MIT, about 48K stars, v0.12.1 on 2026-10-16) is
-  rising in GitHub trends: a local server with 17 tools (`trace_path`, `detect_changes`,
-  `get_architecture`, and others) over a persistent graph of code, docs, and
-  infrastructure, with no API key. See [memory](../agents/memory.md). Claude Code 2.1.314
-  uses MCP servers that also work signed out, without sign-in, when their stored sign-in
-  breaks, instead of marking them "needs authentication".
+- **2026-10-30:** codebase-memory-mcp (v0.12.1, 2026-10-16) is rising in GitHub trends
+  (see above and [memory](../agents/memory.md)).
 - **2026-10-28:** GitHub Copilot connectors (verified MCP servers, preview, all plans;
   Business and Enterprise need the `Editor preview features` policy). VS Code's new
   customizations browser lists MCP servers next to skills and plugins.
-- **2026-10-23:** Codex CLI 0.164.0 lets MCP connections sign in with Codex account
-  grants or a dedicated sign-in, including OAuth clients that need a secret. Tool-list
-  changes now apply within a turn, and coordinated OAuth refresh is on by default.
-  Claude Code 2.1.310 tells Claude not to repeat a call that timed out waiting for an
-  unanswered elicitation in a headless session.
-- **2026-10-22:** Google ADK (Python) 2.13.0 has only MCP fixes. Its notes do not say
-  MCP SDK 2.x became the default.
 - **2026-10-22:** Microsoft Agent Framework (Python) 1.23.0 migrates to MCP 2.x as a
   breaking change: new transports, errors, and schemas, and separate caller-owned and
-  framework-owned client lifecycles.
-- **2026-10-22:** Claude Code 2.1.309: a disabled server is no longer reconnected by a
-  later permission prompt in print and SDK sessions. 2.1.307 (2026-10-21) made servers
-  recover after sleep instead of staying timed out in headless runs.
-- **2026-10-20:** In Claude Code 2.1.305, `allowedMcpServers` no longer filters
-  `managed-mcp.json` stdio servers that use `${VAR}` only in `env`. Organizations should
-  add servers they mean to block to `deniedMcpServers`. A server set through the SDK's
-  `setMcpServers` is no longer overridden by a same-named server from user settings.
+  framework-owned client lifecycles. Google ADK (Python) 2.13.0 has only MCP fixes; its
+  notes do not say MCP SDK 2.x became the default.
 
 ## Open questions
 

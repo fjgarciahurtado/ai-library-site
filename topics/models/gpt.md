@@ -2,7 +2,7 @@
 title: "GPT (OpenAI)"
 tags: [openai, llm, reasoning]
 related: [models/claude, models/gemini, tooling/coding-agents]
-last_reviewed: 2026-10-30
+last_reviewed: 2026-11-01
 ---
 
 ## Overview
@@ -110,10 +110,6 @@ model between Sol and Luna, followed on 2026-10-26.
   (up from 200), cached shared input, images in question instructions, and `input_json`
   (details above). The announcement post could not be read (403), so the latency and
   pricing claims at GA are unchecked.
-- **2026-10-20:** 12-hour prompt caching added to the Responses API for GPT-5.6 and
-  later (details above).
-- **2026-10-16:** Ultrafast mode reached the Agents API (`agent.service_tier:
-  "ultrafast"`), after GPT-6.1 Sol on 2026-10-08.
 
 ## Open questions
 

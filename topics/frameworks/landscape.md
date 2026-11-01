@@ -2,7 +2,7 @@
 title: "Agent and LLM framework landscape"
 tags: [frameworks, agents, sdk]
 related: [agents/agent-patterns, agents/tool-use, tooling/mcp]
-last_reviewed: 2026-10-30
+last_reviewed: 2026-11-01
 ---
 
 ## Overview
@@ -42,8 +42,9 @@ now start from vendor SDKs and add a framework only when it clearly helps.
   reports each model's chat template source, widens speculative decoding, and adds
   Perplexity's `pplx-decider` (27B); 0.40.8 adds Recursive's Flint coding model; 0.40.9
   (2026-10-22) adds Phonon text-to-speech (Apple Silicon, also on `/v1/audio/speech`),
-  d3 decision models (2B–27B) for local classification, and Flint on Linux and Windows
-  (see [open-weight models](../models/open-weight.md)).
+  d3 decision models (2B–27B) for local classification, and Flint on Linux and Windows;
+  0.40.12 and 0.40.13 (2026-10-27/29) add Liquid AI's LFM3 small models, now on macOS,
+  Linux, and Windows (see [open-weight models](../models/open-weight.md)).
 - **Orchestration frameworks:**
   - LangChain / LangGraph: components plus graph-based, stateful agent workflows.
     LangGraph 1.2 (2026-05-12) resumes error handlers durably after host crashes and
@@ -77,7 +78,11 @@ now start from vendor SDKs and add a framework only when it clearly helps.
     answer, or cancel them (`task_control`). It added `CompactOnRequest`, so the model can
     ask for compaction, plus `AnthropicModel.compact_messages()` and provider batch APIs
     (`BatchModelRequests`). Thinking effort can now change mid-conversation on OpenAI and
-    Anthropic, and Temporal can run tool calls as child workflows.
+    Anthropic, and Temporal can run tool calls as child workflows. 2.63 (2026-10-27)
+    added `DetectLoops` (interrupts repeated-action loops), `IPythonCodeMode`,
+    `PostgresSpendStore` for spend budgets shared across processes, `task_timeout` for
+    evals, AG-UI 1.0, and GPT-6.1 Terra; `CodeMode` now appends revealed tools by
+    default (`dynamic_catalog=True`), which keeps the cached prompt stable.
   - Vercel AI SDK: TypeScript toolkit for AI apps, UIs, and agents. Version 7
     (2026-06-25) adds per-tool approval policies, durable resumable runs
     (`WorkflowAgent`), layered timeouts, a portable sandbox abstraction, OpenTelemetry
@@ -123,16 +128,9 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 
 Release features are described under Key concepts.
 
-- **2026-10-27:** Pydantic AI 2.63.0 adds `DetectLoops` (interrupts repeated-action
-  loops), `IPythonCodeMode`, `PostgresSpendStore` for spend budgets shared across
-  processes, `task_timeout` for evals, AG-UI 1.0, and GPT-6.1 Terra. `CodeMode` now
-  appends revealed tools by default (`dynamic_catalog=True`), which keeps the cached
-  prompt stable. Checked the same day: no new OpenAI Agents SDK, ADK, Microsoft Agent
-  Framework, or Claude Agent SDK (Python) release since the dates in the table.
-- **2026-10-26:** Pydantic AI 2.62.0 adds steerable background subagents, compaction the
-  model can request, and provider batch APIs (details above).
-- **2026-10-23:** Pydantic AI 2.61.0 adds structured citations that work the same across
-  providers.
+- **2026-10-27:** Pydantic AI 2.61–2.63 shipped in five days (details above). Checked
+  the same day: no new OpenAI Agents SDK, ADK, Microsoft Agent Framework, or Claude Agent
+  SDK (Python) release since the dates in the table.
 - **2026-10-22:** Google ADK (Python) 2.13.0 changes the default telemetry schema to
   OpenTelemetry GenAI v2. Dashboards that use the `call_llm` span need changes, or set
   the opt-in variable, before you upgrade.

@@ -2,7 +2,7 @@
 title: "Cost and caching"
 tags: [cost, caching, tokens]
 related: [fundamentals/tokens-and-context, models/claude, fundamentals/reasoning-models]
-last_reviewed: 2026-10-30
+last_reviewed: 2026-11-01
 ---
 
 ## Overview
@@ -50,7 +50,8 @@ Other levers:
 - **Cache lifetime matters for idle sessions:** once a cache expires, the next request
   pays full input price for the whole context. Claude Code (2.1.299, 2026-10-14) compacts
   conversations over 200K tokens after about 54 idle minutes, just before the one-hour
-  cache expires, trading one compaction for a full uncached re-read. Since 2.1.300 it
+  cache expires, trading one compaction for a full uncached re-read; since 2.1.314
+  (2026-10-30) this also happens in VS Code and the Desktop Code tab. Since 2.1.300 it
   reports 5-minute and 1-hour cache writes separately in OpenTelemetry, which helps
   check whether caching is working.
 - **Longer cache lifetimes cost more to write:** Claude offers 5-minute and 1-hour
@@ -87,7 +88,14 @@ Other levers:
   breaks cost and tokens down by model, workspace, API key, actor, and service tier, in
   1-minute, 1-hour, or 1-day buckets
   (`anthropic-beta: analytics-usage-cost-2026-08-24`, Admin API credentials). Use it to
-  find which key or agent is spending; it replaces the legacy Usage and Cost API.
+  find which key or agent is spending; it replaces the legacy Usage and Cost API, which
+  is still supported.
+- **Multi-model routing in the tool:** GitHub Copilot Fusion (GA 2026-10-28) routes each
+  coding prompt as a single model, a cascade (cheap draft, escalate if needed), or a
+  critique loop, and bills each model at its normal rate (30% off on paid plans for a
+  limited time). GitHub claims Fusion Max nearly matches Claude Code with Opus 5.5 Max
+  on a coding-agent index at about half the API cost and half the tokens (vendor
+  figures, not independently checked; see [coding agents](../tooling/coding-agents.md)).
 
 ## Reference prices
 
@@ -122,35 +130,20 @@ legacy, costs $1 / $5.
 
 ## Current state
 
-- **2026-10-30:** Claude Code 2.1.314 adds idle compaction in VS Code and the Desktop
-  Code tab, so returning to a long session after the cache has expired re-reads a
-  summary, not the whole history (see [coding agents](../tooling/coding-agents.md)).
-- **2026-10-29:** Anthropic launched the Usage and Cost Analytics API (beta); the old
-  Usage and Cost API is now legacy but still supported. OpenAI added API credits to its
-  $100–$500 ChatGPT plans, matching Anthropic's offer of 2026-10-20.
-- **2026-10-28:** GitHub Copilot Fusion (GA) routes coding prompts across several
-  models (single, cascade, or critique) and bills each model at its normal rate, with a
-  30% discount on paid plans for a limited time. GitHub claims Fusion Max nearly matches
-  Claude Code with Opus 5.5 Max on a coding-agent index at about half the API cost and
-  half the tokens (vendor figures, not independently checked).
-- **2026-10-26:** Rechecked Google's
-  [pricing page](../../sources/2026/10/2026-10-07-gemini-api-pricing.md) (updated
-  2026-10-22). It now lists Gemini 3.5
-  Flash-Lite at $0.30 / $2.50, more than 3.1 Flash-Lite ($0.25 / $1.50), and 3.6 Flash
-  at the same price as 3.8 Flash.
-- **2026-10-23:** Kimi K3.1 Pro launched at $2 / $10 (reported by Simon Willison), the
-  same as GPT-6.1 Sol and Gemini 4 Argon's introductory price.
-- **2026-10-22:** The OpenAI Decisions API went GA with prompt-cache discounts on shared
-  input and 400 questions per request; GA pricing is still unchecked because the
-  announcement returns 403. Ribbon (new Claude Code plugin) shows cache warmth and usage
-  left above the prompt (`/plugin install ribbon --marketplace robonuggets/ribbon`).
-- **2026-10-20:** OpenAI added a 12-hour prompt cache lifetime to the Responses API
-  (details above).
-- **2026-10-13:** Gemini 4 Argon launched at introductory prices equal to GPT-6.1 Sol
-  ($2 / $10), doubling after 2026-11-30.
+- **2026-10-29:** Anthropic launched the Usage and Cost Analytics API (beta) and OpenAI
+  added API credits to its $100–$500 ChatGPT plans (details above); both are new and may
+  change.
+- **2026-10-28:** GitHub Copilot Fusion GA with a limited-time 30% discount (details
+  above).
+- **2026-10-26:** Google's pricing page (updated 2026-10-22) lists Gemini 3.5 Flash-Lite
+  above 3.1 Flash-Lite, and 3.6 Flash at the same price as 3.8 Flash (see the table).
+- **2026-10-13:** Gemini 4 Argon's introductory price ($2 / $10) doubles after
+  2026-11-30; recheck then.
 
 ## Open questions
 
+- OpenAI Decisions API GA pricing (2026-10-22): still unchecked, because the
+  announcement returns 403. The $0.10 input price in the table is from the pre-GA guide.
 - OpenAI Ultrafast prices: answered 2026-10-21 (6x Standard). Still unknown: how much
   faster it is. OpenAI gives no tokens-per-second figure.
 
