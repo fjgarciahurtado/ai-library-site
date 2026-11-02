@@ -2,7 +2,7 @@
 title: "Gemini (Google)"
 tags: [google, llm, multimodal]
 related: [models/claude, models/gpt, models/open-weight]
-last_reviewed: 2026-11-01
+last_reviewed: 2026-11-02
 ---
 
 ## Overview
@@ -25,7 +25,7 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
   - *Gemini 3.8 Flash* (GA 2026-09-02) is the newest generally available Flash model,
     aimed at long-horizon coding, agents, and enterprise workflows: 1M input and 64K
     output tokens, text, image, video, audio, and PDF input, thinking levels, and
-    computer use (preview).
+    computer use (GA since 2026-10-30).
   - *Gemini 3.1 Pro Preview* is the newest 3.x Pro model on the pricing page
     (2026-10-07).
   - The July 2026 release added 3.6 Flash, 3.5 Flash-Lite, and 3.5 Flash Cyber, with no
@@ -40,11 +40,14 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
 - **Gemini 4 Argon:** first released to cybersecurity partners in the Fairwind Program on
   2026-09-30, then publicly on 2026-10-13 (paid API tier, Gemini app for Pro and Ultra
   subscribers, Antigravity). On the Gemini API it is a Stable, GA model (model page
-  checked 2026-10-15). Input and output
+  checked 2026-10-15). It is also GA on the Gemini Enterprise Agent Platform (Vertex AI)
+  since 2026-10-13, in `global`, `us`, `eu`, `europe-west2`, and `asia-southeast1`, with
+  retirement there "October 13, 2027 or later". Input and output
   share a 1M-token limit. Output defaults to 64K tokens per synchronous request and goes
   up to 1M with "long decode". Thinking levels are low, medium, and high. It supports
-  implicit caching only (no explicit caching), and computer use is still a preview
-  feature. Google claims #1 on the Vals Index (a vendor claim, not independently checked).
+  implicit caching only (no explicit caching). Computer use was a preview feature at
+  launch and is GA since 2026-10-30 (not on the Cyber Permissive variant). Google claims
+  #1 on the Vals Index (a vendor claim, not independently checked).
 - **Gemini 4 Argon safety:** Google applied its strongest Frontier Safety Framework
   safeguards for cyber and biology (input screening, activation probes, multi-step
   monitoring), and reports 0.7% attack success on Gray Swan's indirect prompt injection
@@ -84,8 +87,17 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
   "..." --agent deep-research-preview-04-2026 --background --stream=false`. Use
   `-o json` and `--dry-run` from agents, and pin a version in CI. It is separate from
   Gemini CLI, the coding agent.
+- Computer use: add a `computer_use` tool with an `environment` (browser, desktop, or
+  mobile) in the Interactions or GenerateContent API (`google-genai` 2.7.0+). Your
+  client runs the actions and must handle `safety_decision` confirmations. Google
+  recommends 3.8 Flash; 3.5 Flash-Lite is the cheap, low-latency option. Turn on
+  `enable_prompt_injection_detection` (off by default). See
+  [tool use](../agents/tool-use.md).
 
 ## Current state
+
+- **2026-10-30:** Computer Use is generally available in the Interactions and
+  GenerateContent APIs (Argon, 3.8 Flash, 3.5 Flash-Lite; 3 Flash stays preview).
 
 - **2026-10-27:** Google released the Gemini API CLI (`gemini-api`) as an open-source
   beta (details above). The same day, Gemini CLI 0.66.0 started showing a notice that it
@@ -102,8 +114,8 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
 
 - Smaller Gemini 4 models (Flash, Flash-Lite) have not been announced (checked
   2026-10-15).
-- Argon is Stable and GA on the Gemini API (answered 2026-10-15). Its status on the Gemini
-  Enterprise Agent Platform (Vertex AI) was not checked.
+- Computer Use GA (2026-10-30): the changelog gives no pricing or rate-limit details,
+  and the docs page does not yet say GA (checked 2026-11-02).
 - Is traffic routed from deprecated 3.5 Flash to 3.6 Flash billed at the 3.6 Flash
   price? Neither the deprecations page nor the changelog says (checked 2026-10-12).
 - Nano Banana 2.1 per-image prices were not on its model page on 2026-10-07.
@@ -124,3 +136,5 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
 - [On-device scam detection with a fine-tuned Gemma](../../sources/2026/10/2026-10-15-gemma-on-device-scam-detection.md)
 - [Gemini API logs and datasets: storage on by default](../../sources/2026/10/2026-10-27-gemini-api-logging-default-on.md)
 - [Gemini API CLI (gemini-api) beta](../../sources/2026/10/2026-10-28-gemini-api-cli-beta.md)
+- [Gemini API Computer Use generally available](../../sources/2026/11/2026-11-02-gemini-computer-use-ga.md)
+- [Gemini 4 Argon on Gemini Enterprise Agent Platform](../../sources/2026/11/2026-11-02-gemini-4-argon-vertex-ga.md)

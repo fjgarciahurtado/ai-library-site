@@ -2,7 +2,7 @@
 title: "Cost and caching"
 tags: [cost, caching, tokens]
 related: [fundamentals/tokens-and-context, models/claude, fundamentals/reasoning-models]
-last_reviewed: 2026-11-01
+last_reviewed: 2026-11-02
 ---
 
 ## Overview
@@ -69,7 +69,8 @@ Other levers:
   cache is warm or cold and estimates the cost of the next message, so you can send
   follow-ups before the cache expires.
 - **Paying for speed:** the same model can be bought at higher speed for a higher price.
-  Claude Opus 5.5 fast mode costs 2x (generally available since 2026-10-15). OpenAI's
+  Claude Opus 5.5 fast mode costs 2x (generally available since 2026-10-15); fast mode on
+  Opus 4.8 is deprecated and stops working on 2026-11-30. OpenAI's
   Fast tier costs 2x, and its `ultrafast` tier on GPT-6 Astra and GPT-6.1 Sol costs 6x
   Standard (checked 2026-10-21). Sources disagree on Ultrafast access: the current guide
   says it is open to all API users, while an older API reference page and the Fast mode
@@ -130,6 +131,12 @@ legacy, costs $1 / $5.
 
 ## Current state
 
+- **2026-10-31:** Claude Code 2.1.316 adds `CLAUDE_CODE_SUBAGENT_EFFORT`, so subagents
+  can run at a lower effort than the main session instead of inheriting it, and pooled
+  group budgets on the Claude apps gateway. See
+  [coding agents](../tooling/coding-agents.md).
+- **2026-10-30:** Fast mode on Claude Opus 4.8 deprecated; from 2026-11-30 fast requests
+  to it return an error (no fallback). Move them to Opus 5.5 fast mode.
 - **2026-10-29:** Anthropic launched the Usage and Cost Analytics API (beta) and OpenAI
   added API credits to its $100–$500 ChatGPT plans (details above); both are new and may
   change.
@@ -171,3 +178,5 @@ legacy, costs $1 / $5.
 - [GitHub Copilot Fusion GA](../../sources/2026/10/2026-10-29-github-copilot-fusion-ga.md)
 - [Usage and Cost Analytics API](../../sources/2026/10/2026-10-30-claude-usage-cost-analytics-api.md)
 - [OpenAI API credits for ChatGPT plans](../../sources/2026/10/2026-10-30-openai-api-credits-chatgpt-plans.md)
+- [Claude platform release notes: fast mode deprecated on Opus 4.8](../../sources/2026/11/2026-11-02-opus-4-8-fast-mode-deprecated.md)
+- [Claude Code release 2.1.316](../../sources/2026/11/2026-11-02-claude-code-2-1-316.md)

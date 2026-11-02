@@ -2,7 +2,7 @@
 title: "Agent and LLM framework landscape"
 tags: [frameworks, agents, sdk]
 related: [agents/agent-patterns, agents/tool-use, tooling/mcp]
-last_reviewed: 2026-11-01
+last_reviewed: 2026-11-02
 ---
 
 ## Overview
@@ -82,7 +82,12 @@ now start from vendor SDKs and add a framework only when it clearly helps.
     added `DetectLoops` (interrupts repeated-action loops), `IPythonCodeMode`,
     `PostgresSpendStore` for spend budgets shared across processes, `task_timeout` for
     evals, AG-UI 1.0, and GPT-6.1 Terra; `CodeMode` now appends revealed tools by
-    default (`dynamic_catalog=True`), which keeps the cached prompt stable.
+    default (`dynamic_catalog=True`), which keeps the cached prompt stable. 2.64
+    (2026-10-30) added a `ModelFallback` capability (per-attempt
+    `prepare_model_request`, `sticky` fallback, and `first_event_timeout` for streams
+    that never start), `BoxdSandbox`, and `ArtifactScanner` security scanning for
+    `Memory` and `Skills`. Check before upgrading: `json-repair` became optional and
+    `Coder` tools default to non-strict schemas.
   - Vercel AI SDK: TypeScript toolkit for AI apps, UIs, and agents. Version 7
     (2026-06-25) adds per-tool approval policies, durable resumable runs
     (`WorkflowAgent`), layered timeouts, a portable sandbox abstraction, OpenTelemetry
@@ -119,7 +124,7 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 | Microsoft Agent Framework | Python 1.23.0 / .NET 1.26.0 | 2026-10-22 / 2026-10-23 | 1.0 GA on 2026-04-03; Python 1.23 moves to MCP 2.x; .NET 1.26 has breaking AG-UI auth-scope and Docker parameter changes (checked 2026-10-26) |
 | OpenAI Agents SDK (Python) | 0.24.0 | 2026-10-15 | Still 0.x; adds MCP annotations on converted tools (checked 2026-10-26) |
 | Google ADK (Python) | 2.13.0 | 2026-10-22 | Classifier nodes, 12 features stable, OTel GenAI v2 default (checked 2026-10-26) |
-| Pydantic AI | 2.63.0 | 2026-10-27 | Near-daily minor releases (checked 2026-10-28) |
+| Pydantic AI | 2.64.0 | 2026-10-30 | Near-daily minor releases (checked 2026-11-02) |
 | CrewAI | 1.15.30 | 2026-10-24 | 1.15.0 on 2026-06-25; 1.15.29 (2026-10-23) promoted AgentExecutor out of experimental (checked 2026-10-27 on GitHub) |
 | LlamaIndex | 0.14.25 | 2026-09-21 | Patch release; no note |
 | LangGraph | 1.2.18 | 2026-10-26 | 1.2.0 on 2026-05-12; 1.2.18 snapshots `DeltaChannel` every 100 updates instead of 1000 (faster reads on long threads, more storage; `snapshot_frequency=1000` restores the old value) (checked 2026-10-27 on GitHub) |
@@ -128,6 +133,11 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 
 Release features are described under Key concepts.
 
+- **2026-10-30:** Pydantic AI 2.64.0 adds model fallback with a first-token timeout,
+  `BoxdSandbox`, and memory/skills scanning (details above). Checked 2026-11-02: no
+  new OpenAI Agents SDK or ADK release since the table dates; LangGraph had only patch
+  releases (1.2.19 on 2026-10-30); the Claude Agent SDK (Python) 0.2.175 and 0.2.176
+  only bundle new Claude Code versions.
 - **2026-10-27:** Pydantic AI 2.61–2.63 shipped in five days (details above). Checked
   the same day: no new OpenAI Agents SDK, ADK, Microsoft Agent Framework, or Claude Agent
   SDK (Python) release since the dates in the table.
@@ -174,3 +184,4 @@ Release features are described under Key concepts.
 - [Pydantic AI v2.61.0](../../sources/2026/10/2026-10-26-pydantic-ai-v2-61.md)
 - [Pydantic AI v2.62.0](../../sources/2026/10/2026-10-27-pydantic-ai-v2-62.md)
 - [Pydantic AI v2.63.0](../../sources/2026/10/2026-10-28-pydantic-ai-v2-63.md)
+- [Pydantic AI v2.64.0](../../sources/2026/11/2026-11-02-pydantic-ai-v2-64.md)

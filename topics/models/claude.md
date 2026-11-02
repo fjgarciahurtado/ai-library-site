@@ -2,7 +2,7 @@
 title: "Claude (Anthropic)"
 tags: [anthropic, llm, reasoning, cost]
 related: [models/gpt, models/gemini, tooling/skills, tooling/mcp, tooling/coding-agents]
-last_reviewed: 2026-10-30
+last_reviewed: 2026-11-02
 ---
 
 ## Overview
@@ -102,8 +102,10 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 - Fast mode (`speed: "fast"`) is generally available on Opus 5.5 since 2026-10-15, at
   $8 / $40 with up to 2.5x output speed. It needs no beta header or access request, has
   a default fast mode rate limit in the Start, Build, and Scale tiers, and also works on
-  Microsoft Foundry deployments hosted on Azure. On Opus 5 and Opus 4.8 it is still a
-  research preview that needs the `fast-mode-2026-02-01` beta header.
+  Microsoft Foundry deployments hosted on Azure. On Opus 5 it is still a research
+  preview that needs the `fast-mode-2026-02-01` beta header. On Opus 4.8 it is
+  deprecated (2026-10-30) and will be removed on 2026-11-30, after which fast requests to
+  `claude-opus-4-8` return an error instead of falling back to standard speed.
 - Max and Team subscribers get monthly API credits ($100 for Max 5x, $200 for Max 20x,
   up to $500 pooled for Team) for the API, Managed Agents, and the Agent SDK. They do not
   cover Claude Code (as of 2026-10-20; see
@@ -128,6 +130,9 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 
 ## Current state
 
+- **2026-10-30:** Fast mode on Opus 4.8 deprecated, removal on 2026-11-30; move
+  `speed: "fast"` traffic to Opus 5.5. Opus 4.8 itself stays Active (retirement not
+  before 2027-05-28). Claude Code 2.1.316 (2026-10-31) carries the same notice.
 - **2026-10-29:** Usage and Cost Analytics API launched in beta
   (`analytics-usage-cost-2026-08-24`), also on Claude Platform on AWS and Anthropic-managed
   Google Cloud. On 2026-10-28 the maximum request size rose to 128 MB.
@@ -155,7 +160,7 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
   or `max`; the docs are treated as authoritative here.
 - Who governs the Public Benefit Fund, and what is the valuation baseline for the extra
   2% grants? Anthropic says it will publish this in the coming months (noted 2026-10-19).
-- Haiku 4.5 retirement date: still not announced (checked 2026-10-22). The deprecations
+- Haiku 4.5 retirement date: still not announced (checked 2026-11-02). The deprecations
   page lists it as Active with "not sooner than 2026-10-15", a date already past, and
   Haiku 5.5 is not yet named as its replacement. Check again in November.
 - When will API version `2023-06-01` be retired? The versioning page gives no date
@@ -185,3 +190,5 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 - [Claude Models on Google Cloud (Anthropic managed)](../../sources/2026/10/2026-10-23-claude-on-google-cloud-anthropic-managed.md)
 - [Donating Agent Skills to the Agentic AI Foundation](../../sources/2026/10/2026-10-23-agent-skills-donated-to-aaif.md)
 - [Usage and Cost Analytics API](../../sources/2026/10/2026-10-30-claude-usage-cost-analytics-api.md)
+- [Claude platform release notes: fast mode deprecated on Opus 4.8](../../sources/2026/11/2026-11-02-opus-4-8-fast-mode-deprecated.md)
+- [Claude Code release 2.1.316](../../sources/2026/11/2026-11-02-claude-code-2-1-316.md)

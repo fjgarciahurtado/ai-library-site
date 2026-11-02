@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-11-01
+last_reviewed: 2026-11-02
 ---
 
 ## Overview
@@ -153,6 +153,12 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
+- **2026-10-31:** Claude Code 2.1.316 (no public 2.1.315): `CLAUDE_CODE_SUBAGENT_EFFORT`
+  sets the effort subagents run at (they used to inherit the session's), and
+  `CLAUDE_CODE_DISABLE_ULTRATHINK=1` turns the `ultrathink` keyword off. Cloud sessions
+  now show a form when an MCP server asks for input instead of cancelling the request.
+  Shell commands no longer keep running after Claude Code exits by itself. Fast mode on
+  Opus 4.8 is deprecated (removed 2026-11-30; see [Claude](../models/claude.md)).
 - **2026-10-30:** Claude Code 2.1.314 (no public 2.1.313): the write fence and idle
   compaction described above; `claude -p` now exits 1 with an error when startup fails,
   and cloud routines load your claude.ai plugins.
@@ -230,3 +236,4 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [Claude Code release 2.1.314](../../sources/2026/10/2026-10-30-claude-code-2-1-314.md)
 - [Codex CLI 0.166.0](../../sources/2026/10/2026-10-30-codex-cli-0-166-transcript-selection.md)
 - [claude-mem](../../sources/2026/10/2026-10-30-claude-mem-persistent-agent-memory.md)
+- [Claude Code release 2.1.316](../../sources/2026/11/2026-11-02-claude-code-2-1-316.md)

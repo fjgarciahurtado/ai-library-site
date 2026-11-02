@@ -2,7 +2,7 @@
 title: "Tool use (function calling)"
 tags: [tool-use, agents, structured-output]
 related: [agents/agent-patterns, tooling/mcp, tooling/skills]
-last_reviewed: 2026-10-28
+last_reviewed: 2026-11-02
 ---
 
 ## Overview
@@ -34,8 +34,10 @@ how LLMs act in the world and the core of every agent.
   `auto` with clear instructions, strict schemas, or structured outputs instead.
 - **Hosted computer use:** providers increasingly run the browser or desktop for the
   agent (OpenAI's Agents API since 2026-09-29), while the application handles site
-  approvals and sign-in. Computer use has also reached small models: Claude Haiku 5.5
-  (2026-10-07) supports computer and browser use.
+  approvals and sign-in. The client-run model remains common: Gemini's Computer Use tool
+  (GA 2026-10-30) only proposes browser, desktop, or mobile actions, and the client runs
+  them and handles safety confirmations. Computer use has also reached small models:
+  Claude Haiku 5.5 (2026-10-07) and Gemini 3.5 Flash-Lite support it.
 
 ## How to use it
 
@@ -48,6 +50,9 @@ how LLMs act in the world and the core of every agent.
 
 ## Current state
 
+- **2026-10-30:** Gemini API Computer Use is generally available on Gemini 4 Argon, 3.8
+  Flash, and 3.5 Flash-Lite, with per-action `safety_decision` confirmations and opt-in
+  prompt injection detection (see [Gemini](../models/gemini.md)).
 - **2026-10-27:** Google's `gemini-api` CLI (beta) is another CLI-first alternative to an
   MCP server: one binary with `--help`, `--schema`, `--dry-run`, and `-o json` built for
   agents to discover and call, plus a suggested `CLAUDE.md`/`AGENTS.md` snippet instead
@@ -77,3 +82,4 @@ how LLMs act in the world and the core of every agent.
 - [MCPtoCodeMode](../../sources/2026/10/2026-10-23-mcptocodemode-mcp-code-mode-proxy.md)
 - [webframe](../../sources/2026/10/2026-10-27-webframe-headless-webview-runner.md)
 - [Gemini API CLI (gemini-api) beta](../../sources/2026/10/2026-10-28-gemini-api-cli-beta.md)
+- [Gemini API Computer Use generally available](../../sources/2026/11/2026-11-02-gemini-computer-use-ga.md)
