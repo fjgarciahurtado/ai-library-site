@@ -2,7 +2,7 @@
 title: "Security for LLM apps and agents"
 tags: [security, safety, agents, mcp]
 related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
-last_reviewed: 2026-11-01
+last_reviewed: 2026-11-03
 ---
 
 ## Overview
@@ -139,6 +139,10 @@ to limit what the agent can do if it is fooled.
 
 ## Current state
 
+- **2026-11-03:** Claude Code 2.1.317 asks before a web or shell tool call sends your
+  account email address to the network, warns when a new cloud scheduled task gets
+  connectors you did not ask for, and lets Agent SDK hook callbacks fail closed
+  (`onFailure: "block"`). Use the last one for any SDK hook that enforces a policy.
 - **2026-10-30:** Claude Code 2.1.314 adds a write fence that holds in every permission
   mode (see How to use it).
 - **2026-10-28:** GitHub Agentic Workflows GA and, on 2026-10-26, Copilot assisted
@@ -186,3 +190,4 @@ to limit what the agent can do if it is fooled.
 - [GitHub Copilot assisted permissions GA](../../sources/2026/10/2026-10-27-copilot-assisted-permissions-ga.md)
 - [GitHub Agentic Workflows GA](../../sources/2026/10/2026-10-29-github-agentic-workflows-ga.md)
 - [Claude Code release 2.1.314](../../sources/2026/10/2026-10-30-claude-code-2-1-314.md)
+- [Claude Code release 2.1.317](../../sources/2026/11/2026-11-03-claude-code-2-1-317.md)

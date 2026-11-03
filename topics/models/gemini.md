@@ -2,7 +2,7 @@
 title: "Gemini (Google)"
 tags: [google, llm, multimodal]
 related: [models/claude, models/gpt, models/open-weight]
-last_reviewed: 2026-11-02
+last_reviewed: 2026-11-03
 ---
 
 ## Overview
@@ -35,8 +35,9 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
     shutdown dates are set. The Deep Research agent
     `deep-research-pro-preview-12-2025` shut down on 2026-10-23; use
     `deep-research-preview-04-2026` or `deep-research-max-preview-04-2026`.
-  - *Gemini 2.5:* since 2026-09-18, only existing active users can use it. Google directs
-    new projects to 3.5 Flash-Lite or 3.8 Flash.
+  - *Gemini 2.5:* since 2026-09-18, only existing active users can use it. 2.5 Pro and
+    2.5 Flash were deprecated on 2026-11-02. From 2026-12-01 their requests are routed
+    to 3.8 Flash and 3.5 Flash-Lite and billed at those models' rates.
 - **Gemini 4 Argon:** first released to cybersecurity partners in the Fairwind Program on
   2026-09-30, then publicly on 2026-10-13 (paid API tier, Gemini app for Pro and Ultra
   subscribers, Antigravity). On the Gemini API it is a Stable, GA model (model page
@@ -72,8 +73,9 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
 - Prices per 1M tokens (input / output, paid tier, as of 2026-10-07; Argon as of
   2026-10-14): 4 Argon $2 / $10 until 2026-11-30, then $4 / $20; 3.8 Flash
   $0.75 / $3.75 (doubling on 2027-01-01; 3.7 Flash was priced the same), 3.5 Flash
-  $1.50 / $9.00 (deprecated), 3.1 Pro Preview $2 / $12 ($4 / $18 above 200K), 2.5 Pro
-  $1.25 / $10, 2.5 Flash-Lite $0.10 / $0.40. Added on 2026-10-26 from the page updated
+  $1.50 / $9.00 (deprecated; no longer on the pricing page on 2026-11-03), 3.1 Pro
+  Preview $2 / $12 ($4 / $18 above 200K), 2.5 Pro $1.25 / $10 (until it is routed to
+  3.8 Flash on 2026-12-01), 2.5 Flash-Lite $0.10 / $0.40. Added on 2026-10-26 from the page updated
   2026-10-22: 3.6 Flash $0.75 / $3.75 (the same as 3.8 Flash, including the doubling),
   3.5 Flash-Lite $0.30 / $2.50, and 3.1 Flash-Lite $0.25 / $1.50. See
   [cost and caching](../practices/cost-and-caching.md).
@@ -90,12 +92,18 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
 - Computer use: add a `computer_use` tool with an `environment` (browser, desktop, or
   mobile) in the Interactions or GenerateContent API (`google-genai` 2.7.0+). Your
   client runs the actions and must handle `safety_decision` confirmations. Google
-  recommends 3.8 Flash; 3.5 Flash-Lite is the cheap, low-latency option. Turn on
-  `enable_prompt_injection_detection` (off by default). See
+  recommends 3.8 Flash; 3.5 Flash-Lite is the cheap, low-latency option. It is billed
+  as regular tokens at the model's price and is not on the free tier (pricing page,
+  2026-11-03). Turn on `enable_prompt_injection_detection` (off by default). See
   [tool use](../agents/tool-use.md).
 
 ## Current state
 
+- **2026-11-02:** Gemini 2.5 Pro and 2.5 Flash deprecated. From 2026-12-01, 2.5 Pro
+  routes to 3.8 Flash and 2.5 Flash to 3.5 Flash-Lite, at the new models' prices. Expect
+  breaking changes (`thinking_level` replaces `thinking_budget`, sampling parameters
+  removed, no prefilled model turns), so migrate before then. The API docs moved to
+  aistudio.google.com.
 - **2026-10-30:** Computer Use is generally available in the Interactions and
   GenerateContent APIs (Argon, 3.8 Flash, 3.5 Flash-Lite; 3 Flash stays preview).
 
@@ -114,10 +122,14 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
 
 - Smaller Gemini 4 models (Flash, Flash-Lite) have not been announced (checked
   2026-10-15).
-- Computer Use GA (2026-10-30): the changelog gives no pricing or rate-limit details,
-  and the docs page does not yet say GA (checked 2026-11-02).
+- Computer Use GA (2026-10-30): pricing answered on 2026-11-03 (regular tokens at the
+  model's price, no free tier). Still open: rate limits, and the docs page still does
+  not say GA.
 - Is traffic routed from deprecated 3.5 Flash to 3.6 Flash billed at the 3.6 Flash
-  price? Neither the deprecations page nor the changelog says (checked 2026-10-12).
+  price? The deprecations page still does not say (checked 2026-11-03). The 2.5
+  notices of 2026-11-02 do say routed traffic is billed at the target's rates, and 3.5
+  Flash is no longer on the pricing page, so 3.6 Flash pricing is likely but
+  unconfirmed.
 - Nano Banana 2.1 per-image prices were not on its model page on 2026-10-07.
 
 ## Sources
@@ -138,3 +150,4 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
 - [Gemini API CLI (gemini-api) beta](../../sources/2026/10/2026-10-28-gemini-api-cli-beta.md)
 - [Gemini API Computer Use generally available](../../sources/2026/11/2026-11-02-gemini-computer-use-ga.md)
 - [Gemini 4 Argon on Gemini Enterprise Agent Platform](../../sources/2026/11/2026-11-02-gemini-4-argon-vertex-ga.md)
+- [Gemini API changelog: Gemini 2.5 Pro and 2.5 Flash deprecated](../../sources/2026/11/2026-11-03-gemini-2-5-pro-flash-deprecation.md)

@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-11-01
+last_reviewed: 2026-11-03
 ---
 
 ## Overview
@@ -64,7 +64,14 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
   `npx skills add addyosmani/agent-skills`). MiniMax's mcode-stack (MIT, new in October
   2026) shares its coding-agent team's own skills for planning, context management, and
   long sessions: `/plugin marketplace add MiniMax-AI/mcode-stack`, then
-  `/plugin install ronny@mcode-stack`.
+  `/plugin install ronny@mcode-stack`. Google's Elephant-Goldfish Model (EGM,
+  Apache-2.0, 2026-11) is a design-before-code pack: Brainstorm, Draft, Review (fresh
+  subagents with no conversation history look for unstated assumptions), Resolve,
+  Bootstrap, and Drift report (docs against code):
+  `claude plugin marketplace add google/elephant-goldfish-model`, then
+  `claude plugin install egm@egm` (Codex: `codex plugin marketplace add
+  google/elephant-goldfish-model`, then `codex plugin add egm@egm`); commands start with
+  `/egm:`.
 - **Discovery in Copilot:** VS Code's customizations browser (preview, 2026-10-28)
   lists skills, MCP servers, and plugins from available sources in one place, and a repo
   can suggest default plugins in `.github/copilot/settings.json`.
@@ -79,6 +86,9 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 
 ## Current state
 
+- **2026-11-03:** Google's EGM plugin is rising fast in GitHub trends (about 8,900 stars in
+  a week, 10,700 total), with experimental Cursor, Copilot CLI, and opencode support
+  added the same day. Details above.
 - **2026-10-26 to 10-29:** Skill packs rising in GitHub trends: addyosmani/agent-skills
   (about 111,500 stars, +2,100 in a week), Archify (about 4,000 stars added in a week),
   BeautifulRust (about 1,300 stars in five days), and newer MiniMax mcode-stack and
@@ -110,3 +120,4 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 - [Archify](../../sources/2026/10/2026-10-28-archify-interactive-diagram-skill.md)
 - [agent-skills (Addy Osmani)](../../sources/2026/10/2026-10-29-addyosmani-agent-skills.md)
 - [mcode-stack (MiniMax)](../../sources/2026/10/2026-10-29-minimax-mcode-stack-skills.md)
+- [Elephant-Goldfish Model (EGM)](../../sources/2026/11/2026-11-03-elephant-goldfish-model-plugin.md)

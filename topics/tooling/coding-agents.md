@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-11-02
+last_reviewed: 2026-11-03
 ---
 
 ## Overview
@@ -49,7 +49,8 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - **Extensibility:** [skills](skills.md), slash commands, hooks, subagents, plugins,
   and [MCP](mcp.md) servers. Hooks used as guardrails should fail closed: since 2.1.295
   (2026-10-08), Claude Code hooks can set `onFailure: "block"` so that a hook that
-  crashes or times out blocks the action; 2.1.294 fixed a bug that let instruction-style
+  crashes or times out blocks the action, and since 2.1.317 (2026-11-03) Agent SDK hook
+  callbacks accept the same option (`on_failure="block"` in Python); 2.1.294 fixed a bug that let instruction-style
   `prompt` hooks allow what they should block. At most 12 hooks run per event at once
   (2.1.302), and since 2.1.312 (2026-10-27) prompt and agent hooks are also capped at 24
   running at a time per session, subagents included. Since 2.1.314 Bash hooks also
@@ -95,7 +96,12 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   helps you learn a repo by asking you to work out its design
   (`npx skills add EricJujianZou/rederive`; see [skills](skills.md)). claude-mem (about
   105K stars, Apache-2.0) is the most popular automatic-memory plugin for Claude Code and
-  other agents (see [memory](../agents/memory.md)).
+  other agents (see [memory](../agents/memory.md)). For design before implementation,
+  Google's Elephant-Goldfish Model plugin (Apache-2.0, 2026-11) drafts a design document
+  with full context and has fresh, context-free subagents review it
+  (`claude plugin marketplace add google/elephant-goldfish-model`, then
+  `claude plugin install egm@egm`; also for Codex and Antigravity; see
+  [skills](skills.md)).
 - **Comparing models on one task:** VS Code 1.143 (2026-10-22) has this built in as a
   preview (`sessions.chat.compareAgents.enabled`). Each model works in its own session,
   and a judge model can pick the best result or **Synthesize** a merge. Before, people
@@ -153,6 +159,13 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
+- **2026-11-03:** Claude Code 2.1.317: fail-closed Agent SDK hook callbacks, a prompt
+  before a web or shell tool call sends your account email, a `/schedule` warning about
+  connectors you did not ask for, and a gateway cost report API. Subagents on a different
+  model now use that model's own effort setting. Fixes include desktop MCP servers
+  disconnecting after the first turn, and timed-out Grep and Glob results being treated
+  as complete. Google's EGM design-review plugin (above) is rising fast on GitHub
+  (about 8,900 stars in a week).
 - **2026-10-31:** Claude Code 2.1.316 (no public 2.1.315): `CLAUDE_CODE_SUBAGENT_EFFORT`
   sets the effort subagents run at (they used to inherit the session's), and
   `CLAUDE_CODE_DISABLE_ULTRATHINK=1` turns the `ultrathink` keyword off. Cloud sessions
@@ -237,3 +250,5 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [Codex CLI 0.166.0](../../sources/2026/10/2026-10-30-codex-cli-0-166-transcript-selection.md)
 - [claude-mem](../../sources/2026/10/2026-10-30-claude-mem-persistent-agent-memory.md)
 - [Claude Code release 2.1.316](../../sources/2026/11/2026-11-02-claude-code-2-1-316.md)
+- [Claude Code release 2.1.317](../../sources/2026/11/2026-11-03-claude-code-2-1-317.md)
+- [Elephant-Goldfish Model (EGM)](../../sources/2026/11/2026-11-03-elephant-goldfish-model-plugin.md)

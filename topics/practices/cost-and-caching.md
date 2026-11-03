@@ -2,7 +2,7 @@
 title: "Cost and caching"
 tags: [cost, caching, tokens]
 related: [fundamentals/tokens-and-context, models/claude, fundamentals/reasoning-models]
-last_reviewed: 2026-11-02
+last_reviewed: 2026-11-03
 ---
 
 ## Overview
@@ -60,6 +60,14 @@ Other levers:
   input, compared with 1.25x for the 30-minute default, and reads cost the same (0.1x, or
   0.05x on GPT-6.1 Sol). It pays off once a prefix is reused about twice across a long
   gap, such as a daily job or an agent idle overnight.
+- **Server-side conversation state is about latency, not price:** Claude message threads
+  (beta, 2026-11-02) let long agent loops send only new messages each turn, but prices
+  and rate limits do not change, and caching still needs `cache_control`. A thread
+  expires 5 minutes after its last request, close to the default 5-minute cache.
+- **Routed deprecations change your price:** Google routes deprecated Gemini models to
+  newer ones and bills the new model's rates (2.5 Pro to 3.8 Flash and 2.5 Flash to 3.5
+  Flash-Lite from 2026-12-01). The pinned model name stays the same, but the bill and
+  behaviour change.
 - **Classification-only endpoints:** for routing and yes/no checks, OpenAI's Decisions API
   charges only for input ($0.10 per 1M tokens on `gpt-6-luna`, as of 2026-10-07) and
   returns probabilities instead of generated text. Since GA (2026-10-22), shared input is
@@ -115,13 +123,13 @@ on the date shown; prices change often, so recheck before relying on them.
 | GPT-6 Luna | $0.10 / $0.01 / $0.50 | Decisions API: $0.10 input only | 2026-10-07 |
 | Gemini 4 Argon | $2 / $0.10 / $10 | Introductory; $4 / $20 after 2026-11-30 (same as Opus 5.5). Cached price applies to implicit cache hits only. 1M shared input-output limit | 2026-10-15 |
 | Gemini 3.1 Pro Preview | $2.00 / $0.20 / $12.00 | Above 200K: $4.00 / $0.40 / $18.00 | 2026-10-07 |
-| Gemini 2.5 Pro | $1.25 / $0.125 / $10.00 | Above 200K: $2.50 / $0.25 / $15.00 | 2026-10-07 |
+| Gemini 2.5 Pro | $1.25 / $0.125 / $10.00 | Above 200K: $2.50 / $0.25 / $15.00. Deprecated 2026-11-02; from 2026-12-01 routed to and billed as 3.8 Flash | 2026-10-07 |
 | Gemini 3.8 Flash | $0.75 / $0.075 / $3.75 | Doubles to $1.50 / $0.15 / $7.50 on 2027-01-01; cache storage $0.50 per 1M per hour (rising to $1.00) | 2026-10-06 |
 | Gemini 3.6 Flash | $0.75 / $0.075 / $3.75 | Same as 3.8 Flash, including the doubling on 2027-01-01 | 2026-10-26 |
-| Gemini 3.5 Flash | $1.50 / $0.15 / $9.00 | | 2026-10-07 |
+| Gemini 3.5 Flash | $1.50 / $0.15 / $9.00 | Deprecated and routed to 3.6 Flash; no longer on the pricing page on 2026-11-03 | 2026-10-07 |
 | Gemini 3.5 Flash-Lite | $0.30 / $0.03 / $2.50 | One price for all input types; no change scheduled. Plus cache storage | 2026-10-26 |
 | Gemini 3.1 Flash-Lite | $0.25 / $0.025 / $1.50 | Audio input $0.50 | 2026-10-26 |
-| Gemini 2.5 Flash | $0.30 / $0.03 / $2.50 | Audio input costs more | 2026-10-07 |
+| Gemini 2.5 Flash | $0.30 / $0.03 / $2.50 | Audio input costs more. Deprecated 2026-11-02; from 2026-12-01 routed to and billed as 3.5 Flash-Lite | 2026-10-07 |
 | Gemini 2.5 Flash-Lite | $0.10 / $0.01 / $0.40 | Audio input costs more | 2026-10-07 |
 | DeepSeek `deepseek-flash` (V4.1-Flash) | $0.30 / $0.006 / $1.20 | Peak rate; off-peak is half | 2026-10-05 |
 | DeepSeek `deepseek-v4-pro` | $1.32 / $0.044 / $3.96 | Peak rate; off-peak is half | 2026-10-05 |
@@ -131,6 +139,12 @@ legacy, costs $1 / $5.
 
 ## Current state
 
+- **2026-11-02:** Gemini 2.5 Pro and 2.5 Flash deprecated, with routing and new-model
+  billing from 2026-12-01 (see the table). Gemini Computer Use is billed as regular
+  tokens (pricing page, checked 2026-11-03). Claude message threads beta (no price
+  change). Claude Code 2.1.317 (2026-11-03) adds a gateway cost report,
+  `GET /v1/organizations/analytics/cost`, by developer, day, or IdP group, and
+  subagents on another model now use that model's own effort setting.
 - **2026-10-31:** Claude Code 2.1.316 adds `CLAUDE_CODE_SUBAGENT_EFFORT`, so subagents
   can run at a lower effort than the main session instead of inheriting it, and pooled
   group budgets on the Claude apps gateway. See
@@ -180,3 +194,6 @@ legacy, costs $1 / $5.
 - [OpenAI API credits for ChatGPT plans](../../sources/2026/10/2026-10-30-openai-api-credits-chatgpt-plans.md)
 - [Claude platform release notes: fast mode deprecated on Opus 4.8](../../sources/2026/11/2026-11-02-opus-4-8-fast-mode-deprecated.md)
 - [Claude Code release 2.1.316](../../sources/2026/11/2026-11-02-claude-code-2-1-316.md)
+- [Claude Code release 2.1.317](../../sources/2026/11/2026-11-03-claude-code-2-1-317.md)
+- [Claude API message threads (beta)](../../sources/2026/11/2026-11-03-claude-message-threads-beta.md)
+- [Gemini API changelog: Gemini 2.5 Pro and 2.5 Flash deprecated](../../sources/2026/11/2026-11-03-gemini-2-5-pro-flash-deprecation.md)

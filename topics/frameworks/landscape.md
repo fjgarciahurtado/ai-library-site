@@ -2,7 +2,7 @@
 title: "Agent and LLM framework landscape"
 tags: [frameworks, agents, sdk]
 related: [agents/agent-patterns, agents/tool-use, tooling/mcp]
-last_reviewed: 2026-11-02
+last_reviewed: 2026-11-03
 ---
 
 ## Overview
@@ -125,6 +125,7 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 | OpenAI Agents SDK (Python) | 0.24.0 | 2026-10-15 | Still 0.x; adds MCP annotations on converted tools (checked 2026-10-26) |
 | Google ADK (Python) | 2.13.0 | 2026-10-22 | Classifier nodes, 12 features stable, OTel GenAI v2 default (checked 2026-10-26) |
 | Pydantic AI | 2.64.0 | 2026-10-30 | Near-daily minor releases (checked 2026-11-02) |
+| Claude Agent SDK (Python) | 0.2.177 | 2026-11-03 | Bundles Claude Code 2.1.317; `HookMatcher(on_failure="block")` makes hooks fail closed (checked 2026-11-03) |
 | CrewAI | 1.15.30 | 2026-10-24 | 1.15.0 on 2026-06-25; 1.15.29 (2026-10-23) promoted AgentExecutor out of experimental (checked 2026-10-27 on GitHub) |
 | LlamaIndex | 0.14.25 | 2026-09-21 | Patch release; no note |
 | LangGraph | 1.2.18 | 2026-10-26 | 1.2.0 on 2026-05-12; 1.2.18 snapshots `DeltaChannel` every 100 updates instead of 1000 (faster reads on long threads, more storage; `snapshot_frequency=1000` restores the old value) (checked 2026-10-27 on GitHub) |
@@ -133,6 +134,12 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 
 Release features are described under Key concepts.
 
+- **2026-11-03:** Claude Agent SDK (Python) 0.2.177 adds `on_failure` to `HookMatcher`:
+  with `"block"`, a hook callback that raises, returns `None`, or returns an invalid
+  value blocks the action instead of letting it run. Connecting to an older CLI with
+  this option set raises `CLIConnectionError`. Checked the same day: no new stable
+  OpenAI Agents SDK (still 0.24.0) or Ollama release (0.40.14 is only a release
+  candidate).
 - **2026-10-30:** Pydantic AI 2.64.0 adds model fallback with a first-token timeout,
   `BoxdSandbox`, and memory/skills scanning (details above). Checked 2026-11-02: no
   new OpenAI Agents SDK or ADK release since the table dates; LangGraph had only patch
@@ -185,3 +192,4 @@ Release features are described under Key concepts.
 - [Pydantic AI v2.62.0](../../sources/2026/10/2026-10-27-pydantic-ai-v2-62.md)
 - [Pydantic AI v2.63.0](../../sources/2026/10/2026-10-28-pydantic-ai-v2-63.md)
 - [Pydantic AI v2.64.0](../../sources/2026/11/2026-11-02-pydantic-ai-v2-64.md)
+- [Claude Agent SDK (Python) v0.2.177](../../sources/2026/11/2026-11-03-claude-agent-sdk-python-0-2-177.md)

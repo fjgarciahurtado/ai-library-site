@@ -2,7 +2,7 @@
 title: "Claude (Anthropic)"
 tags: [anthropic, llm, reasoning, cost]
 related: [models/gpt, models/gemini, tooling/skills, tooling/mcp, tooling/coding-agents]
-last_reviewed: 2026-11-02
+last_reviewed: 2026-11-03
 ---
 
 ## Overview
@@ -124,12 +124,22 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
   API (beta since 2026-10-29); the older Usage and Cost API and the Enterprise usage and
   cost reports are legacy but supported (see
   [cost and caching](../practices/cost-and-caching.md)).
+- For long agent loops, try message threads (beta `message-threads-2026-08-12`, since
+  2026-11-02): after the first request, send only the new messages with
+  `"thread": {"type": "continue", "previous_message_id": ...}`, or use the SDK helper
+  `client.beta.messages.thread(...)`. Threads expire 5 minutes after the last request,
+  so keep your own copy of the conversation for replay. Prices are unchanged, and
+  threads are not ZDR-eligible.
 - Stream long requests. Use the Models API for live capability data; since 2026-10-15 it
   also reports whether a model accepts `between_tools` thinking.
 - Try lower effort on a strong model before adding a cascade of smaller models.
 
 ## Current state
 
+- **2026-11-02:** Message threads beta on the Messages API: the server keeps the
+  conversation so each turn sends only new messages, for a lower and steadier time to
+  first token. Available on the Claude API, Claude Platform on AWS, Anthropic-managed
+  Google Cloud, and Microsoft Foundry. See How to use it.
 - **2026-10-30:** Fast mode on Opus 4.8 deprecated, removal on 2026-11-30; move
   `speed: "fast"` traffic to Opus 5.5. Opus 4.8 itself stays Active (retirement not
   before 2027-05-28). Claude Code 2.1.316 (2026-10-31) carries the same notice.
@@ -192,3 +202,4 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 - [Usage and Cost Analytics API](../../sources/2026/10/2026-10-30-claude-usage-cost-analytics-api.md)
 - [Claude platform release notes: fast mode deprecated on Opus 4.8](../../sources/2026/11/2026-11-02-opus-4-8-fast-mode-deprecated.md)
 - [Claude Code release 2.1.316](../../sources/2026/11/2026-11-02-claude-code-2-1-316.md)
+- [Claude API message threads (beta)](../../sources/2026/11/2026-11-03-claude-message-threads-beta.md)
