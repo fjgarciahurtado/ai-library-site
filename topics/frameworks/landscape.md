@@ -2,7 +2,7 @@
 title: "Agent and LLM framework landscape"
 tags: [frameworks, agents, sdk]
 related: [agents/agent-patterns, agents/tool-use, tooling/mcp]
-last_reviewed: 2026-11-03
+last_reviewed: 2026-11-04
 ---
 
 ## Overview
@@ -126,6 +126,7 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 | Google ADK (Python) | 2.13.0 | 2026-10-22 | Classifier nodes, 12 features stable, OTel GenAI v2 default (checked 2026-10-26) |
 | Pydantic AI | 2.64.0 | 2026-10-30 | Near-daily minor releases (checked 2026-11-02) |
 | Claude Agent SDK (Python) | 0.2.177 | 2026-11-03 | Bundles Claude Code 2.1.317; `HookMatcher(on_failure="block")` makes hooks fail closed (checked 2026-11-03) |
+| Claude Agent SDK (TypeScript) | 0.3.318 | 2026-11-04 | Parity with Claude Code 2.1.318; 0.3.317 added `onFailure: "block"` on hook matchers and removed the `file_unchanged` Read result (checked 2026-11-04) |
 | CrewAI | 1.15.30 | 2026-10-24 | 1.15.0 on 2026-06-25; 1.15.29 (2026-10-23) promoted AgentExecutor out of experimental (checked 2026-10-27 on GitHub) |
 | LlamaIndex | 0.14.25 | 2026-09-21 | Patch release; no note |
 | LangGraph | 1.2.18 | 2026-10-26 | 1.2.0 on 2026-05-12; 1.2.18 snapshots `DeltaChannel` every 100 updates instead of 1000 (faster reads on long threads, more storage; `snapshot_frequency=1000` restores the old value) (checked 2026-10-27 on GitHub) |
@@ -134,6 +135,13 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 
 Release features are described under Key concepts.
 
+- **2026-11-04:** Claude Agent SDK (TypeScript) 0.3.317 and 0.3.318: hook matchers take
+  `onFailure: "block"` (fail closed, as in Python 0.2.177); breaking: the `file_unchanged`
+  variant of `FileReadOutput` is removed, so a repeated Read returns the content; result
+  messages carry `credential_expires_at`, and `config_file_invalid` is a new startup
+  failure reason. Checked the same day: OpenAI Agents SDK shipped only a preview
+  (0.24.0-alpha.6 on 2026-11-03, GitHub only, with breaking API changes such as
+  `Turn.get_result()` replacing `wait()`), so 0.24.0 stays the stable row.
 - **2026-11-03:** Claude Agent SDK (Python) 0.2.177 adds `on_failure` to `HookMatcher`:
   with `"block"`, a hook callback that raises, returns `None`, or returns an invalid
   value blocks the action instead of letting it run. Connecting to an older CLI with
@@ -193,3 +201,4 @@ Release features are described under Key concepts.
 - [Pydantic AI v2.63.0](../../sources/2026/10/2026-10-28-pydantic-ai-v2-63.md)
 - [Pydantic AI v2.64.0](../../sources/2026/11/2026-11-02-pydantic-ai-v2-64.md)
 - [Claude Agent SDK (Python) v0.2.177](../../sources/2026/11/2026-11-03-claude-agent-sdk-python-0-2-177.md)
+- [Claude Agent SDK (TypeScript) v0.3.317 and v0.3.318](../../sources/2026/11/2026-11-04-claude-agent-sdk-ts-0-3-318.md)

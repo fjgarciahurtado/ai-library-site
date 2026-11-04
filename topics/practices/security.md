@@ -2,7 +2,7 @@
 title: "Security for LLM apps and agents"
 tags: [security, safety, agents, mcp]
 related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
-last_reviewed: 2026-11-03
+last_reviewed: 2026-11-04
 ---
 
 ## Overview
@@ -139,6 +139,12 @@ to limit what the agent can do if it is fooled.
 
 ## Current state
 
+- **2026-11-04:** Dependabot now proposes version updates for agent skills, prompts, and
+  MCP servers pinned in an APM `apm.yml` (version updates only, no security advisories).
+  Pinning skills with a lockfile and reviewing update PRs treats them as the supply-chain
+  dependencies they are. Claude Code 2.1.318 makes `deniedMcpServers` URL entries also
+  block Anthropic-provided servers and cloud connectors with a matching upstream URL, and
+  makes `claude mcp add`/`remove` take the config lock.
 - **2026-11-03:** Claude Code 2.1.317 asks before a web or shell tool call sends your
   account email address to the network, warns when a new cloud scheduled task gets
   connectors you did not ask for, and lets Agent SDK hook callbacks fail closed
@@ -191,3 +197,5 @@ to limit what the agent can do if it is fooled.
 - [GitHub Agentic Workflows GA](../../sources/2026/10/2026-10-29-github-agentic-workflows-ga.md)
 - [Claude Code release 2.1.314](../../sources/2026/10/2026-10-30-claude-code-2-1-314.md)
 - [Claude Code release 2.1.317](../../sources/2026/11/2026-11-03-claude-code-2-1-317.md)
+- [Claude Code release 2.1.318](../../sources/2026/11/2026-11-04-claude-code-2-1-318.md)
+- [Dependabot version updates support APM](../../sources/2026/11/2026-11-04-dependabot-apm-version-updates.md)

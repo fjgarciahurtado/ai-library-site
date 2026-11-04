@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-11-03
+last_reviewed: 2026-11-04
 ---
 
 ## Overview
@@ -159,6 +159,14 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
+- **2026-11-04:** Claude Code 2.1.318: unattended runs can see when a stored claude.ai
+  sign-in ends (`loginExpiresAt` in `claude auth status`, `credential_expires_at` in
+  `claude -p` JSON, a stderr warning from 10 days before). A mod's `$.model.fork` takes
+  `effort`; background subagents move shell commands to the background after 3 minutes
+  so the prompt cache does not expire; cloud sessions can start with no repository.
+  Claude Code no longer installs the IDE extension from an IDE terminal. Many fixes for
+  headless runs that reported success after an error and for config files on network
+  home directories.
 - **2026-11-03:** Claude Code 2.1.317: fail-closed Agent SDK hook callbacks, a prompt
   before a web or shell tool call sends your account email, a `/schedule` warning about
   connectors you did not ask for, and a gateway cost report API. Subagents on a different
@@ -252,3 +260,4 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [Claude Code release 2.1.316](../../sources/2026/11/2026-11-02-claude-code-2-1-316.md)
 - [Claude Code release 2.1.317](../../sources/2026/11/2026-11-03-claude-code-2-1-317.md)
 - [Elephant-Goldfish Model (EGM)](../../sources/2026/11/2026-11-03-elephant-goldfish-model-plugin.md)
+- [Claude Code release 2.1.318](../../sources/2026/11/2026-11-04-claude-code-2-1-318.md)

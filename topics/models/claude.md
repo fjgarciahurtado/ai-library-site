@@ -2,7 +2,7 @@
 title: "Claude (Anthropic)"
 tags: [anthropic, llm, reasoning, cost]
 related: [models/gpt, models/gemini, tooling/skills, tooling/mcp, tooling/coding-agents]
-last_reviewed: 2026-11-03
+last_reviewed: 2026-11-04
 ---
 
 ## Overview
@@ -136,6 +136,11 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 
 ## Current state
 
+- **2026-11-03:** Text from Claude Mythos 5, Opus 4.7, and Sonnet 4.6 carries Anthropic's
+  text watermark on the platforms in Anthropic's support article. It adds no tokens or
+  hidden characters and needs no code changes. On Sonnet 4.6, a non-default
+  `temperature`, `top_p`, or `top_k` may leave output unmarked, so omit them if you rely
+  on the watermark.
 - **2026-11-02:** Message threads beta on the Messages API: the server keeps the
   conversation so each turn sends only new messages, for a lower and steadier time to
   first token. Available on the Claude API, Claude Platform on AWS, Anthropic-managed
@@ -173,6 +178,9 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 - Haiku 4.5 retirement date: still not announced (checked 2026-11-02). The deprecations
   page lists it as Active with "not sooner than 2026-10-15", a date already past, and
   Haiku 5.5 is not yet named as its replacement. Check again in November.
+- Which models carry the text watermark? The 2026-11-03 release note names only Mythos
+  5, Opus 4.7, and Sonnet 4.6, not the 5.5-generation models; the support article's full
+  list and whether a public detector exists were not checked.
 - When will API version `2023-06-01` be retired? The versioning page gives no date
   (checked 2026-10-22).
 
@@ -203,3 +211,4 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 - [Claude platform release notes: fast mode deprecated on Opus 4.8](../../sources/2026/11/2026-11-02-opus-4-8-fast-mode-deprecated.md)
 - [Claude Code release 2.1.316](../../sources/2026/11/2026-11-02-claude-code-2-1-316.md)
 - [Claude API message threads (beta)](../../sources/2026/11/2026-11-03-claude-message-threads-beta.md)
+- [Claude text watermark](../../sources/2026/11/2026-11-04-claude-text-watermark.md)

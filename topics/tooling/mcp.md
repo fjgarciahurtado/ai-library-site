@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-11-01
+last_reviewed: 2026-11-04
 ---
 
 ## Overview
@@ -99,6 +99,10 @@ the de facto standard, with official SDKs in many languages.
 
 ## Current state
 
+- **2026-11-04:** Microsoft's APM can declare MCP servers by registry ID (for example
+  `io.github.github/github-mcp-server`) in `apm.yml` next to skills, install them into
+  each supported agent, and check them against an `apm-policy.yml`; Dependabot can now
+  update its git dependencies (see [skills](skills.md)).
 - **2026-10-30:** codebase-memory-mcp (v0.12.1, 2026-10-16) is rising in GitHub trends
   (see above and [memory](../agents/memory.md)).
 - **2026-10-28:** GitHub Copilot connectors (verified MCP servers, preview, all plans;
@@ -141,3 +145,4 @@ the de facto standard, with official SDKs in many languages.
 - [Copilot connectors](../../sources/2026/10/2026-10-29-copilot-connectors-verified-mcp.md)
 - [Copilot in VS Code: Universe 2026](../../sources/2026/10/2026-10-29-copilot-vscode-universe-agent-host.md)
 - [codebase-memory-mcp](../../sources/2026/10/2026-10-30-codebase-memory-mcp-code-graph.md)
+- [APM: Agent Package Manager](../../sources/2026/11/2026-11-04-apm-agent-package-manager.md)

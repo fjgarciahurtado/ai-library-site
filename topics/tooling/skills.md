@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-11-03
+last_reviewed: 2026-11-04
 ---
 
 ## Overview
@@ -72,6 +72,23 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
   `claude plugin install egm@egm` (Codex: `codex plugin marketplace add
   google/elephant-goldfish-model`, then `codex plugin add egm@egm`); commands start with
   `/egm:`.
+- **Front-end design pack:** Impeccable (Apache-2.0, grown from Anthropic's
+  frontend-design skill) gives agents 24 design commands, such as `critique`, `audit`,
+  `polish`, `bolder`, and `live`, plus a 62-rule detector for generic "AI slop" styling
+  that needs no LLM (`npx impeccable detect`). Install with `npx impeccable install`, then
+  `/impeccable init`; in Claude Code, `/plugin marketplace add pbakaus/impeccable` also
+  works. Use as `/impeccable critique the pricing cards`.
+- **Writing skill:** Humanizer (MIT) rewrites AI-sounding prose against 26 patterns from
+  Wikipedia's "Signs of AI writing", edits only prose when pointed at a file, and asks
+  rather than inventing facts: `/plugin marketplace add blader/humanizer`, then
+  `/plugin install humanizer@humanizer` (others:
+  `npx skills add blader/humanizer --global --agent '*'`).
+- **Skills as project dependencies:** Microsoft's APM (Agent Package Manager) declares
+  skills, prompts, instructions, plugins, and MCP servers in `apm.yml`; `apm install`
+  deploys them to Claude Code, Codex, Copilot, Cursor, Gemini, and others, and
+  `apm.lock.yaml` pins content hashes. Installs scan for hidden Unicode and can enforce
+  an `apm-policy.yml`. Since 2026-11-03 Dependabot opens update PRs for `apm.yml`
+  dependencies (version updates only, all GitHub plans).
 - **Discovery in Copilot:** VS Code's customizations browser (preview, 2026-10-28)
   lists skills, MCP servers, and plugins from available sources in one place, and a repo
   can suggest default plugins in `.github/copilot/settings.json`.
@@ -83,8 +100,15 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 - Include scripts for steps that must be exact.
 - Test that the skill triggers on the right requests and not on the wrong ones.
 - Review third-party skills before installing: they can contain instructions and code.
+- To share skills across a team and several agents, pin them in an APM `apm.yml`, commit
+  the lockfile, and let Dependabot propose updates you review like any dependency.
 
 ## Current state
+
+- **2026-11-04:** Dependabot supports APM (from 2026-11-03), so skills and MCP servers
+  declared in `apm.yml` get version-update PRs. Rising in GitHub trends: Impeccable
+  (about 10,900 stars in a week, 101,700 total) and Humanizer (about 2,900 in a week,
+  64,500 total). Details above.
 
 - **2026-11-03:** Google's EGM plugin is rising fast in GitHub trends (about 8,900 stars in
   a week, 10,700 total), with experimental Cursor, Copilot CLI, and opencode support
@@ -106,7 +130,14 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 - Will a shared skill format be adopted across vendors, as MCP was? Largely answered
   (2026-10-22): over 70 platforms support it (Anthropic's count), and it now has neutral
   governance at the AAIF. Still open: when the first versioned spec release and the
-  security guidance arrive.
+  security guidance arrive. Checked 2026-11-04: the
+  [agentskills/agentskills](https://github.com/agentskills/agentskills) repo has no
+  tagged releases, and [agentskills.io](https://agentskills.io/) lists the
+  specification, creator guides (best practices, descriptions, evaluation, scripts), and
+  a client guide, but no security, versioning, or proposal pages yet.
+- Does APM's `apm.yml` format stay Microsoft's, or move toward a shared packaging
+  standard for skills? No other agent vendor has said it will read `apm.yml` (as of
+  2026-11-04).
 
 ## Sources
 
@@ -121,3 +152,7 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 - [agent-skills (Addy Osmani)](../../sources/2026/10/2026-10-29-addyosmani-agent-skills.md)
 - [mcode-stack (MiniMax)](../../sources/2026/10/2026-10-29-minimax-mcode-stack-skills.md)
 - [Elephant-Goldfish Model (EGM)](../../sources/2026/11/2026-11-03-elephant-goldfish-model-plugin.md)
+- [APM: Agent Package Manager](../../sources/2026/11/2026-11-04-apm-agent-package-manager.md)
+- [Dependabot version updates support APM](../../sources/2026/11/2026-11-04-dependabot-apm-version-updates.md)
+- [Impeccable](../../sources/2026/11/2026-11-04-impeccable-design-skills.md)
+- [Humanizer](../../sources/2026/11/2026-11-04-humanizer-writing-skill.md)
