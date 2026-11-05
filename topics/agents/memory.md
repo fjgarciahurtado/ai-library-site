@@ -2,7 +2,7 @@
 title: "Memory for agents"
 tags: [memory, agents, tokens]
 related: [agents/agent-patterns, fundamentals/tokens-and-context, fundamentals/rag]
-last_reviewed: 2026-11-01
+last_reviewed: 2026-11-05
 ---
 
 ## Overview
@@ -25,8 +25,11 @@ knowledge outside it.
 - **Memory tools and stores:** vendor features such as Claude's memory tool and Managed
   Agents memory stores. The Claude API also offers server-side compaction and context
   editing (beta, as of 2026-10-04). Codex CLI's Memory v2 is on by default for new
-  profiles since 0.165.0 (2026-10-27) and can import memories from other coding agents, a
-  first step towards memory you can carry between tools.
+  profiles since 0.165.0 (2026-10-27). Its `/import` command (CLI: Claude Code or Cursor;
+  desktop app: also Claude Cowork) copies "project memories from Claude Code" into Codex
+  memories, along with instructions, skills, hooks, MCP servers, and subagents. It is a
+  one-time copy, except that the desktop app can keep it in sync. This is the first
+  working way to carry memory between tools.
 - **Memory in the model product:** Meta's Muse Wonder (2026-10-12) ships "Active
   Memory", carrying context about the user across conversations and retrieving what is
   relevant to the task. Memory is becoming a headline model feature, not only an
@@ -58,6 +61,9 @@ knowledge outside it.
 
 ## Current state
 
+- **2026-11-05:** OpenAI's "Import from another agent" docs answer most of the Codex
+  question below: `/import` in Codex CLI copies Claude Code project memories once (up to
+  50 chats from the last 30 days); only the desktop app offers ongoing sync.
 - **2026-10-30:** claude-mem and codebase-memory-mcp are rising in GitHub trends (see
   above), after Context Mode on 2026-10-26.
 - **2026-10-27:** Codex CLI 0.165.0 turns Memory v2 on by default with import from other
@@ -67,9 +73,11 @@ knowledge outside it.
 
 - How to decide automatically what is worth remembering.
 - How Muse Wonder's Active Memory is stored, and whether users can inspect or delete it.
-- Which agents' memory files Codex 0.165's import reads (for example Claude Code's
-  `MEMORY.md` or `CLAUDE.md`), and whether it imports them once or keeps them in sync.
-  The release notes do not say (checked 2026-10-28).
+- Codex memory import: mostly answered (2026-11-05). It reads Claude Code and Cursor
+  setups, maps instruction files to `AGENTS.md` and "project memories" to Codex
+  memories, and is one-time in the CLI (sync only in the desktop app). Still unclear:
+  whether "project memories" means the auto-memory `MEMORY.md` directory, `CLAUDE.md`, or
+  both, and whether an existing `AGENTS.md` is merged or skipped. The docs do not say.
 
 ## Sources
 
@@ -80,3 +88,4 @@ knowledge outside it.
 - [Codex CLI 0.165.0](../../sources/2026/10/2026-10-28-codex-cli-0-165-vertex.md)
 - [claude-mem](../../sources/2026/10/2026-10-30-claude-mem-persistent-agent-memory.md)
 - [codebase-memory-mcp](../../sources/2026/10/2026-10-30-codebase-memory-mcp-code-graph.md)
+- [Codex docs: Import from another agent](../../sources/2026/11/2026-11-05-codex-import-from-another-agent.md)

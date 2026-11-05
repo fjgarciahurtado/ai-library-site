@@ -2,7 +2,7 @@
 title: "GPT (OpenAI)"
 tags: [openai, llm, reasoning]
 related: [models/claude, models/gemini, tooling/coding-agents]
-last_reviewed: 2026-11-01
+last_reviewed: 2026-11-05
 ---
 
 ## Overview
@@ -97,6 +97,10 @@ model between Sol and Luna, followed on 2026-10-26.
 
 ## Current state
 
+- **2026-11-04:** Images 2.6: two new API image models, `gpt-image-2.6-sunburst` and
+  `gpt-image-2.6-flare`, with adjustable complexity, SVG output, and animated GIFs;
+  markup-guided editing works on GPT Image 2.5 and 2.6. Also in ChatGPT and Codex.
+  Prices not checked (the announcement returns 403).
 - **2026-10-29:** ChatGPT's $100, $200, and $500 plans now include an equal amount of
   expiring API credits for one API organization (reported by Simon Willison; OpenAI's
   help article returned 403). OpenAI also published an updated Model Spec the same day,
@@ -139,3 +143,4 @@ model between Sol and Luna, followed on 2026-10-26.
 - [Prompt caching: 12-hour lifetime (OpenAI API docs)](../../sources/2026/10/2026-10-21-openai-12-hour-prompt-caching.md)
 - [GPT-6.1 Terra (OpenAI API model page)](../../sources/2026/10/2026-10-27-gpt-6-1-terra.md)
 - [OpenAI API credits for ChatGPT plans](../../sources/2026/10/2026-10-30-openai-api-credits-chatgpt-plans.md)
+- [OpenAI Images 2.6](../../sources/2026/11/2026-11-05-gpt-image-2-6-sunburst-flare.md)

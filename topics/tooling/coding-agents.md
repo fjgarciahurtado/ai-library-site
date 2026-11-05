@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-11-04
+last_reviewed: 2026-11-05
 ---
 
 ## Overview
@@ -159,6 +159,13 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
+- **2026-11-05:** VS Code 1.145 (2026-11-04): nested sessions can use a different agent
+  harness (Preview, `chat.agentHost.multipleChatProviders.enabled`), local automations
+  take cron schedules and workspace custom agents, and a working set lets you keep or
+  undo pending agent edits. GitHub Copilot is now a provider in Xcode's built-in coding
+  assistant (public preview; Xcode 27.3 beta, any Copilot plan). Codex's `/import` can
+  copy a Claude Code setup (instructions, skills, hooks, MCP, subagents, memories) into
+  Codex (see [memory](../agents/memory.md)).
 - **2026-11-04:** Claude Code 2.1.318: unattended runs can see when a stored claude.ai
   sign-in ends (`loginExpiresAt` in `claude auth status`, `credential_expires_at` in
   `claude -p` JSON, a stderr warning from 10 days before). A mod's `$.model.fork` takes
@@ -261,3 +268,6 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [Claude Code release 2.1.317](../../sources/2026/11/2026-11-03-claude-code-2-1-317.md)
 - [Elephant-Goldfish Model (EGM)](../../sources/2026/11/2026-11-03-elephant-goldfish-model-plugin.md)
 - [Claude Code release 2.1.318](../../sources/2026/11/2026-11-04-claude-code-2-1-318.md)
+- [VS Code 1.145](../../sources/2026/11/2026-11-05-vscode-1-145-agents-mcp.md)
+- [GitHub Copilot in Xcode's coding assistant](../../sources/2026/11/2026-11-05-copilot-in-xcode-coding-assistant.md)
+- [Codex docs: Import from another agent](../../sources/2026/11/2026-11-05-codex-import-from-another-agent.md)

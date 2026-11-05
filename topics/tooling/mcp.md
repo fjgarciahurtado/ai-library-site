@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-11-04
+last_reviewed: 2026-11-05
 ---
 
 ## Overview
@@ -95,10 +95,18 @@ the de facto standard, with official SDKs in many languages.
 - If tool *results* (logs, test output, web pages) are what fill your context, try
   Context Mode: `claude mcp add context-mode -- npx -y context-mode`, or install it as a
   plugin (`/plugin marketplace add mksglu/context-mode`) to get its routing hooks.
+- For front-end work, let the agent check pages itself with Google's Chrome DevTools MCP
+  (`/plugin marketplace add ChromeDevTools/chrome-devtools-mcp`, or
+  `claude mcp add chrome-devtools -- npx -y chrome-devtools-mcp@latest`): performance
+  traces, console, network, screenshots. Add `--no-usage-statistics` to stop telemetry.
 - Build a server when you want one integration usable from many AI clients.
 
 ## Current state
 
+- **2026-11-05:** VS Code 1.145: MCP apps (servers that ship interactive UI) can now
+  register tools the model can call, and an enterprise `allowedMcpServers` list overrides
+  the registry-only restriction (`[]` blocks all; `deniedMcpServers` still wins).
+  Chrome DevTools MCP is rising in GitHub trends (about 54,800 stars; see above).
 - **2026-11-04:** Microsoft's APM can declare MCP servers by registry ID (for example
   `io.github.github/github-mcp-server`) in `apm.yml` next to skills, install them into
   each supported agent, and check them against an `apm-policy.yml`; Dependabot can now
@@ -146,3 +154,5 @@ the de facto standard, with official SDKs in many languages.
 - [Copilot in VS Code: Universe 2026](../../sources/2026/10/2026-10-29-copilot-vscode-universe-agent-host.md)
 - [codebase-memory-mcp](../../sources/2026/10/2026-10-30-codebase-memory-mcp-code-graph.md)
 - [APM: Agent Package Manager](../../sources/2026/11/2026-11-04-apm-agent-package-manager.md)
+- [VS Code 1.145](../../sources/2026/11/2026-11-05-vscode-1-145-agents-mcp.md)
+- [Chrome DevTools MCP](../../sources/2026/11/2026-11-05-chrome-devtools-mcp.md)
