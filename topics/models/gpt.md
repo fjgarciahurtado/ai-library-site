@@ -2,7 +2,7 @@
 title: "GPT (OpenAI)"
 tags: [openai, llm, reasoning]
 related: [models/claude, models/gemini, tooling/coding-agents]
-last_reviewed: 2026-11-05
+last_reviewed: 2026-11-06
 ---
 
 ## Overview
@@ -97,6 +97,11 @@ model between Sol and Luna, followed on 2026-10-26.
 
 ## Current state
 
+- **2026-11-05:** `gpt-6-cyber`, a security model for investigating vulnerabilities,
+  reproducing them in authorized test environments, and verifying fixes. Access needs
+  Daybreak Red approval. 1.05M context (922K input), 128K output; $20 input, $2 cached,
+  $100 output per 1M tokens; Chat Completions and Responses only. The announcement post
+  could not be fetched, so benchmarks are not recorded here.
 - **2026-11-04:** Images 2.6: two new API image models, `gpt-image-2.6-sunburst` and
   `gpt-image-2.6-flare`, with adjustable complexity, SVG output, and animated GIFs;
   markup-guided editing works on GPT Image 2.5 and 2.6. Also in ChatGPT and Codex.
@@ -144,3 +149,4 @@ model between Sol and Luna, followed on 2026-10-26.
 - [GPT-6.1 Terra (OpenAI API model page)](../../sources/2026/10/2026-10-27-gpt-6-1-terra.md)
 - [OpenAI API credits for ChatGPT plans](../../sources/2026/10/2026-10-30-openai-api-credits-chatgpt-plans.md)
 - [OpenAI Images 2.6](../../sources/2026/11/2026-11-05-gpt-image-2-6-sunburst-flare.md)
+- [GPT-6-Cyber model (API docs)](../../sources/2026/11/2026-11-06-gpt-6-cyber.md)

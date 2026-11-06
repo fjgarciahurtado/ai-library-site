@@ -2,7 +2,7 @@
 title: "Security for LLM apps and agents"
 tags: [security, safety, agents, mcp]
 related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
-last_reviewed: 2026-11-04
+last_reviewed: 2026-11-06
 ---
 
 ## Overview
@@ -46,7 +46,8 @@ to limit what the agent can do if it is fooled.
   Glasswing partners found more than 129,000 verified vulnerabilities from April to July
   2026. Google released Gemini 4 Argon first only to cybersecurity partners; its Fairwind
   Program, which gives vetted defenders Argon without cyber guardrails, is expanding to
-  hundreds more partners (2026-10-13).
+  hundreds more partners (2026-10-13). OpenAI's `gpt-6-cyber` (2026-11-05) is API-only
+  for organisations approved for its Daybreak Red programme.
 - **Defensive programmes:** Anthropic's Cyber Mission (2026-10-08) runs a Critical
   Infrastructure Defense Program with eleven founding partners (including CrowdStrike,
   Palo Alto Networks, and Dragos), and OSS Scanner, a free opt-in vulnerability scanner
@@ -139,6 +140,12 @@ to limit what the agent can do if it is fooled.
 
 ## Current state
 
+- **2026-11-05:** The Claude Console has a beta IP allowlist (IPv4/IPv6 addresses or
+  CIDR ranges, up to 1,000 per organization): requests from other addresses are refused,
+  so a leaked API key is far less useful. Add CI runners and cron hosts first, and watch
+  for hosts on dynamic IPs. A beta Admin API call signs a Claude Enterprise member out
+  everywhere. OpenAI released `gpt-6-cyber` for vulnerability investigation, reproduction
+  in authorized test environments, and fix verification, gated by Daybreak Red approval.
 - **2026-11-04:** Dependabot now proposes version updates for agent skills, prompts, and
   MCP servers pinned in an APM `apm.yml` (version updates only, no security advisories).
   Pinning skills with a lockfile and reviewing update PRs treats them as the supply-chain
@@ -199,3 +206,5 @@ to limit what the agent can do if it is fooled.
 - [Claude Code release 2.1.317](../../sources/2026/11/2026-11-03-claude-code-2-1-317.md)
 - [Claude Code release 2.1.318](../../sources/2026/11/2026-11-04-claude-code-2-1-318.md)
 - [Dependabot version updates support APM](../../sources/2026/11/2026-11-04-dependabot-apm-version-updates.md)
+- [IP allowlisting for Claude organizations (beta)](../../sources/2026/11/2026-11-06-claude-console-ip-allowlist.md)
+- [GPT-6-Cyber model (API docs)](../../sources/2026/11/2026-11-06-gpt-6-cyber.md)

@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-11-04
+last_reviewed: 2026-11-06
 ---
 
 ## Overview
@@ -105,6 +105,12 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 
 ## Current state
 
+- **2026-11-06:** Anthropic's Champion Kit plugin
+  (`claude plugin install champion-kit@claude-plugins-official`) adds seven skills for
+  spreading Claude Code in a team. `/champion-kit:patterns` finds repeated work worth
+  turning into skills or `CLAUDE.md` rules, which also helps a solo user. Its design is a
+  useful model: reading goes through a read-only subagent with no shell or edit tools,
+  and the plugin adds no hooks or MCP servers.
 - **2026-11-04:** Dependabot supports APM (from 2026-11-03), so skills and MCP servers
   declared in `apm.yml` get version-update PRs. Rising in GitHub trends: Impeccable
   (about 10,900 stars in a week, 101,700 total) and Humanizer (about 2,900 in a week,
@@ -156,3 +162,4 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 - [Dependabot version updates support APM](../../sources/2026/11/2026-11-04-dependabot-apm-version-updates.md)
 - [Impeccable](../../sources/2026/11/2026-11-04-impeccable-design-skills.md)
 - [Humanizer](../../sources/2026/11/2026-11-04-humanizer-writing-skill.md)
+- [Champion Kit plugin for Claude Code](../../sources/2026/11/2026-11-06-champion-kit-plugin.md)

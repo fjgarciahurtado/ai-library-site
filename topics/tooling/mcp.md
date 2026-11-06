@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-11-05
+last_reviewed: 2026-11-06
 ---
 
 ## Overview
@@ -99,10 +99,17 @@ the de facto standard, with official SDKs in many languages.
   (`/plugin marketplace add ChromeDevTools/chrome-devtools-mcp`, or
   `claude mcp add chrome-devtools -- npx -y chrome-devtools-mcp@latest`): performance
   traces, console, network, screenshots. Add `--no-usage-statistics` to stop telemetry.
+- For Apple-platform work on a Mac, install Apple's plugin
+  (`claude plugin install xcode@claude-plugins-official`) rather than wiring
+  `xcrun mcpbridge` by hand; it uses the MCP server of your installed Xcode.
 - Build a server when you want one integration usable from many AI clients.
 
 ## Current state
 
+- **2026-11-06:** Apple's `xcode` plugin joined the official Claude Code marketplace. It
+  is the first entry whose source is a local command (`xcrun agent plugin path
+  --plugin-format claude`) rather than a Git repo, so the MCP tools come from the Xcode
+  you have installed.
 - **2026-11-05:** VS Code 1.145: MCP apps (servers that ship interactive UI) can now
   register tools the model can call, and an enterprise `allowedMcpServers` list overrides
   the registry-only restriction (`[]` blocks all; `deniedMcpServers` still wins).
@@ -156,3 +163,4 @@ the de facto standard, with official SDKs in many languages.
 - [APM: Agent Package Manager](../../sources/2026/11/2026-11-04-apm-agent-package-manager.md)
 - [VS Code 1.145](../../sources/2026/11/2026-11-05-vscode-1-145-agents-mcp.md)
 - [Chrome DevTools MCP](../../sources/2026/11/2026-11-05-chrome-devtools-mcp.md)
+- [Apple's Xcode plugin for Claude Code](../../sources/2026/11/2026-11-06-apple-xcode-plugin-claude-code.md)

@@ -2,7 +2,7 @@
 title: "Gemini (Google)"
 tags: [google, llm, multimodal]
 related: [models/claude, models/gpt, models/open-weight]
-last_reviewed: 2026-11-05
+last_reviewed: 2026-11-06
 ---
 
 ## Overview
@@ -99,6 +99,12 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
 
 ## Current state
 
+- **2026-11-05:** Function responses can now carry Office and OpenDocument files, audio,
+  and video (inline or file URIs) in GenerateContent and the Interactions API. PPT, ODP,
+  and ODS inputs are accepted (ODS: first sheet's data and formulas). Gemini Omni 1.2
+  Flash (`gemini-omni-1.2-flash`) is GA with 15-second video, 30% cheaper video output,
+  and doubled paid rate limits; `gemini-omni-1.1-flash` calls route to it from
+  2026-12-03.
 - **2026-11-04:** Voice remixing for Gemini 3.8 TTS: change a prebuilt or designed voice
   with natural-language instructions (`POST /v1beta/voices` with `gemini-3.8-flash-tts`,
   or in AI Studio) and get a reusable `voice_...` ID for 3.8 Flash and Flash-Lite TTS.
@@ -155,3 +161,4 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
 - [Gemini 4 Argon on Gemini Enterprise Agent Platform](../../sources/2026/11/2026-11-02-gemini-4-argon-vertex-ga.md)
 - [Gemini API changelog: Gemini 2.5 Pro and 2.5 Flash deprecated](../../sources/2026/11/2026-11-03-gemini-2-5-pro-flash-deprecation.md)
 - [Voice remixing for Gemini 3.8 TTS](../../sources/2026/11/2026-11-05-gemini-tts-voice-remixing.md)
+- [Gemini API changelog, 2026-11-05](../../sources/2026/11/2026-11-06-gemini-api-files-in-function-responses.md)

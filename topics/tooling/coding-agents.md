@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-11-05
+last_reviewed: 2026-11-06
 ---
 
 ## Overview
@@ -159,6 +159,14 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
+- **2026-11-06:** Apple's `xcode` plugin is in the official Claude Code marketplace
+  (`claude plugin install xcode@claude-plugins-official`): build, run, and test schemes,
+  render SwiftUI previews, drive simulators, read diagnostics, and search Apple docs over
+  MCP. It links the plugin from your installed Xcode via `xcrun agent plugin path`.
+  Codex CLI 0.167.0 adds `codex agents --no-daemon`, unread markers, backend switching in
+  the session picker, and expandable patch details during approval. Floorplan (Claude
+  Code and Codex plugin, MIT) draws an interactive plain-English map of a codebase and of
+  what the agent recently changed: `claude plugin marketplace add haydenschmitty/floorplan`.
 - **2026-11-05:** VS Code 1.145 (2026-11-04): nested sessions can use a different agent
   harness (Preview, `chat.agentHost.multipleChatProviders.enabled`), local automations
   take cron schedules and workspace custom agents, and a working set lets you keep or
@@ -219,6 +227,8 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Open questions
 
+- Which Xcode version first ships `xcrun agent plugin path`, needed by Apple's `xcode`
+  Claude Code plugin? Neither the PR nor the marketplace entry says (checked 2026-11-06).
 - How teams should review the volume of code agents produce. Partly answered
   (2026-10-13): Anthropic uses semantic approval rules and post-merge testing rather
   than reviewing every change equally. On 2026-10-15 the Claude Code team published
@@ -271,3 +281,6 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [VS Code 1.145](../../sources/2026/11/2026-11-05-vscode-1-145-agents-mcp.md)
 - [GitHub Copilot in Xcode's coding assistant](../../sources/2026/11/2026-11-05-copilot-in-xcode-coding-assistant.md)
 - [Codex docs: Import from another agent](../../sources/2026/11/2026-11-05-codex-import-from-another-agent.md)
+- [Apple's Xcode plugin for Claude Code](../../sources/2026/11/2026-11-06-apple-xcode-plugin-claude-code.md)
+- [Codex CLI 0.167.0](../../sources/2026/11/2026-11-06-codex-cli-0-167-agent-center.md)
+- [Floorplan](../../sources/2026/11/2026-11-06-floorplan-codebase-map-plugin.md)

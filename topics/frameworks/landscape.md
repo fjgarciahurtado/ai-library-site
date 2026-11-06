@@ -2,7 +2,7 @@
 title: "Agent and LLM framework landscape"
 tags: [frameworks, agents, sdk]
 related: [agents/agent-patterns, agents/tool-use, tooling/mcp]
-last_reviewed: 2026-11-04
+last_reviewed: 2026-11-06
 ---
 
 ## Overview
@@ -36,6 +36,10 @@ now start from vendor SDKs and add a framework only when it clearly helps.
     override commands, for example to add an SBOM scan before deploy (`agents-cli create
     my-agent --agent google/agents-cli/extensions/langchain/template@v1.8.0 -d
     cloud_run`). Extensions are experimental and pinned to a commit.
+  - Mistral AI Studio (2026-11-05): managed agents with skills, code sandboxes,
+    subagents, and hooks; durable workflows with human approvals; hosted apps; and a
+    Mistral MCP server for building from a coding agent and deploying with one command.
+    It can run in Mistral's cloud, your VPC, or on-premises.
 - **Local runtimes:** Ollama runs open models locally behind an OpenAI-compatible API,
   and `ollama launch` wires them into coding agents such as Claude Code (it clamps
   Claude Code's auto-compact window since 0.40.7). Recent releases: 0.40.7
@@ -128,13 +132,18 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 | Claude Agent SDK (Python) | 0.2.177 | 2026-11-03 | Bundles Claude Code 2.1.317; `HookMatcher(on_failure="block")` makes hooks fail closed (checked 2026-11-03) |
 | Claude Agent SDK (TypeScript) | 0.3.318 | 2026-11-04 | Parity with Claude Code 2.1.318; 0.3.317 added `onFailure: "block"` on hook matchers and removed the `file_unchanged` Read result (checked 2026-11-04) |
 | CrewAI | 1.15.30 | 2026-10-24 | 1.15.0 on 2026-06-25; 1.15.29 (2026-10-23) promoted AgentExecutor out of experimental (checked 2026-10-27 on GitHub) |
-| LlamaIndex | 0.14.25 | 2026-09-21 | Patch release; no note |
+| LlamaIndex | 0.14.25 | 2026-09-21 | Patch release (removes deprecated IPEX integrations); no newer `llama-index-core` on PyPI (checked 2026-11-06) |
 | LangGraph | 1.2.18 | 2026-10-26 | 1.2.0 on 2026-05-12; 1.2.18 snapshots `DeltaChannel` every 100 updates instead of 1000 (faster reads on long threads, more storage; `snapshot_frequency=1000` restores the old value) (checked 2026-10-27 on GitHub) |
 | DSPy | 3.4.1 | 2026-10-12 | 3.4.0 on 2026-09-25; 3.0.0 on 2025-08-12 (checked 2026-10-22) |
 | Vercel AI SDK | 7.x | 2026-06-25 (7.0) | Latest 7.x patch not checked; date from Vercel's announcement (checked 2026-10-16) |
 
 Release features are described under Key concepts.
 
+- **2026-11-05:** Mistral AI Studio adds managed agents (skills, sandboxes, subagents,
+  hooks), resumable workflows with human approvals, hosted apps, OpenTelemetry traces,
+  and a Mistral MCP server; no prices given. Checked 2026-11-06: Claude Agent SDK
+  (Python) 0.2.178 only bundles Claude Code 2.1.318; OpenAI Agents SDK has no new stable
+  release; LlamaIndex is still on 0.14.25 on both GitHub and PyPI.
 - **2026-11-04:** Claude Agent SDK (TypeScript) 0.3.317 and 0.3.318: hook matchers take
   `onFailure: "block"` (fail closed, as in Python 0.2.177); breaking: the `file_unchanged`
   variant of `FileReadOutput` is removed, so a repeated Read returns the content; result
@@ -169,9 +178,11 @@ Release features are described under Key concepts.
 
 ## Open questions
 
-- Add a primary source for a LlamaIndex major release; it was still on 0.14.25
-  (2026-09-21) when checked on 2026-10-30. No 0.15 or 1.0 tag is in the release feed.
-  Its cadence has slowed (0.14.23 in June, 0.14.24 in August, 0.14.25 in September).
+- Add a primary source for a LlamaIndex major release. None exists yet: on 2026-11-06
+  the GitHub release feed and PyPI (`llama-index-core`) both still ended at 0.14.25
+  (2026-09-21), with no 0.15 or 1.0. Releases have slowed from monthly (April–May) to
+  every one to two months (0.14.23 on 06-24, 0.14.24 on 08-19, 0.14.25 on 09-21). Keep
+  checking; if nothing ships by December, note LlamaIndex as slowing down.
 - When will DSPy 3.5 remove the legacy LM interfaces? No date given (checked
   2026-10-12).
 
@@ -202,3 +213,4 @@ Release features are described under Key concepts.
 - [Pydantic AI v2.64.0](../../sources/2026/11/2026-11-02-pydantic-ai-v2-64.md)
 - [Claude Agent SDK (Python) v0.2.177](../../sources/2026/11/2026-11-03-claude-agent-sdk-python-0-2-177.md)
 - [Claude Agent SDK (TypeScript) v0.3.317 and v0.3.318](../../sources/2026/11/2026-11-04-claude-agent-sdk-ts-0-3-318.md)
+- [Mistral AI Studio: managed agents and workflows](../../sources/2026/11/2026-11-06-mistral-studio-managed-agents.md)
