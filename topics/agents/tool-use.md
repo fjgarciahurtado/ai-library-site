@@ -2,7 +2,7 @@
 title: "Tool use (function calling)"
 tags: [tool-use, agents, structured-output]
 related: [agents/agent-patterns, tooling/mcp, tooling/skills]
-last_reviewed: 2026-11-02
+last_reviewed: 2026-11-08
 ---
 
 ## Overview
@@ -37,7 +37,20 @@ how LLMs act in the world and the core of every agent.
   approvals and sign-in. The client-run model remains common: Gemini's Computer Use tool
   (GA 2026-10-30) only proposes browser, desktop, or mobile actions, and the client runs
   them and handles safety confirmations. Computer use has also reached small models:
-  Claude Haiku 5.5 (2026-10-07) and Gemini 3.5 Flash-Lite support it.
+  Claude Haiku 5.5 (2026-10-07) and Gemini 3.5 Flash-Lite support it. Gemini's Computer
+  Use offers per-action `safety_decision` confirmations and opt-in prompt injection
+  detection (see [Gemini](../models/gemini.md)).
+- **Rich tool results:** results need not be text. Since 2026-11-05 Gemini function
+  responses can carry Office and OpenDocument files, audio, and video (see
+  [Gemini](../models/gemini.md)).
+- **CLIs as tools:** instead of an MCP server, a vendor can ship one binary built for
+  agents to discover and call. Google's `gemini-api` CLI (beta, 2026-10-27) has `--help`,
+  `--schema`, `--dry-run`, and `-o json`, plus a suggested `CLAUDE.md`/`AGENTS.md`
+  snippet instead of a skill. Small shell tools work the same way: webframe (MIT, Go)
+  runs a page in the system's web view, prints console output to stdout, and takes
+  JavaScript on stdin (`go install tractor.dev/webframe/cmd/webframe@latest`). Simon
+  Willison found it fast for scraping but limited (CSP failures, a 0×0 viewport, hanging
+  loads, no HTTP metadata; 2026-10-26).
 
 ## How to use it
 
@@ -50,22 +63,12 @@ how LLMs act in the world and the core of every agent.
 
 ## Current state
 
-- **2026-10-30:** Gemini API Computer Use is generally available on Gemini 4 Argon, 3.8
-  Flash, and 3.5 Flash-Lite, with per-action `safety_decision` confirmations and opt-in
-  prompt injection detection (see [Gemini](../models/gemini.md)).
-- **2026-10-27:** Google's `gemini-api` CLI (beta) is another CLI-first alternative to an
-  MCP server: one binary with `--help`, `--schema`, `--dry-run`, and `-o json` built for
-  agents to discover and call, plus a suggested `CLAUDE.md`/`AGENTS.md` snippet instead
-  of a skill (see [Gemini](../models/gemini.md)).
-- **2026-10-26:** webframe (MIT, Go) runs a page in the system's own web view from the
-  shell: console output goes to stdout, and JavaScript can be piped in on stdin. It is a
-  light, Playwright-free browser tool an agent can call (`go install
-  tractor.dev/webframe/cmd/webframe@latest`). Simon Willison's evaluation found it fast
-  for scraping but limited: CSP failures, a 0×0 viewport, hanging loads, and no HTTP
-  metadata.
-- **2026-10-22:** MCPtoCodeMode (MIT) is a code-mode proxy for MCP tools. Its author
-  reports about 5.7× fewer input tokens on test tasks (self-reported). See
-  [MCP](../tooling/mcp.md) for install commands.
+- **2026-11-05:** Gemini function responses accept files, audio, and video (new; see
+  Key concepts).
+- **2026-10-30:** Gemini API Computer Use is GA on Gemini 4 Argon, 3.8 Flash, and 3.5
+  Flash-Lite; rate limits are not yet published.
+- **2026-10-22:** MCPtoCodeMode's claim of about 5.7× fewer input tokens is
+  self-reported; see [MCP](../tooling/mcp.md) for install commands.
 
 ## Open questions
 
@@ -82,4 +85,5 @@ how LLMs act in the world and the core of every agent.
 - [MCPtoCodeMode](../../sources/2026/10/2026-10-23-mcptocodemode-mcp-code-mode-proxy.md)
 - [webframe](../../sources/2026/10/2026-10-27-webframe-headless-webview-runner.md)
 - [Gemini API CLI (gemini-api) beta](../../sources/2026/10/2026-10-28-gemini-api-cli-beta.md)
+- [Gemini API changelog, 2026-11-05](../../sources/2026/11/2026-11-06-gemini-api-files-in-function-responses.md)
 - [Gemini API Computer Use generally available](../../sources/2026/11/2026-11-02-gemini-computer-use-ga.md)

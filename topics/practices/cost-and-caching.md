@@ -2,7 +2,7 @@
 title: "Cost and caching"
 tags: [cost, caching, tokens]
 related: [fundamentals/tokens-and-context, models/claude, fundamentals/reasoning-models]
-last_reviewed: 2026-11-03
+last_reviewed: 2026-11-08
 ---
 
 ## Overview
@@ -29,7 +29,10 @@ Free wins first, then trade-offs:
 1. Turn on prompt caching; keep timestamps and per-request data out of the cached prefix.
 2. Batch non-urgent work.
 3. Trim tool outputs and drop stale context.
-4. Lower effort where quality holds (chat, classification, subagents).
+4. Lower effort where quality holds (chat, classification, subagents). In Claude Code,
+   `CLAUDE_CODE_SUBAGENT_EFFORT` (2.1.316, 2026-10-31) runs subagents at a lower effort
+   than the main session instead of inheriting it; subagents on another model use that
+   model's own effort setting (2.1.317).
 5. Only then consider cheaper models or multi-model cascades, and measure them with
    [evals](evals.md).
 
@@ -98,7 +101,11 @@ Other levers:
   1-minute, 1-hour, or 1-day buckets
   (`anthropic-beta: analytics-usage-cost-2026-08-24`, Admin API credentials). Use it to
   find which key or agent is spending; it replaces the legacy Usage and Cost API, which
-  is still supported.
+  is still supported. For Claude Code through the Claude apps gateway, 2.1.317
+  (2026-11-03) adds a cost report (`GET /v1/organizations/analytics/cost`, by
+  developer, day, or IdP group), and 2.1.316 added pooled group budgets.
+- **Agent tools are billed as tokens:** Gemini Computer Use has no separate fee; it is
+  billed as regular input and output tokens (pricing page, checked 2026-11-03).
 - **Multi-model routing in the tool:** GitHub Copilot Fusion (GA 2026-10-28) routes each
   coding prompt as a single model, a cascade (cheap draft, escalate if needed), or a
   critique loop, and bills each model at its normal rate (30% off on paid plans for a
@@ -139,25 +146,14 @@ legacy, costs $1 / $5.
 
 ## Current state
 
-- **2026-11-02:** Gemini 2.5 Pro and 2.5 Flash deprecated, with routing and new-model
-  billing from 2026-12-01 (see the table). Gemini Computer Use is billed as regular
-  tokens (pricing page, checked 2026-11-03). Claude message threads beta (no price
-  change). Claude Code 2.1.317 (2026-11-03) adds a gateway cost report,
-  `GET /v1/organizations/analytics/cost`, by developer, day, or IdP group, and
-  subagents on another model now use that model's own effort setting.
-- **2026-10-31:** Claude Code 2.1.316 adds `CLAUDE_CODE_SUBAGENT_EFFORT`, so subagents
-  can run at a lower effort than the main session instead of inheriting it, and pooled
-  group budgets on the Claude apps gateway. See
-  [coding agents](../tooling/coding-agents.md).
-- **2026-10-30:** Fast mode on Claude Opus 4.8 deprecated; from 2026-11-30 fast requests
-  to it return an error (no fallback). Move them to Opus 5.5 fast mode.
-- **2026-10-29:** Anthropic launched the Usage and Cost Analytics API (beta) and OpenAI
-  added API credits to its $100–$500 ChatGPT plans (details above); both are new and may
-  change.
-- **2026-10-28:** GitHub Copilot Fusion GA with a limited-time 30% discount (details
-  above).
-- **2026-10-26:** Google's pricing page (updated 2026-10-22) lists Gemini 3.5 Flash-Lite
-  above 3.1 Flash-Lite, and 3.6 Flash at the same price as 3.8 Flash (see the table).
+- **2026-11-02:** Gemini 2.5 Pro and 2.5 Flash are deprecated; from 2026-12-01 they are
+  routed to and billed as newer models (see the table).
+- **2026-10-30:** Fast mode on Claude Opus 4.8 stops working on 2026-11-30: fast
+  requests will return an error (no fallback). Move them to Opus 5.5 fast mode.
+- **2026-10-29:** Anthropic's Usage and Cost Analytics API (beta) and OpenAI's API
+  credits for $100–$500 ChatGPT plans are new and may change (details above).
+- **2026-10-28:** GitHub Copilot Fusion's 30% discount is for a limited time (no end
+  date given).
 - **2026-10-13:** Gemini 4 Argon's introductory price ($2 / $10) doubles after
   2026-11-30; recheck then.
 

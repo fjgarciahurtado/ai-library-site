@@ -2,7 +2,7 @@
 title: "Security for LLM apps and agents"
 tags: [security, safety, agents, mcp]
 related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-08
 ---
 
 ## Overview
@@ -26,6 +26,10 @@ to limit what the agent can do if it is fooled.
   behind a cryptographic trigger that survived fine-tuning, weight noise, gradient
   trigger search, and latent adversarial training, even with full weight access. A
   model's provenance matters, not just its eval results (see [evals](evals.md)).
+  Skills, prompts, and MCP servers can be pinned like code dependencies: APM declares
+  them in `apm.yml` with a lockfile, and since 2026-11-04 Dependabot opens version-update
+  PRs for them (version updates only, no security advisories yet; see
+  [skills](../tooling/skills.md)).
 - **Sensitive data exposure:** secrets in prompts, logs, or training data.
 - **Improper output handling:** passing model output unchecked into shells, SQL, or HTML.
 - **Unbounded consumption:** runaway loops and cost attacks.
@@ -85,7 +89,12 @@ to limit what the agent can do if it is fooled.
   globs did not apply through symlinks; sandboxed commands could edit the
   `--mcp-config` file; `Edit(path)` deny rules missed some redirects; and worktree
   isolation accepted some locale-prefixed and zsh arithmetic commands. Keep agent tools
-  current when you rely on their sandbox.
+  current when you rely on their sandbox. Frameworks harden the same way: Pydantic AI
+  2.59.0 / 1.107.9 (2026-10-21) fix GHSA-4whf-38hw-pxxh (high), where hostile HTML
+  fetched by `web_fetch` could stall the process, and escape compacted transcripts so
+  tool output cannot forge messages; Microsoft Agent Framework (Python) 1.23.0 makes
+  AG-UI endpoints declare an authorization scope and renames the Docker shell's
+  `extra_run_args` to `unsafe_extra_run_args`.
 - **Approval fatigue:** when users approve almost every prompt (about 93% in Claude Code,
   per Anthropic), permission prompts stop protecting anyone. Sandboxing that removes most
   prompts is safer than asking more often. Model-judged auto-approval is the other
@@ -110,7 +119,19 @@ to limit what the agent can do if it is fooled.
 - Do not parse project files, settings, or hooks before the user has trusted the project.
 - Require human approval for destructive or outward-facing actions.
 - Keep credentials out of the model's context; inject them at the tool layer.
-- Review MCP servers, skills, and plugins before installing them.
+- Review MCP servers, skills, and plugins before installing them. In Claude Code,
+  `deniedMcpServers` URL entries also block Anthropic-provided servers and cloud
+  connectors with a matching upstream URL (since 2.1.318, 2026-11-04).
+- Restrict API keys to known addresses where the provider allows it. The Claude Console
+  IP allowlist (beta, 2026-11-05) takes up to 1,000 IPv4/IPv6 addresses or CIDR ranges
+  per organization and refuses requests from anywhere else, so a leaked key is far less
+  useful. Add CI runners and cron hosts first, and watch for hosts on dynamic IPs. A beta
+  Admin API call signs a Claude Enterprise member out everywhere.
+- Make policy hooks fail closed: Claude Code hooks (`onFailure: "block"`) and, since
+  2026-11-03, Agent SDK hook callbacks (`on_failure="block"` in Python) block the action
+  when the hook crashes or times out. Claude Code 2.1.317 also asks before a web or shell
+  tool call sends your account email address, and warns when a new cloud scheduled task
+  gets connectors you did not ask for.
 - Validate and escape model output before executing or rendering it.
 - For organization-wide data-loss prevention, inspect prompts server-side before
   inference. Claude Enterprise's inference hooks (GA 2026-10-20) send every governed
@@ -140,35 +161,11 @@ to limit what the agent can do if it is fooled.
 
 ## Current state
 
-- **2026-11-05:** The Claude Console has a beta IP allowlist (IPv4/IPv6 addresses or
-  CIDR ranges, up to 1,000 per organization): requests from other addresses are refused,
-  so a leaked API key is far less useful. Add CI runners and cron hosts first, and watch
-  for hosts on dynamic IPs. A beta Admin API call signs a Claude Enterprise member out
-  everywhere. OpenAI released `gpt-6-cyber` for vulnerability investigation, reproduction
-  in authorized test environments, and fix verification, gated by Daybreak Red approval.
-- **2026-11-04:** Dependabot now proposes version updates for agent skills, prompts, and
-  MCP servers pinned in an APM `apm.yml` (version updates only, no security advisories).
-  Pinning skills with a lockfile and reviewing update PRs treats them as the supply-chain
-  dependencies they are. Claude Code 2.1.318 makes `deniedMcpServers` URL entries also
-  block Anthropic-provided servers and cloud connectors with a matching upstream URL, and
-  makes `claude mcp add`/`remove` take the config lock.
-- **2026-11-03:** Claude Code 2.1.317 asks before a web or shell tool call sends your
-  account email address to the network, warns when a new cloud scheduled task gets
-  connectors you did not ask for, and lets Agent SDK hook callbacks fail closed
-  (`onFailure: "block"`). Use the last one for any SDK hook that enforces a policy.
-- **2026-10-30:** Claude Code 2.1.314 adds a write fence that holds in every permission
-  mode (see How to use it).
-- **2026-10-28:** GitHub Agentic Workflows GA and, on 2026-10-26, Copilot assisted
-  permissions GA (see Key concepts).
-- **2026-10-22:** Claude Code 2.1.309 fixes several sandbox bypasses (see Key concepts);
-  upgrade before relying on the sandbox for unattended runs.
-- **2026-10-22:** Microsoft Agent Framework (Python) 1.23.0 makes AG-UI endpoints declare
-  an authorization scope (or single-user mode) and renames the Docker shell's
-  `extra_run_args` to `unsafe_extra_run_args`.
-- **2026-10-21:** Pydantic AI 2.59.0 / 1.107.9 fix GHSA-4whf-38hw-pxxh (high), where
-  hostile HTML fetched by `web_fetch` could slow down the whole process. They also escape
-  `SummarizingCompaction` transcripts so tool output cannot forge messages in compacted
-  history. Upgrade agents that fetch untrusted pages.
+- **2026-11-05:** The Claude Console IP allowlist and the Admin API sign-out call are in
+  beta (see How to use it). OpenAI's `gpt-6-cyber` is new and gated by Daybreak Red
+  approval (see Key concepts).
+- **2026-11-04:** Dependabot support for APM-pinned skills and MCP servers is new and
+  covers version updates only; no advisory database for skills exists yet.
 
 ## Open questions
 

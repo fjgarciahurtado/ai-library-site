@@ -1,6 +1,6 @@
 ---
 title: "Gemini API Computer Use generally available"
-url: https://ai.google.dev/gemini-api/docs/computer-use
+url: https://aistudio.google.com/docs/computer-use
 archived:
 type: docs
 author: Google

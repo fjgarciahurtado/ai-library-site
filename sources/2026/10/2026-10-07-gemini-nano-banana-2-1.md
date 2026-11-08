@@ -1,6 +1,6 @@
 ---
 title: "Gemini Nano Banana 2.1 model page"
-url: https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1
+url: https://aistudio.google.com/docs/models/gemini-nano-banana-2.1
 archived:
 type: docs
 author: Google

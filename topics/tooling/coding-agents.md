@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-08
 ---
 
 ## Overview
@@ -18,7 +18,11 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   and Jules (Google), GitHub Copilot's agent mode, and editors such as Cursor.
   Open-source options include Aider, Cline, and OpenCode. Adoption extends to government:
   over 1,500 engineers and technical staff at Singapore's GovTech use Claude Code
-  (Anthropic, 2026-10-14).
+  (Anthropic, 2026-10-14). Since 2026-11-04, GitHub Copilot is also a provider in Xcode's
+  built-in coding assistant (public preview, Xcode 27.3 beta, any Copilot plan).
+- **Switching tools:** Codex's `/import` copies a Claude Code or Cursor setup
+  (instructions, skills, hooks, MCP servers, subagents, memories) into Codex; in the CLI
+  it is a one-time copy (Codex docs, read 2026-11-05; see [memory](../agents/memory.md)).
 - **Project instructions:** files such as `CLAUDE.md` or `AGENTS.md` describe build
   commands, conventions, and rules.
 - **Permissions:** modes from "ask every time" to automatic approval with safety checks;
@@ -59,10 +63,21 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   `claude -p`, the Agent SDK, desktop, and VS Code (2.1.302), where subagents always run
   in the background.
 - **Effort:** in Claude Code, typing `ultrathink` runs that one turn at `xhigh` effort on
-  the 5.5-generation models and Fable 5.1 (2.1.311, 2026-10-26); cloud routines have an
-  effort setting (2.1.312). Codex takes model, effort, and speed inline in `/model`
+  the 5.5-generation models and Fable 5.1 (2.1.311, 2026-10-26;
+  `CLAUDE_CODE_DISABLE_ULTRATHINK=1` turns it off since 2.1.316); cloud routines have an
+  effort setting (2.1.312). Since 2.1.316 (2026-10-31), `CLAUDE_CODE_SUBAGENT_EFFORT` sets
+  the effort subagents run at instead of inheriting the session's, and since 2.1.317
+  subagents on a different model use that model's own effort setting (see
+  [cost and caching](../practices/cost-and-caching.md)). Codex takes model, effort, and speed inline in `/model`
   (0.164) and lets you change effort mid-conversation (0.165). Codex `/presets` saves
   prompts, slash commands, or permission settings in ten slots (0.164, 2026-10-23).
+- **Unattended runs:** since 2.1.311 Claude Code no longer retries requests the API marks
+  as not retryable (a retry loop could hang scripts); since 2.1.314 `claude -p` exits 1
+  when startup fails; and since 2.1.318 (2026-11-04) it reports when a stored claude.ai
+  sign-in ends (`loginExpiresAt` in `claude auth status`, `credential_expires_at` in
+  `claude -p` JSON, and a stderr warning from 10 days before). Since 2.1.318 background
+  subagents move shell commands to the background after 3 minutes so the prompt cache
+  does not expire.
 - **Observability:** Claude Code emits OpenTelemetry with GenAI attributes (2.1.300),
   and fields that explain why auto mode allowed or blocked a tool call (2.1.301). The
   `claude_code.safety_event` event added in 2.1.307 was removed again in 2.1.312
@@ -76,7 +91,9 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   after the cache expires costs less.
 - **Other providers:** Claude Code runs on Bedrock, Vertex, Foundry, and Mantle; the
   Monitor tool works there since 2.1.310, and 2.1.305 fixed a 2.1.304 regression that
-  broke requests on those providers (skip 2.1.304). Codex has a built-in Vertex AI
+  broke requests on those providers (skip 2.1.304). Since 2.1.312, unrecognised model
+  names on those providers get the short system prompt
+  (`CLAUDE_CODE_SIMPLE_SYSTEM_PROMPT=0` restores the full one). Codex has a built-in Vertex AI
   provider (`model_provider = "gcp"`, 0.165, 2026-10-27) and enterprise MCP sign-in
   (0.164).
 - **Add-ons for everyday work** (added to the library in October 2026; MIT unless
@@ -101,13 +118,24 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   with full context and has fresh, context-free subagents review it
   (`claude plugin marketplace add google/elephant-goldfish-model`, then
   `claude plugin install egm@egm`; also for Codex and Antigravity; see
-  [skills](skills.md)).
+  [skills](skills.md)). Floorplan (Claude Code and Codex, 2026-11) draws an interactive
+  plain-English map of a codebase and of what the agent recently changed
+  (`claude plugin marketplace add haydenschmitty/floorplan`). For Apple platforms,
+  Apple's `xcode` plugin is in the official marketplace
+  (`claude plugin install xcode@claude-plugins-official`, 2026-11-06): it builds, runs,
+  and tests schemes, renders SwiftUI previews, drives simulators, and searches Apple
+  docs over MCP, linking the plugin shipped with your Xcode through
+  `xcrun agent plugin path`.
 - **Comparing models on one task:** VS Code 1.143 (2026-10-22) has this built in as a
   preview (`sessions.chat.compareAgents.enabled`). Each model works in its own session,
   and a judge model can pick the best result or **Synthesize** a merge. Before, people
   ran parallel worktrees by hand. The same release made the Copilot harness (Copilot
   SDK, Agent Host) the default for new VS Code sessions and lets admins require plugins
-  with `enabledPlugins`, which then install automatically.
+  with `enabledPlugins`, which then install automatically. VS Code 1.145 (2026-11-04)
+  lets nested sessions use a different agent harness (preview,
+  `chat.agentHost.multipleChatProviders.enabled`), and a working set keeps or undoes
+  pending agent edits. VS Code 1.143 also has an experimental local MAI Code 1.1 Flash
+  model (needs a 96 GB NVIDIA GPU).
 - **Letting the tool pick models:** GitHub Copilot Fusion (GA 2026-10-28) routes each
   prompt across several models, using a single model, a cascade (cheap draft, escalate if
   needed), or a critique loop, at Standard, High, or Max effort. GitHub reports Fusion Max
@@ -120,14 +148,23 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   Gemini, or Pi (`gh extension install github/gh-aw`, then
   `gh aw add-wizard githubnext/agentics/repo-status`); shared Copilot Automations that
   belong to a repository and fire on events; and Copilot Agent Merge, which fixes failing
-  checks and merge conflicts on a PR (**Watch and fix** in the merge box).
+  checks and merge conflicts on a PR (**Watch and fix** in the merge box, any PR on
+  github.com, paid plans). Agentic Workflows run on Free, Team, and Enterprise plans
+  with read-only sandboxed agents, "safe outputs", and threat detection. Locally, VS Code
+  automations take cron schedules and workspace custom agents (1.145), and Claude Code
+  cloud routines load your claude.ai plugins (2.1.314).
 - **Long-lived sessions:** sessions increasingly run on a host rather than in the editor
   window. Claude Code has background sessions and Remote Control; VS Code's Agent Host
   (`code agent host`, 2026-10-28) keeps Copilot sessions running after the window
   closes, runs them on remote machines or in the cloud, and lets GitHub Mobile and other
-  clients continue them through the open Agent Host Protocol.
+  clients continue them through the open Agent Host Protocol. The same release added
+  experimental desktop computer use (`chat.agentHost.computerUse.enabled`, then
+  `/computer on`). Codex CLI has a similar command center: `codex agents` (with
+  `--no-daemon` since 0.167.0, 2026-11-06), `codex queue --resume` (0.166), unread
+  markers, and backend switching in the session picker.
 - **SDKs:** for example the Claude Agent SDK packages the Claude Code harness as a
-  library for building your own agents.
+  library for building your own agents. The GitHub Copilot SDK is being renamed the
+  Microsoft Copilot SDK (2026-10-28).
 - **Infrastructure at agent scale:** when most commits come from agents, source control
   and review become the bottleneck. Anthropic's merges grew from about 2,500 a day (May
   2026) to over 30,000 (September 2026), with about 25 million CI checkouts a day. In
@@ -146,7 +183,8 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   by over 40% (Anthropic's own figures). The hosted Claude Code Review product offers
   Quick, Standard, and Deep levels per organization or repository and can review every
   repository in an organization (since 2026-10-19); `@claude review stop` ends an
-  always-on subscription (2.1.307).
+  always-on subscription (2.1.307). The official marketplace's `code-review` plugin
+  prints to the terminal unless `--comment` is passed (since 2026-10-27).
 
 ## How to use it
 
@@ -159,71 +197,22 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
-- **2026-11-06:** Apple's `xcode` plugin is in the official Claude Code marketplace
-  (`claude plugin install xcode@claude-plugins-official`): build, run, and test schemes,
-  render SwiftUI previews, drive simulators, read diagnostics, and search Apple docs over
-  MCP. It links the plugin from your installed Xcode via `xcrun agent plugin path`.
-  Codex CLI 0.167.0 adds `codex agents --no-daemon`, unread markers, backend switching in
-  the session picker, and expandable patch details during approval. Floorplan (Claude
-  Code and Codex plugin, MIT) draws an interactive plain-English map of a codebase and of
-  what the agent recently changed: `claude plugin marketplace add haydenschmitty/floorplan`.
-- **2026-11-05:** VS Code 1.145 (2026-11-04): nested sessions can use a different agent
-  harness (Preview, `chat.agentHost.multipleChatProviders.enabled`), local automations
-  take cron schedules and workspace custom agents, and a working set lets you keep or
-  undo pending agent edits. GitHub Copilot is now a provider in Xcode's built-in coding
-  assistant (public preview; Xcode 27.3 beta, any Copilot plan). Codex's `/import` can
-  copy a Claude Code setup (instructions, skills, hooks, MCP, subagents, memories) into
-  Codex (see [memory](../agents/memory.md)).
-- **2026-11-04:** Claude Code 2.1.318: unattended runs can see when a stored claude.ai
-  sign-in ends (`loginExpiresAt` in `claude auth status`, `credential_expires_at` in
-  `claude -p` JSON, a stderr warning from 10 days before). A mod's `$.model.fork` takes
-  `effort`; background subagents move shell commands to the background after 3 minutes
-  so the prompt cache does not expire; cloud sessions can start with no repository.
-  Claude Code no longer installs the IDE extension from an IDE terminal. Many fixes for
-  headless runs that reported success after an error and for config files on network
-  home directories.
-- **2026-11-03:** Claude Code 2.1.317: fail-closed Agent SDK hook callbacks, a prompt
-  before a web or shell tool call sends your account email, a `/schedule` warning about
-  connectors you did not ask for, and a gateway cost report API. Subagents on a different
-  model now use that model's own effort setting. Fixes include desktop MCP servers
-  disconnecting after the first turn, and timed-out Grep and Glob results being treated
-  as complete. Google's EGM design-review plugin (above) is rising fast on GitHub
-  (about 8,900 stars in a week).
-- **2026-10-31:** Claude Code 2.1.316 (no public 2.1.315): `CLAUDE_CODE_SUBAGENT_EFFORT`
-  sets the effort subagents run at (they used to inherit the session's), and
-  `CLAUDE_CODE_DISABLE_ULTRATHINK=1` turns the `ultrathink` keyword off. Cloud sessions
-  now show a form when an MCP server asks for input instead of cancelling the request.
-  Shell commands no longer keep running after Claude Code exits by itself. Fast mode on
-  Opus 4.8 is deprecated (removed 2026-11-30; see [Claude](../models/claude.md)).
-- **2026-10-30:** Claude Code 2.1.314 (no public 2.1.313): the write fence and idle
-  compaction described above; `claude -p` now exits 1 with an error when startup fails,
-  and cloud routines load your claude.ai plugins.
-- **2026-10-29:** Codex CLI 0.166.0: keyboard selection and search in the transcript,
-  clearer safety-block explanations, `codex queue --resume`, and
-  `codex doctor --network-only`.
-- **2026-10-28:** GitHub Universe. Agentic Workflows (`gh aw`) is GA on Free, Team, and
-  Enterprise, with read-only sandboxed agents, "safe outputs", and threat detection.
-  Copilot Fusion (multi-model routing) is GA on all plans. Agent Merge now works from
-  any PR on github.com (paid plans). Shared Copilot Automations are rolling out.
-  Copilot connectors put 26 GitHub-verified MCP servers one click away (preview; see
-  [MCP](mcp.md)). VS Code gains the Agent Host, remote and cloud sessions, experimental
-  desktop computer use (`chat.agentHost.computerUse.enabled`, then `/computer on`), and
-  a customizations marketplace; the GitHub Copilot SDK is being renamed the Microsoft
-  Copilot SDK.
-- **2026-10-27:** Claude Code 2.1.312: Write no longer overwrites a large CLAUDE.md or
-  rules file Claude has only partly read, and `paths:` skills are found after a `cd`.
-  On Bedrock, Vertex, Foundry, and Mantle, unrecognised model names get the short system
-  prompt (`CLAUDE_CODE_SIMPLE_SYSTEM_PROMPT=0` restores the full one). The official
-  marketplace's `code-review` plugin now prints to the terminal unless `--comment` is
-  passed.
-- **2026-10-27:** Codex CLI 0.165.0: Memory v2 on by default for new profiles, with
-  import from other agents (see [memory](../agents/memory.md)); GPT-6.1 Terra in the
-  catalogue. GPT-6.1 Terra is also rolling out in Copilot (see [GPT](../models/gpt.md)).
-- **2026-10-26:** Claude Code 2.1.311: requests the API marks as not retryable are no
-  longer retried, fixing a retry loop that could hang unattended runs. TypeScript Agent
-  SDK 0.3.311 splits cache-write tokens into 5-minute and 1-hour counts.
-- **2026-10-22:** VS Code 1.143 experimental: a local MAI Code 1.1 Flash model (needs a
-  96 GB NVIDIA GPU).
+- **2026-11-06:** Latest releases: Claude Code 2.1.318 (2026-11-04; cloud sessions can
+  start with no repository, and many fixes for headless runs that reported success after
+  an error), Codex CLI 0.167.0, and VS Code 1.145. Apple's Xcode plugin and Floorplan
+  (above) are new this week.
+- **2026-11-03:** Claude Code 2.1.317 prompts before a web or shell tool call sends your
+  account email, warns in `/schedule` about connectors you did not ask for, and adds a
+  gateway cost report API (see [security](../practices/security.md)). Google's EGM
+  design-review plugin (above) gained about 8,900 GitHub stars in its first week.
+- **2026-10-31:** Fast mode on Opus 4.8 is deprecated and will be removed on 2026-11-30;
+  move fast-mode sessions to Opus 5.5 (see [Claude](../models/claude.md)).
+- **2026-10-28:** Shared Copilot Automations and the VS Code customizations marketplace
+  are still rolling out; Copilot connectors (26 verified MCP servers) are in preview
+  (see [MCP](mcp.md)).
+- **2026-10-27:** GPT-6.1 Terra is in the Codex catalogue and rolling out in Copilot
+  (see [GPT](../models/gpt.md)); Codex Memory v2 is on by default for new profiles
+  (see [memory](../agents/memory.md)).
 
 ## Open questions
 

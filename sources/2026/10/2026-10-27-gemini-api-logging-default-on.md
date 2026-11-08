@@ -1,6 +1,6 @@
 ---
 title: "Gemini API logs and datasets: storage on by default for new projects"
-url: https://ai.google.dev/gemini-api/docs/logs-datasets
+url: https://aistudio.google.com/docs/logs-datasets
 archived:
 type: docs
 author: Google

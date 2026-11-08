@@ -1,6 +1,6 @@
 ---
 title: "Gemini 3.8 Flash model page and pricing"
-url: https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash
+url: https://aistudio.google.com/docs/models/gemini-3.8-flash
 archived:
 type: docs
 author: Google
@@ -13,7 +13,7 @@ topics: [models/gemini, practices/cost-and-caching, fundamentals/tokens-and-cont
 ## Summary
 
 Google's model page for `gemini-3.8-flash` and the Gemini API pricing page
-(https://ai.google.dev/gemini-api/docs/pricing), read on 2026-10-06. The model takes
+(https://aistudio.google.com/docs/pricing), read on 2026-10-06. The model takes
 1M tokens of multimodal input and returns text. Prices are introductory until the end
 of 2026 and double on 2027-01-01.
 

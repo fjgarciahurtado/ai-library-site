@@ -2,7 +2,7 @@
 title: "Gemini (Google)"
 tags: [google, llm, multimodal]
 related: [models/claude, models/gpt, models/open-weight]
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-08
 ---
 
 ## Overview
@@ -37,7 +37,12 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
     `deep-research-preview-04-2026` or `deep-research-max-preview-04-2026`.
   - *Gemini 2.5:* since 2026-09-18, only existing active users can use it. 2.5 Pro and
     2.5 Flash were deprecated on 2026-11-02. From 2026-12-01 their requests are routed
-    to 3.8 Flash and 3.5 Flash-Lite and billed at those models' rates.
+    to 3.8 Flash and 3.5 Flash-Lite and billed at those models' rates. Expect breaking
+    changes when that happens: `thinking_level` replaces `thinking_budget`, sampling
+    parameters are removed, and prefilled model turns are not accepted.
+  - *Gemini Omni 1.2 Flash* (`gemini-omni-1.2-flash`, GA 2026-11-05) is the current
+    Omni model: 15-second video, 30% cheaper video output than 1.1, and doubled paid
+    rate limits. Calls to `gemini-omni-1.1-flash` route to it from 2026-12-03.
 - **Gemini 4 Argon:** first released to cybersecurity partners in the Fairwind Program on
   2026-09-30, then publicly on 2026-10-13 (paid API tier, Gemini app for Pro and Ultra
   subscribers, Antigravity). On the Gemini API it is a Stable, GA model (model page
@@ -56,7 +61,10 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
 - **Robotics:** Google pitches Argon itself as a physical reasoning model for robotics
   (87% on ERQA), not a separate robotics model.
 - **Voice and speech:** Gemini 3.8 Live (and a Live Extended Thinking variant) from
-  2026-09-15; 3.8 Flash TTS and Flash-Lite TTS GA on 2026-09-22.
+  2026-09-15; 3.8 Flash TTS and Flash-Lite TTS GA on 2026-09-22. Since 2026-11-04,
+  voice remixing changes a prebuilt or designed voice with natural-language instructions
+  (`POST /v1beta/voices` with `gemini-3.8-flash-tts`, or in AI Studio) and returns a
+  reusable `voice_...` ID for both TTS models.
 - **Image models ("Nano Banana"):** Flash-class image generation and editing models.
   The current one is `gemini-nano-banana-2.1` (GA 2026-10-06): panoramic ratios up to
   8:1, 1K–4K output at every ratio, up to 14 reference images. Its predecessor
@@ -66,6 +74,9 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
 
 ## How to use it
 
+- The Gemini API docs moved from ai.google.dev to aistudio.google.com/docs, and the
+  Vertex AI docs now live under "Gemini Enterprise Agent Platform" on
+  docs.cloud.google.com (old addresses redirect; noticed 2026-11-02 and 2026-11-08).
 - Flash models are the usual starting point for high-volume work.
 - Watch the deprecations page: deprecated Flash models may be routed to a newer model
   automatically, so pinning a model name does not guarantee the same model.
@@ -88,7 +99,12 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
   for example `gemini-api analyze -i report.pdf "Summarise"` or `gemini-api agent run
   "..." --agent deep-research-preview-04-2026 --background --stream=false`. Use
   `-o json` and `--dry-run` from agents, and pin a version in CI. It is separate from
-  Gemini CLI, the coding agent.
+  Gemini CLI, the coding agent, which since 0.66.0 (2026-10-27) warns that it is not yet
+  optimised for Gemini 4.
+- Function calling: since 2026-11-05, function responses can carry Office and
+  OpenDocument files, audio, and video (inline or as file URIs) in GenerateContent and
+  the Interactions API. PPT, ODP, and ODS inputs are accepted (ODS: the first sheet's
+  data and formulas).
 - Computer use: add a `computer_use` tool with an `environment` (browser, desktop, or
   mobile) in the Interactions or GenerateContent API (`google-genai` 2.7.0+). Your
   client runs the actions and must handle `safety_decision` confirmations. Google
@@ -99,31 +115,13 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
 
 ## Current state
 
-- **2026-11-05:** Function responses can now carry Office and OpenDocument files, audio,
-  and video (inline or file URIs) in GenerateContent and the Interactions API. PPT, ODP,
-  and ODS inputs are accepted (ODS: first sheet's data and formulas). Gemini Omni 1.2
-  Flash (`gemini-omni-1.2-flash`) is GA with 15-second video, 30% cheaper video output,
-  and doubled paid rate limits; `gemini-omni-1.1-flash` calls route to it from
-  2026-12-03.
-- **2026-11-04:** Voice remixing for Gemini 3.8 TTS: change a prebuilt or designed voice
-  with natural-language instructions (`POST /v1beta/voices` with `gemini-3.8-flash-tts`,
-  or in AI Studio) and get a reusable `voice_...` ID for 3.8 Flash and Flash-Lite TTS.
-- **2026-11-02:** Gemini 2.5 Pro and 2.5 Flash deprecated. From 2026-12-01, 2.5 Pro
-  routes to 3.8 Flash and 2.5 Flash to 3.5 Flash-Lite, at the new models' prices. Expect
-  breaking changes (`thinking_level` replaces `thinking_budget`, sampling parameters
-  removed, no prefilled model turns), so migrate before then. The API docs moved to
-  aistudio.google.com.
-- **2026-10-30:** Computer Use is generally available in the Interactions and
-  GenerateContent APIs (Argon, 3.8 Flash, 3.5 Flash-Lite; 3 Flash stays preview).
-
-- **2026-10-27:** Google released the Gemini API CLI (`gemini-api`) as an open-source
-  beta (details above). The same day, Gemini CLI 0.66.0 started showing a notice that it
-  is not yet optimised for Gemini 4.
-- **2026-10-26:** The Generate Content API now stores requests by default for new
-  paid-tier projects, as the Interactions API already did (details above). Google's
-  pricing page (updated 2026-10-22) now lists the July 2026 models: 3.5 Flash-Lite,
-  which Google recommends for new projects, costs more than 3.1 Flash-Lite, and 3.6
-  Flash costs the same as 3.8 Flash.
+- **2026-11-05:** Omni 1.1 Flash calls start routing to Omni 1.2 Flash on 2026-12-03.
+- **2026-11-02:** Gemini 2.5 Pro and 2.5 Flash are routed to 3.8 Flash and 3.5
+  Flash-Lite from 2026-12-01, with breaking changes; migrate before then (see Key
+  concepts).
+- **2026-10-30:** Computer Use is GA on Argon, 3.8 Flash, and 3.5 Flash-Lite; 3 Flash
+  stays in preview, and rate limits are not yet published.
+- **2026-10-27:** The `gemini-api` CLI is a beta.
 - **2026-10-13:** Gemini 4 Argon's introductory prices ($2 / $10) double after
   2026-11-30.
 

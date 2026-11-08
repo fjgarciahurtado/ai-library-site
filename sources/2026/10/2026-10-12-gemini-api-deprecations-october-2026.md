@@ -1,6 +1,6 @@
 ---
 title: "Gemini API deprecations (October 2026)"
-url: https://ai.google.dev/gemini-api/docs/deprecations
+url: https://aistudio.google.com/docs/deprecations
 archived:
 type: docs
 author: Google

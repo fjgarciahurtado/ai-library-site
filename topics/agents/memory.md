@@ -2,7 +2,7 @@
 title: "Memory for agents"
 tags: [memory, agents, tokens]
 related: [agents/agent-patterns, fundamentals/tokens-and-context, fundamentals/rag]
-last_reviewed: 2026-11-05
+last_reviewed: 2026-11-08
 ---
 
 ## Overview
@@ -27,8 +27,9 @@ knowledge outside it.
   editing (beta, as of 2026-10-04). Codex CLI's Memory v2 is on by default for new
   profiles since 0.165.0 (2026-10-27). Its `/import` command (CLI: Claude Code or Cursor;
   desktop app: also Claude Cowork) copies "project memories from Claude Code" into Codex
-  memories, along with instructions, skills, hooks, MCP servers, and subagents. It is a
-  one-time copy, except that the desktop app can keep it in sync. This is the first
+  memories (up to 50 chats from the last 30 days), along with instructions, skills,
+  hooks, MCP servers, and subagents. It is a one-time copy, except that the desktop app
+  can keep it in sync. This is the first
   working way to carry memory between tools.
 - **Memory in the model product:** Meta's Muse Wonder (2026-10-12) ships "Active
   Memory", carrying context about the user across conversations and retrieving what is
@@ -61,13 +62,10 @@ knowledge outside it.
 
 ## Current state
 
-- **2026-11-05:** OpenAI's "Import from another agent" docs answer most of the Codex
-  question below: `/import` in Codex CLI copies Claude Code project memories once (up to
-  50 chats from the last 30 days); only the desktop app offers ongoing sync.
+- **2026-11-05:** Codex `/import` is newly documented (see Key concepts); some details
+  are still unclear (see Open questions).
 - **2026-10-30:** claude-mem and codebase-memory-mcp are rising in GitHub trends (see
   above), after Context Mode on 2026-10-26.
-- **2026-10-27:** Codex CLI 0.165.0 turns Memory v2 on by default with import from other
-  agents; the release notes do not say which formats it reads (see Open questions).
 
 ## Open questions
 

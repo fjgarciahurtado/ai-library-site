@@ -1,6 +1,6 @@
 ---
 title: "Gemini 4 Argon on Gemini Enterprise Agent Platform"
-url: https://docs.cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/4-argon
+url: https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/4-argon
 archived:
 type: docs
 author: Google Cloud

@@ -1,6 +1,6 @@
 ---
 title: "Gemini API changelog, September 2026"
-url: https://ai.google.dev/gemini-api/docs/changelog
+url: https://aistudio.google.com/docs/changelog#2026-09-02
 archived:
 type: release
 author: Google

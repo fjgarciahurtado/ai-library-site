@@ -2,7 +2,7 @@
 title: "GPT (OpenAI)"
 tags: [openai, llm, reasoning]
 related: [models/claude, models/gemini, tooling/coding-agents]
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-08
 ---
 
 ## Overview
@@ -24,6 +24,14 @@ model between Sol and Luna, followed on 2026-10-26.
   Sanders, Terra matches Astra and Sol on vision and computer use while being much
   faster, beats them on technical communication, and is somewhat weaker at most other
   tasks.
+- **Specialised models:** `gpt-6-cyber` (2026-11-05) is a security model for
+  investigating vulnerabilities, reproducing them in authorized test environments, and
+  verifying fixes. Access needs Daybreak Red approval; 1.05M context (922K input), 128K
+  output; $20 input, $2 cached, $100 output per 1M tokens; Chat Completions and
+  Responses only (see [security](../practices/security.md)). Images 2.6 (2026-11-04) adds
+  `gpt-image-2.6-sunburst` and `gpt-image-2.6-flare`, with adjustable complexity, SVG
+  output, and animated GIFs; markup-guided editing works on GPT Image 2.5 and 2.6. They
+  are also in ChatGPT and Codex.
 - **Reasoning built in:** reasoning effort is configurable instead of being a separate model line.
 - **Surfaces:** ChatGPT, Codex (coding agent), and the API (Responses API, Agents API,
   Agents SDK, and the Decisions API for typed classification answers).
@@ -67,8 +75,9 @@ model between Sol and Luna, followed on 2026-10-26.
 - GPT-6.1 Terra supports reasoning effort from `none` to `max`, and in the Responses API
   it can use computer use, hosted shell, apply patch, skills, MCP, and tool search. It
   works with Responses, Chat Completions, and Batch, but not Realtime or fine-tuning. It
-  is a cheaper choice for computer-use and vision agents than Sol or Astra.
-
+  is a cheaper choice for computer-use and vision agents than Sol or Astra. It is also
+  in Codex (including its Vertex AI and Bedrock catalogues since 0.166) and rolling out
+  in GitHub Copilot (paid plans, list price under usage-based billing).
 - GPT-6.1 Sol (2026-09-29) costs the same as GPT-6 Sol except for cheaper cached input
   ($0.10 vs $0.20).
 - Rerun any GPT-6 Sol or Luna image evals made before 2026-09-25, when OpenAI fixed an
@@ -97,28 +106,17 @@ model between Sol and Luna, followed on 2026-10-26.
 
 ## Current state
 
-- **2026-11-05:** `gpt-6-cyber`, a security model for investigating vulnerabilities,
-  reproducing them in authorized test environments, and verifying fixes. Access needs
-  Daybreak Red approval. 1.05M context (922K input), 128K output; $20 input, $2 cached,
-  $100 output per 1M tokens; Chat Completions and Responses only. The announcement post
-  could not be fetched, so benchmarks are not recorded here.
-- **2026-11-04:** Images 2.6: two new API image models, `gpt-image-2.6-sunburst` and
-  `gpt-image-2.6-flare`, with adjustable complexity, SVG output, and animated GIFs;
-  markup-guided editing works on GPT Image 2.5 and 2.6. Also in ChatGPT and Codex.
-  Prices not checked (the announcement returns 403).
+- **2026-11-05:** `gpt-6-cyber` and Images 2.6 are new (see Key concepts). Their
+  announcement posts return 403, so GPT-6-Cyber benchmarks and Images 2.6 prices are
+  not recorded.
 - **2026-10-29:** ChatGPT's $100, $200, and $500 plans now include an equal amount of
   expiring API credits for one API organization (reported by Simon Willison; OpenAI's
   help article returned 403). OpenAI also published an updated Model Spec the same day,
-  but neither the announcement (403) nor the changes could be read; not summarised here.
-  Codex CLI 0.166 adds GPT-6.1 Terra to its Vertex AI and Bedrock catalogues.
-- **2026-10-26:** OpenAI released GPT-6.1 Terra (`gpt-6.1-terra`, $1 / $5 per 1M tokens,
-  details above). It is in the API and rolling out in GitHub Copilot (paid plans, list
-  price under usage-based billing). The announcement post returned 403, so OpenAI's
-  benchmark claims were not checked.
-- **2026-10-22:** The Decisions API is generally available: 400 questions per request
-  (up from 200), cached shared input, images in question instructions, and `input_json`
-  (details above). The announcement post could not be read (403), so the latency and
-  pricing claims at GA are unchecked.
+  which could not be read (see Open questions).
+- **2026-10-26:** GPT-6.1 Terra is rolling out in GitHub Copilot; its benchmark claims
+  are unchecked (announcement returned 403).
+- **2026-10-22:** Decisions API GA; latency and pricing claims at GA are unchecked
+  (announcement returned 403).
 
 ## Open questions
 

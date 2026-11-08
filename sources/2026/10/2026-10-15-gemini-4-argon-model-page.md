@@ -1,6 +1,6 @@
 ---
 title: "Gemini 4 Argon model page (Gemini API docs)"
-url: https://ai.google.dev/gemini-api/docs/models/gemini-4-argon
+url: https://aistudio.google.com/docs/models/gemini-4-argon
 archived:
 type: docs
 author: Google

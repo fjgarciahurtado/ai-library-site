@@ -1,6 +1,6 @@
 ---
 title: "Gemini Developer API pricing"
-url: https://ai.google.dev/gemini-api/docs/pricing
+url: https://aistudio.google.com/docs/pricing
 archived:
 type: docs
 author: Google

@@ -2,7 +2,7 @@
 title: "Claude (Anthropic)"
 tags: [anthropic, llm, reasoning, cost]
 related: [models/gpt, models/gemini, tooling/skills, tooling/mcp, tooling/coding-agents]
-last_reviewed: 2026-11-04
+last_reviewed: 2026-11-08
 ---
 
 ## Overview
@@ -40,7 +40,9 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
   `citations` on `user` text return 400, and Admin and Analytics API fields were renamed
   (API keys report `scope` instead of `workspace_id`). Text Completions is gone from most
   SDKs, and the `ant` CLI drops `--api-key`. On Bedrock the new version works only for
-  Claude 4.7 and later. `2023-06-01` has no retirement date (checked 2026-10-22).
+  Claude 4.7 and later. `2023-06-01` has no retirement date (checked 2026-10-22). In
+  Claude Code, `/claude-api api-version` (2.1.307) helps migrate code; check code and
+  gateways for the new Bearer key header before upgrading.
 - **Prompt caching:** reuse of stable prompt prefixes at a large discount.
 - **Batch API:** asynchronous processing at about half price.
 - **Structured outputs:** JSON responses guaranteed to match a schema.
@@ -54,6 +56,20 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
   by end customer, so an enforcement action hits only that customer; profiles show
   `enforcement_status`. Organization webhooks in the Admin API (beta, header
   `webhooks-2026-10-07`) report profile restrictions.
+- **Text watermark:** since 2026-11-03, text from Claude Mythos 5, Opus 4.7, and Sonnet
+  4.6 carries Anthropic's text watermark on the platforms in Anthropic's support
+  article. It adds no tokens or hidden characters and needs no code changes. On Sonnet
+  4.6 a non-default `temperature`, `top_p`, or `top_k` may leave output unmarked.
+- **Usage Policy:** a revised policy takes effect on 2026-11-12. It adds a section on
+  fake account networks, narrows the elections rules to voter deception (personalised
+  campaign targeting is now allowed), spells out weapons, surveillance, and
+  law-enforcement limits, and bans sustained cruelty towards models in extreme cases.
+- **Corporate governance:** the Anthropic Public Benefit Fund (2026-10-18) is an LLC
+  holding 5% of Anthropic's shares (subject to stockholder approval), with 2% more
+  possible per 50% rise in valuation above an unpublished baseline. The equity would
+  otherwise have gone to executive compensation and may not fund lobbying or political
+  giving. Anthropic puts the total equity dedicated to the public good at about 20%,
+  counting founder and employee pledges.
 - **Refusals:** safety classifiers can end a response with `stop_reason: "refusal"`;
   server-side fallbacks can retry on another model.
 - **Cyber access:** cyber safeguards are relaxed for verified security professionals
@@ -117,7 +133,9 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
   features, including fast mode, skills, and Managed Agents, but not API keys or MCP
   tunnels. Setup creates a new Anthropic organization, so files, skills, and agents do
   not carry over. Python setup: `pip install -U "anthropic[google_cloud]"`, then set
-  `ANTHROPIC_GOOGLE_CLOUD_PROJECT` and `ANTHROPIC_GOOGLE_CLOUD_WORKSPACE_ID`.
+  `ANTHROPIC_GOOGLE_CLOUD_PROJECT` and `ANTHROPIC_GOOGLE_CLOUD_WORKSPACE_ID`. Revoking
+  IAM access does not stop Managed Agents sessions or scheduled deployments that are
+  already running.
 - Requests to the Messages and Token Counting APIs can be up to 128 MB on the first-party
   API (raised from 32 MB on 2026-10-28), which matters for large PDFs and images.
 - For spend reports per model, workspace, key, or user, use the Usage and Cost Analytics
@@ -129,44 +147,23 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
   `"thread": {"type": "continue", "previous_message_id": ...}`, or use the SDK helper
   `client.beta.messages.thread(...)`. Threads expire 5 minutes after the last request,
   so keep your own copy of the conversation for replay. Prices are unchanged, and
-  threads are not ZDR-eligible.
+  threads are not ZDR-eligible. They work on the Claude API, Claude Platform on AWS,
+  Anthropic-managed Google Cloud, and Microsoft Foundry.
 - Stream long requests. Use the Models API for live capability data; since 2026-10-15 it
   also reports whether a model accepts `between_tools` thinking.
 - Try lower effort on a strong model before adding a cascade of smaller models.
 
 ## Current state
 
-- **2026-11-03:** Text from Claude Mythos 5, Opus 4.7, and Sonnet 4.6 carries Anthropic's
-  text watermark on the platforms in Anthropic's support article. It adds no tokens or
-  hidden characters and needs no code changes. On Sonnet 4.6, a non-default
-  `temperature`, `top_p`, or `top_k` may leave output unmarked, so omit them if you rely
-  on the watermark.
-- **2026-11-02:** Message threads beta on the Messages API: the server keeps the
-  conversation so each turn sends only new messages, for a lower and steadier time to
-  first token. Available on the Claude API, Claude Platform on AWS, Anthropic-managed
-  Google Cloud, and Microsoft Foundry. See How to use it.
-- **2026-10-30:** Fast mode on Opus 4.8 deprecated, removal on 2026-11-30; move
-  `speed: "fast"` traffic to Opus 5.5. Opus 4.8 itself stays Active (retirement not
-  before 2027-05-28). Claude Code 2.1.316 (2026-10-31) carries the same notice.
-- **2026-10-29:** Usage and Cost Analytics API launched in beta
-  (`analytics-usage-cost-2026-08-24`), also on Claude Platform on AWS and Anthropic-managed
-  Google Cloud. On 2026-10-28 the maximum request size rose to 128 MB.
-- **2026-10-22:** Claude Models on Google Cloud (Anthropic managed) launched, with Opus
-  5.5 fast mode from day one (see How to use it). Revoking IAM access does not stop
-  Managed Agents sessions or scheduled deployments that are already running.
-- **2026-10-21:** API version `2026-10-21` and new major SDK and `ant` CLI versions
-  (see API versions and sampling). Claude Code 2.1.307 adds `/claude-api api-version`
-  to migrate code; check code and gateways for the new Bearer key header before upgrading.
-- **2026-10-18:** Anthropic created the Anthropic Public Benefit Fund, an LLC holding 5%
-  of its shares (subject to stockholder approval), with 2% more possible per 50% rise in
-  valuation above an unpublished baseline. The equity would otherwise have gone to
-  executive compensation and may not fund lobbying or political giving. Anthropic puts
-  the total share of equity dedicated to the public good at about 20%, counting founder
-  and employee pledges. Governance details are promised "in the coming months".
-- **2026-10-08:** Anthropic published a revised Usage Policy, effective 2026-11-12. It
-  adds a section on fake account networks, narrows the elections rules to voter deception
-  (personalised campaign targeting is now allowed), spells out weapons, surveillance, and
-  law-enforcement limits, and bans sustained cruelty towards models in extreme cases.
+- **2026-11-03:** Text watermark announced for Mythos 5, Opus 4.7, and Sonnet 4.6 (see
+  Key concepts); coverage of other models is unclear (see Open questions).
+- **2026-11-02:** Message threads (beta) launched; see How to use it.
+- **2026-10-30:** Fast mode on Opus 4.8 is deprecated and will be removed on 2026-11-30;
+  move `speed: "fast"` traffic to Opus 5.5. Opus 4.8 itself stays Active (retirement not
+  before 2027-05-28). Sonnet 4.5 retires the same day.
+- **2026-10-29:** Usage and Cost Analytics API is in beta
+  (`analytics-usage-cost-2026-08-24`).
+- **2026-10-08:** The revised Usage Policy takes effect on 2026-11-12 (see Key concepts).
 
 ## Open questions
 

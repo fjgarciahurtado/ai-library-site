@@ -2,7 +2,7 @@
 title: "Large language models"
 tags: [llm, training]
 related: [fundamentals/transformers, fundamentals/tokens-and-context, fundamentals/training-and-fine-tuning, fundamentals/reasoning-models]
-last_reviewed: 2026-10-04
+last_reviewed: 2026-11-08
 ---
 
 ## Overview
@@ -28,7 +28,10 @@ can "think" before answering (see [reasoning models](reasoning-models.md)).
   helpful, safe, and good at tasks. See [training and fine-tuning](training-and-fine-tuning.md).
 - **Inference:** running the model to generate output, one token at a time.
 - **Sampling:** choosing each next token from the predicted distribution (temperature,
-  top-p). Several current models fix these settings and no longer let callers change them.
+  top-p). Providers are removing these controls: Claude API version `2026-10-21` rejects
+  `temperature`, `top_p`, and `top_k` on every model, and Gemini's newer models drop
+  sampling parameters too (as of 2026-11-03; see [Claude](../models/claude.md) and
+  [Gemini](../models/gemini.md)). Steer output with instructions and schemas instead.
 - **Hallucination:** fluent but false output; reduced by grounding (see [RAG](rag.md)),
   tools, and better training, but never fully eliminated.
 - **Knowledge cutoff:** the date after which the model has no training data.
@@ -42,9 +45,16 @@ can "think" before answering (see [reasoning models](reasoning-models.md)).
 
 ## Current state
 
-- **2026-10-04:** Frontier families are Claude (Anthropic), GPT-6 (OpenAI), and Gemini
-  (Google), with 1M-token context windows now common. Leading open-weight families include
-  Qwen, DeepSeek, Llama, Mistral, and Gemma. See [models](../models/).
+- **2026-11-08:** Frontier families are Claude (Anthropic; Fable 5.1, Opus 5.5, Sonnet
+  5.5, Haiku 5.5), GPT-6 (OpenAI; Astra, 6.1 Sol, 6.1 Terra, Luna), and Gemini (Google;
+  Gemini 4 Argon and 3.8 Flash). About 1M-token context windows are standard at the top:
+  1M on all current Claude models, 1.05M on GPT-6, and 1M shared input and output on
+  Argon. Leading open-weight families include Qwen, DeepSeek, Llama, Mistral, Gemma,
+  Kimi, and GLM. See [Claude](../models/claude.md), [GPT](../models/gpt.md),
+  [Gemini](../models/gemini.md), and [open-weight models](../models/open-weight.md).
+- **2026-11-08:** Knowledge cutoffs of current frontier models fall in April to June
+  2026 (Claude 5.5-generation: June 2026; GPT-6 Astra and 6.1 Sol: 2026-04-30; GPT-6.1
+  Terra: 2026-06-01), so tools such as web search matter for anything newer.
 
 ## Open questions
 
@@ -55,3 +65,9 @@ can "think" before answering (see [reasoning models](reasoning-models.md)).
 
 - [Attention Is All You Need](../../sources/2026/10/2026-10-04-attention-is-all-you-need.md)
 - [InstructGPT: training with human feedback](../../sources/2026/10/2026-10-04-instructgpt-rlhf.md)
+- [Claude models overview](../../sources/2026/10/2026-10-04-claude-models-overview.md)
+- [OpenAI API models and pricing: GPT-6 family](../../sources/2026/10/2026-10-06-openai-gpt-6-models-and-pricing.md)
+- [GPT-6.1 Terra (OpenAI API model page)](../../sources/2026/10/2026-10-27-gpt-6-1-terra.md)
+- [Gemini 4 Argon model page](../../sources/2026/10/2026-10-15-gemini-4-argon-model-page.md)
+- [Migrating to API version 2026-10-21](../../sources/2026/10/2026-10-22-claude-api-version-2026-10-21.md)
+- [Gemini API changelog: Gemini 2.5 Pro and 2.5 Flash deprecated](../../sources/2026/11/2026-11-03-gemini-2-5-pro-flash-deprecation.md)

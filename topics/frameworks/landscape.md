@@ -2,7 +2,7 @@
 title: "Agent and LLM framework landscape"
 tags: [frameworks, agents, sdk]
 related: [agents/agent-patterns, agents/tool-use, tooling/mcp]
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-08
 ---
 
 ## Overview
@@ -20,7 +20,13 @@ now start from vendor SDKs and add a framework only when it clearly helps.
     (Python 2.0, TypeScript 1.0, Go 2.0, Java 3.0, and others) target API version
     `2026-10-21`, drop sampling parameters and Text Completions, send keys as
     `Authorization: Bearer`, and move from MIT to Apache 2.0 (see
-    [Claude](../models/claude.md)).
+    [Claude](../models/claude.md)). They break code that sets `temperature`, `top_p`,
+    or `top_k`, and proxies that read `X-Api-Key`. Agent SDK hooks can fail closed:
+    with `on_failure="block"` on `HookMatcher` (Python 0.2.177, 2026-11-03) or
+    `onFailure: "block"` (TypeScript 0.3.317), a hook callback that raises, returns
+    nothing, or returns an invalid value blocks the action; connecting to an older CLI
+    with the option set raises `CLIConnectionError`. TypeScript 0.3.317 also removed the
+    `file_unchanged` Read result (breaking: a repeated Read now returns the content).
   - OpenAI SDKs and the OpenAI Agents SDK (still 0.x; 0.23 hardened sandboxes,
     sessions, MCP, and realtime agents).
   - Google's Agent Development Kit (ADK); 2.11 added run cancellation, tool approval in
@@ -39,7 +45,8 @@ now start from vendor SDKs and add a framework only when it clearly helps.
   - Mistral AI Studio (2026-11-05): managed agents with skills, code sandboxes,
     subagents, and hooks; durable workflows with human approvals; hosted apps; and a
     Mistral MCP server for building from a coding agent and deploying with one command.
-    It can run in Mistral's cloud, your VPC, or on-premises.
+    It can run in Mistral's cloud, your VPC, or on-premises, and emits OpenTelemetry
+    traces. No prices were given at launch.
 - **Local runtimes:** Ollama runs open models locally behind an OpenAI-compatible API,
   and `ollama launch` wires them into coding agents such as Claude Code (it clamps
   Claude Code's auto-compact window since 0.40.7). Recent releases: 0.40.7
@@ -65,7 +72,10 @@ now start from vendor SDKs and add a framework only when it clearly helps.
     moved to MCP 2.x as a breaking change, requires AG-UI endpoints to declare an auth
     scope or single-user mode, and renames the Docker shell's `extra_run_args` to
     `unsafe_extra_run_args`.
-  - Pydantic AI: typed, Python-first agents, with near-daily minor releases. The 2.5x
+  - Pydantic AI: typed, Python-first agents, with near-daily minor releases (2.61 to
+    2.63 shipped in five days). 2.59.0 and 1.107.9 fix a high-severity `web_fetch` HTML
+    denial-of-service issue (GHSA-4whf-38hw-pxxh), so agents that fetch untrusted pages
+    should be on at least those versions. The 2.5x
     line added sandboxed workspaces (E2B, SSH, Bubblewrap, Sprites, Daytona since 2.59,
     and local `DockerSandbox` for Docker/Podman and `BoxLiteSandbox` micro-VMs since
     2.60), plugins, and its own `clai2` terminal agent. 2.58 (2026-10-20) added hard
@@ -139,42 +149,15 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 
 Release features are described under Key concepts.
 
-- **2026-11-05:** Mistral AI Studio adds managed agents (skills, sandboxes, subagents,
-  hooks), resumable workflows with human approvals, hosted apps, OpenTelemetry traces,
-  and a Mistral MCP server; no prices given. Checked 2026-11-06: Claude Agent SDK
-  (Python) 0.2.178 only bundles Claude Code 2.1.318; OpenAI Agents SDK has no new stable
-  release; LlamaIndex is still on 0.14.25 on both GitHub and PyPI.
-- **2026-11-04:** Claude Agent SDK (TypeScript) 0.3.317 and 0.3.318: hook matchers take
-  `onFailure: "block"` (fail closed, as in Python 0.2.177); breaking: the `file_unchanged`
-  variant of `FileReadOutput` is removed, so a repeated Read returns the content; result
-  messages carry `credential_expires_at`, and `config_file_invalid` is a new startup
-  failure reason. Checked the same day: OpenAI Agents SDK shipped only a preview
-  (0.24.0-alpha.6 on 2026-11-03, GitHub only, with breaking API changes such as
-  `Turn.get_result()` replacing `wait()`), so 0.24.0 stays the stable row.
-- **2026-11-03:** Claude Agent SDK (Python) 0.2.177 adds `on_failure` to `HookMatcher`:
-  with `"block"`, a hook callback that raises, returns `None`, or returns an invalid
-  value blocks the action instead of letting it run. Connecting to an older CLI with
-  this option set raises `CLIConnectionError`. Checked the same day: no new stable
-  OpenAI Agents SDK (still 0.24.0) or Ollama release (0.40.14 is only a release
-  candidate).
-- **2026-10-30:** Pydantic AI 2.64.0 adds model fallback with a first-token timeout,
-  `BoxdSandbox`, and memory/skills scanning (details above). Checked 2026-11-02: no
-  new OpenAI Agents SDK or ADK release since the table dates; LangGraph had only patch
-  releases (1.2.19 on 2026-10-30); the Claude Agent SDK (Python) 0.2.175 and 0.2.176
-  only bundle new Claude Code versions.
-- **2026-10-27:** Pydantic AI 2.61–2.63 shipped in five days (details above). Checked
-  the same day: no new OpenAI Agents SDK, ADK, Microsoft Agent Framework, or Claude Agent
-  SDK (Python) release since the dates in the table.
-- **2026-10-22:** Google ADK (Python) 2.13.0 changes the default telemetry schema to
-  OpenTelemetry GenAI v2. Dashboards that use the `call_llm` span need changes, or set
-  the opt-in variable, before you upgrade.
-- **2026-10-22:** Microsoft Agent Framework (Python) 1.23.0 is a breaking upgrade (MCP
-  2.x, AG-UI auth); check MCP client code before upgrading.
-- **2026-10-21:** Anthropic's new SDK majors break code that sets `temperature`,
-  `top_p`, or `top_k`, and proxies that read `X-Api-Key`.
-- **2026-10-20/21:** Pydantic AI v2.59.0 (and 1.107.9) fix a high-severity `web_fetch`
-  HTML denial-of-service issue (GHSA-4whf-38hw-pxxh); upgrade agents that fetch
-  untrusted pages.
+- **2026-11-06:** Claude Agent SDK (Python) 0.2.178 only bundles Claude Code 2.1.318;
+  LlamaIndex is still on 0.14.25 on both GitHub and PyPI (see Open questions).
+- **2026-11-04:** OpenAI Agents SDK shipped only a preview (0.24.0-alpha.6 on
+  2026-11-03, GitHub only) with breaking API changes such as `Turn.get_result()`
+  replacing `wait()`, so 0.24.0 stays the stable row. Expect those changes in the next
+  stable release.
+- **2026-11-03:** Ollama 0.40.14 is a release candidate only.
+- **2026-11-02:** LangGraph had only patch releases (1.2.19 on 2026-10-30); no new ADK
+  release since the table date.
 
 ## Open questions
 

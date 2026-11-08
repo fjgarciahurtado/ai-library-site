@@ -1,6 +1,6 @@
 ---
 title: "Gemini API CLI (gemini-api) beta"
-url: https://ai.google.dev/gemini-api/docs/cli
+url: https://aistudio.google.com/docs/cli
 archived:
 type: docs
 author: Google

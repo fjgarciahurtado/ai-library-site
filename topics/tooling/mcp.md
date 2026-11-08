@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-08
 ---
 
 ## Overview
@@ -31,21 +31,30 @@ the de facto standard, with official SDKs in many languages.
 - **Authorization:** OAuth-based for remote servers, aligned with OpenID Connect.
 - **Extensions:** a formal extensions framework and deprecation policy. Tasks (for
   long-running operations) is an opt-in extension.
-- **MCP Apps:** servers can render interactive HTML UIs in a sandboxed iframe.
+- **MCP Apps:** servers can render interactive HTML UIs in a sandboxed iframe. Since VS
+  Code 1.145 (2026-11-04), MCP apps can also register tools the model can call.
+- **Declaring servers as dependencies:** Microsoft's APM lists MCP servers by registry
+  ID (for example `io.github.github/github-mcp-server`) in `apm.yml` next to skills,
+  installs them into each supported agent, and checks them against an `apm-policy.yml`;
+  Dependabot can update them (see [skills](skills.md)).
+- **Admin allowlists:** in VS Code 1.145 an enterprise `allowedMcpServers` list overrides
+  the registry-only restriction (`[]` blocks all; `deniedMcpServers` still wins).
 - **MCP connector:** some APIs (including Claude's) can connect to remote MCP servers directly.
 - **Hosted connectors:** clients increasingly offer a curated list of hosted servers you
   sign in to once, instead of installing servers yourself. Claude has connectors, and
   since 2026-10-28 GitHub Copilot has "connectors" (GitHub-verified MCP servers, public
   preview): 26 services such as Slack, Figma, Notion, Sentry, and Linear, shared across
   the Copilot app, Copilot CLI (`/mcp` → **Connectors**), VS Code, cloud sessions, and
-  GitHub Mobile.
+  GitHub Mobile (all plans; Business and Enterprise need the `Editor preview features`
+  policy). VS Code's customizations browser lists MCP servers next to skills and plugins.
 - **Adoption of the stateless spec:** Claude Code negotiates the 2026-07-28 protocol by
   default for local stdio servers since 2.1.292 (2026-10-06; opt out with
   `MCP_PROTOCOL_NEGOTIATION=legacy`, and servers that do not answer fall back to the old
   handshake), and for cloud session and Remote Control connectors since 2.1.299
   (2026-10-14). Google ADK for Python supports MCP SDK 2.x as an opt-in (2.11,
   2026-10-02), and Microsoft Agent Framework (Python) moved to MCP 2.x as a breaking
-  change in 1.23.0 (2026-10-22). Some servers on the new spec omit `resultType`, `ttlMs`,
+  change in 1.23.0 (2026-10-22): new transports, errors, and schemas, and separate
+  caller-owned and framework-owned client lifecycles. Some servers on the new spec omit `resultType`, `ttlMs`,
   or `cacheScope`, so clients must tolerate their absence (Claude Code fixed this in
   2.1.302).
 - **Client behaviour in Claude Code:** MCP permission rules match exact server names
@@ -101,32 +110,20 @@ the de facto standard, with official SDKs in many languages.
   traces, console, network, screenshots. Add `--no-usage-statistics` to stop telemetry.
 - For Apple-platform work on a Mac, install Apple's plugin
   (`claude plugin install xcode@claude-plugins-official`) rather than wiring
-  `xcrun mcpbridge` by hand; it uses the MCP server of your installed Xcode.
+  `xcrun mcpbridge` by hand; it uses the MCP server of your installed Xcode. It is the
+  first official marketplace entry whose source is a local command
+  (`xcrun agent plugin path --plugin-format claude`) rather than a Git repo.
 - Build a server when you want one integration usable from many AI clients.
 
 ## Current state
 
-- **2026-11-06:** Apple's `xcode` plugin joined the official Claude Code marketplace. It
-  is the first entry whose source is a local command (`xcrun agent plugin path
-  --plugin-format claude`) rather than a Git repo, so the MCP tools come from the Xcode
-  you have installed.
-- **2026-11-05:** VS Code 1.145: MCP apps (servers that ship interactive UI) can now
-  register tools the model can call, and an enterprise `allowedMcpServers` list overrides
-  the registry-only restriction (`[]` blocks all; `deniedMcpServers` still wins).
-  Chrome DevTools MCP is rising in GitHub trends (about 54,800 stars; see above).
-- **2026-11-04:** Microsoft's APM can declare MCP servers by registry ID (for example
-  `io.github.github/github-mcp-server`) in `apm.yml` next to skills, install them into
-  each supported agent, and check them against an `apm-policy.yml`; Dependabot can now
-  update its git dependencies (see [skills](skills.md)).
+- **2026-11-05:** Chrome DevTools MCP is rising in GitHub trends (about 54,800 stars;
+  see How to use it).
 - **2026-10-30:** codebase-memory-mcp (v0.12.1, 2026-10-16) is rising in GitHub trends
   (see above and [memory](../agents/memory.md)).
-- **2026-10-28:** GitHub Copilot connectors (verified MCP servers, preview, all plans;
-  Business and Enterprise need the `Editor preview features` policy). VS Code's new
-  customizations browser lists MCP servers next to skills and plugins.
-- **2026-10-22:** Microsoft Agent Framework (Python) 1.23.0 migrates to MCP 2.x as a
-  breaking change: new transports, errors, and schemas, and separate caller-owned and
-  framework-owned client lifecycles. Google ADK (Python) 2.13.0 has only MCP fixes; its
-  notes do not say MCP SDK 2.x became the default.
+- **2026-10-28:** GitHub Copilot connectors are still in preview.
+- **2026-10-22:** Google ADK (Python) 2.13.0 has only MCP fixes; its notes do not say MCP
+  SDK 2.x became the default.
 
 ## Open questions
 

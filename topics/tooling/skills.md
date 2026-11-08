@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-08
 ---
 
 ## Overview
@@ -89,6 +89,19 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
   `apm.lock.yaml` pins content hashes. Installs scan for hidden Unicode and can enforce
   an `apm-policy.yml`. Since 2026-11-03 Dependabot opens update PRs for `apm.yml`
   dependencies (version updates only, all GitHub plans).
+- **Team adoption kit:** Anthropic's Champion Kit plugin (2026-11-06,
+  `claude plugin install champion-kit@claude-plugins-official`) adds seven skills for
+  spreading Claude Code in a team (hackathons, office hours, a maturity report).
+  `/champion-kit:patterns` finds repeated work worth turning into skills or `CLAUDE.md`
+  rules, which also helps a solo user. Its design is a useful model: reading goes
+  through a read-only subagent with no shell or edit tools, and the plugin adds no hooks
+  or MCP servers.
+- **Governance of the standard:** since the donation to the AAIF (2026-10-22),
+  maintainers from Anthropic, Google, OpenAI, and others steer the spec. Anthropic
+  reports about 1 million skills published and nearly 280 million installs.
+- **Bundled skills:** Claude Code ships some skills itself; since 2.1.309 its
+  `/claude-api` skill builds Managed Agents teams on `multiagent_20261001`, and dataviz
+  checks APCA contrast.
 - **Discovery in Copilot:** VS Code's customizations browser (preview, 2026-10-28)
   lists skills, MCP servers, and plugins from available sources in one place, and a repo
   can suggest default plugins in `.github/copilot/settings.json`.
@@ -105,31 +118,14 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 
 ## Current state
 
-- **2026-11-06:** Anthropic's Champion Kit plugin
-  (`claude plugin install champion-kit@claude-plugins-official`) adds seven skills for
-  spreading Claude Code in a team. `/champion-kit:patterns` finds repeated work worth
-  turning into skills or `CLAUDE.md` rules, which also helps a solo user. Its design is a
-  useful model: reading goes through a read-only subagent with no shell or edit tools,
-  and the plugin adds no hooks or MCP servers.
-- **2026-11-04:** Dependabot supports APM (from 2026-11-03), so skills and MCP servers
-  declared in `apm.yml` get version-update PRs. Rising in GitHub trends: Impeccable
-  (about 10,900 stars in a week, 101,700 total) and Humanizer (about 2,900 in a week,
-  64,500 total). Details above.
-
-- **2026-11-03:** Google's EGM plugin is rising fast in GitHub trends (about 8,900 stars in
-  a week, 10,700 total), with experimental Cursor, Copilot CLI, and opencode support
-  added the same day. Details above.
-- **2026-10-26 to 10-29:** Skill packs rising in GitHub trends: addyosmani/agent-skills
-  (about 111,500 stars, +2,100 in a week), Archify (about 4,000 stars added in a week),
-  BeautifulRust (about 1,300 stars in five days), and newer MiniMax mcode-stack and
-  rederive (a few hundred stars each). Details above.
-- **2026-10-22:** Anthropic donated Agent Skills (spec, name, GitHub org, agentskills.io)
-  to the Agentic AI Foundation. Maintainers from Anthropic, Google, OpenAI, and others
-  now steer it. Anthropic reports about 1 million skills published and nearly 280
-  million installs. The planned versioned releases, proposal process, and security
-  guidance have no dates yet.
-- **2026-10-22:** Claude Code 2.1.309's bundled `/claude-api` skill builds Managed
-  Agents teams on `multiagent_20261001`, and dataviz adds APCA contrast checks.
+- **2026-11-04:** Rising in GitHub trends: Impeccable (about 10,900 stars in a week,
+  101,700 total) and Humanizer (about 2,900 in a week, 64,500 total).
+- **2026-11-03:** Google's EGM plugin is rising fast (about 8,900 stars in its first
+  week), with experimental Cursor, Copilot CLI, and opencode support.
+- **2026-10-29:** addyosmani/agent-skills (about 111,500 stars) and Archify keep rising
+  in GitHub trends.
+- **2026-10-22:** The AAIF's planned versioned spec releases, proposal process, and
+  security guidance have no dates yet (see Open questions).
 
 ## Open questions
 
