@@ -2,7 +2,7 @@
 title: "Open-weight models"
 tags: [open-source, llm, deployment, fine-tuning]
 related: [fundamentals/training-and-fine-tuning, practices/cost-and-caching]
-last_reviewed: 2026-11-01
+last_reviewed: 2026-11-09
 ---
 
 ## Overview
@@ -159,6 +159,11 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 
 ## Current state
 
+- **2026-11-09:** Ollama 0.40.15 (2026-11-06) adds Xiaomi's MiMo V2.6, a 9B model for code
+  and agent work (`ollama run mimo-v2.6`; licence not stated in the notes), and AutoTrust
+  decision models (9b, 35b, and 27b-vl, the larger two with image input) that return
+  choices, yes/no probabilities, or ratings. Recurrent and vision models now serve
+  concurrent requests, and Qwen3/Qwen3.5 support YaRN long context.
 - **2026-11-01:** Mistral Large 4 weights are public on Hugging Face under the Mistral
   Ecosystem Open-Weight License (checked in the weekly review; see above).
 - **2026-10-29:** Ollama 0.40.13 brings LFM3, including audio and omni, to Linux and
@@ -235,3 +240,4 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 - [Ollama v0.40.13: LFM3 on Linux and Windows](../../sources/2026/10/2026-10-29-ollama-v0-40-13-lfm3-linux.md)
 - [LFM3-1.7B model card and licence](../../sources/2026/10/2026-10-29-liquid-lfm3-model-card-licence.md)
 - [Mistral Large 4 model card](../../sources/2026/11/2026-11-01-mistral-large-4-model-card.md)
+- [Ollama v0.40.15](../../sources/2026/11/2026-11-09-ollama-v0-40-15.md)

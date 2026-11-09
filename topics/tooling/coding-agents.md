@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-11-08
+last_reviewed: 2026-11-09
 ---
 
 ## Overview
@@ -37,10 +37,17 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   decision even under auto mode (`e.isReadOnly` is also available to mods). Since
   2.1.302, headless sessions on third-party providers start in `default` permission
   mode, and `CLAUDE_CODE_AUTO_MODE_MODEL` picks the client-side classifier model.
+  Since 2.1.319 (2026-11-06), with telemetry or feature flags off (for example behind an
+  LLM gateway), auto mode asks about or denies what the server cannot check instead of
+  falling back to the local classifier; `CLAUDE_CODE_AUTO_MODE_SERVER=0` restores the
+  fallback. The same release adds `permissions.denyInsteadOfPrompting`, which denies any
+  call that would wait on a prompt and lets the turn continue, for unattended runs.
   GitHub Copilot has a similar mode, "assisted permissions", generally available since
   2026-10-26 in Copilot CLI (`/permissions` → assisted), the Copilot app, and VS Code. A
   model lets clearly safe commands, paths, and URLs through and asks about the rest;
-  admins can allow Assisted while blocking Allow All.
+  admins can allow Assisted while blocking Allow All. Since the week of 2026-11-02 the
+  Copilot app also takes plain-language guidance (personal instructions) on which tool
+  requests it may approve on its own.
   For a hard boundary, Claude Code 2.1.314 (2026-10-30) adds
   `permissions.blockWritesOutsideWorkingDirectories: true`: Write, Edit, and
   NotebookEdit then refuse paths outside the working directories in every mode, bypass
@@ -197,6 +204,13 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
+- **2026-11-09:** Claude Code 2.1.319 (2026-11-06) runs MCP tasks in the background (see
+  [MCP](mcp.md)), adds `permissions.denyInsteadOfPrompting` and
+  `/claude-api latency-optimize`, keeps finished subagents in `/tasks`, and fixes several
+  permission bypasses (see [security](../practices/security.md)). Self-paced `/loop` now
+  ends when a turn does not reschedule (`CLAUDE_CODE_LOOP_KEEPALIVE=1` for the old
+  behaviour). Copilot CLI gained a `/settings` dashboard for plugins and MCP servers, and
+  Copilot runs in JetBrains Air. Ollama 0.40.15 adds Kimi Code CLI to `ollama launch`.
 - **2026-11-06:** Latest releases: Claude Code 2.1.318 (2026-11-04; cloud sessions can
   start with no repository, and many fixes for headless runs that reported success after
   an error), Codex CLI 0.167.0, and VS Code 1.145. Apple's Xcode plugin and Floorplan
@@ -273,3 +287,6 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [Apple's Xcode plugin for Claude Code](../../sources/2026/11/2026-11-06-apple-xcode-plugin-claude-code.md)
 - [Codex CLI 0.167.0](../../sources/2026/11/2026-11-06-codex-cli-0-167-agent-center.md)
 - [Floorplan](../../sources/2026/11/2026-11-06-floorplan-codebase-map-plugin.md)
+- [Claude Code release 2.1.319](../../sources/2026/11/2026-11-09-claude-code-2-1-319.md)
+- [GitHub Copilot weekly releases: November 2](../../sources/2026/11/2026-11-09-copilot-weekly-releases-nov-2.md)
+- [Ollama v0.40.15](../../sources/2026/11/2026-11-09-ollama-v0-40-15.md)

@@ -2,7 +2,7 @@
 title: "Gemini (Google)"
 tags: [google, llm, multimodal]
 related: [models/claude, models/gpt, models/open-weight]
-last_reviewed: 2026-11-08
+last_reviewed: 2026-11-09
 ---
 
 ## Overview
@@ -115,6 +115,10 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
 
 ## Current state
 
+- **2026-11-09:** `gemini-embedding-2-preview` was deprecated on 2026-11-06. Its requests
+  now go to `gemini-embedding-2` at that model's rates. The two share an embedding space,
+  so stored vectors stay valid (see [embeddings](../fundamentals/embeddings.md)). The API
+  changelog has moved to aistudio.google.com/docs/changelog.
 - **2026-11-05:** Omni 1.1 Flash calls start routing to Omni 1.2 Flash on 2026-12-03.
 - **2026-11-02:** Gemini 2.5 Pro and 2.5 Flash are routed to 3.8 Flash and 3.5
   Flash-Lite from 2026-12-01, with breaking changes; migrate before then (see Key
@@ -160,3 +164,4 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
 - [Gemini API changelog: Gemini 2.5 Pro and 2.5 Flash deprecated](../../sources/2026/11/2026-11-03-gemini-2-5-pro-flash-deprecation.md)
 - [Voice remixing for Gemini 3.8 TTS](../../sources/2026/11/2026-11-05-gemini-tts-voice-remixing.md)
 - [Gemini API changelog, 2026-11-05](../../sources/2026/11/2026-11-06-gemini-api-files-in-function-responses.md)
+- [Gemini Embedding 2 Preview deprecated](../../sources/2026/11/2026-11-09-gemini-embedding-2-preview-deprecation.md)

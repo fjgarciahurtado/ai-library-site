@@ -2,7 +2,7 @@
 title: "Prompting and context engineering"
 tags: [prompting, reasoning, agents]
 related: [fundamentals/reasoning-models, practices/evals, agents/tool-use]
-last_reviewed: 2026-11-08
+last_reviewed: 2026-11-09
 ---
 
 ## Overview
@@ -47,8 +47,15 @@ can do the job.
 3. Change one thing at a time and measure with [evals](evals.md).
 4. Re-check prompts when you switch to a newer model; prompts tuned for older models
    are often too prescriptive.
+5. Keep always-loaded instruction files short and move detail into linked files; long
+   instruction files lower adherence (Anthropic, 2026-11-06).
 
 ## Current state
+
+- **2026-11-09:** Anthropic's memory experiments give measured support to the trend to
+  less prescriptive prompts. Telling frontier models what memory is for worked better than
+  rules such as "record only failures", which lowered Opus 5 and Opus 4.7 scores. Older
+  models still gained from explicit steering (see [memory](../agents/memory.md)).
 
 - **2026-11-08:** With adaptive thinking on by default, the trend is toward shorter,
   goal-focused prompts and investment in tool descriptions and context selection.
@@ -74,3 +81,4 @@ can do the job.
 - [Migrating to API version 2026-10-21](../../sources/2026/10/2026-10-22-claude-api-version-2026-10-21.md)
 - [GPT-6.1 Terra (OpenAI API model page)](../../sources/2026/10/2026-10-27-gpt-6-1-terra.md)
 - [Gemini API changelog: Gemini 2.5 Pro and 2.5 Flash deprecated](../../sources/2026/11/2026-11-03-gemini-2-5-pro-flash-deprecation.md)
+- [The components of agent memory](../../sources/2026/11/2026-11-09-anthropic-components-of-agent-memory.md)

@@ -2,7 +2,7 @@
 title: "Embeddings"
 tags: [embeddings, rag]
 related: [fundamentals/rag, fundamentals/transformers]
-last_reviewed: 2026-10-08
+last_reviewed: 2026-11-09
 ---
 
 ## Overview
@@ -35,11 +35,17 @@ search, retrieval for [RAG](rag.md), clustering, deduplication, and recommendati
 ## How to use it
 
 - Pick an embedding model by testing retrieval quality on your own data, not leaderboards alone.
-- Use the same embedding model for indexing and querying; re-embed everything if you switch.
+- Use the same embedding model for indexing and querying; re-embed everything if you
+  switch, unless the provider says the new model shares the old one's embedding space.
+  Google said this when it moved `gemini-embedding-2-preview` to `gemini-embedding-2`
+  (2026-11-06).
 - Store source text and metadata alongside vectors so results can be cited and filtered.
 
 ## Current state
 
+- **2026-11-09:** Google deprecated `gemini-embedding-2-preview` on 2026-11-06 and routes
+  it to the stable `gemini-embedding-2`, which has the same schema, price, and embedding
+  space (see [Gemini](../models/gemini.md)).
 - **2026-10-06:** Google DeepMind released EmbeddingGemma 2 under Apache 2.0: 740M
   parameters (270M text-only path), text, code, image, audio, and video input, 768-dim
   vectors truncatable to 128, and an 8K-token window. Google reports 78.68 on MTEB Code.
@@ -55,3 +61,4 @@ search, retrieval for [RAG](rag.md), clustering, deduplication, and recommendati
 
 - [RAG paper (Lewis et al., 2020)](../../sources/2026/10/2026-10-04-rag-paper-lewis-2020.md)
 - [EmbeddingGemma 2](../../sources/2026/10/2026-10-08-embeddinggemma-2.md)
+- [Gemini Embedding 2 Preview deprecated](../../sources/2026/11/2026-11-09-gemini-embedding-2-preview-deprecation.md)

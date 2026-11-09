@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-11-08
+last_reviewed: 2026-11-09
 ---
 
 ## Overview
@@ -30,7 +30,11 @@ the de facto standard, with official SDKs in many languages.
 - **Transports:** stdio for local servers; HTTP for remote ones.
 - **Authorization:** OAuth-based for remote servers, aligned with OpenID Connect.
 - **Extensions:** a formal extensions framework and deprecation policy. Tasks (for
-  long-running operations) is an opt-in extension.
+  long-running operations) is an opt-in extension. Client support: Claude Code 2.1.319
+  and the TypeScript Agent SDK 0.3.319 (2026-11-06) move a tool call that the server runs
+  as a task to the background at once and report the result when it finishes, so the
+  agent keeps working. In the SDK this needs `CLAUDE_AUTO_BACKGROUND_TASKS=1` and
+  streaming input.
 - **MCP Apps:** servers can render interactive HTML UIs in a sandboxed iframe. Since VS
   Code 1.145 (2026-11-04), MCP apps can also register tools the model can call.
 - **Declaring servers as dependencies:** Microsoft's APM lists MCP servers by registry
@@ -113,9 +117,20 @@ the de facto standard, with official SDKs in many languages.
   `xcrun mcpbridge` by hand; it uses the MCP server of your installed Xcode. It is the
   first official marketplace entry whose source is a local command
   (`xcrun agent plugin path --plugin-format claude`) rather than a Git repo.
+- To let an agent test Windows software on a clean, throwaway machine, try
+  sandbox-mcp (MIT; Windows 11 Pro or Enterprise 24H2 and later only). Unzip the
+  portable release, run `.\sbx.cmd doctor`, then add `src\server.js` as a stdio server.
+  Its `sandbox_run` tool boots Windows Sandbox, deploys and drives the app, collects
+  evidence, and destroys the machine.
 - Build a server when you want one integration usable from many AI clients.
 
 ## Current state
+
+- **2026-11-09:** Claude Code and the TypeScript Agent SDK now run MCP tasks in the
+  background (see Key concepts). Claude Code 2.1.319 also fixed older-handshake servers
+  failing to connect or returning empty results, caused by Claude Code declaring an
+  extension they do not use. sandbox-mcp is new in GitHub trends (about 340 stars in
+  three days).
 
 - **2026-11-05:** Chrome DevTools MCP is rising in GitHub trends (about 54,800 stars;
   see How to use it).
@@ -161,3 +176,6 @@ the de facto standard, with official SDKs in many languages.
 - [VS Code 1.145](../../sources/2026/11/2026-11-05-vscode-1-145-agents-mcp.md)
 - [Chrome DevTools MCP](../../sources/2026/11/2026-11-05-chrome-devtools-mcp.md)
 - [Apple's Xcode plugin for Claude Code](../../sources/2026/11/2026-11-06-apple-xcode-plugin-claude-code.md)
+- [Claude Code release 2.1.319](../../sources/2026/11/2026-11-09-claude-code-2-1-319.md)
+- [Claude Agent SDK (TypeScript) v0.3.319](../../sources/2026/11/2026-11-09-claude-agent-sdk-ts-0-3-319.md)
+- [sandbox-mcp](../../sources/2026/11/2026-11-09-sandbox-mcp-windows-sandbox.md)

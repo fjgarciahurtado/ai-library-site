@@ -2,7 +2,7 @@
 title: "Security for LLM apps and agents"
 tags: [security, safety, agents, mcp]
 related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
-last_reviewed: 2026-11-08
+last_reviewed: 2026-11-09
 ---
 
 ## Overview
@@ -155,12 +155,23 @@ to limit what the agent can do if it is fooled.
 - Enable `sandbox.allowNestedUserNamespaces` (Claude Code 2.1.305, Linux) only if you
   need Chromium or rootless podman inside the sandbox; the changelog warns that it
   weakens the sandbox's file protections.
+- Upgrade Claude Code to 2.1.319 or later (2026-11-06) if you use auto or accept-edits
+  mode. It fixes a Bash permission bypass through a crafted environment prefix, a `sed`
+  command that skipped checks, deny rules that missed commands with quoted words, a
+  sandbox escape when creating a worktree, and `/rewind` following directory symlinks.
+  For unattended runs, `permissions.denyInsteadOfPrompting` denies rather than waits.
+- Open untrusted Windows files or installers in a disposable machine rather than on the
+  host: sandbox-mcp's `sandbox_detonate` and `sandbox_install_test` tools run them in
+  Windows Sandbox and record what changed (see [MCP](../tooling/mcp.md)).
 - Set spending and iteration limits.
 - Rate-limit agent traffic, restrict which hosts agents can write to, and make agent
   requests identifiable (user agent, contact details) to the sites they visit.
 
 ## Current state
 
+- **2026-11-09:** Claude Code 2.1.319 fixes several permission and sandbox bypasses (see
+  How to use it). Self-hosted runners started with `--trust-workspace false` now also
+  block repository hooks and skills.
 - **2026-11-05:** The Claude Console IP allowlist and the Admin API sign-out call are in
   beta (see How to use it). OpenAI's `gpt-6-cyber` is new and gated by Daybreak Red
   approval (see Key concepts).
@@ -205,3 +216,5 @@ to limit what the agent can do if it is fooled.
 - [Dependabot version updates support APM](../../sources/2026/11/2026-11-04-dependabot-apm-version-updates.md)
 - [IP allowlisting for Claude organizations (beta)](../../sources/2026/11/2026-11-06-claude-console-ip-allowlist.md)
 - [GPT-6-Cyber model (API docs)](../../sources/2026/11/2026-11-06-gpt-6-cyber.md)
+- [Claude Code release 2.1.319](../../sources/2026/11/2026-11-09-claude-code-2-1-319.md)
+- [sandbox-mcp](../../sources/2026/11/2026-11-09-sandbox-mcp-windows-sandbox.md)

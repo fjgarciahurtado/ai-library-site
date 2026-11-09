@@ -2,7 +2,7 @@
 title: "Agent patterns"
 tags: [agents, multi-agent, tool-use]
 related: [agents/tool-use, agents/memory, tooling/coding-agents, frameworks/landscape]
-last_reviewed: 2026-10-19
+last_reviewed: 2026-11-09
 ---
 
 ## Overview
@@ -46,8 +46,16 @@ cannot be predicted. For predictable tasks, a fixed workflow is cheaper and more
 3. Spend most effort on tool design and the task description.
 4. Give agents a way to verify their own work (tests, checks, a grader).
 5. Log every step; read transcripts to find failures.
+6. For agents that work across sessions, plan their memory as layers (transcripts,
+   notes, a wiki, a small startup context) and schedule a review pass that corrects
+   notes against transcripts (see [memory](memory.md)).
+7. When several agents write shared state, give each page or record one owner; shared
+   tables lose facts when agents overwrite each other.
 
 ## Current state
+
+- **2026-11-09:** Anthropic's memory post (2026-11-06) shows that partitioned writes beat
+  a shared table: 57 of 57 facts kept against 16 of 57 (see [memory](memory.md)).
 
 - **2026-10-15:** The Claude Code team's code reviewer runs parallel bug-hunting agents
   and a voting step. After one PR went through over fifty overnight review rounds, a
@@ -71,3 +79,4 @@ cannot be predicted. For predictable tasks, a fixed workflow is cheaper and more
 - [ReAct](../../sources/2026/10/2026-10-04-react-reasoning-and-acting.md)
 - [Antimicrobial peptides with Google Antigravity](../../sources/2026/10/2026-10-16-deepmind-antimicrobial-peptides-antigravity.md)
 - [How the Claude Code team does code review](../../sources/2026/10/2026-10-19-claude-code-team-code-review.md)
+- [The components of agent memory](../../sources/2026/11/2026-11-09-anthropic-components-of-agent-memory.md)

@@ -2,7 +2,7 @@
 title: "Agent and LLM framework landscape"
 tags: [frameworks, agents, sdk]
 related: [agents/agent-patterns, agents/tool-use, tooling/mcp]
-last_reviewed: 2026-11-08
+last_reviewed: 2026-11-09
 ---
 
 ## Overview
@@ -137,10 +137,10 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 |---|---|---|---|
 | Microsoft Agent Framework | Python 1.23.0 / .NET 1.26.0 | 2026-10-22 / 2026-10-23 | 1.0 GA on 2026-04-03; Python 1.23 moves to MCP 2.x; .NET 1.26 has breaking AG-UI auth-scope and Docker parameter changes (checked 2026-10-26) |
 | OpenAI Agents SDK (Python) | 0.24.0 | 2026-10-15 | Still 0.x; adds MCP annotations on converted tools (checked 2026-10-26) |
-| Google ADK (Python) | 2.13.0 | 2026-10-22 | Classifier nodes, 12 features stable, OTel GenAI v2 default (checked 2026-10-26) |
-| Pydantic AI | 2.64.0 | 2026-10-30 | Near-daily minor releases (checked 2026-11-02) |
+| Google ADK (Python) | 2.14.0 | 2026-11-07 | Execution environments and A2A stable, multi-run evals, `ToolArgsMatcher`; breaking: enum tool args arrive as enum members (checked 2026-11-09) |
+| Pydantic AI | 2.66.0 | 2026-11-04 | Near-daily minor releases; 2.66 adds `OpenSandbox`/`RenderSandbox` workspaces (checked 2026-11-09 on GitHub) |
 | Claude Agent SDK (Python) | 0.2.177 | 2026-11-03 | Bundles Claude Code 2.1.317; `HookMatcher(on_failure="block")` makes hooks fail closed (checked 2026-11-03) |
-| Claude Agent SDK (TypeScript) | 0.3.318 | 2026-11-04 | Parity with Claude Code 2.1.318; 0.3.317 added `onFailure: "block"` on hook matchers and removed the `file_unchanged` Read result (checked 2026-11-04) |
+| Claude Agent SDK (TypeScript) | 0.3.319 | 2026-11-06 | Parity with Claude Code 2.1.319; adds MCP tasks in the background (`CLAUDE_AUTO_BACKGROUND_TASKS=1`); 0.3.317 added `onFailure: "block"` on hook matchers (checked 2026-11-09) |
 | CrewAI | 1.15.30 | 2026-10-24 | 1.15.0 on 2026-06-25; 1.15.29 (2026-10-23) promoted AgentExecutor out of experimental (checked 2026-10-27 on GitHub) |
 | LlamaIndex | 0.14.25 | 2026-09-21 | Patch release (removes deprecated IPEX integrations); no newer `llama-index-core` on PyPI (checked 2026-11-06) |
 | LangGraph | 1.2.18 | 2026-10-26 | 1.2.0 on 2026-05-12; 1.2.18 snapshots `DeltaChannel` every 100 updates instead of 1000 (faster reads on long threads, more storage; `snapshot_frequency=1000` restores the old value) (checked 2026-10-27 on GitHub) |
@@ -149,6 +149,13 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 
 Release features are described under Key concepts.
 
+- **2026-11-09:** Google ADK 2.14.0 and TypeScript Agent SDK 0.3.319 updated in the
+  table. Python Agent SDK 0.2.179 (2026-11-06) has an empty change list, so the table
+  keeps 0.2.177. OpenAI Agents SDK shipped another preview only (0.24.0-alpha.7,
+  2026-11-08). It adds `RunBudget` limits, self-managed session storage, context and
+  compaction hooks, and A2A adapters, and new Environments default to a strict write
+  policy. Pydantic AI 2.66.0 (2026-11-04) adds `OpenSandbox` and `RenderSandbox`
+  workspaces; it was not given its own note.
 - **2026-11-06:** Claude Agent SDK (Python) 0.2.178 only bundles Claude Code 2.1.318;
   LlamaIndex is still on 0.14.25 on both GitHub and PyPI (see Open questions).
 - **2026-11-04:** OpenAI Agents SDK shipped only a preview (0.24.0-alpha.6 on
@@ -197,3 +204,5 @@ Release features are described under Key concepts.
 - [Claude Agent SDK (Python) v0.2.177](../../sources/2026/11/2026-11-03-claude-agent-sdk-python-0-2-177.md)
 - [Claude Agent SDK (TypeScript) v0.3.317 and v0.3.318](../../sources/2026/11/2026-11-04-claude-agent-sdk-ts-0-3-318.md)
 - [Mistral AI Studio: managed agents and workflows](../../sources/2026/11/2026-11-06-mistral-studio-managed-agents.md)
+- [Claude Agent SDK (TypeScript) v0.3.319](../../sources/2026/11/2026-11-09-claude-agent-sdk-ts-0-3-319.md)
+- [Google ADK (Python) v2.14.0](../../sources/2026/11/2026-11-09-google-adk-python-v2-14.md)

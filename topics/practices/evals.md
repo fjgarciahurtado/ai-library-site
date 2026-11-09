@@ -2,7 +2,7 @@
 title: "Evaluating LLM applications"
 tags: [evals, prompting, agents]
 related: [practices/prompting, agents/agent-patterns]
-last_reviewed: 2026-10-18
+last_reviewed: 2026-11-09
 ---
 
 ## Overview
@@ -46,8 +46,16 @@ models in general; your own evals tell you what works for your use case.
 2. Automate grading wherever possible.
 3. Run the eval on every prompt, model, or tool change.
 4. Track cost and latency alongside quality.
+5. Run agent eval cases several times and combine the results, since agents do not
+   behave the same way twice. Google ADK 2.14 does this with
+   `adk eval --num_runs N --parallelism M`. Its `ToolArgsMatcher` can also accept tool
+   arguments that match in meaning rather than exactly.
 
 ## Current state
+
+- **2026-11-09:** Google ADK 2.14.0 (2026-11-07) adds multi-run evals and semantic
+  tool-argument matching (see How to use it). Claude Code 2.1.319 adds
+  `/claude-api latency-optimize`, which tests faster API settings against your own eval.
 
 - **2026-10-15:** Anthropic embedded a six-person METR team with employee-like access
   (Tier 3). Anthropic cannot veto publication, only redact customer data, privileged
@@ -67,3 +75,5 @@ models in general; your own evals tell you what works for your use case.
 - [Building effective agents](../../sources/2026/10/2026-10-04-building-effective-agents.md)
 - [AI Models Can Provably Hide Arbitrary Capabilities](../../sources/2026/10/2026-10-13-ai-models-hide-capabilities.md)
 - [An update on independent evaluators](../../sources/2026/10/2026-10-16-anthropic-independent-evaluators-update.md)
+- [Google ADK (Python) v2.14.0](../../sources/2026/11/2026-11-09-google-adk-python-v2-14.md)
+- [Claude Code release 2.1.319](../../sources/2026/11/2026-11-09-claude-code-2-1-319.md)

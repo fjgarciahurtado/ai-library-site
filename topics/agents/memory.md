@@ -2,7 +2,7 @@
 title: "Memory for agents"
 tags: [memory, agents, tokens]
 related: [agents/agent-patterns, fundamentals/tokens-and-context, fundamentals/rag]
-last_reviewed: 2026-11-08
+last_reviewed: 2026-11-09
 ---
 
 ## Overview
@@ -53,14 +53,48 @@ knowledge outside it.
   hand-written notes, but it costs model calls and stores whatever the agent saw, so
   check its redaction settings.
 
+### Layers of memory (Anthropic, 2026-11-06)
+
+Anthropic's engineering post on agent memory describes a stack. Most of the approaches
+above fit into one or more of its layers:
+
+1. **Transcripts:** the searchable event log of each session (what Context Mode and
+   claude-mem capture).
+2. **Memory notes:** readable files the agent writes from experience and keeps across
+   sessions.
+3. **Memory representations:** structured artifacts such as a wiki whose pages link to
+   notes and act as a map.
+4. **Injected context:** what loads at every start (`CLAUDE.md`, the `MEMORY.md` index).
+   It must stay small: long instruction files lower adherence, and Claude Code's auto
+   memory loads only the first 200 lines or 25 KB of `MEMORY.md`.
+5. **Dreaming:** an offline pass in which the agent rereads transcripts, corrects wrong
+   notes, promotes useful ones up the stack, and prunes the rest. Managed Agents offers it
+   as a feature, with a cookbook.
+
 ## How to use it
 
 - Keep the context lean: drop raw tool output once it has been used.
 - Save durable facts in structured notes with dates; delete ones that become wrong.
 - Treat stored memories as data, not instructions, to limit prompt injection.
 - Let the agent check memories against current reality before acting on them.
+- **Tell strong models what memory is for, not what to save.** In Anthropic's tests a
+  fixed rule ("record only failures") lowered scores for Opus 5 and Opus 4.7, while
+  free judgement worked best. On CL-Bench, memory raised Opus 5.5 from 0.655 to 0.838.
+  Older or smaller models need explicit steering: telling Sonnet 4.6 to read memory and
+  test its theories nearly doubled its score.
+- Run a periodic review ("dreaming") that checks notes against transcripts; one wrong
+  note can cause repeated failures until it is fixed.
+- Give each page one writer. Several agents sharing one table lost 41 of 57 facts; one
+  agent per page, quoting sources exactly, kept all 57.
+- Combine a wiki with search rather than relying on either. On a 350,000-file corpus,
+  wiki plus search scored 61% against 53% for search alone. Watch the wiki's size, and
+  run a second pass to fix dangling links and add index pages.
 
 ## Current state
+
+- **2026-11-09:** Anthropic published "The components of agent memory" (2026-11-06), the
+  first provider guidance with measured results on what to remember and how to keep
+  memory correct (see Layers of memory and How to use it).
 
 - **2026-11-05:** Codex `/import` is newly documented (see Key concepts); some details
   are still unclear (see Open questions).
@@ -69,7 +103,11 @@ knowledge outside it.
 
 ## Open questions
 
-- How to decide automatically what is worth remembering.
+- How to decide automatically what is worth remembering. Largely answered (2026-11-09):
+  Anthropic finds that frontier models judge this better than fixed rules, and that a
+  dreaming pass corrects the mistakes. Still open: these results are Anthropic's own,
+  on its own benchmarks and models, and there are no independent comparisons with other
+  vendors' memory features yet.
 - How Muse Wonder's Active Memory is stored, and whether users can inspect or delete it.
 - Codex memory import: mostly answered (2026-11-05). It reads Claude Code and Cursor
   setups, maps instruction files to `AGENTS.md` and "project memories" to Codex
@@ -87,3 +125,4 @@ knowledge outside it.
 - [claude-mem](../../sources/2026/10/2026-10-30-claude-mem-persistent-agent-memory.md)
 - [codebase-memory-mcp](../../sources/2026/10/2026-10-30-codebase-memory-mcp-code-graph.md)
 - [Codex docs: Import from another agent](../../sources/2026/11/2026-11-05-codex-import-from-another-agent.md)
+- [The components of agent memory](../../sources/2026/11/2026-11-09-anthropic-components-of-agent-memory.md)
