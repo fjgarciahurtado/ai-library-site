@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-11-08
+last_reviewed: 2026-11-10
 ---
 
 ## Overview
@@ -77,7 +77,11 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
   `polish`, `bolder`, and `live`, plus a 62-rule detector for generic "AI slop" styling
   that needs no LLM (`npx impeccable detect`). Install with `npx impeccable install`, then
   `/impeccable init`; in Claude Code, `/plugin marketplace add pbakaus/impeccable` also
-  works. Use as `/impeccable critique the pricing cards`.
+  works. Use as `/impeccable critique the pricing cards`. For whole company websites,
+  Taste Skill (MIT) runs a fixed workflow instead: classify the business, pick palette,
+  fonts, and hero layout, then verify the page in headless Chrome
+  (`/plugin marketplace add Leonxlnx/taste-skill`, then
+  `/plugin install taste-skill@taste-skill`; Codex and `npx skills` also supported).
 - **Writing skill:** Humanizer (MIT) rewrites AI-sounding prose against 26 patterns from
   Wikipedia's "Signs of AI writing", edits only prose when pointed at a file, and asks
   rather than inventing facts: `/plugin marketplace add blader/humanizer`, then
@@ -101,7 +105,9 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
   reports about 1 million skills published and nearly 280 million installs.
 - **Bundled skills:** Claude Code ships some skills itself; since 2.1.309 its
   `/claude-api` skill builds Managed Agents teams on `multiagent_20261001`, and dataviz
-  checks APCA contrast.
+  checks APCA contrast. Since 2.1.321 (2026-11-09), `.claude/skills` folders inside
+  `~/.claude/plugins` no longer load when Claude works on files there, and headless
+  sessions reload mods in `.claude/skills` when their files change.
 - **Discovery in Copilot:** VS Code's customizations browser (preview, 2026-10-28)
   lists skills, MCP servers, and plugins from available sources in one place, and a repo
   can suggest default plugins in `.github/copilot/settings.json`.
@@ -118,6 +124,9 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 
 ## Current state
 
+- **2026-11-10:** Taste Skill (about 112,600 stars, +3,700 in a week) added to the
+  library; Impeccable and Humanizer keep rising. Claude Code 2.1.321 changes nested skill
+  loading (see Key concepts).
 - **2026-11-04:** Rising in GitHub trends: Impeccable (about 10,900 stars in a week,
   101,700 total) and Humanizer (about 2,900 in a week, 64,500 total).
 - **2026-11-03:** Google's EGM plugin is rising fast (about 8,900 stars in its first
@@ -159,3 +168,5 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 - [Impeccable](../../sources/2026/11/2026-11-04-impeccable-design-skills.md)
 - [Humanizer](../../sources/2026/11/2026-11-04-humanizer-writing-skill.md)
 - [Champion Kit plugin for Claude Code](../../sources/2026/11/2026-11-06-champion-kit-plugin.md)
+- [Claude Code releases 2.1.321 and 2.1.322](../../sources/2026/11/2026-11-10-claude-code-2-1-321.md)
+- [Taste Skill](../../sources/2026/11/2026-11-10-taste-skill-frontend-design.md)

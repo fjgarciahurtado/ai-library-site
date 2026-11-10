@@ -2,7 +2,7 @@
 title: "Security for LLM apps and agents"
 tags: [security, safety, agents, mcp]
 related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
-last_reviewed: 2026-11-09
+last_reviewed: 2026-11-10
 ---
 
 ## Overview
@@ -169,6 +169,13 @@ to limit what the agent can do if it is fooled.
 
 ## Current state
 
+- **2026-11-10:** Claude Code 2.1.321 (2026-11-09) fixes MCP OAuth sending refresh tokens
+  to another host after a redirect, a read-only Bash command running outside the
+  sandbox without a prompt, and deny rules missing the target of `cp`/`mv` into a
+  directory. Mods that Claude writes now turn on without asking in auto and bypass
+  modes, and their own tool calls skip permission prompts (deny rules still apply).
+  Claude Fable 5.2 blocks high-risk cyber requests (routed to Opus 4.8); Mythos 5.2 is
+  available through the Cyber Verification Program and powers Claude Security.
 - **2026-11-09:** Claude Code 2.1.319 fixes several permission and sandbox bypasses (see
   How to use it). Self-hosted runners started with `--trust-workspace false` now also
   block repository hooks and skills.
@@ -218,3 +225,4 @@ to limit what the agent can do if it is fooled.
 - [GPT-6-Cyber model (API docs)](../../sources/2026/11/2026-11-06-gpt-6-cyber.md)
 - [Claude Code release 2.1.319](../../sources/2026/11/2026-11-09-claude-code-2-1-319.md)
 - [sandbox-mcp](../../sources/2026/11/2026-11-09-sandbox-mcp-windows-sandbox.md)
+- [Claude Code releases 2.1.321 and 2.1.322](../../sources/2026/11/2026-11-10-claude-code-2-1-321.md)

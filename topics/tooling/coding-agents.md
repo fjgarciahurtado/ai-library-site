@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-11-09
+last_reviewed: 2026-11-10
 ---
 
 ## Overview
@@ -73,7 +73,9 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   the 5.5-generation models and Fable 5.1 (2.1.311, 2026-10-26;
   `CLAUDE_CODE_DISABLE_ULTRATHINK=1` turns it off since 2.1.316); cloud routines have an
   effort setting (2.1.312). Since 2.1.316 (2026-10-31), `CLAUDE_CODE_SUBAGENT_EFFORT` sets
-  the effort subagents run at instead of inheriting the session's, and since 2.1.317
+  the effort subagents run at instead of inheriting the session's. Fast mode works on
+  Vertex AI since 2.1.322 (global, us, eu), and since 2.1.321 a rate-limited fast mode
+  retries at standard speed on the same model first. Since 2.1.317
   subagents on a different model use that model's own effort setting (see
   [cost and caching](../practices/cost-and-caching.md)). Codex takes model, effort, and speed inline in `/model`
   (0.164) and lets you change effort mid-conversation (0.165). Codex `/presets` saves
@@ -132,7 +134,10 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   (`claude plugin install xcode@claude-plugins-official`, 2026-11-06): it builds, runs,
   and tests schemes, renders SwiftUI previews, drives simulators, and searches Apple
   docs over MCP, linking the plugin shipped with your Xcode through
-  `xcrun agent plugin path`.
+  `xcrun agent plugin path`. For websites, Taste Skill (MIT, 2026-11) makes the agent
+  choose a palette, fonts, and layout for the client's business and checks the page in
+  headless Chrome before handover (`/plugin marketplace add Leonxlnx/taste-skill`, then
+  `/plugin install taste-skill@taste-skill`; see [skills](skills.md)).
 - **Comparing models on one task:** VS Code 1.143 (2026-10-22) has this built in as a
   preview (`sessions.chat.compareAgents.enabled`). Each model works in its own session,
   and a judge model can pick the best result or **Synthesize** a merge. Before, people
@@ -204,6 +209,13 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
+- **2026-11-10:** Claude Code 2.1.321 (2026-11-09) makes Claude Fable 5.2 the default
+  Fable model (saved Fable 5.1 picks move to it; see [Claude](../models/claude.md)),
+  adds `claude remote-control --settings <file>`, lets mods Claude writes turn on without
+  asking in auto and bypass modes, and fixes an MCP OAuth token leak and several
+  permission gaps (see [security](../practices/security.md)). 2.1.322 (2026-11-10) adds
+  fast mode on Vertex AI. Fable 5.2 is also in GitHub Copilot. Taste Skill (above) is a
+  new design skill for company websites.
 - **2026-11-09:** Claude Code 2.1.319 (2026-11-06) runs MCP tasks in the background (see
   [MCP](mcp.md)), adds `permissions.denyInsteadOfPrompting` and
   `/claude-api latency-optimize`, keeps finished subagents in `/tasks`, and fixes several
@@ -290,3 +302,6 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [Claude Code release 2.1.319](../../sources/2026/11/2026-11-09-claude-code-2-1-319.md)
 - [GitHub Copilot weekly releases: November 2](../../sources/2026/11/2026-11-09-copilot-weekly-releases-nov-2.md)
 - [Ollama v0.40.15](../../sources/2026/11/2026-11-09-ollama-v0-40-15.md)
+- [Introducing Claude Fable 5.2 and Claude Mythos 5.2](../../sources/2026/11/2026-11-10-claude-fable-mythos-5-2.md)
+- [Claude Code releases 2.1.321 and 2.1.322](../../sources/2026/11/2026-11-10-claude-code-2-1-321.md)
+- [Taste Skill](../../sources/2026/11/2026-11-10-taste-skill-frontend-design.md)

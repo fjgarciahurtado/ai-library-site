@@ -2,7 +2,7 @@
 title: "Claude (Anthropic)"
 tags: [anthropic, llm, reasoning, cost]
 related: [models/gpt, models/gemini, tooling/skills, tooling/mcp, tooling/coding-agents]
-last_reviewed: 2026-11-08
+last_reviewed: 2026-11-10
 ---
 
 ## Overview
@@ -19,12 +19,15 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
   Haiku (smallest, fastest). Mythos models run only in restricted programmes.
 - **Model IDs:** short aliases such as `claude-opus-5-5`; no date suffix on current models.
 - **Adaptive thinking and effort:** thinking is on by default; `output_config.effort`
-  controls depth (`low` to `max`). On Fable 5.1 and Opus 5.5 thinking is always on and
+  controls depth (`low` to `max`). On Fable 5.2, Fable 5.1, and Opus 5.5 thinking is always on and
   cannot be disabled. Haiku 5.5 accepts `thinking: {type: "disabled"}` at effort `high`
   or below, and Sonnet 5.5 turns off up-front thinking with `{type: "between_tools"}`
   (also at `high` or below). Default effort is `high` on Fable 5.1 and Sonnet 5.5, `medium` on
   Opus 5.5 and Haiku 5.5. Thinking blocks are tied to the model and conversation that produced them
-  ("preserved thinking").
+  ("preserved thinking"). Since 2026-11-09, preserved thinking applies to all API
+  accounts: 5.2 thinking blocks work only in the account that produced them, and sending
+  one back after editing `system`, `tools`, or an earlier message returns 400 (the
+  "prefix check").
 - **Tool use:** client tools you run, and server tools Anthropic runs (web search, web
   fetch, code execution, tool search). Fable 5.1, Opus 5.5, and Sonnet 5.5 reject forced
   `tool_choice` (`any` / `tool`).
@@ -56,10 +59,16 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
   by end customer, so an enforcement action hits only that customer; profiles show
   `enforcement_status`. Organization webhooks in the Admin API (beta, header
   `webhooks-2026-10-07`) report profile restrictions.
-- **Text watermark:** since 2026-11-03, text from Claude Mythos 5, Opus 4.7, and Sonnet
-  4.6 carries Anthropic's text watermark on the platforms in Anthropic's support
-  article. It adds no tokens or hidden characters and needs no code changes. On Sonnet
+- **Text watermark:** nearly every current Claude model watermarks its text. On
+  first-party surfaces (API, Claude apps, Claude Code, Cowork) that covers Fable 5 to
+  5.2, Mythos 5 to 5.2, Opus 4.5 to 5.5, Sonnet 4.5 to 5.5, and Haiku 4.5 and 5.5; on
+  AWS, Google Cloud, and Foundry the 4.5 and Opus 4.6 models are not marked (Help Center,
+  read 2026-11-10). The 2026-11-03 release note covered the last three models to join
+  (Mythos 5, Opus 4.7, Sonnet 4.6). Models launched since 2026-08-02 are marked from
+  launch. It adds no tokens or hidden characters and needs no code changes. On Sonnet
   4.6 a non-default `temperature`, `top_p`, or `top_k` may leave output unmarked.
+  Detection is a private-preview API for eligible organizations; the free Claude
+  Content Checker reads only file Content Credentials (C2PA).
 - **Usage Policy:** a revised policy takes effect on 2026-11-12. It adds a section on
   fake account networks, narrows the elections rules to voter deception (personalised
   campaign targeting is now allowed), spells out weapons, surveillance, and
@@ -99,13 +108,22 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 
 | Need | Model | Price per 1M tokens (input / output) |
 |---|---|---|
-| Hardest reasoning, long-horizon agents | Claude Fable 5.1 (`claude-fable-5-1`) | $10 / $50 |
+| Hardest reasoning, long-horizon agents | Claude Fable 5.2 (`claude-fable-5-2`) | $8 / $40 |
 | Default for most demanding work | Claude Opus 5.5 (`claude-opus-5-5`) | $4 / $20 |
 | Everyday coding, agents, high volume | Claude Sonnet 5.5 (`claude-sonnet-5-5`) | $2 / $10 |
 | Classification, extraction, routing, high volume | Claude Haiku 5.5 (`claude-haiku-5-5`) | $0.10 / $0.50 (prompts ≤100K tokens); $0.50 / $2.50 above |
 
+- Fable 5.2 (2026-11-09) replaces Fable 5.1 ($10 / $50, still Active) as the top
+  general-access model; Mythos 5.2 (`claude-mythos-5-2`) is the same model with fewer
+  safeguards, for verified organizations only. Anthropic reports 49.1% on FrontierCode
+  2.0 (Opus 5.5: 45.5%) and says Fable 5.2 at `high` effort matches Opus 5.5's best
+  score at about half the cost per task (vendor figures). Before switching: it requires
+  30-day retention (no ZDR without approval), computer use needs
+  `computer_toolset_20260801` (the older `computer_20251124` returns 400 except on
+  Bedrock), and the prefix check above applies. Every model accepts Fable 5.2 as an
+  advisor (advisor tool, beta). Fast mode costs $16 / $80.
 - All four current models have 1M context, 128K output, and a June 2026 knowledge
-  cutoff. Haiku 4.5 (200K context, 64K output, $1 / $5) is superseded but still listed
+  cutoff (Anthropic's 5.2 announcement does not state a cutoff for Fable 5.2). Haiku 4.5 (200K context, 64K output, $1 / $5) is superseded but still listed
   as Active, with retirement "not sooner than 2026-10-15". That date has passed, but
   there was still no deprecation notice on 2026-10-22. Anthropic gives at least 60 days'
   notice, so it cannot retire before late December 2026. Sonnet 4.5 (deprecated 2026-09-30) retires on 2026-11-30; Opus 4.5 is
@@ -155,8 +173,12 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 
 ## Current state
 
-- **2026-11-03:** Text watermark announced for Mythos 5, Opus 4.7, and Sonnet 4.6 (see
-  Key concepts); coverage of other models is unclear (see Open questions).
+- **2026-11-10:** Claude Fable 5.2 and Mythos 5.2 released (2026-11-09) at $8 / $40,
+  20% below 5.1; default Fable model in Claude Code 2.1.321 and available in GitHub
+  Copilot. Retirement not before 2027-11-09. Haiku 4.5 still has no deprecation notice
+  (checked 2026-11-10).
+- **2026-11-03:** Text watermark extended to Mythos 5, Opus 4.7, and Sonnet 4.6; the full
+  model list is in Key concepts (checked 2026-11-10).
 - **2026-11-02:** Message threads (beta) launched; see How to use it.
 - **2026-10-30:** Fast mode on Opus 4.8 is deprecated and will be removed on 2026-11-30;
   move `speed: "fast"` traffic to Opus 5.5. Opus 4.8 itself stays Active (retirement not
@@ -174,10 +196,12 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
   2% grants? Anthropic says it will publish this in the coming months (noted 2026-10-19).
 - Haiku 4.5 retirement date: still not announced (checked 2026-11-02). The deprecations
   page lists it as Active with "not sooner than 2026-10-15", a date already past, and
-  Haiku 5.5 is not yet named as its replacement. Check again in November.
-- Which models carry the text watermark? The 2026-11-03 release note names only Mythos
-  5, Opus 4.7, and Sonnet 4.6, not the 5.5-generation models; the support article's full
-  list and whether a public detector exists were not checked.
+  Haiku 5.5 is not yet named as its replacement. Still unchanged on 2026-11-10.
+- Text watermark: answered 2026-11-10 (model list in Key concepts; no public text
+  detector, detection API in private preview). Still open: when detection opens up, and
+  why Opus 4.6 and the 4.5 models are unmarked on cloud partners.
+- Fable 5.2's knowledge cutoff is not stated in the announcement or release notes read
+  on 2026-11-10; check the models overview page.
 - When will API version `2023-06-01` be retired? The versioning page gives no date
   (checked 2026-10-22).
 
@@ -209,3 +233,5 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 - [Claude Code release 2.1.316](../../sources/2026/11/2026-11-02-claude-code-2-1-316.md)
 - [Claude API message threads (beta)](../../sources/2026/11/2026-11-03-claude-message-threads-beta.md)
 - [Claude text watermark](../../sources/2026/11/2026-11-04-claude-text-watermark.md)
+- [Introducing Claude Fable 5.2 and Claude Mythos 5.2](../../sources/2026/11/2026-11-10-claude-fable-mythos-5-2.md)
+- [How Claude marks AI-generated content](../../sources/2026/11/2026-11-10-claude-marks-ai-generated-content.md)

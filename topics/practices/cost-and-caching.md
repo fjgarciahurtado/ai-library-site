@@ -2,7 +2,7 @@
 title: "Cost and caching"
 tags: [cost, caching, tokens]
 related: [fundamentals/tokens-and-context, models/claude, fundamentals/reasoning-models]
-last_reviewed: 2026-11-08
+last_reviewed: 2026-11-10
 ---
 
 ## Overview
@@ -46,8 +46,8 @@ Other levers:
   models also charge more above 200K input tokens. Claude Haiku 5.5 costs 5x more above 100K prompt tokens, while other current Claude
   models charge one rate across their 1M window.
 - **Cache read discounts differ by model:** most providers charge about 10% of input for
-  cache reads, but Claude Opus 5.5 and Sonnet 5.5 charge 5% and Fable 5.1 2.5% (as of
-  2026-10-08). The deeper the discount, the more a stable prefix is worth. Not every
+  cache reads, but Claude Opus 5.5 and Sonnet 5.5 charge 5% and Fable 5.1 and 5.2 2.5%
+  (as of 2026-11-10). The deeper the discount, the more a stable prefix is worth. Not every
   model offers explicit caching: Gemini 4 Argon supports only implicit (automatic)
   caching (as of 2026-10-15).
 - **Cache lifetime matters for idle sessions:** once a cache expires, the next request
@@ -80,7 +80,8 @@ Other levers:
   cache is warm or cold and estimates the cost of the next message, so you can send
   follow-ups before the cache expires.
 - **Paying for speed:** the same model can be bought at higher speed for a higher price.
-  Claude Opus 5.5 fast mode costs 2x (generally available since 2026-10-15); fast mode on
+  Claude Opus 5.5 fast mode costs 2x (generally available since 2026-10-15), as does
+  Fable 5.2 fast mode ($16 / $80, since 2026-11-09); fast mode on
   Opus 4.8 is deprecated and stops working on 2026-11-30. OpenAI's
   Fast tier costs 2x, and its `ultrafast` tier on GPT-6 Astra and GPT-6.1 Sol costs 6x
   Standard (checked 2026-10-21). Sources disagree on Ultrafast access: the current guide
@@ -120,7 +121,7 @@ on the date shown; prices change often, so recheck before relying on them.
 
 | Model | Price | Notes | Checked |
 |---|---|---|---|
-| Claude Fable 5.1 | $10 / $0.25 / $50 | | 2026-10-08 |
+| Claude Fable 5.2 | $8 / $0.20 / $40 | Fast mode $16 / $80. Fable 5.1 (still Active) stays $10 / $0.25 / $50 | 2026-11-10 |
 | Claude Opus 5.5 | $4 / $0.20 / $20 | Fast mode $8 / $40 (GA since 2026-10-15) | 2026-10-20 |
 | Claude Sonnet 5.5 | $2 / $0.10 / $10 | Cache reads cut from $0.20, around 2026-10-07 per Simon Willison (the docs give no date) | 2026-10-08 |
 | Claude Haiku 5.5 | $0.10 / $0.01 / $0.50 | Prompts ≤100K; 5x above. Batch halves both tiers | 2026-10-08 |
@@ -146,6 +147,9 @@ legacy, costs $1 / $5.
 
 ## Current state
 
+- **2026-11-10:** Claude Fable 5.2 (2026-11-09) costs 20% less than Fable 5.1 ($8 / $40).
+  Anthropic says it matches Opus 5.5's best FrontierCode score at `high` effort for about
+  half the cost per task (vendor figure); worth testing before defaulting to Opus.
 - **2026-11-02:** Gemini 2.5 Pro and 2.5 Flash are deprecated; from 2026-12-01 they are
   routed to and billed as newer models (see the table).
 - **2026-10-30:** Fast mode on Claude Opus 4.8 stops working on 2026-11-30: fast
@@ -193,3 +197,4 @@ legacy, costs $1 / $5.
 - [Claude Code release 2.1.317](../../sources/2026/11/2026-11-03-claude-code-2-1-317.md)
 - [Claude API message threads (beta)](../../sources/2026/11/2026-11-03-claude-message-threads-beta.md)
 - [Gemini API changelog: Gemini 2.5 Pro and 2.5 Flash deprecated](../../sources/2026/11/2026-11-03-gemini-2-5-pro-flash-deprecation.md)
+- [Introducing Claude Fable 5.2 and Claude Mythos 5.2](../../sources/2026/11/2026-11-10-claude-fable-mythos-5-2.md)
