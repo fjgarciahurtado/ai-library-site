@@ -2,7 +2,7 @@
 title: "Open-weight models"
 tags: [open-source, llm, deployment, fine-tuning]
 related: [fundamentals/training-and-fine-tuning, practices/cost-and-caching]
-last_reviewed: 2026-11-09
+last_reviewed: 2026-11-11
 ---
 
 ## Overview
@@ -147,7 +147,10 @@ Meta has not released open weights since Llama 4. Its newer Muse models are API-
 Muse Spark 1.1 (2026-07-09) and Muse Wonder / Muse Wonder Full (2026-10-12), its
 strongest agent models, with cross-session "Active Memory". Muse Wonder is on the Meta
 Model API and Muse Code; Wonder Full is for Muse Code subscribers only. Meta published no
-licence or prices and deferred benchmark scores to a separate report.
+licence or prices and deferred benchmark scores to a separate report. Muse Ember
+(`muse-ember-1.0`, 2026-11-09) is the smallest and cheapest Muse model, for agent
+sub-work: 1M context, $0.10 / $0.50 per 1M tokens up to 200K, also API-only (Meta Model
+API, Muse Code, Google Cloud, Oracle Cloud), with no weights or licence mentioned.
 
 Sources disagree on Gemma 4: it was announced on 2026-04-03, but the model card cites a
 July 2026 technical report and lists a 12B size that launch coverage did not mention.
@@ -158,6 +161,11 @@ $1.20 for output, and V4-Pro costs $1.32 for input and $3.96 for output. Off-pea
 half of those. See [cost and caching](../practices/cost-and-caching.md).
 
 ## Current state
+
+- **2026-11-11:** Meta released Muse Ember (2026-11-09), a low-cost agent model that is
+  API-only like the other Muse models, so Meta still has no open-weight release since
+  Llama 4. Meta reports it ahead of GPT-6 Luna and Claude Haiku 5.5 on Terminal-Bench
+  4.0 and OSWorld 2.1 (vendor figures).
 
 - **2026-11-09:** Ollama 0.40.15 (2026-11-06) adds Xiaomi's MiMo V2.6, a 9B model for code
   and agent work (`ollama run mimo-v2.6`; licence not stated in the notes), and AutoTrust
@@ -226,6 +234,7 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 - [Introducing Mistral Large 4](../../sources/2026/10/2026-10-07-mistral-large-4.md)
 - [EmbeddingGemma 2](../../sources/2026/10/2026-10-08-embeddinggemma-2.md)
 - [Muse Wonder](../../sources/2026/10/2026-10-13-meta-muse-wonder.md)
+- [Muse Ember](../../sources/2026/11/2026-11-11-meta-muse-ember.md)
 - [On-device scam detection with a fine-tuned Gemma](../../sources/2026/10/2026-10-15-gemma-on-device-scam-detection.md)
 - [Introducing Timestral](../../sources/2026/10/2026-10-16-mistral-timestral-time-series-models.md)
 - [DeepSeek-V4.1-Flash-1017](../../sources/2026/10/2026-10-19-deepseek-v4-1-flash-1017.md)

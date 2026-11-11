@@ -2,15 +2,16 @@
 title: "Gemini (Google)"
 tags: [google, llm, multimodal]
 related: [models/claude, models/gpt, models/open-weight]
-last_reviewed: 2026-11-09
+last_reviewed: 2026-11-11
 ---
 
 ## Overview
 
 Gemini is Google DeepMind's model family, used in the Gemini app, Google products, and
 through the Gemini API and Vertex AI. Gemini is natively multimodal (text, images, audio,
-video) and known for long context. Its most capable model is Gemini 4 Argon (public since
-2026-10-13). Google also publishes the open-weight Gemma models (see
+video) and known for long context. Its most capable model is Gemini 4 Carbon (GA since
+2026-11-10); Gemini 4 Argon (public since 2026-10-13) remains the recommended everyday
+model. Google also publishes the open-weight Gemma models (see
 [open-weight models](open-weight.md)).
 
 ## Key concepts
@@ -20,8 +21,20 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
 - **Gemma:** Google's open-weight family, separate from Gemini. A fine-tuned Gemma
   powers an on-device scam detector built with Singapore's government (2026-10-14, not
   released; see [open-weight models](open-weight.md)).
-- **Current lineup (as of 2026-10-18):**
-  - *Gemini 4 Argon* (`gemini-4-argon`) is the most capable model (see below).
+- **Current lineup (as of 2026-11-11):**
+  - *Gemini 4 Carbon* (`gemini-4-carbon`, Stable, GA 2026-11-10) is the strongest model,
+    for long multi-step coding, debugging, and research. It uses more tokens than Argon
+    to explore and verify, so Google still recommends Argon for most everyday work.
+    Same limits as Argon (1M shared context, 64K default output, up to 1M with long
+    decode, thinking low/medium/high, implicit caching only) plus computer use, code
+    execution, file search, and Search/Maps grounding; Batch, Flex, and Priority
+    inference; no Live API. Cyber defenders got it through the Fairwind Program about two
+    weeks earlier; a restricted "Carbon for cyber" stays there. Also in Antigravity
+    (with the `/swarm` multi-agent preview), the Gemini app for Ultra subscribers, and
+    GitHub Copilot. Safety figures (Google): 0% on Gray Swan's indirect prompt-injection
+    benchmark and a 0.8% per-attempt breach rate against an adaptive red-team agent
+    (Argon 3.1%).
+  - *Gemini 4 Argon* (`gemini-4-argon`) is the everyday frontier model (see below).
   - *Gemini 3.8 Flash* (GA 2026-09-02) is the newest generally available Flash model,
     aimed at long-horizon coding, agents, and enterprise workflows: 1M input and 64K
     output tokens, text, image, video, audio, and PDF input, thinking levels, and
@@ -82,7 +95,8 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
   automatically, so pinning a model name does not guarantee the same model.
 - Use Gemini for heavy video and audio input, where it has long been strong.
 - Prices per 1M tokens (input / output, paid tier, as of 2026-10-07; Argon as of
-  2026-10-14): 4 Argon $2 / $10 until 2026-11-30, then $4 / $20; 3.8 Flash
+  2026-10-14; Carbon as of 2026-11-10): 4 Carbon and 4 Argon both $2 / $10 until
+  2026-11-30, then $4 / $20; 3.8 Flash
   $0.75 / $3.75 (doubling on 2027-01-01; 3.7 Flash was priced the same), 3.5 Flash
   $1.50 / $9.00 (deprecated; no longer on the pricing page on 2026-11-03), 3.1 Pro
   Preview $2 / $12 ($4 / $18 above 200K), 2.5 Pro $1.25 / $10 (until it is routed to
@@ -115,6 +129,11 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
 
 ## Current state
 
+- **2026-11-11:** Gemini 4 Carbon is GA (2026-11-10) on the paid API tier at Argon's
+  prices, with the same introductory rate ending 2026-11-30. Google reports first place
+  on CursorBench 4.0, WANDR, and AutomationBench (vendor claims). Pydantic AI 2.67
+  already supports it.
+
 - **2026-11-09:** `gemini-embedding-2-preview` was deprecated on 2026-11-06. Its requests
   now go to `gemini-embedding-2` at that model's rates. The two share an embedding space,
   so stored vectors stay valid (see [embeddings](../fundamentals/embeddings.md)). The API
@@ -132,7 +151,9 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
 ## Open questions
 
 - Smaller Gemini 4 models (Flash, Flash-Lite) have not been announced (checked
-  2026-10-15).
+  2026-10-15; the Carbon launch on 2026-11-10 did not mention any).
+- Gemini 4 Carbon's availability on Gemini Enterprise Agent Platform (Vertex AI) and in
+  Gemini CLI is not stated in the launch posts (checked 2026-11-11).
 - Computer Use GA (2026-10-30): pricing answered on 2026-11-03 (regular tokens at the
   model's price, no free tier). Still open: rate limits, and the docs page still does
   not say GA.
@@ -165,3 +186,4 @@ video) and known for long context. Its most capable model is Gemini 4 Argon (pub
 - [Voice remixing for Gemini 3.8 TTS](../../sources/2026/11/2026-11-05-gemini-tts-voice-remixing.md)
 - [Gemini API changelog, 2026-11-05](../../sources/2026/11/2026-11-06-gemini-api-files-in-function-responses.md)
 - [Gemini Embedding 2 Preview deprecated](../../sources/2026/11/2026-11-09-gemini-embedding-2-preview-deprecation.md)
+- [Gemini 4 Carbon is now available](../../sources/2026/11/2026-11-11-gemini-4-carbon-available.md)

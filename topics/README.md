@@ -16,10 +16,10 @@ Long-lived knowledge pages, kept current. Each page cites the source notes it dr
 
 ## Models
 
-- [Claude (Anthropic)](models/claude.md) (reviewed 2026-11-10)
+- [Claude (Anthropic)](models/claude.md) (reviewed 2026-11-11)
 - [GPT (OpenAI)](models/gpt.md) (reviewed 2026-11-08)
-- [Gemini (Google)](models/gemini.md) (reviewed 2026-11-09)
-- [Open-weight models](models/open-weight.md) (reviewed 2026-11-09)
+- [Gemini (Google)](models/gemini.md) (reviewed 2026-11-11)
+- [Open-weight models](models/open-weight.md) (reviewed 2026-11-11)
 
 ## Agents
 
@@ -30,12 +30,12 @@ Long-lived knowledge pages, kept current. Each page cites the source notes it dr
 ## Tooling
 
 - [Agent skills](tooling/skills.md) (reviewed 2026-11-10)
-- [Coding agents](tooling/coding-agents.md) (reviewed 2026-11-10)
-- [Model Context Protocol (MCP)](tooling/mcp.md) (reviewed 2026-11-09)
+- [Coding agents](tooling/coding-agents.md) (reviewed 2026-11-11)
+- [Model Context Protocol (MCP)](tooling/mcp.md) (reviewed 2026-11-11)
 
 ## Frameworks
 
-- [Agent and LLM framework landscape](frameworks/landscape.md) (reviewed 2026-11-09)
+- [Agent and LLM framework landscape](frameworks/landscape.md) (reviewed 2026-11-11)
 
 ## Practices
 

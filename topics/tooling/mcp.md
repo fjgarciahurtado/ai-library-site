@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-11-09
+last_reviewed: 2026-11-11
 ---
 
 ## Overview
@@ -122,9 +122,23 @@ the de facto standard, with official SDKs in many languages.
   portable release, run `.\sbx.cmd doctor`, then add `src\server.js` as a stdio server.
   Its `sandbox_run` tool boots Windows Sandbox, deploys and drives the app, collects
   evidence, and destroys the machine.
+- For scraping beyond what built-in web fetch handles (logins, blocking sites, a page's
+  background API calls), use Scrapling's MCP server: `pip install "scrapling[ai]"`,
+  `scrapling install`, then `claude mcp add ScraplingServer "$(which scrapling-mcp)"`.
+  Keep `main_content_only` on: it strips hidden text and zero-width characters that are
+  common prompt-injection carriers.
+- To give an agent current library docs, use Context7: `npx ctx7 setup --claude`
+  installs a skill and CLI (no MCP needed), or add the remote MCP server
+  `https://mcp.context7.com/mcp` with a bearer API key. Queries go to Upstash's hosted
+  service.
 - Build a server when you want one integration usable from many AI clients.
 
 ## Current state
+
+- **2026-11-11:** Two established MCP servers are rising in GitHub trends: Scrapling
+  (web scraping, 17 tools, Streamable HTTP with required bearer auth; about 101,000
+  stars) and Context7 (library docs, MCP or CLI + skill; about 64,500 stars). See How to
+  use it.
 
 - **2026-11-09:** Claude Code and the TypeScript Agent SDK now run MCP tasks in the
   background (see Key concepts). Claude Code 2.1.319 also fixed older-handshake servers
@@ -179,3 +193,5 @@ the de facto standard, with official SDKs in many languages.
 - [Claude Code release 2.1.319](../../sources/2026/11/2026-11-09-claude-code-2-1-319.md)
 - [Claude Agent SDK (TypeScript) v0.3.319](../../sources/2026/11/2026-11-09-claude-agent-sdk-ts-0-3-319.md)
 - [sandbox-mcp](../../sources/2026/11/2026-11-09-sandbox-mcp-windows-sandbox.md)
+- [Scrapling: web scraping framework with an MCP server and agent skill](../../sources/2026/11/2026-11-11-scrapling-mcp-server-and-skill.md)
+- [Context7: up-to-date library docs for coding agents](../../sources/2026/11/2026-11-11-context7-docs-for-coding-agents.md)

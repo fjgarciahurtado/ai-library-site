@@ -2,7 +2,7 @@
 title: "Claude (Anthropic)"
 tags: [anthropic, llm, reasoning, cost]
 related: [models/gpt, models/gemini, tooling/skills, tooling/mcp, tooling/coding-agents]
-last_reviewed: 2026-11-10
+last_reviewed: 2026-11-11
 ---
 
 ## Overview
@@ -123,7 +123,8 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
   Bedrock), and the prefix check above applies. Every model accepts Fable 5.2 as an
   advisor (advisor tool, beta). Fast mode costs $16 / $80.
 - All four current models have 1M context, 128K output, and a June 2026 knowledge
-  cutoff (Anthropic's 5.2 announcement does not state a cutoff for Fable 5.2). Haiku 4.5 (200K context, 64K output, $1 / $5) is superseded but still listed
+  cutoff, Fable 5.2 included (reliable knowledge and training data cutoff both June
+  2026, per the models overview checked 2026-11-11). Haiku 4.5 (200K context, 64K output, $1 / $5) is superseded but still listed
   as Active, with retirement "not sooner than 2026-10-15". That date has passed, but
   there was still no deprecation notice on 2026-10-22. Anthropic gives at least 60 days'
   notice, so it cannot retire before late December 2026. Sonnet 4.5 (deprecated 2026-09-30) retires on 2026-11-30; Opus 4.5 is
@@ -173,6 +174,11 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 
 ## Current state
 
+- **2026-11-11:** The models overview confirms a June 2026 knowledge cutoff for Fable
+  5.2 and recommends Opus 5.5 as the default starting model, with Fable 5.2 for
+  demanding reasoning and long-horizon agent work. Haiku 4.5 is still Active with no
+  deprecation notice.
+
 - **2026-11-10:** Claude Fable 5.2 and Mythos 5.2 released (2026-11-09) at $8 / $40,
   20% below 5.1; default Fable model in Claude Code 2.1.321 and available in GitHub
   Copilot. Retirement not before 2027-11-09. Haiku 4.5 still has no deprecation notice
@@ -200,8 +206,8 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 - Text watermark: answered 2026-11-10 (model list in Key concepts; no public text
   detector, detection API in private preview). Still open: when detection opens up, and
   why Opus 4.6 and the 4.5 models are unmarked on cloud partners.
-- Fable 5.2's knowledge cutoff is not stated in the announcement or release notes read
-  on 2026-11-10; check the models overview page.
+- Fable 5.2's knowledge cutoff: answered 2026-11-11 (June 2026 on the models overview
+  page; see How to use it).
 - When will API version `2023-06-01` be retired? The versioning page gives no date
   (checked 2026-10-22).
 

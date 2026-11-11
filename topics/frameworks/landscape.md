@@ -2,7 +2,7 @@
 title: "Agent and LLM framework landscape"
 tags: [frameworks, agents, sdk]
 related: [agents/agent-patterns, agents/tool-use, tooling/mcp]
-last_reviewed: 2026-11-09
+last_reviewed: 2026-11-11
 ---
 
 ## Overview
@@ -101,7 +101,10 @@ now start from vendor SDKs and add a framework only when it clearly helps.
     `prepare_model_request`, `sticky` fallback, and `first_event_timeout` for streams
     that never start), `BoxdSandbox`, and `ArtifactScanner` security scanning for
     `Memory` and `Skills`. Check before upgrading: `json-repair` became optional and
-    `Coder` tools default to non-strict schemas.
+    `Coder` tools default to non-strict schemas. 2.67 (2026-11-10) makes `SubAgents`
+    (`dynamic_agents`, `task_control`) durable under Temporal and DBOS, has `RepoContext`
+    load nested per-directory instruction files (capped by `nested_max_chars`), and adds
+    Claude Fable 5.2, Gemini 4 Carbon, and OpenAI `fast`/`ultrafast` service tiers.
   - Vercel AI SDK: TypeScript toolkit for AI apps, UIs, and agents. Version 7
     (2026-06-25) adds per-tool approval policies, durable resumable runs
     (`WorkflowAgent`), layered timeouts, a portable sandbox abstraction, OpenTelemetry
@@ -138,7 +141,7 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 | Microsoft Agent Framework | Python 1.23.0 / .NET 1.26.0 | 2026-10-22 / 2026-10-23 | 1.0 GA on 2026-04-03; Python 1.23 moves to MCP 2.x; .NET 1.26 has breaking AG-UI auth-scope and Docker parameter changes (checked 2026-10-26) |
 | OpenAI Agents SDK (Python) | 0.24.0 | 2026-10-15 | Still 0.x; adds MCP annotations on converted tools (checked 2026-10-26) |
 | Google ADK (Python) | 2.14.0 | 2026-11-07 | Execution environments and A2A stable, multi-run evals, `ToolArgsMatcher`; breaking: enum tool args arrive as enum members (checked 2026-11-09) |
-| Pydantic AI | 2.66.0 | 2026-11-04 | Near-daily minor releases; 2.66 adds `OpenSandbox`/`RenderSandbox` workspaces (checked 2026-11-09 on GitHub) |
+| Pydantic AI | 2.67.0 | 2026-11-10 | Near-daily minor releases; 2.67 adds durable sub-agents and nested instruction files (checked 2026-11-11 on GitHub) |
 | Claude Agent SDK (Python) | 0.2.177 | 2026-11-03 | Bundles Claude Code 2.1.317; `HookMatcher(on_failure="block")` makes hooks fail closed (checked 2026-11-03) |
 | Claude Agent SDK (TypeScript) | 0.3.319 | 2026-11-06 | Parity with Claude Code 2.1.319; adds MCP tasks in the background (`CLAUDE_AUTO_BACKGROUND_TASKS=1`); 0.3.317 added `onFailure: "block"` on hook matchers (checked 2026-11-09) |
 | CrewAI | 1.15.30 | 2026-10-24 | 1.15.0 on 2026-06-25; 1.15.29 (2026-10-23) promoted AgentExecutor out of experimental (checked 2026-10-27 on GitHub) |
@@ -149,6 +152,10 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 
 Release features are described under Key concepts.
 
+- **2026-11-11:** Pydantic AI 2.67.0 (2026-11-10) updated in the table: durable
+  sub-agents on Temporal and DBOS, nested instruction files in `RepoContext`, and the
+  newest Claude, Gemini, and OpenAI models. OpenAI Agents SDK and LangGraph had no new
+  stable release since the last check.
 - **2026-11-09:** Google ADK 2.14.0 and TypeScript Agent SDK 0.3.319 updated in the
   table. Python Agent SDK 0.2.179 (2026-11-06) has an empty change list, so the table
   keeps 0.2.177. OpenAI Agents SDK shipped another preview only (0.24.0-alpha.7,
@@ -201,6 +208,7 @@ Release features are described under Key concepts.
 - [Pydantic AI v2.62.0](../../sources/2026/10/2026-10-27-pydantic-ai-v2-62.md)
 - [Pydantic AI v2.63.0](../../sources/2026/10/2026-10-28-pydantic-ai-v2-63.md)
 - [Pydantic AI v2.64.0](../../sources/2026/11/2026-11-02-pydantic-ai-v2-64.md)
+- [Pydantic AI v2.67.0](../../sources/2026/11/2026-11-11-pydantic-ai-v2-67.md)
 - [Claude Agent SDK (Python) v0.2.177](../../sources/2026/11/2026-11-03-claude-agent-sdk-python-0-2-177.md)
 - [Claude Agent SDK (TypeScript) v0.3.317 and v0.3.318](../../sources/2026/11/2026-11-04-claude-agent-sdk-ts-0-3-318.md)
 - [Mistral AI Studio: managed agents and workflows](../../sources/2026/11/2026-11-06-mistral-studio-managed-agents.md)

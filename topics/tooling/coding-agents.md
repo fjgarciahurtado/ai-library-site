@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-11-10
+last_reviewed: 2026-11-11
 ---
 
 ## Overview
@@ -206,8 +206,16 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - Never give an agent production credentials it does not need.
 - Add a `REVIEW.md` saying what failure looks like in each area, and fix recurring
   review comments at the source (a lint rule, a skill, or `CLAUDE.md`).
+- When the agent writes code against libraries that changed after its knowledge cutoff,
+  give it current docs: Context7 (`npx ctx7 setup --claude`) installs a skill that
+  fetches version-specific docs on demand (see [MCP](mcp.md)).
 
 ## Current state
+
+- **2026-11-11:** Context7 (library docs as a skill + CLI or MCP server) is rising in
+  GitHub trends; see How to use it. No new Claude Code release since 2.1.322; Gemini CLI
+  0.68.0 (2026-11-10) adds a `SubagentStop` hook event and an extension validation
+  command, otherwise fixes.
 
 - **2026-11-10:** Claude Code 2.1.321 (2026-11-09) makes Claude Fable 5.2 the default
   Fable model (saved Fable 5.1 picks move to it; see [Claude](../models/claude.md)),
@@ -305,3 +313,4 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [Introducing Claude Fable 5.2 and Claude Mythos 5.2](../../sources/2026/11/2026-11-10-claude-fable-mythos-5-2.md)
 - [Claude Code releases 2.1.321 and 2.1.322](../../sources/2026/11/2026-11-10-claude-code-2-1-321.md)
 - [Taste Skill](../../sources/2026/11/2026-11-10-taste-skill-frontend-design.md)
+- [Context7: up-to-date library docs for coding agents](../../sources/2026/11/2026-11-11-context7-docs-for-coding-agents.md)
