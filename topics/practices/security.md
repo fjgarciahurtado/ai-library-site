@@ -2,7 +2,7 @@
 title: "Security for LLM apps and agents"
 tags: [security, safety, agents, mcp]
 related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
-last_reviewed: 2026-11-10
+last_reviewed: 2026-11-12
 ---
 
 ## Overview
@@ -163,11 +163,23 @@ to limit what the agent can do if it is fooled.
 - Open untrusted Windows files or installers in a disposable machine rather than on the
   host: sandbox-mcp's `sandbox_detonate` and `sandbox_install_test` tools run them in
   Windows Sandbox and record what changed (see [MCP](../tooling/mcp.md)).
+- Treat "read-only" tools that wrap other programs with care. Git, for example, runs
+  commands named in a repository's `.git/config` (`core.fsmonitor`, `diff.external`,
+  hooks), so `mcp-server-git` before 2026.11.11 could be made to run code by a copied
+  working tree or archive, with no prompt (see [MCP](../tooling/mcp.md)). Upgrade the
+  reference servers, and point Git tools only at repositories whose `.git` folder you
+  trust.
 - Set spending and iteration limits.
 - Rate-limit agent traffic, restrict which hosts agents can write to, and make agent
   requests identifiable (user agent, contact details) to the sites they visit.
 
 ## Current state
+
+- **2026-11-12:** The MCP reference servers published six advisories on 2026-11-11 and
+  fixed them in 2026.11.11: arbitrary command execution through repository Git config
+  in `mcp-server-git` (High), a `--repository` confinement bypass, two path escapes in
+  the filesystem server (symlink swap, `move_file`), and SSRF and robots.txt bypasses in
+  the fetch server (Low).
 
 - **2026-11-10:** Claude Code 2.1.321 (2026-11-09) fixes MCP OAuth sending refresh tokens
   to another host after a redirect, a read-only Bash command running outside the
@@ -226,3 +238,4 @@ to limit what the agent can do if it is fooled.
 - [Claude Code release 2.1.319](../../sources/2026/11/2026-11-09-claude-code-2-1-319.md)
 - [sandbox-mcp](../../sources/2026/11/2026-11-09-sandbox-mcp-windows-sandbox.md)
 - [Claude Code releases 2.1.321 and 2.1.322](../../sources/2026/11/2026-11-10-claude-code-2-1-321.md)
+- [MCP reference servers 2026.11.11: security fixes](../../sources/2026/11/2026-11-12-mcp-git-filesystem-servers-security-fixes.md)

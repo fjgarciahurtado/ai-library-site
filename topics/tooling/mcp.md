@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-11-11
+last_reviewed: 2026-11-12
 ---
 
 ## Overview
@@ -131,9 +131,22 @@ the de facto standard, with official SDKs in many languages.
   installs a skill and CLI (no MCP needed), or add the remote MCP server
   `https://mcp.context7.com/mcp` with a bearer API key. Queries go to Upstash's hosted
   service.
+- Keep reference servers up to date. `mcp-server-git` before 2026.11.11 runs commands
+  from a repository's own `.git/config` even on read-only calls such as `git_status`
+  (High, fixed 2026-11-11). If you launch servers with `uvx`, pin
+  `mcp-server-git>=2026.11.11` so a cached old version is not reused.
 - Build a server when you want one integration usable from many AI clients.
+- Spec releases now follow a fixed six-month schedule (last Tuesday of March and
+  September; next `2027-03-30`). Test the Tier 1 SDK betas about six weeks before each
+  release.
 
 ## Current state
+
+- **2026-11-12:** Six security advisories for the reference servers (2026-11-11): a High
+  command-execution bug in `mcp-server-git`, two path escapes in the filesystem server,
+  and two low-severity bypasses in the fetch server. Upgrade to 2026.11.11 or later. The
+  MCP maintainers also moved the spec to a six-month release cycle (SEP-3398); the next
+  version is `2027-03-30`.
 
 - **2026-11-11:** Two established MCP servers are rising in GitHub trends: Scrapling
   (web scraping, 17 tools, Streamable HTTP with required bearer auth; about 101,000
@@ -195,3 +208,5 @@ the de facto standard, with official SDKs in many languages.
 - [sandbox-mcp](../../sources/2026/11/2026-11-09-sandbox-mcp-windows-sandbox.md)
 - [Scrapling: web scraping framework with an MCP server and agent skill](../../sources/2026/11/2026-11-11-scrapling-mcp-server-and-skill.md)
 - [Context7: up-to-date library docs for coding agents](../../sources/2026/11/2026-11-11-context7-docs-for-coding-agents.md)
+- [MCP reference servers 2026.11.11: security fixes](../../sources/2026/11/2026-11-12-mcp-git-filesystem-servers-security-fixes.md)
+- [A More Predictable Release Cycle for MCP](../../sources/2026/11/2026-11-12-mcp-six-month-release-cycle.md)

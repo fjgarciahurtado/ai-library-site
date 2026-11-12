@@ -2,7 +2,7 @@
 title: "Agent and LLM framework landscape"
 tags: [frameworks, agents, sdk]
 related: [agents/agent-patterns, agents/tool-use, tooling/mcp]
-last_reviewed: 2026-11-11
+last_reviewed: 2026-11-12
 ---
 
 ## Overview
@@ -118,7 +118,12 @@ now start from vendor SDKs and add a framework only when it clearly helps.
 - **Observability and evals:** Langfuse, LangSmith, Braintrust, Arize Phoenix,
   OpenTelemetry GenAI conventions.
 - **Interop standards:** [MCP](../tooling/mcp.md) for tools and data; agent-to-agent
-  protocols (such as A2A) for agents talking to each other.
+  protocols (such as A2A) for agents talking to each other; generative-UI protocols
+  such as A2UI (1.0 on 2026-11-11) for agents that answer with forms, dialogs, or charts
+  drawn from components the app has registered. A2UI has renderers for React, Angular,
+  Lit, Flutter, SwiftUI, and Jetpack Compose (still 0.9.1), plus agent SDKs for
+  TypeScript (`@a2ui/agent`), Python, and Dart; its web and Flutter renderers also work
+  inside MCP Apps.
 - **Shared direction (late 2026):** the main frameworks are converging on sandboxed code
   execution, human approval of tool calls, cancellation of long runs, and the newer MCP
   SDKs.
@@ -138,7 +143,7 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 
 | Framework | Latest stable | Date | Note |
 |---|---|---|---|
-| Microsoft Agent Framework | Python 1.23.0 / .NET 1.26.0 | 2026-10-22 / 2026-10-23 | 1.0 GA on 2026-04-03; Python 1.23 moves to MCP 2.x; .NET 1.26 has breaking AG-UI auth-scope and Docker parameter changes (checked 2026-10-26) |
+| Microsoft Agent Framework | Python 1.25.0 / .NET 1.28.0 | 2026-11-07 / 2026-11-09 | 1.0 GA on 2026-04-03; Python 1.23 moved to MCP 2.x and 1.25 adds callable MCP discovery approval policies; .NET 1.28 adds a GA computer tool (`FoundryAITool.CreateComputerTool()`); .NET 1.26 had breaking AG-UI auth-scope and Docker parameter changes (checked 2026-11-12 on GitHub) |
 | OpenAI Agents SDK (Python) | 0.24.0 | 2026-10-15 | Still 0.x; adds MCP annotations on converted tools (checked 2026-10-26) |
 | Google ADK (Python) | 2.14.0 | 2026-11-07 | Execution environments and A2A stable, multi-run evals, `ToolArgsMatcher`; breaking: enum tool args arrive as enum members (checked 2026-11-09) |
 | Pydantic AI | 2.67.0 | 2026-11-10 | Near-daily minor releases; 2.67 adds durable sub-agents and nested instruction files (checked 2026-11-11 on GitHub) |
@@ -151,6 +156,12 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 | Vercel AI SDK | 7.x | 2026-06-25 (7.0) | Latest 7.x patch not checked; date from Vercel's announcement (checked 2026-10-16) |
 
 Release features are described under Key concepts.
+
+- **2026-11-12:** A2UI 1.0 is stable (2026-11-11; see Key concepts). It adds
+  bidirectional function calls and accessibility support. No new stable releases of the
+  frameworks in the table since 2026-11-11 (checked the OpenAI Agents SDK, LangGraph,
+  Microsoft Agent Framework, and Claude Agent SDK feeds). The Microsoft Agent Framework row
+  is updated to Python 1.25.0 and .NET 1.28.0 (2026-11-07 and 2026-11-09).
 
 - **2026-11-11:** Pydantic AI 2.67.0 (2026-11-10) updated in the table: durable
   sub-agents on Temporal and DBOS, nested instruction files in `RepoContext`, and the
@@ -209,6 +220,7 @@ Release features are described under Key concepts.
 - [Pydantic AI v2.63.0](../../sources/2026/10/2026-10-28-pydantic-ai-v2-63.md)
 - [Pydantic AI v2.64.0](../../sources/2026/11/2026-11-02-pydantic-ai-v2-64.md)
 - [Pydantic AI v2.67.0](../../sources/2026/11/2026-11-11-pydantic-ai-v2-67.md)
+- [A2UI 1.0](../../sources/2026/11/2026-11-12-a2ui-1-0-generative-ui.md)
 - [Claude Agent SDK (Python) v0.2.177](../../sources/2026/11/2026-11-03-claude-agent-sdk-python-0-2-177.md)
 - [Claude Agent SDK (TypeScript) v0.3.317 and v0.3.318](../../sources/2026/11/2026-11-04-claude-agent-sdk-ts-0-3-318.md)
 - [Mistral AI Studio: managed agents and workflows](../../sources/2026/11/2026-11-06-mistral-studio-managed-agents.md)

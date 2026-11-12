@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-11-11
+last_reviewed: 2026-11-12
 ---
 
 ## Overview
@@ -209,8 +209,17 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - When the agent writes code against libraries that changed after its knowledge cutoff,
   give it current docs: Context7 (`npx ctx7 setup --claude`) installs a skill that
   fetches version-specific docs on demand (see [MCP](mcp.md)).
+- If the agent over-builds (new helpers, extra dependencies, speculative abstractions),
+  try Ponytail: `/plugin marketplace add DietrichGebert/ponytail`, then
+  `/plugin install ponytail@ponytail` (also for Codex). It makes the agent check
+  existing code, the standard library, and platform features before writing new code,
+  and adds `/ponytail-review` for diffs. Its savings figures are the author's own.
 
 ## Current state
+
+- **2026-11-12:** Ponytail added (see How to use it). No new Claude Code, Codex (only
+  0.167.2, a Vertex AI default change), or Gemini CLI feature releases since
+  2026-11-11. Update `mcp-server-git` if your agent uses it (see [MCP](mcp.md)).
 
 - **2026-11-11:** Context7 (library docs as a skill + CLI or MCP server) is rising in
   GitHub trends; see How to use it. No new Claude Code release since 2.1.322; Gemini CLI
@@ -314,3 +323,4 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [Claude Code releases 2.1.321 and 2.1.322](../../sources/2026/11/2026-11-10-claude-code-2-1-321.md)
 - [Taste Skill](../../sources/2026/11/2026-11-10-taste-skill-frontend-design.md)
 - [Context7: up-to-date library docs for coding agents](../../sources/2026/11/2026-11-11-context7-docs-for-coding-agents.md)
+- [Ponytail](../../sources/2026/11/2026-11-12-ponytail-write-less-code-plugin.md)

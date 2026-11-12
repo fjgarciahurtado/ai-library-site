@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-11-10
+last_reviewed: 2026-11-12
 ---
 
 ## Overview
@@ -124,6 +124,12 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 
 ## Current state
 
+- **2026-11-12:** Ponytail (plugin and skill that makes agents write the smallest change
+  that works, with review and audit commands) added to the library. It installs from
+  its own marketplace in Claude Code and Codex. Its star count (about 189,000, but only
+  449 watchers) looks inflated, so judge it by its `SKILL.md`. See
+  [coding agents](coding-agents.md).
+
 - **2026-11-10:** Taste Skill (about 112,600 stars, +3,700 in a week) added to the
   library; Impeccable and Humanizer keep rising. Claude Code 2.1.321 changes nested skill
   loading (see Key concepts).
@@ -170,3 +176,4 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 - [Champion Kit plugin for Claude Code](../../sources/2026/11/2026-11-06-champion-kit-plugin.md)
 - [Claude Code releases 2.1.321 and 2.1.322](../../sources/2026/11/2026-11-10-claude-code-2-1-321.md)
 - [Taste Skill](../../sources/2026/11/2026-11-10-taste-skill-frontend-design.md)
+- [Ponytail](../../sources/2026/11/2026-11-12-ponytail-write-less-code-plugin.md)

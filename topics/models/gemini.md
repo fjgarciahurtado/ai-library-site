@@ -2,7 +2,7 @@
 title: "Gemini (Google)"
 tags: [google, llm, multimodal]
 related: [models/claude, models/gpt, models/open-weight]
-last_reviewed: 2026-11-11
+last_reviewed: 2026-11-12
 ---
 
 ## Overview
@@ -126,8 +126,21 @@ model. Google also publishes the open-weight Gemma models (see
   as regular tokens at the model's price and is not on the free tier (pricing page,
   2026-11-03). Turn on `enable_prompt_injection_detection` (off by default). See
   [tool use](../agents/tool-use.md).
+- Classification, routing, and grading: use Gemini Decision 1 (`gemini-decision-1`,
+  2026-11-11) through the Decisions API instead of parsing generated text. It answers
+  yes/no (`noul`), multiple-choice (2–255 options), and rubric-score questions with
+  probabilities and a confidence value, over text, images, audio, video, or PDFs (up to
+  256K tokens and 1,000 questions per request). Price $0.10 per 1M input tokens, no
+  output charge, free tier in AI Studio. In Python:
+  `client.decisions.create(model="gemini-decision-1", ...)` on the `v1beta` API.
+  Vertex AI support is "coming soon". OpenAI's equivalent is covered in
+  [GPT](gpt.md).
 
 ## Current state
+
+- **2026-11-12:** Gemini Decision 1 and the Decisions API released (2026-11-11; see How
+  to use it). Google claims 150–250 ms latency and the lowest calibration error on its
+  own, unnamed benchmark suite.
 
 - **2026-11-11:** Gemini 4 Carbon is GA (2026-11-10) on the paid API tier at Argon's
   prices, with the same introductory rate ending 2026-11-30. Google reports first place
@@ -163,6 +176,9 @@ model. Google also publishes the open-weight Gemma models (see
   Flash is no longer on the pricing page, so 3.6 Flash pricing is likely but
   unconfirmed.
 - Nano Banana 2.1 per-image prices were not on its model page on 2026-10-07.
+- Is the Decisions API GA or preview, and what are its rate limits? The changelog
+  (2026-11-11) gives no label, the docs URL linked from the announcement returned 404 on
+  2026-11-12, and the Python example uses the `v1beta` API version.
 
 ## Sources
 
@@ -187,3 +203,4 @@ model. Google also publishes the open-weight Gemma models (see
 - [Gemini API changelog, 2026-11-05](../../sources/2026/11/2026-11-06-gemini-api-files-in-function-responses.md)
 - [Gemini Embedding 2 Preview deprecated](../../sources/2026/11/2026-11-09-gemini-embedding-2-preview-deprecation.md)
 - [Gemini 4 Carbon is now available](../../sources/2026/11/2026-11-11-gemini-4-carbon-available.md)
+- [Gemini Decisions API](../../sources/2026/11/2026-11-12-gemini-decisions-api.md)

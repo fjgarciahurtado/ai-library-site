@@ -2,7 +2,7 @@
 title: "Cost and caching"
 tags: [cost, caching, tokens]
 related: [fundamentals/tokens-and-context, models/claude, fundamentals/reasoning-models]
-last_reviewed: 2026-11-10
+last_reviewed: 2026-11-12
 ---
 
 ## Overview
@@ -71,11 +71,18 @@ Other levers:
   newer ones and bills the new model's rates (2.5 Pro to 3.8 Flash and 2.5 Flash to 3.5
   Flash-Lite from 2026-12-01). The pinned model name stays the same, but the bill and
   behaviour change.
-- **Classification-only endpoints:** for routing and yes/no checks, OpenAI's Decisions API
-  charges only for input ($0.10 per 1M tokens on `gpt-6-luna`, as of 2026-10-07) and
-  returns probabilities instead of generated text. Since GA (2026-10-22), shared input is
-  cached across requests and one request can ask up to 400 questions. Ollama's d3 models
-  (2B–27B, 2026-10-23) do the same job locally at no per-token cost.
+- **Classification-only endpoints:** for routing and yes/no checks, a decisions API
+  charges only for input and returns probabilities instead of generated text.
+  - OpenAI's Decisions API (`gpt-6-luna`, the only model): $0.10 per 1M uncached input
+    tokens, no output charge; cache reads and writes are billed at `gpt-6-luna`'s normal
+    caching rates (cache read $0.01), and long-context and regional premiums apply. Up
+    to 400 questions per request (GA guide, checked 2026-11-12).
+  - Google's Decisions API (`gemini-decision-1`, 2026-11-11): $0.10 per 1M input tokens,
+    no output or thinking charges; the shared input is billed once per request and each
+    question adds only its own tokens. Up to 1,000 questions, and it also accepts audio,
+    video, and PDFs. Google claims it is about 5x cheaper than 3.5 Flash-Lite for the
+    same checks (vendor figure).
+  - Ollama's d3 models (2B–27B, 2026-10-23) do the same job locally at no per-token cost.
 - **Watch the cache state:** the Ribbon plugin for Claude Code shows whether the prompt
   cache is warm or cold and estimates the cost of the next message, so you can send
   follow-ups before the cache expires.
@@ -128,7 +135,8 @@ on the date shown; prices change often, so recheck before relying on them.
 | GPT-6 Astra | $10 / $1.00 / $50 | Above 272K input: input 2x, output 1.5x (all GPT-6). Fast $20 / $2 / $100; Ultrafast $60 / $6 / $300; Batch and Flex $5 / $0.50 / $25 | 2026-10-21 |
 | GPT-6.1 Sol | $2 / $0.10 / $10 | Fast $4 / $0.20 / $20; Ultrafast $12 / $0.60 / $60; Batch and Flex $1 / $0.05 / $5 | 2026-10-21 |
 | Kimi K3.1 Pro (Moonshot) | $2 / not checked / $10 | From Simon Willison's post, not Moonshot's pricing page. Highspeed variant costs 2x; cached input costs the same | 2026-10-23 |
-| GPT-6 Luna | $0.10 / $0.01 / $0.50 | Decisions API: $0.10 input only | 2026-10-07 |
+| GPT-6 Luna | $0.10 / $0.01 / $0.50 | Decisions API: $0.10 uncached input, normal cache rates, no output charge | 2026-11-12 |
+| Gemini Decision 1 | $0.10 / not listed / none | Decisions API only; input billed once per request | 2026-11-12 |
 | Gemini 4 Argon | $2 / $0.10 / $10 | Introductory; $4 / $20 after 2026-11-30 (same as Opus 5.5). Cached price applies to implicit cache hits only. 1M shared input-output limit | 2026-10-15 |
 | Gemini 3.1 Pro Preview | $2.00 / $0.20 / $12.00 | Above 200K: $4.00 / $0.40 / $18.00 | 2026-10-07 |
 | Gemini 2.5 Pro | $1.25 / $0.125 / $10.00 | Above 200K: $2.50 / $0.25 / $15.00. Deprecated 2026-11-02; from 2026-12-01 routed to and billed as 3.8 Flash | 2026-10-07 |
@@ -147,6 +155,10 @@ legacy, costs $1 / $5.
 
 ## Current state
 
+- **2026-11-12:** Google launched its own Decisions API (Gemini Decision 1, 2026-11-11)
+  at the same $0.10 input-only price as OpenAI's. OpenAI's GA pricing is now confirmed
+  from its guide (see Key concepts).
+
 - **2026-11-10:** Claude Fable 5.2 (2026-11-09) costs 20% less than Fable 5.1 ($8 / $40).
   Anthropic says it matches Opus 5.5's best FrontierCode score at `high` effort for about
   half the cost per task (vendor figure); worth testing before defaulting to Opus.
@@ -163,8 +175,10 @@ legacy, costs $1 / $5.
 
 ## Open questions
 
-- OpenAI Decisions API GA pricing (2026-10-22): still unchecked, because the
-  announcement returns 403. The $0.10 input price in the table is from the pre-GA guide.
+- OpenAI Decisions API GA pricing: answered 2026-11-12 from the GA guide ($0.10 per 1M
+  uncached input, cache hits at `gpt-6-luna`'s caching rates, cache writes charged, no
+  output charge). The guide does not give a separate cached rate, so the $0.01 figure is
+  taken from `gpt-6-luna`'s standard cache-read price.
 - OpenAI Ultrafast prices: answered 2026-10-21 (6x Standard). Still unknown: how much
   faster it is. OpenAI gives no tokens-per-second figure.
 
@@ -198,3 +212,4 @@ legacy, costs $1 / $5.
 - [Claude API message threads (beta)](../../sources/2026/11/2026-11-03-claude-message-threads-beta.md)
 - [Gemini API changelog: Gemini 2.5 Pro and 2.5 Flash deprecated](../../sources/2026/11/2026-11-03-gemini-2-5-pro-flash-deprecation.md)
 - [Introducing Claude Fable 5.2 and Claude Mythos 5.2](../../sources/2026/11/2026-11-10-claude-fable-mythos-5-2.md)
+- [Gemini Decisions API](../../sources/2026/11/2026-11-12-gemini-decisions-api.md)
