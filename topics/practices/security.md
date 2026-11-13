@@ -2,7 +2,7 @@
 title: "Security for LLM apps and agents"
 tags: [security, safety, agents, mcp]
 related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
-last_reviewed: 2026-11-12
+last_reviewed: 2026-11-13
 ---
 
 ## Overview
@@ -175,6 +175,15 @@ to limit what the agent can do if it is fooled.
 
 ## Current state
 
+- **2026-11-13:** Claude Code 2.1.323 (2026-11-12) fixes another batch of permission
+  gaps: wildcard allow rules such as `Bash(ls*)` could skip prompts, deny rules missed
+  commands run through `sudo` or `env`, Write and Edit could write to paths under a `Read`
+  deny rule, the sandbox could switch off mid-session, and `--permission-mode auto` could
+  start in a looser mode when auto mode was unavailable (now Manual). It warns at startup
+  about allow rules with `*` in a variable value, stops saving "don't ask again" rules
+  that look like secrets, and runs its own git and ripgrep without most of its tokens.
+  Update, and review any wildcard Bash allow rules.
+
 - **2026-11-12:** The MCP reference servers published six advisories on 2026-11-11 and
   fixed them in 2026.11.11: arbitrary command execution through repository Git config
   in `mcp-server-git` (High), a `--repository` confinement bypass, two path escapes in
@@ -239,3 +248,4 @@ to limit what the agent can do if it is fooled.
 - [sandbox-mcp](../../sources/2026/11/2026-11-09-sandbox-mcp-windows-sandbox.md)
 - [Claude Code releases 2.1.321 and 2.1.322](../../sources/2026/11/2026-11-10-claude-code-2-1-321.md)
 - [MCP reference servers 2026.11.11: security fixes](../../sources/2026/11/2026-11-12-mcp-git-filesystem-servers-security-fixes.md)
+- [Claude Code release 2.1.323](../../sources/2026/11/2026-11-13-claude-code-2-1-323.md)

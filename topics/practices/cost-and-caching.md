@@ -2,7 +2,7 @@
 title: "Cost and caching"
 tags: [cost, caching, tokens]
 related: [fundamentals/tokens-and-context, models/claude, fundamentals/reasoning-models]
-last_reviewed: 2026-11-12
+last_reviewed: 2026-11-13
 ---
 
 ## Overview
@@ -138,6 +138,7 @@ on the date shown; prices change often, so recheck before relying on them.
 | GPT-6 Luna | $0.10 / $0.01 / $0.50 | Decisions API: $0.10 uncached input, normal cache rates, no output charge | 2026-11-12 |
 | Gemini Decision 1 | $0.10 / not listed / none | Decisions API only; input billed once per request | 2026-11-12 |
 | Gemini 4 Argon | $2 / $0.10 / $10 | Introductory; $4 / $20 after 2026-11-30 (same as Opus 5.5). Cached price applies to implicit cache hits only. 1M shared input-output limit | 2026-10-15 |
+| Gemini 4 Hydrogen | $1.50 / $0.075 / $7.50 | Flat across the 1M context; free tier too. Cheapest Gemini 4 model; replaces 3.8 Flash for most work | 2026-11-13 |
 | Gemini 3.1 Pro Preview | $2.00 / $0.20 / $12.00 | Above 200K: $4.00 / $0.40 / $18.00 | 2026-10-07 |
 | Gemini 2.5 Pro | $1.25 / $0.125 / $10.00 | Above 200K: $2.50 / $0.25 / $15.00. Deprecated 2026-11-02; from 2026-12-01 routed to and billed as 3.8 Flash | 2026-10-07 |
 | Gemini 3.8 Flash | $0.75 / $0.075 / $3.75 | Doubles to $1.50 / $0.15 / $7.50 on 2027-01-01; cache storage $0.50 per 1M per hour (rising to $1.00) | 2026-10-06 |
@@ -154,6 +155,11 @@ DeepSeek peak hours are 01:00–04:00 and 06:00–10:00 UTC on weekdays. Haiku 4
 legacy, costs $1 / $5.
 
 ## Current state
+
+- **2026-11-13:** Gemini 4 Hydrogen (GA 2026-11-12) costs $1.50 / $7.50, double 3.8
+  Flash's current price but the same as 3.8 Flash after its 2027-01-01 increase, and
+  about 75% below Carbon and Argon once they double on 2026-12-01. Google reports that
+  pairing Carbon with Hydrogen workers used about 24% less quota than Carbon alone.
 
 - **2026-11-12:** Google launched its own Decisions API (Gemini Decision 1, 2026-11-11)
   at the same $0.10 input-only price as OpenAI's. OpenAI's GA pricing is now confirmed
@@ -212,4 +218,4 @@ legacy, costs $1 / $5.
 - [Claude API message threads (beta)](../../sources/2026/11/2026-11-03-claude-message-threads-beta.md)
 - [Gemini API changelog: Gemini 2.5 Pro and 2.5 Flash deprecated](../../sources/2026/11/2026-11-03-gemini-2-5-pro-flash-deprecation.md)
 - [Introducing Claude Fable 5.2 and Claude Mythos 5.2](../../sources/2026/11/2026-11-10-claude-fable-mythos-5-2.md)
-- [Gemini Decisions API](../../sources/2026/11/2026-11-12-gemini-decisions-api.md)
+- [Gemini Decisions API](../../sources/2026/11/2026-11-12-gemini-decisions-api.md)- [Introducing Gemini 4 Hydrogen](../../sources/2026/11/2026-11-13-gemini-4-hydrogen.md)

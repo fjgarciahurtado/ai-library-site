@@ -16,9 +16,9 @@ Long-lived knowledge pages, kept current. Each page cites the source notes it dr
 
 ## Models
 
-- [Claude (Anthropic)](models/claude.md) (reviewed 2026-11-11)
+- [Claude (Anthropic)](models/claude.md) (reviewed 2026-11-13)
 - [GPT (OpenAI)](models/gpt.md) (reviewed 2026-11-08)
-- [Gemini (Google)](models/gemini.md) (reviewed 2026-11-12)
+- [Gemini (Google)](models/gemini.md) (reviewed 2026-11-13)
 - [Open-weight models](models/open-weight.md) (reviewed 2026-11-11)
 
 ## Agents
@@ -29,17 +29,17 @@ Long-lived knowledge pages, kept current. Each page cites the source notes it dr
 
 ## Tooling
 
-- [Agent skills](tooling/skills.md) (reviewed 2026-11-12)
-- [Coding agents](tooling/coding-agents.md) (reviewed 2026-11-12)
-- [Model Context Protocol (MCP)](tooling/mcp.md) (reviewed 2026-11-12)
+- [Agent skills](tooling/skills.md) (reviewed 2026-11-13)
+- [Coding agents](tooling/coding-agents.md) (reviewed 2026-11-13)
+- [Model Context Protocol (MCP)](tooling/mcp.md) (reviewed 2026-11-13)
 
 ## Frameworks
 
-- [Agent and LLM framework landscape](frameworks/landscape.md) (reviewed 2026-11-12)
+- [Agent and LLM framework landscape](frameworks/landscape.md) (reviewed 2026-11-13)
 
 ## Practices
 
-- [Cost and caching](practices/cost-and-caching.md) (reviewed 2026-11-12)
+- [Cost and caching](practices/cost-and-caching.md) (reviewed 2026-11-13)
 - [Evaluating LLM applications](practices/evals.md) (reviewed 2026-11-09)
 - [Prompting and context engineering](practices/prompting.md) (reviewed 2026-11-09)
-- [Security for LLM apps and agents](practices/security.md) (reviewed 2026-11-12)
+- [Security for LLM apps and agents](practices/security.md) (reviewed 2026-11-13)

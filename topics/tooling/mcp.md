@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-11-12
+last_reviewed: 2026-11-13
 ---
 
 ## Overview
@@ -35,6 +35,13 @@ the de facto standard, with official SDKs in many languages.
   as a task to the background at once and report the result when it finishes, so the
   agent keeps working. In the SDK this needs `CLAUDE_AUTO_BACKGROUND_TASKS=1` and
   streaming input.
+- **Files (experimental):** the proposed `io.modelcontextprotocol/files` extension
+  (blog post 2026-11-10) moves file bytes outside the model. A tool argument marked
+  `x-mcp-file` gets only metadata; the server answers `upload_required` with HTTPS upload
+  targets and a `requestState`, the client uploads and retries the call; downloads come as
+  targets in the result's `_meta`, checked by size and SHA-256 digest. Credentials go only
+  to the server's own origin. No reference implementation or SDK support yet; the
+  maintainers aim to stabilise it by the end of 2026.
 - **MCP Apps:** servers can render interactive HTML UIs in a sandboxed iframe. Since VS
   Code 1.145 (2026-11-04), MCP apps can also register tools the model can call.
 - **Declaring servers as dependencies:** Microsoft's APM lists MCP servers by registry
@@ -142,6 +149,11 @@ the de facto standard, with official SDKs in many languages.
 
 ## Current state
 
+- **2026-11-13:** The maintainers published a draft file upload and download extension
+  (2026-11-10; see Key concepts). Claude Code 2.1.323 now asks you to confirm before
+  Claude finishes an MCP server sign-in, even in auto and bypass modes, and project
+  `.mcp.json` approvals must match the server's exact name.
+
 - **2026-11-12:** Six security advisories for the reference servers (2026-11-11): a High
   command-execution bug in `mcp-server-git`, two path escapes in the filesystem server,
   and two low-severity bypasses in the fetch server. Upgrade to 2026.11.11 or later. The
@@ -210,3 +222,4 @@ the de facto standard, with official SDKs in many languages.
 - [Context7: up-to-date library docs for coding agents](../../sources/2026/11/2026-11-11-context7-docs-for-coding-agents.md)
 - [MCP reference servers 2026.11.11: security fixes](../../sources/2026/11/2026-11-12-mcp-git-filesystem-servers-security-fixes.md)
 - [A More Predictable Release Cycle for MCP](../../sources/2026/11/2026-11-12-mcp-six-month-release-cycle.md)
+- [Exploring File Uploads and Downloads in MCP](../../sources/2026/11/2026-11-13-mcp-file-uploads-extension.md)

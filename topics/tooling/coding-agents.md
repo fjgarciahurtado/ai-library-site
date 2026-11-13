@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-11-12
+last_reviewed: 2026-11-13
 ---
 
 ## Overview
@@ -68,7 +68,13 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   cover the Monitor tool's commands. Subagents take an `effort` parameter (2.1.292), can
   use MCP servers that connect late (2.1.311), and fork subagents are on by default in
   `claude -p`, the Agent SDK, desktop, and VS Code (2.1.302), where subagents always run
-  in the background.
+  in the background. Since 2.1.323 (2026-11-12), long-running hooks send a progress
+  heartbeat every 30 seconds in `claude -p` and SDK sessions, and plugins can declare
+  supported versions with `engines["claude-code"]` in `plugin.json`.
+- **Code Mode:** Claude Code 2.1.323 adds an experimental opt-in mode in which Claude
+  writes JavaScript that calls its tools, instead of one tool call per model turn, so
+  intermediate results need not pass through the context. The linked docs page
+  (`code.claude.com/docs/en/code-mode`) returned 404 on 2026-11-13; see Open questions.
 - **Effort:** in Claude Code, typing `ultrathink` runs that one turn at `xhigh` effort on
   the 5.5-generation models and Fable 5.1 (2.1.311, 2026-10-26;
   `CLAUDE_CODE_DISABLE_ULTRATHINK=1` turns it off since 2.1.316); cloud routines have an
@@ -137,7 +143,10 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   `xcrun agent plugin path`. For websites, Taste Skill (MIT, 2026-11) makes the agent
   choose a palette, fonts, and layout for the client's business and checks the page in
   headless Chrome before handover (`/plugin marketplace add Leonxlnx/taste-skill`, then
-  `/plugin install taste-skill@taste-skill`; see [skills](skills.md)).
+  `/plugin install taste-skill@taste-skill`; see [skills](skills.md)). To watch a
+  session, lot-map (MIT, 2026-11) draws a live map of tool calls, model steps, hooks,
+  skills, and subagents beside the chat (`claude plugin marketplace add alexeyw/lot-map`,
+  then `claude plugin install lot-map@lot-map`; `/lot-map` opens it in narrow terminals).
 - **Comparing models on one task:** VS Code 1.143 (2026-10-22) has this built in as a
   preview (`sessions.chat.compareAgents.enabled`). Each model works in its own session,
   and a judge model can pick the best result or **Synthesize** a merge. Before, people
@@ -173,7 +182,10 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   experimental desktop computer use (`chat.agentHost.computerUse.enabled`, then
   `/computer on`). Codex CLI has a similar command center: `codex agents` (with
   `--no-daemon` since 0.167.0, 2026-11-06), `codex queue --resume` (0.166), unread
-  markers, and backend switching in the session picker.
+  markers, and backend switching in the session picker. Codex 0.168.0 (2026-11-13) adds
+  side conversations in a pane beside the main chat (`features.tui_workspace`), a model
+  provider browser (Sessions → Model providers), audio attachments, and OSC 777 terminal
+  notifications (`tui.notification_method = "osc777"`).
 - **SDKs:** for example the Claude Agent SDK packages the Claude Code harness as a
   library for building your own agents. The GitHub Copilot SDK is being renamed the
   Microsoft Copilot SDK (2026-10-28).
@@ -217,6 +229,13 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
+- **2026-11-13:** Claude Code 2.1.323 (2026-11-12) adds experimental, opt-in Code Mode,
+  where Claude writes JavaScript to call its tools (see Extensibility), plugin version
+  ranges, hook heartbeats in headless runs, and many permission fixes (see
+  [security](../practices/security.md)). Codex CLI 0.168.0 (2026-11-13) adds side
+  conversations and a model provider browser. lot-map is a new plugin that shows a live
+  map of a session (see Add-ons).
+
 - **2026-11-12:** Ponytail added (see How to use it). No new Claude Code, Codex (only
   0.167.2, a Vertex AI default change), or Gemini CLI feature releases since
   2026-11-11. Update `mcp-server-git` if your agent uses it (see [MCP](mcp.md)).
@@ -258,6 +277,10 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   (see [memory](../agents/memory.md)).
 
 ## Open questions
+
+- How is Claude Code's Code Mode (2.1.323) turned on, which tools does it cover, and how
+  much does it save? The release notes link to `code.claude.com/docs/en/code-mode`, which
+  returned 404 on 2026-11-13.
 
 - Which Xcode version first ships `xcrun agent plugin path`, needed by Apple's `xcode`
   Claude Code plugin? Neither the PR nor the marketplace entry says (checked 2026-11-06).
@@ -324,3 +347,6 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [Taste Skill](../../sources/2026/11/2026-11-10-taste-skill-frontend-design.md)
 - [Context7: up-to-date library docs for coding agents](../../sources/2026/11/2026-11-11-context7-docs-for-coding-agents.md)
 - [Ponytail](../../sources/2026/11/2026-11-12-ponytail-write-less-code-plugin.md)
+- [Claude Code release 2.1.323](../../sources/2026/11/2026-11-13-claude-code-2-1-323.md)
+- [lot-map](../../sources/2026/11/2026-11-13-lot-map-claude-code-plugin.md)
+- [Codex CLI 0.168.0](../../sources/2026/11/2026-11-13-codex-cli-0-168.md)

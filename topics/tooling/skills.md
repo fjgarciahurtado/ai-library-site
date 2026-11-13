@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-11-12
+last_reviewed: 2026-11-13
 ---
 
 ## Overview
@@ -124,6 +124,13 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 
 ## Current state
 
+- **2026-11-13:** Claude Code 2.1.323 (2026-11-12) lets a plugin declare the Claude Code
+  versions it supports with `engines["claude-code"]` in `plugin.json`; outside that
+  range it is not installed, updated, or loaded, and install picks the newest fitting
+  version. `claude plugin validate` now type-checks TypeScript hook modules (`--strict`
+  fails on findings), and a plugin's `agent` setting is deprecated. Plugin and skill
+  authors should add an `engines` range when they rely on recent hook or mod features.
+
 - **2026-11-12:** Ponytail (plugin and skill that makes agents write the smallest change
   that works, with review and audit commands) added to the library. It installs from
   its own marketplace in Claude Code and Codex. Its star count (about 189,000, but only
@@ -177,3 +184,4 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 - [Claude Code releases 2.1.321 and 2.1.322](../../sources/2026/11/2026-11-10-claude-code-2-1-321.md)
 - [Taste Skill](../../sources/2026/11/2026-11-10-taste-skill-frontend-design.md)
 - [Ponytail](../../sources/2026/11/2026-11-12-ponytail-write-less-code-plugin.md)
+- [Claude Code release 2.1.323](../../sources/2026/11/2026-11-13-claude-code-2-1-323.md)

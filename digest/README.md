@@ -15,6 +15,7 @@
 
 What was added each day, newest first.
 
+- [2026-11-13](2026/11/2026-11-13.md): 6 new sources
 - [2026-11-12](2026/11/2026-11-12.md): 5 new sources
 - [2026-11-11](2026/11/2026-11-11.md): 5 new sources
 - [2026-11-10](2026/11/2026-11-10.md): 4 new sources

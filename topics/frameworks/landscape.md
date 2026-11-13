@@ -2,7 +2,7 @@
 title: "Agent and LLM framework landscape"
 tags: [frameworks, agents, sdk]
 related: [agents/agent-patterns, agents/tool-use, tooling/mcp]
-last_reviewed: 2026-11-12
+last_reviewed: 2026-11-13
 ---
 
 ## Overview
@@ -16,7 +16,10 @@ now start from vendor SDKs and add a framework only when it clearly helps.
 
 - **Vendor SDKs and agent kits:**
   - Anthropic SDKs (with tool runner) and the Claude Agent SDK (the Claude Code harness
-    as a library), plus Managed Agents for hosted agents. New SDK majors on 2026-10-21
+    as a library), plus Managed Agents for hosted agents. Since 2026-11-12 Managed
+    Agents can also be fully self-hosted (server, PostgreSQL storage, and sandboxes on
+    your infrastructure, inference via the Claude API, Bedrock, Google Cloud, Foundry,
+    or your own gateway; access by request; see [Claude](../models/claude.md)). New SDK majors on 2026-10-21
     (Python 2.0, TypeScript 1.0, Go 2.0, Java 3.0, and others) target API version
     `2026-10-21`, drop sampling parameters and Text Completions, send keys as
     `Authorization: Bearer`, and move from MIT to Apache 2.0 (see
@@ -157,6 +160,11 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 
 Release features are described under Key concepts.
 
+- **2026-11-13:** Self-hosted Claude Managed Agents (2026-11-12) lets you run the whole
+  Managed Agents service yourself, with the same API, so the SDKs and `ant` CLI work
+  unchanged. Claude Agent SDK (Python) 0.2.181 and LangGraph 1.2.21 (both 2026-11-12)
+  have no new features.
+
 - **2026-11-12:** A2UI 1.0 is stable (2026-11-11; see Key concepts). It adds
   bidirectional function calls and accessibility support. No new stable releases of the
   frameworks in the table since 2026-11-11 (checked the OpenAI Agents SDK, LangGraph,
@@ -226,3 +234,4 @@ Release features are described under Key concepts.
 - [Mistral AI Studio: managed agents and workflows](../../sources/2026/11/2026-11-06-mistral-studio-managed-agents.md)
 - [Claude Agent SDK (TypeScript) v0.3.319](../../sources/2026/11/2026-11-09-claude-agent-sdk-ts-0-3-319.md)
 - [Google ADK (Python) v2.14.0](../../sources/2026/11/2026-11-09-google-adk-python-v2-14.md)
+- [Self-hosted Claude Managed Agents](../../sources/2026/11/2026-11-13-self-hosted-claude-managed-agents.md)

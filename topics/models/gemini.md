@@ -2,7 +2,7 @@
 title: "Gemini (Google)"
 tags: [google, llm, multimodal]
 related: [models/claude, models/gpt, models/open-weight]
-last_reviewed: 2026-11-12
+last_reviewed: 2026-11-13
 ---
 
 ## Overview
@@ -11,7 +11,7 @@ Gemini is Google DeepMind's model family, used in the Gemini app, Google product
 through the Gemini API and Vertex AI. Gemini is natively multimodal (text, images, audio,
 video) and known for long context. Its most capable model is Gemini 4 Carbon (GA since
 2026-11-10); Gemini 4 Argon (public since 2026-10-13) remains the recommended everyday
-model. Google also publishes the open-weight Gemma models (see
+model, and Gemini 4 Hydrogen (GA 2026-11-12) is the cheap, fast model of the family. Google also publishes the open-weight Gemma models (see
 [open-weight models](open-weight.md)).
 
 ## Key concepts
@@ -21,7 +21,7 @@ model. Google also publishes the open-weight Gemma models (see
 - **Gemma:** Google's open-weight family, separate from Gemini. A fine-tuned Gemma
   powers an on-device scam detector built with Singapore's government (2026-10-14, not
   released; see [open-weight models](open-weight.md)).
-- **Current lineup (as of 2026-11-11):**
+- **Current lineup (as of 2026-11-13):**
   - *Gemini 4 Carbon* (`gemini-4-carbon`, Stable, GA 2026-11-10) is the strongest model,
     for long multi-step coding, debugging, and research. It uses more tokens than Argon
     to explore and verify, so Google still recommends Argon for most everyday work.
@@ -35,7 +35,15 @@ model. Google also publishes the open-weight Gemma models (see
     benchmark and a 0.8% per-attempt breach rate against an adaptive red-team agent
     (Argon 3.1%).
   - *Gemini 4 Argon* (`gemini-4-argon`) is the everyday frontier model (see below).
-  - *Gemini 3.8 Flash* (GA 2026-09-02) is the newest generally available Flash model,
+  - *Gemini 4 Hydrogen* (`gemini-4-hydrogen`, GA 2026-11-12) is the lowest-cost Gemini 4
+    model, built for fast execution: 1M input and up to 1M output tokens, thinking
+    levels low/medium/high (default) plus a new `xhigh`, free tier included. Google
+    positions it as the upgrade from 3.8 Flash (about 2.5x faster, Terminal-Bench 4.1 57%
+    vs 18.2%, over 5x fewer fabricated claims) and as a worker or verifier under Carbon;
+    in Antigravity's Orchestrator, mixing Carbon and Hydrogen came close to Carbon alone
+    with about 24% less quota (Google's figures). It is the default model of the
+    Antigravity agent in Gemini Managed Agents. No "Flash" name is used for Gemini 4.
+  - *Gemini 3.8 Flash* (GA 2026-09-02) was the newest Flash model before Hydrogen,
     aimed at long-horizon coding, agents, and enterprise workflows: 1M input and 64K
     output tokens, text, image, video, audio, and PDF input, thinking levels, and
     computer use (GA since 2026-10-30).
@@ -96,7 +104,8 @@ model. Google also publishes the open-weight Gemma models (see
 - Use Gemini for heavy video and audio input, where it has long been strong.
 - Prices per 1M tokens (input / output, paid tier, as of 2026-10-07; Argon as of
   2026-10-14; Carbon as of 2026-11-10): 4 Carbon and 4 Argon both $2 / $10 until
-  2026-11-30, then $4 / $20; 3.8 Flash
+  2026-11-30, then $4 / $20; 4 Hydrogen $1.50 / $7.50 ($0.075 cached input, flat
+  across the context window, as of 2026-11-12); 3.8 Flash
   $0.75 / $3.75 (doubling on 2027-01-01; 3.7 Flash was priced the same), 3.5 Flash
   $1.50 / $9.00 (deprecated; no longer on the pricing page on 2026-11-03), 3.1 Pro
   Preview $2 / $12 ($4 / $18 above 200K), 2.5 Pro $1.25 / $10 (until it is routed to
@@ -138,6 +147,11 @@ model. Google also publishes the open-weight Gemma models (see
 
 ## Current state
 
+- **2026-11-13:** Gemini 4 Hydrogen is GA (2026-11-12) at $1.50 / $7.50, about 25%
+  below Carbon and Argon now and about 75% below them after their 2026-12-01 price rise.
+  It answers the open question about smaller Gemini 4 models: Google ships one cheap
+  model rather than separate Flash and Flash-Lite tiers (so far).
+
 - **2026-11-12:** Gemini Decision 1 and the Decisions API released (2026-11-11; see How
   to use it). Google claims 150–250 ms latency and the lowest calibration error on its
   own, unnamed benchmark suite.
@@ -163,8 +177,9 @@ model. Google also publishes the open-weight Gemma models (see
 
 ## Open questions
 
-- Smaller Gemini 4 models (Flash, Flash-Lite) have not been announced (checked
-  2026-10-15; the Carbon launch on 2026-11-10 did not mention any).
+- Smaller Gemini 4 models: answered 2026-11-13. Gemini 4 Hydrogen (2026-11-12) is the
+  small, cheap Gemini 4 model. Still open: whether a Flash-Lite-class model will follow,
+  and whether Hydrogen is on Vertex AI (the announcement does not say).
 - Gemini 4 Carbon's availability on Gemini Enterprise Agent Platform (Vertex AI) and in
   Gemini CLI is not stated in the launch posts (checked 2026-11-11).
 - Computer Use GA (2026-10-30): pricing answered on 2026-11-03 (regular tokens at the
@@ -204,3 +219,4 @@ model. Google also publishes the open-weight Gemma models (see
 - [Gemini Embedding 2 Preview deprecated](../../sources/2026/11/2026-11-09-gemini-embedding-2-preview-deprecation.md)
 - [Gemini 4 Carbon is now available](../../sources/2026/11/2026-11-11-gemini-4-carbon-available.md)
 - [Gemini Decisions API](../../sources/2026/11/2026-11-12-gemini-decisions-api.md)
+- [Introducing Gemini 4 Hydrogen](../../sources/2026/11/2026-11-13-gemini-4-hydrogen.md)

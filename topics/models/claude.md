@@ -2,7 +2,7 @@
 title: "Claude (Anthropic)"
 tags: [anthropic, llm, reasoning, cost]
 related: [models/gpt, models/gemini, tooling/skills, tooling/mcp, tooling/coding-agents]
-last_reviewed: 2026-11-11
+last_reviewed: 2026-11-13
 ---
 
 ## Overview
@@ -50,8 +50,11 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 - **Batch API:** asynchronous processing at about half price.
 - **Structured outputs:** JSON responses guaranteed to match a schema.
 - **Agent features:** [Skills](../tooling/skills.md), an [MCP](../tooling/mcp.md)
-  connector, memory tool, compaction, and Managed Agents (Anthropic-hosted agent loop
-  and sandbox). Anthropic donated the Agent Skills standard to the Agentic AI Foundation
+  connector, memory tool, compaction, and Managed Agents (an agent loop and sandbox that
+  Anthropic hosts; sandboxes can be self-hosted, and since 2026-11-12 the whole service
+  can be too, on request: `cma-server` with PostgreSQL 16+, workers in your sandboxes,
+  and model calls to the Claude API, Bedrock, Claude on Google Cloud, Foundry, or your
+  own gateway). Anthropic donated the Agent Skills standard to the Agentic AI Foundation
   on 2026-10-22.
 - **Platform governance:** inference hooks (GA for Claude Enterprise since 2026-10-20)
   allow or deny every governed prompt server-side (see
@@ -174,6 +177,12 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 
 ## Current state
 
+- **2026-11-13:** Self-hosted Claude Managed Agents launched (2026-11-12): you host the
+  service, its database, and the sandboxes, and choose the inference provider. Access is
+  through the Anthropic account team; some hosted-only features are missing (see the
+  docs' "differences" page). Claude Code 2.1.323 adds an experimental Code Mode (see
+  [coding agents](../tooling/coding-agents.md)).
+
 - **2026-11-11:** The models overview confirms a June 2026 knowledge cutoff for Fable
   5.2 and recommends Opus 5.5 as the default starting model, with Fable 5.2 for
   demanding reasoning and long-horizon agent work. Haiku 4.5 is still Active with no
@@ -241,3 +250,4 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 - [Claude text watermark](../../sources/2026/11/2026-11-04-claude-text-watermark.md)
 - [Introducing Claude Fable 5.2 and Claude Mythos 5.2](../../sources/2026/11/2026-11-10-claude-fable-mythos-5-2.md)
 - [How Claude marks AI-generated content](../../sources/2026/11/2026-11-10-claude-marks-ai-generated-content.md)
+- [Self-hosted Claude Managed Agents](../../sources/2026/11/2026-11-13-self-hosted-claude-managed-agents.md)
