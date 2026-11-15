@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-11-13
+last_reviewed: 2026-11-15
 ---
 
 ## Overview
@@ -138,16 +138,8 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
   [coding agents](coding-agents.md).
 
 - **2026-11-10:** Taste Skill (about 112,600 stars, +3,700 in a week) added to the
-  library; Impeccable and Humanizer keep rising. Claude Code 2.1.321 changes nested skill
-  loading (see Key concepts).
-- **2026-11-04:** Rising in GitHub trends: Impeccable (about 10,900 stars in a week,
-  101,700 total) and Humanizer (about 2,900 in a week, 64,500 total).
-- **2026-11-03:** Google's EGM plugin is rising fast (about 8,900 stars in its first
-  week), with experimental Cursor, Copilot CLI, and opencode support.
-- **2026-10-29:** addyosmani/agent-skills (about 111,500 stars) and Archify keep rising
-  in GitHub trends.
-- **2026-10-22:** The AAIF's planned versioned spec releases, proposal process, and
-  security guidance have no dates yet (see Open questions).
+  library; Impeccable (about 101,700 stars on 2026-11-04) and Humanizer (about 64,500)
+  keep rising. Claude Code 2.1.321 changes nested skill loading (see Key concepts).
 
 ## Open questions
 

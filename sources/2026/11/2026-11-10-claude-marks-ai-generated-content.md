@@ -1,6 +1,6 @@
 ---
 title: "How Claude marks AI-generated content (Help Center)"
-url: https://support.claude.com/en/articles/16266773-how-claude-labels-ai-generated-content
+url: https://support.claude.com/en/articles/16266773-how-claude-marks-ai-generated-content
 archived:
 type: docs
 author: Anthropic

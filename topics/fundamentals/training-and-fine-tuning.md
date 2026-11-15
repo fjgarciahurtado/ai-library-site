@@ -2,7 +2,7 @@
 title: "Training and fine-tuning"
 tags: [training, fine-tuning, llm]
 related: [fundamentals/llms, fundamentals/reasoning-models, models/open-weight]
-last_reviewed: 2026-10-15
+last_reviewed: 2026-11-15
 ---
 
 ## Overview
@@ -24,11 +24,13 @@ trained model further for a specific task, style, or domain.
   reward model or RL loop.
 - **RL with verifiable rewards:** reinforcement learning on tasks with checkable answers
   (maths, code tests). The main driver of [reasoning models](reasoning-models.md).
-- **Distillation:** training a smaller model to imitate a larger one.
+- **Distillation:** training a smaller model to imitate a larger one. OpenAI's gpt-oss
+  models were trained with large-scale distillation plus RL.
 - **LoRA / QLoRA:** parameter-efficient fine-tuning that trains small adapter matrices
   (QLoRA on a quantised base), so fine-tuning fits on one GPU.
 - **Quantisation:** storing weights in fewer bits (8, 4, or less) to cut memory and cost,
-  with some quality loss.
+  with some quality loss. Post-training in low precision limits that loss: gpt-oss's MoE
+  weights were post-trained in MXFP4 (4-bit), so the 117B model fits one 80 GB GPU.
 
 ## How to use it
 
@@ -57,8 +59,12 @@ scam detector (fine-tuned Gemma, announced 2026-10-14) is an example.
   Intelligence opened a waitlisted API beta to fine-tune its robot foundation models on
   customers' own demonstration data and serve them through hosted inference (no prices
   published).
-- **2026-10-04:** Most capability gains now come from post-training, especially RL on
+- **2026-11-15:** Most capability gains now come from post-training, especially RL on
   verifiable tasks and agentic environments, rather than from pre-training scale alone.
+  Open labs now ship post-training-only updates: GLM-5.3 (August 2026) is on the same
+  base as GLM-5.2 with all gains from post-training, and DeepSeek-V4.1-Flash-1017
+  (2026-10-17) added RL "from self-feedback" on end-to-end project building, raising its
+  Terminal-Bench 4.0 score from 31.2 to 42.3 (DeepSeek's figures).
 
 ## Open questions
 
@@ -70,3 +76,6 @@ scam detector (fine-tuned Gemma, announced 2026-10-14) is an example.
 - [LoRA](../../sources/2026/10/2026-10-04-lora-low-rank-adaptation.md)
 - [Physical Intelligence API Beta](../../sources/2026/10/2026-10-14-physical-intelligence-api-beta.md)
 - [On-device scam detection with a fine-tuned Gemma](../../sources/2026/10/2026-10-15-gemma-on-device-scam-detection.md)
+- [gpt-oss model card](../../sources/2026/10/2026-10-19-gpt-oss-model-card.md)
+- [DeepSeek-V4.1-Flash-1017](../../sources/2026/10/2026-10-19-deepseek-v4-1-flash-1017.md)
+- [GLM-5.3 model card](../../sources/2026/10/2026-10-28-glm-5-3-model-card.md)

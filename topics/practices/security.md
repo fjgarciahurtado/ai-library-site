@@ -2,7 +2,7 @@
 title: "Security for LLM apps and agents"
 tags: [security, safety, agents, mcp]
 related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
-last_reviewed: 2026-11-13
+last_reviewed: 2026-11-15
 ---
 
 ## Overview
@@ -200,11 +200,8 @@ to limit what the agent can do if it is fooled.
 - **2026-11-09:** Claude Code 2.1.319 fixes several permission and sandbox bypasses (see
   How to use it). Self-hosted runners started with `--trust-workspace false` now also
   block repository hooks and skills.
-- **2026-11-05:** The Claude Console IP allowlist and the Admin API sign-out call are in
-  beta (see How to use it). OpenAI's `gpt-6-cyber` is new and gated by Daybreak Red
-  approval (see Key concepts).
-- **2026-11-04:** Dependabot support for APM-pinned skills and MCP servers is new and
-  covers version updates only; no advisory database for skills exists yet.
+- **2026-11-04:** Dependabot support for APM-pinned skills and MCP servers covers
+  version updates only; no advisory database for skills exists yet.
 
 ## Open questions
 

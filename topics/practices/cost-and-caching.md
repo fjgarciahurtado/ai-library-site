@@ -2,7 +2,7 @@
 title: "Cost and caching"
 tags: [cost, caching, tokens]
 related: [fundamentals/tokens-and-context, models/claude, fundamentals/reasoning-models]
-last_reviewed: 2026-11-13
+last_reviewed: 2026-11-15
 ---
 
 ## Overview
@@ -161,23 +161,14 @@ legacy, costs $1 / $5.
   about 75% below Carbon and Argon once they double on 2026-12-01. Google reports that
   pairing Carbon with Hydrogen workers used about 24% less quota than Carbon alone.
 
-- **2026-11-12:** Google launched its own Decisions API (Gemini Decision 1, 2026-11-11)
-  at the same $0.10 input-only price as OpenAI's. OpenAI's GA pricing is now confirmed
-  from its guide (see Key concepts).
-
 - **2026-11-10:** Claude Fable 5.2 (2026-11-09) costs 20% less than Fable 5.1 ($8 / $40).
   Anthropic says it matches Opus 5.5's best FrontierCode score at `high` effort for about
   half the cost per task (vendor figure); worth testing before defaulting to Opus.
-- **2026-11-02:** Gemini 2.5 Pro and 2.5 Flash are deprecated; from 2026-12-01 they are
-  routed to and billed as newer models (see the table).
-- **2026-10-30:** Fast mode on Claude Opus 4.8 stops working on 2026-11-30: fast
-  requests will return an error (no fallback). Move them to Opus 5.5 fast mode.
-- **2026-10-29:** Anthropic's Usage and Cost Analytics API (beta) and OpenAI's API
-  credits for $100–$500 ChatGPT plans are new and may change (details above).
-- **2026-10-28:** GitHub Copilot Fusion's 30% discount is for a limited time (no end
-  date given).
-- **2026-10-13:** Gemini 4 Argon's introductory price ($2 / $10) doubles after
-  2026-11-30; recheck then.
+- **Coming dates:** fast mode on Claude Opus 4.8 stops working on 2026-11-30 (fast
+  requests return an error, no fallback; move them to Opus 5.5 fast mode). Gemini 4
+  Carbon and Argon go from $2 / $10 to $4 / $20 after 2026-11-30. Gemini 2.5 Pro and 2.5
+  Flash are routed to and billed as newer models from 2026-12-01 (see the table).
+  GitHub Copilot Fusion's 30% discount has no end date yet.
 
 ## Open questions
 
@@ -218,4 +209,5 @@ legacy, costs $1 / $5.
 - [Claude API message threads (beta)](../../sources/2026/11/2026-11-03-claude-message-threads-beta.md)
 - [Gemini API changelog: Gemini 2.5 Pro and 2.5 Flash deprecated](../../sources/2026/11/2026-11-03-gemini-2-5-pro-flash-deprecation.md)
 - [Introducing Claude Fable 5.2 and Claude Mythos 5.2](../../sources/2026/11/2026-11-10-claude-fable-mythos-5-2.md)
-- [Gemini Decisions API](../../sources/2026/11/2026-11-12-gemini-decisions-api.md)- [Introducing Gemini 4 Hydrogen](../../sources/2026/11/2026-11-13-gemini-4-hydrogen.md)
+- [Gemini Decisions API](../../sources/2026/11/2026-11-12-gemini-decisions-api.md)
+- [Introducing Gemini 4 Hydrogen](../../sources/2026/11/2026-11-13-gemini-4-hydrogen.md)

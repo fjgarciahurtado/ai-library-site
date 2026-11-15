@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-11-13
+last_reviewed: 2026-11-15
 ---
 
 ## Overview
@@ -160,24 +160,12 @@ the de facto standard, with official SDKs in many languages.
   MCP maintainers also moved the spec to a six-month release cycle (SEP-3398); the next
   version is `2027-03-30`.
 
-- **2026-11-11:** Two established MCP servers are rising in GitHub trends: Scrapling
-  (web scraping, 17 tools, Streamable HTTP with required bearer auth; about 101,000
-  stars) and Context7 (library docs, MCP or CLI + skill; about 64,500 stars). See How to
-  use it.
-
+- **2026-11-11:** Scrapling (about 101,000 stars) and Context7 (about 64,500 stars) are
+  rising in GitHub trends; see How to use it.
 - **2026-11-09:** Claude Code and the TypeScript Agent SDK now run MCP tasks in the
   background (see Key concepts). Claude Code 2.1.319 also fixed older-handshake servers
-  failing to connect or returning empty results, caused by Claude Code declaring an
-  extension they do not use. sandbox-mcp is new in GitHub trends (about 340 stars in
-  three days).
-
-- **2026-11-05:** Chrome DevTools MCP is rising in GitHub trends (about 54,800 stars;
-  see How to use it).
-- **2026-10-30:** codebase-memory-mcp (v0.12.1, 2026-10-16) is rising in GitHub trends
-  (see above and [memory](../agents/memory.md)).
+  failing to connect or returning empty results.
 - **2026-10-28:** GitHub Copilot connectors are still in preview.
-- **2026-10-22:** Google ADK (Python) 2.13.0 has only MCP fixes; its notes do not say MCP
-  SDK 2.x became the default.
 
 ## Open questions
 

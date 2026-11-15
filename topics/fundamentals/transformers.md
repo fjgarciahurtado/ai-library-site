@@ -2,7 +2,7 @@
 title: "Transformers"
 tags: [transformers, llm]
 related: [fundamentals/llms, fundamentals/tokens-and-context, fundamentals/embeddings]
-last_reviewed: 2026-10-05
+last_reviewed: 2026-11-15
 ---
 
 ## Overview
@@ -30,14 +30,19 @@ can process a whole sequence in parallel, which makes training on huge datasets 
   APIs builds on this.
 - **Mixture of experts (MoE):** the feed-forward part is split into many "experts" and a
   router activates only a few per token. Total parameters can be huge while compute per
-  token stays modest. Many 2025–2026 open-weight models are MoE.
+  token stays modest. Most large 2025–2026 open-weight models are MoE, with active
+  parameters often 2–5% of the total: Mistral Large 4 has 1T total and 49B active,
+  gpt-oss-120b 117B and 5.1B, and GLM-5.3 753B (active count not published).
 - **Efficient and hybrid attention:** to make long contexts affordable, many recent
   models mix full attention with cheaper layers: sliding-window attention (Gemma 4),
   linear-attention layers such as Gated DeltaNet (Qwen3.5 uses three for every full
   attention layer), or compressed sparse attention that shrinks the KV cache (DeepSeek
   V4-Pro reports 27% of the per-token FLOPs and 10% of the KV cache of V3.2 at 1M tokens).
   Qwen3.8-Flash-Next adds Qwen Sparse Attention, which first narrows a long sequence
-  to its most relevant regions, to Gated DeltaNet layers.
+  to its most relevant regions, to Gated DeltaNet layers. Sparse attention is spreading
+  beyond DeepSeek: Z.ai's GLM-5.3 declares the model type `glm_moe_dsa`, an MoE with
+  DeepSeek-style sparse attention (inferred from the name; the card does not explain
+  it).
 - **Beyond decoder-only:** DeepSeek-V4.1-Flash (2026-09) uses a "causal encoder-decoder"
   MoE: a 20-layer encoder reads the input and a 20-layer decoder generates, with
   different active parameters for each (8B and 16B).
@@ -52,15 +57,13 @@ You rarely work with the architecture directly when using an API, but it explain
 
 ## Current state
 
-- **2026-10-05:** Two 2026 open models have moved further away from the classic layout.
-  DeepSeek-V4.1-Flash (2026-09-10) is a causal encoder-decoder MoE whose KV cache is about
-  a quarter of V4-Flash's. Qwen3.8-Flash-Next (August 2026), a preview of Qwen4, combines
-  linear attention with sparse attention.
-
-- **2026-10-04:** Decoder-only transformers, often MoE, remain the dominant design, and
-  hybrid attention is already in production in leading open models (Qwen3.5, February
-  2026; DeepSeek V4, April 2026). Research on state-space and other non-attention
-  designs continues for very long contexts.
+- **2026-11-15:** Decoder-only MoE transformers remain the dominant design, and hybrid
+  or sparse attention is in production in leading open models (Qwen3.5, February 2026;
+  DeepSeek V4, April 2026; GLM-5.3, August 2026). DeepSeek-V4.1-Flash (2026-09-10) is a
+  causal encoder-decoder MoE whose KV cache is about a quarter of V4-Flash's, and
+  Qwen3.8-Flash-Next (August 2026), a preview of Qwen4, combines linear and sparse
+  attention. No Qwen4 release had reached the library by 2026-11-15. Closed labs do not
+  publish their architectures.
 
 ## Open questions
 
@@ -73,3 +76,6 @@ You rarely work with the architecture directly when using an API, but it explain
 - [Qwen3.5-397B-A17B model card](../../sources/2026/10/2026-10-04-qwen3-5-397b-model-card.md)
 - [DeepSeek-V4.1-Flash](../../sources/2026/10/2026-10-05-deepseek-v4-1-flash.md)
 - [Qwen3.8-Flash-Next model card](../../sources/2026/10/2026-10-05-qwen3-8-flash-next-model-card.md)
+- [Mistral Large 4](../../sources/2026/10/2026-10-07-mistral-large-4.md)
+- [gpt-oss model card](../../sources/2026/10/2026-10-19-gpt-oss-model-card.md)
+- [GLM-5.3 model card](../../sources/2026/10/2026-10-28-glm-5-3-model-card.md)

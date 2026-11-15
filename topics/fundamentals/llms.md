@@ -2,7 +2,7 @@
 title: "Large language models"
 tags: [llm, training]
 related: [fundamentals/transformers, fundamentals/tokens-and-context, fundamentals/training-and-fine-tuning, fundamentals/reasoning-models]
-last_reviewed: 2026-11-08
+last_reviewed: 2026-11-15
 ---
 
 ## Overview
@@ -45,16 +45,18 @@ can "think" before answering (see [reasoning models](reasoning-models.md)).
 
 ## Current state
 
-- **2026-11-08:** Frontier families are Claude (Anthropic; Fable 5.1, Opus 5.5, Sonnet
+- **2026-11-15:** Frontier families are Claude (Anthropic; Fable 5.2, Opus 5.5, Sonnet
   5.5, Haiku 5.5), GPT-6 (OpenAI; Astra, 6.1 Sol, 6.1 Terra, Luna), and Gemini (Google;
-  Gemini 4 Argon and 3.8 Flash). About 1M-token context windows are standard at the top:
-  1M on all current Claude models, 1.05M on GPT-6, and 1M shared input and output on
-  Argon. Leading open-weight families include Qwen, DeepSeek, Llama, Mistral, Gemma,
-  Kimi, and GLM. See [Claude](../models/claude.md), [GPT](../models/gpt.md),
-  [Gemini](../models/gemini.md), and [open-weight models](../models/open-weight.md).
-- **2026-11-08:** Knowledge cutoffs of current frontier models fall in April to June
-  2026 (Claude 5.5-generation: June 2026; GPT-6 Astra and 6.1 Sol: 2026-04-30; GPT-6.1
-  Terra: 2026-06-01), so tools such as web search matter for anything newer.
+  Gemini 4 Carbon, Argon, and Hydrogen). About 1M-token context windows are standard at
+  the top: 1M on all current Claude models, 1.05M on GPT-6, and 1M shared input and
+  output on Gemini 4. Leading open-weight families include Qwen, DeepSeek, Llama,
+  Mistral, Gemma, Kimi, and GLM. See [Claude](../models/claude.md),
+  [GPT](../models/gpt.md), [Gemini](../models/gemini.md), and
+  [open-weight models](../models/open-weight.md).
+- **2026-11-15:** Knowledge cutoffs of current frontier models fall in April to June
+  2026 (Claude 5.5-generation and Fable 5.2: June 2026; GPT-6 Astra and 6.1 Sol:
+  2026-04-30; GPT-6.1 Terra: 2026-06-01), so tools such as web search matter for
+  anything newer.
 
 ## Open questions
 
@@ -71,3 +73,6 @@ can "think" before answering (see [reasoning models](reasoning-models.md)).
 - [Gemini 4 Argon model page](../../sources/2026/10/2026-10-15-gemini-4-argon-model-page.md)
 - [Migrating to API version 2026-10-21](../../sources/2026/10/2026-10-22-claude-api-version-2026-10-21.md)
 - [Gemini API changelog: Gemini 2.5 Pro and 2.5 Flash deprecated](../../sources/2026/11/2026-11-03-gemini-2-5-pro-flash-deprecation.md)
+- [Introducing Claude Fable 5.2 and Claude Mythos 5.2](../../sources/2026/11/2026-11-10-claude-fable-mythos-5-2.md)
+- [Gemini 4 Carbon is now available](../../sources/2026/11/2026-11-11-gemini-4-carbon-available.md)
+- [Introducing Gemini 4 Hydrogen](../../sources/2026/11/2026-11-13-gemini-4-hydrogen.md)

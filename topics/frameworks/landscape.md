@@ -2,7 +2,7 @@
 title: "Agent and LLM framework landscape"
 tags: [frameworks, agents, sdk]
 related: [agents/agent-patterns, agents/tool-use, tooling/mcp]
-last_reviewed: 2026-11-13
+last_reviewed: 2026-11-15
 ---
 
 ## Overview
@@ -162,35 +162,15 @@ Release features are described under Key concepts.
 
 - **2026-11-13:** Self-hosted Claude Managed Agents (2026-11-12) lets you run the whole
   Managed Agents service yourself, with the same API, so the SDKs and `ant` CLI work
-  unchanged. Claude Agent SDK (Python) 0.2.181 and LangGraph 1.2.21 (both 2026-11-12)
-  have no new features.
-
-- **2026-11-12:** A2UI 1.0 is stable (2026-11-11; see Key concepts). It adds
-  bidirectional function calls and accessibility support. No new stable releases of the
-  frameworks in the table since 2026-11-11 (checked the OpenAI Agents SDK, LangGraph,
-  Microsoft Agent Framework, and Claude Agent SDK feeds). The Microsoft Agent Framework row
-  is updated to Python 1.25.0 and .NET 1.28.0 (2026-11-07 and 2026-11-09).
-
-- **2026-11-11:** Pydantic AI 2.67.0 (2026-11-10) updated in the table: durable
-  sub-agents on Temporal and DBOS, nested instruction files in `RepoContext`, and the
-  newest Claude, Gemini, and OpenAI models. OpenAI Agents SDK and LangGraph had no new
-  stable release since the last check.
-- **2026-11-09:** Google ADK 2.14.0 and TypeScript Agent SDK 0.3.319 updated in the
-  table. Python Agent SDK 0.2.179 (2026-11-06) has an empty change list, so the table
-  keeps 0.2.177. OpenAI Agents SDK shipped another preview only (0.24.0-alpha.7,
-  2026-11-08). It adds `RunBudget` limits, self-managed session storage, context and
-  compaction hooks, and A2A adapters, and new Environments default to a strict write
-  policy. Pydantic AI 2.66.0 (2026-11-04) adds `OpenSandbox` and `RenderSandbox`
-  workspaces; it was not given its own note.
-- **2026-11-06:** Claude Agent SDK (Python) 0.2.178 only bundles Claude Code 2.1.318;
-  LlamaIndex is still on 0.14.25 on both GitHub and PyPI (see Open questions).
-- **2026-11-04:** OpenAI Agents SDK shipped only a preview (0.24.0-alpha.6 on
-  2026-11-03, GitHub only) with breaking API changes such as `Turn.get_result()`
-  replacing `wait()`, so 0.24.0 stays the stable row. Expect those changes in the next
-  stable release.
-- **2026-11-03:** Ollama 0.40.14 is a release candidate only.
-- **2026-11-02:** LangGraph had only patch releases (1.2.19 on 2026-10-30); no new ADK
-  release since the table date.
+  unchanged. Claude Agent SDK (Python) 0.2.178–0.2.181 and LangGraph 1.2.19–1.2.21 (to
+  2026-11-12) added no new features, so the table keeps the last feature releases.
+- **2026-11-12:** A2UI 1.0 is stable (2026-11-11; see Key concepts), adding
+  bidirectional function calls and accessibility support.
+- **2026-11-09:** OpenAI Agents SDK has shipped only previews since 0.24.0 (latest
+  0.24.0-alpha.7, 2026-11-08). They add `RunBudget` limits, self-managed session
+  storage, context and compaction hooks, A2A adapters, and a strict default write policy
+  for new Environments, with breaking changes such as `Turn.get_result()` replacing
+  `wait()` (alpha.6). Expect these in the next stable release.
 
 ## Open questions
 

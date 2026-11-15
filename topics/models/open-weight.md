@@ -2,7 +2,7 @@
 title: "Open-weight models"
 tags: [open-source, llm, deployment, fine-tuning]
 related: [fundamentals/training-and-fine-tuning, practices/cost-and-caching]
-last_reviewed: 2026-11-11
+last_reviewed: 2026-11-15
 ---
 
 ## Overview
@@ -172,15 +172,8 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
   decision models (9b, 35b, and 27b-vl, the larger two with image input) that return
   choices, yes/no probabilities, or ratings. Recurrent and vision models now serve
   concurrent requests, and Qwen3/Qwen3.5 support YaRN long context.
-- **2026-11-01:** Mistral Large 4 weights are public on Hugging Face under the Mistral
-  Ecosystem Open-Weight License (checked in the weekly review; see above).
-- **2026-10-29:** Ollama 0.40.13 brings LFM3, including audio and omni, to Linux and
-  Windows; LFM3's licence caps commercial use at $10M annual revenue.
-- **2026-10-28:** GLM-5.3 added from Z.ai's model card and licence (see above).
-- **2026-10-23:** Kimi K3.1 Pro launched on Moonshot's API; weights promised by
-  2026-11-04 (see above).
-- **2026-10-20:** Mistral's Voxtral 3 is still API-only; no weights on Hugging Face as of
-  2026-10-27.
+- **2026-10-23:** Kimi K3.1 Pro launched on Moonshot's API; weights were promised by
+  2026-11-04 (see above and Open questions).
 
 ## Open questions
 

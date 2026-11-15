@@ -2,7 +2,7 @@
 title: "Gemini (Google)"
 tags: [google, llm, multimodal]
 related: [models/claude, models/gpt, models/open-weight]
-last_reviewed: 2026-11-13
+last_reviewed: 2026-11-15
 ---
 
 ## Overview
@@ -33,7 +33,8 @@ model, and Gemini 4 Hydrogen (GA 2026-11-12) is the cheap, fast model of the fam
     (with the `/swarm` multi-agent preview), the Gemini app for Ultra subscribers, and
     GitHub Copilot. Safety figures (Google): 0% on Gray Swan's indirect prompt-injection
     benchmark and a 0.8% per-attempt breach rate against an adaptive red-team agent
-    (Argon 3.1%).
+    (Argon 3.1%). Google also reports first place on CursorBench 4.0, WANDR, and
+    AutomationBench (vendor claims). Pydantic AI supports it since 2.67.
   - *Gemini 4 Argon* (`gemini-4-argon`) is the everyday frontier model (see below).
   - *Gemini 4 Hydrogen* (`gemini-4-hydrogen`, GA 2026-11-12) is the lowest-cost Gemini 4
     model, built for fast execution: 1M input and up to 1M output tokens, thinking
@@ -56,6 +57,9 @@ model, and Gemini 4 Hydrogen (GA 2026-11-12) is the cheap, fast model of the fam
     shutdown dates are set. The Deep Research agent
     `deep-research-pro-preview-12-2025` shut down on 2026-10-23; use
     `deep-research-preview-04-2026` or `deep-research-max-preview-04-2026`.
+    `gemini-embedding-2-preview` was deprecated on 2026-11-06; its requests go to
+    `gemini-embedding-2` at that model's rates, and the two share an embedding space, so
+    stored vectors stay valid (see [embeddings](../fundamentals/embeddings.md)).
   - *Gemini 2.5:* since 2026-09-18, only existing active users can use it. 2.5 Pro and
     2.5 Flash were deprecated on 2026-11-02. From 2026-12-01 their requests are routed
     to 3.8 Flash and 3.5 Flash-Lite and billed at those models' rates. Expect breaking
@@ -97,7 +101,8 @@ model, and Gemini 4 Hydrogen (GA 2026-11-12) is the cheap, fast model of the fam
 
 - The Gemini API docs moved from ai.google.dev to aistudio.google.com/docs, and the
   Vertex AI docs now live under "Gemini Enterprise Agent Platform" on
-  docs.cloud.google.com (old addresses redirect; noticed 2026-11-02 and 2026-11-08).
+  docs.cloud.google.com (old addresses redirect; noticed 2026-11-02 and 2026-11-08). The
+  API changelog is at aistudio.google.com/docs/changelog.
 - Flash models are the usual starting point for high-volume work.
 - Watch the deprecations page: deprecated Flash models may be routed to a newer model
   automatically, so pinning a model name does not guarantee the same model.
@@ -142,38 +147,21 @@ model, and Gemini 4 Hydrogen (GA 2026-11-12) is the cheap, fast model of the fam
   256K tokens and 1,000 questions per request). Price $0.10 per 1M input tokens, no
   output charge, free tier in AI Studio. In Python:
   `client.decisions.create(model="gemini-decision-1", ...)` on the `v1beta` API.
-  Vertex AI support is "coming soon". OpenAI's equivalent is covered in
+  Vertex AI support is "coming soon". Google claims 150–250 ms latency and the lowest
+  calibration error on its own, unnamed benchmark suite. OpenAI's equivalent is covered in
   [GPT](gpt.md).
 
 ## Current state
 
 - **2026-11-13:** Gemini 4 Hydrogen is GA (2026-11-12) at $1.50 / $7.50, about 25%
-  below Carbon and Argon now and about 75% below them after their 2026-12-01 price rise.
-  It answers the open question about smaller Gemini 4 models: Google ships one cheap
-  model rather than separate Flash and Flash-Lite tiers (so far).
-
-- **2026-11-12:** Gemini Decision 1 and the Decisions API released (2026-11-11; see How
-  to use it). Google claims 150–250 ms latency and the lowest calibration error on its
-  own, unnamed benchmark suite.
-
-- **2026-11-11:** Gemini 4 Carbon is GA (2026-11-10) on the paid API tier at Argon's
-  prices, with the same introductory rate ending 2026-11-30. Google reports first place
-  on CursorBench 4.0, WANDR, and AutomationBench (vendor claims). Pydantic AI 2.67
-  already supports it.
-
-- **2026-11-09:** `gemini-embedding-2-preview` was deprecated on 2026-11-06. Its requests
-  now go to `gemini-embedding-2` at that model's rates. The two share an embedding space,
-  so stored vectors stay valid (see [embeddings](../fundamentals/embeddings.md)). The API
-  changelog has moved to aistudio.google.com/docs/changelog.
-- **2026-11-05:** Omni 1.1 Flash calls start routing to Omni 1.2 Flash on 2026-12-03.
-- **2026-11-02:** Gemini 2.5 Pro and 2.5 Flash are routed to 3.8 Flash and 3.5
-  Flash-Lite from 2026-12-01, with breaking changes; migrate before then (see Key
-  concepts).
-- **2026-10-30:** Computer Use is GA on Argon, 3.8 Flash, and 3.5 Flash-Lite; 3 Flash
-  stays in preview, and rate limits are not yet published.
-- **2026-10-27:** The `gemini-api` CLI is a beta.
-- **2026-10-13:** Gemini 4 Argon's introductory prices ($2 / $10) double after
-  2026-11-30.
+  below Carbon and Argon now and about 75% below them after their price rise. Google
+  ships one cheap Gemini 4 model rather than separate Flash and Flash-Lite tiers (so far).
+- **2026-11-11:** Gemini 4 Carbon is GA (2026-11-10). Carbon and Argon cost $2 / $10
+  until 2026-11-30, then $4 / $20.
+- **Coming dates:** Gemini 2.5 Pro and 2.5 Flash are routed to 3.8 Flash and 3.5
+  Flash-Lite from 2026-12-01, with breaking changes (migrate before then; see Key
+  concepts). Omni 1.1 Flash calls route to Omni 1.2 Flash from 2026-12-03. 3.8 Flash
+  and 3.6 Flash prices double on 2027-01-01.
 
 ## Open questions
 

@@ -2,7 +2,7 @@
 title: "Claude (Anthropic)"
 tags: [anthropic, llm, reasoning, cost]
 related: [models/gpt, models/gemini, tooling/skills, tooling/mcp, tooling/coding-agents]
-last_reviewed: 2026-11-13
+last_reviewed: 2026-11-15
 ---
 
 ## Overview
@@ -72,7 +72,7 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
   4.6 a non-default `temperature`, `top_p`, or `top_k` may leave output unmarked.
   Detection is a private-preview API for eligible organizations; the free Claude
   Content Checker reads only file Content Credentials (C2PA).
-- **Usage Policy:** a revised policy takes effect on 2026-11-12. It adds a section on
+- **Usage Policy:** a revised policy took effect on 2026-11-12. It adds a section on
   fake account networks, narrows the elections rules to voter deception (personalised
   campaign targeting is now allowed), spells out weapons, surveillance, and
   law-enforcement limits, and bans sustained cruelty towards models in extreme cases.
@@ -183,24 +183,15 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
   docs' "differences" page). Claude Code 2.1.323 adds an experimental Code Mode (see
   [coding agents](../tooling/coding-agents.md)).
 
-- **2026-11-11:** The models overview confirms a June 2026 knowledge cutoff for Fable
-  5.2 and recommends Opus 5.5 as the default starting model, with Fable 5.2 for
-  demanding reasoning and long-horizon agent work. Haiku 4.5 is still Active with no
-  deprecation notice.
-
 - **2026-11-10:** Claude Fable 5.2 and Mythos 5.2 released (2026-11-09) at $8 / $40,
   20% below 5.1; default Fable model in Claude Code 2.1.321 and available in GitHub
-  Copilot. Retirement not before 2027-11-09. Haiku 4.5 still has no deprecation notice
-  (checked 2026-11-10).
-- **2026-11-03:** Text watermark extended to Mythos 5, Opus 4.7, and Sonnet 4.6; the full
-  model list is in Key concepts (checked 2026-11-10).
-- **2026-11-02:** Message threads (beta) launched; see How to use it.
+  Copilot. Retirement not before 2027-11-09. The models overview (2026-11-11) gives
+  Fable 5.2 a June 2026 knowledge cutoff and still recommends Opus 5.5 as the default
+  starting model, with Fable 5.2 for demanding reasoning and long-horizon agent work.
+  Haiku 4.5 is still Active with no deprecation notice (checked 2026-11-11).
 - **2026-10-30:** Fast mode on Opus 4.8 is deprecated and will be removed on 2026-11-30;
   move `speed: "fast"` traffic to Opus 5.5. Opus 4.8 itself stays Active (retirement not
   before 2027-05-28). Sonnet 4.5 retires the same day.
-- **2026-10-29:** Usage and Cost Analytics API is in beta
-  (`analytics-usage-cost-2026-08-24`).
-- **2026-10-08:** The revised Usage Policy takes effect on 2026-11-12 (see Key concepts).
 
 ## Open questions
 
