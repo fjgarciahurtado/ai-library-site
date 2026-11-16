@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-11-15
+last_reviewed: 2026-11-16
 ---
 
 ## Overview
@@ -82,6 +82,17 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
   fonts, and hero layout, then verify the page in headless Chrome
   (`/plugin marketplace add Leonxlnx/taste-skill`, then
   `/plugin install taste-skill@taste-skill`; Codex and `npx skills` also supported).
+  For the design process rather than polish, craft (MIT, new in November 2026, early)
+  writes a design brief to `DESIGN.md`, draws every screen state, explores three
+  directions, and critiques the rendered result, targeting Paper, Figma, or HTML
+  (`/plugin marketplace add diego3g/craft`, then `/plugin install craft@craft`; others:
+  `npx skills add diego3g/craft -a codex`).
+- **Office documents:** Anthropic's docx, pptx, xlsx, and pdf skills
+  (`/plugin marketplace add anthropics/skills`, then
+  `/plugin install document-skills@anthropic-agent-skills`) were updated on 2026-11-14
+  with stricter validation and tracked-changes checks, new pptx helpers
+  (`slide_text.py`, `apply_theme.js`), and an xlsx `recalc.py` that writes back only
+  computed values.
 - **Writing skill:** Humanizer (MIT) rewrites AI-sounding prose against 26 patterns from
   Wikipedia's "Signs of AI writing", edits only prose when pointed at a file, and asks
   rather than inventing facts: `/plugin marketplace add blader/humanizer`, then
@@ -123,6 +134,13 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
   the lockfile, and let Dependabot propose updates you review like any dependency.
 
 ## Current state
+
+- **2026-11-16:** Anthropic updated its document skills (2026-11-14; see Office
+  documents), and craft, a new design-process skill pack, was added (see Front-end
+  design pack). Claude Code 2.1.325 (2026-11-13) makes scheduled tasks and `/loop` ask
+  before running a skill that declares `allowed-tools` or hooks; add `Skill(name)` to
+  `permissions.allow` for unattended use. Skills folders inside `--plugin-dir` plugins
+  no longer load from a session started above them.
 
 - **2026-11-13:** Claude Code 2.1.323 (2026-11-12) lets a plugin declare the Claude Code
   versions it supports with `engines["claude-code"]` in `plugin.json`; outside that
@@ -177,3 +195,6 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 - [Taste Skill](../../sources/2026/11/2026-11-10-taste-skill-frontend-design.md)
 - [Ponytail](../../sources/2026/11/2026-11-12-ponytail-write-less-code-plugin.md)
 - [Claude Code release 2.1.323](../../sources/2026/11/2026-11-13-claude-code-2-1-323.md)
+- [Claude Code release 2.1.325](../../sources/2026/11/2026-11-16-claude-code-2-1-325.md)
+- [Update docx, pptx, xlsx, and pdf skills](../../sources/2026/11/2026-11-16-anthropic-office-skills-update.md)
+- [craft: design skills for AI agents](../../sources/2026/11/2026-11-16-craft-design-skills-plugin.md)

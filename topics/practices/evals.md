@@ -2,7 +2,7 @@
 title: "Evaluating LLM applications"
 tags: [evals, prompting, agents]
 related: [practices/prompting, agents/agent-patterns]
-last_reviewed: 2026-11-09
+last_reviewed: 2026-11-16
 ---
 
 ## Overview
@@ -39,6 +39,21 @@ models in general; your own evals tell you what works for your use case.
   (1) narrow access with lab approval to publish; (2) broader information and
   publication without approval, subject to fixed redaction categories; (3)
   "employee-like" internal access plus the same publication rights.
+- **Validity:** an eval result is only as good as its design. Anthropic's guidance on
+  safety evals (2026-11-13) applies to any eval: measure the construct you care about
+  (for example an "appropriate response" rate rather than a raw refusal rate), pair
+  harmful and benign prompts to catch both failure directions, vary one factor at a
+  time, and guard against contamination, reward hacking, and saturation. For multi-turn
+  behaviour, fix the first user turn, let a second model play the user from an
+  expert-written spec, and grade the whole transcript.
+- **Grader validation:** LLM judges should use atomic, binary criteria, come from a
+  different model than the one tested, and be checked for length and position bias.
+  Compare their verdicts with human labels using chance-corrected agreement (Cohen's
+  kappa); a good grader agrees with experts about as often as experts agree with each
+  other.
+- **Configuration matters:** Anthropic saw gaps of up to 34 percentage points between
+  API and claude.ai configurations of the same model, so record model version, sampling
+  settings, prompts, grader version, and date, and do not compare scores across setups.
 
 ## How to use it
 
@@ -50,8 +65,17 @@ models in general; your own evals tell you what works for your use case.
    behave the same way twice. Google ADK 2.14 does this with
    `adk eval --num_runs N --parallelism M`. Its `ToolArgsMatcher` can also accept tool
    arguments that match in meaning rather than exactly.
+6. Before relying on a result, decide the metric and threshold in advance, size the set
+   (Anthropic suggests at least about 100 items for complex multi-turn evals and 1,000
+   for simple single-turn ones), and report confidence intervals and per-category
+   results. The open-source Inspect framework and Anthropic's Petri toolkit (built on
+   Inspect) handle running, logging, and grading.
 
 ## Current state
+
+- **2026-11-16:** Anthropic published "Building strong safety evaluations" (2026-11-13),
+  a checklist for designing, running, and reporting evals (see Validity, Grader
+  validation, and How to use it).
 
 - **2026-11-09:** Google ADK 2.14.0 (2026-11-07) adds multi-run evals and semantic
   tool-argument matching (see How to use it). Claude Code 2.1.319 adds
@@ -77,3 +101,4 @@ models in general; your own evals tell you what works for your use case.
 - [An update on independent evaluators](../../sources/2026/10/2026-10-16-anthropic-independent-evaluators-update.md)
 - [Google ADK (Python) v2.14.0](../../sources/2026/11/2026-11-09-google-adk-python-v2-14.md)
 - [Claude Code release 2.1.319](../../sources/2026/11/2026-11-09-claude-code-2-1-319.md)
+- [Building strong safety evaluations](../../sources/2026/11/2026-11-16-anthropic-strong-safety-evaluations.md)

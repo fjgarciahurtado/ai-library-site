@@ -2,7 +2,7 @@
 title: "Security for LLM apps and agents"
 tags: [security, safety, agents, mcp]
 related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
-last_reviewed: 2026-11-15
+last_reviewed: 2026-11-16
 ---
 
 ## Overview
@@ -175,6 +175,17 @@ to limit what the agent can do if it is fooled.
 
 ## Current state
 
+- **2026-11-16:** Claude Code 2.1.325 (2026-11-13) closes more gaps: compound Bash
+  commands that could run without asking, an allow rule that could run a different
+  program than the one named, relative deny rules such as `Read(./.env)` that stopped
+  applying after `cd`, case-sensitive matching of plugin MCP deny rules, and sandbox gaps
+  around worktree settings, hooks, and shared git folders; it also fixes a zstd decoding
+  issue. It tightens defaults: sandboxed Bash prompts again unless
+  `sandbox.autoAllowBashIfSandboxed: true`, skills with tools or hooks need an explicit
+  `Skill(name)` allow rule in scheduled tasks, and plugin install warnings say plugins
+  can run code with access to your files and shell (see
+  [coding agents](../tooling/coding-agents.md)).
+
 - **2026-11-13:** Claude Code 2.1.323 (2026-11-12) fixes another batch of permission
   gaps: wildcard allow rules such as `Bash(ls*)` could skip prompts, deny rules missed
   commands run through `sudo` or `env`, Write and Edit could write to paths under a `Read`
@@ -246,3 +257,4 @@ to limit what the agent can do if it is fooled.
 - [Claude Code releases 2.1.321 and 2.1.322](../../sources/2026/11/2026-11-10-claude-code-2-1-321.md)
 - [MCP reference servers 2026.11.11: security fixes](../../sources/2026/11/2026-11-12-mcp-git-filesystem-servers-security-fixes.md)
 - [Claude Code release 2.1.323](../../sources/2026/11/2026-11-13-claude-code-2-1-323.md)
+- [Claude Code release 2.1.325](../../sources/2026/11/2026-11-16-claude-code-2-1-325.md)

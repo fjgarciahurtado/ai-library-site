@@ -25,13 +25,13 @@ Long-lived knowledge pages, kept current. Each page cites the source notes it dr
 
 - [Agent patterns](agents/agent-patterns.md) (reviewed 2026-11-09)
 - [Memory for agents](agents/memory.md) (reviewed 2026-11-09)
-- [Tool use (function calling)](agents/tool-use.md) (reviewed 2026-11-08)
+- [Tool use (function calling)](agents/tool-use.md) (reviewed 2026-11-16)
 
 ## Tooling
 
-- [Agent skills](tooling/skills.md) (reviewed 2026-11-15)
-- [Coding agents](tooling/coding-agents.md) (reviewed 2026-11-15)
-- [Model Context Protocol (MCP)](tooling/mcp.md) (reviewed 2026-11-15)
+- [Agent skills](tooling/skills.md) (reviewed 2026-11-16)
+- [Coding agents](tooling/coding-agents.md) (reviewed 2026-11-16)
+- [Model Context Protocol (MCP)](tooling/mcp.md) (reviewed 2026-11-16)
 
 ## Frameworks
 
@@ -40,6 +40,6 @@ Long-lived knowledge pages, kept current. Each page cites the source notes it dr
 ## Practices
 
 - [Cost and caching](practices/cost-and-caching.md) (reviewed 2026-11-15)
-- [Evaluating LLM applications](practices/evals.md) (reviewed 2026-11-09)
+- [Evaluating LLM applications](practices/evals.md) (reviewed 2026-11-16)
 - [Prompting and context engineering](practices/prompting.md) (reviewed 2026-11-09)
-- [Security for LLM apps and agents](practices/security.md) (reviewed 2026-11-15)
+- [Security for LLM apps and agents](practices/security.md) (reviewed 2026-11-16)

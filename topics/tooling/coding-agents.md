@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-11-15
+last_reviewed: 2026-11-16
 ---
 
 ## Overview
@@ -61,6 +61,11 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   does not undo, and `claude ultrareview` needs workspace trust (`--trust-workspace` in
   scripts). On Linux, `sandbox.allowNestedUserNamespaces` (2.1.305) allows Chromium and
   rootless podman inside the sandbox at the cost of weaker file protection.
+  Since 2.1.325 (2026-11-13) a sandboxed Bash command no longer skips the prompt by
+  default (`sandbox.autoAllowBashIfSandboxed: true` restores that), scheduled tasks and
+  `/loop` ask before running a skill that declares `allowed-tools` or hooks (allow it
+  with `Skill(name)` in `permissions.allow`), and read-only git commands in untrusted
+  repositories ask first (`--add-dir` allows them).
 - **Extensibility:** [skills](skills.md), slash commands, hooks, subagents, plugins,
   and [MCP](mcp.md) servers. Hooks used as guardrails should fail closed: since 2.1.295
   (2026-10-08), Claude Code hooks can set `onFailure: "block"` so that a hook that
@@ -79,8 +84,17 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   Gemini CLI 0.68.0 (2026-11-10) adds a `SubagentStop` hook event.
 - **Code Mode:** Claude Code 2.1.323 adds an experimental opt-in mode in which Claude
   writes JavaScript that calls its tools, instead of one tool call per model turn, so
-  intermediate results need not pass through the context. The linked docs page
-  (`code.claude.com/docs/en/code-mode`) returned 404 on 2026-11-13; see Open questions.
+  intermediate results need not pass through the context. Turn it on with
+  `CLAUDE_CODE_EXPERIMENTAL_CODE_MODE=1` (shell or the `env` block of user settings; a
+  project cannot turn it on, and `0` in managed settings blocks it). It works only in
+  interactive terminal sessions with a Claude subscription or Console account and the
+  5.5 models or Fable 5.2: not in `-p`, the SDK, VS Code, Desktop, cloud, Bedrock,
+  Vertex, Foundry, or behind gateways. Each tool call the code makes still passes deny
+  and ask rules and `PreToolUse` hooks, but in auto mode the classifier reviews the code
+  once rather than each call; a hook matching the `REPL` tool can read the code. Code
+  stops after 10 minutes unless it runs in the background (up to 2 hours, auto or bypass
+  mode), and Code Mode sessions resume only with Code Mode on (docs read 2026-11-16).
+  Good for repeated edits across files, filtered searches, and parallel commands.
 - **Effort:** in Claude Code, typing `ultrathink` runs that one turn at `xhigh` effort on
   the 5.5-generation models and Fable 5.1 (2.1.311, 2026-10-26;
   `CLAUDE_CODE_DISABLE_ULTRATHINK=1` turns it off since 2.1.316); cloud routines have an
@@ -242,6 +256,11 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
+- **2026-11-16:** Claude Code 2.1.325 (2026-11-13) changes permission defaults for
+  sandboxed Bash, skills in scheduled tasks, and git outside the project (see
+  Permissions), and fixes more permission gaps (see [security](../practices/security.md)).
+  The Code Mode docs page is now live (see Code Mode).
+
 - **2026-11-13:** Claude Code 2.1.323 (2026-11-12) adds experimental, opt-in Code Mode
   (see Code Mode), plugin version ranges, hook heartbeats in headless runs, and many
   permission fixes (see [security](../practices/security.md)). Codex CLI 0.168.0
@@ -255,9 +274,8 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Open questions
 
-- How is Claude Code's Code Mode (2.1.323) turned on, which tools does it cover, and how
-  much does it save? The release notes link to `code.claude.com/docs/en/code-mode`, which
-  returned 404 on 2026-11-13.
+- How much does Claude Code's Code Mode save in tokens or time? The docs (read
+  2026-11-16) explain how to turn it on but give no figures.
 
 - Which Xcode version first ships `xcrun agent plugin path`, needed by Apple's `xcode`
   Claude Code plugin? Neither the PR nor the marketplace entry says (checked 2026-11-06).
@@ -327,3 +345,5 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [Claude Code release 2.1.323](../../sources/2026/11/2026-11-13-claude-code-2-1-323.md)
 - [lot-map](../../sources/2026/11/2026-11-13-lot-map-claude-code-plugin.md)
 - [Codex CLI 0.168.0](../../sources/2026/11/2026-11-13-codex-cli-0-168.md)
+- [Claude Code release 2.1.325](../../sources/2026/11/2026-11-16-claude-code-2-1-325.md)
+- [Run tool calls from code with Code Mode](../../sources/2026/11/2026-11-16-claude-code-code-mode-docs.md)

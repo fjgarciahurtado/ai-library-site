@@ -2,7 +2,7 @@
 title: "Tool use (function calling)"
 tags: [tool-use, agents, structured-output]
 related: [agents/agent-patterns, tooling/mcp, tooling/skills]
-last_reviewed: 2026-11-08
+last_reviewed: 2026-11-16
 ---
 
 ## Overview
@@ -51,6 +51,13 @@ how LLMs act in the world and the core of every agent.
   JavaScript on stdin (`go install tractor.dev/webframe/cmd/webframe@latest`). Simon
   Willison found it fast for scraping but limited (CSP failures, a 0×0 viewport, hanging
   loads, no HTTP metadata; 2026-10-26).
+- **Tools called from code:** instead of one tool call per model turn, the model writes a
+  short program that calls several tools, chains results, and returns only what it needs
+  to read. MCP proxies such as MCPtoCodeMode did this first; Claude Code has it built in
+  as experimental Code Mode (2.1.323+, `CLAUDE_CODE_EXPERIMENTAL_CODE_MODE=1`; see
+  [coding agents](../tooling/coding-agents.md)). The trade-off is review: in Claude
+  Code's auto mode the safety classifier sees the program once, not each call, so values
+  computed at run time escape it; per-call rules and hooks still apply.
 
 ## How to use it
 
@@ -62,6 +69,9 @@ how LLMs act in the world and the core of every agent.
 - Validate inputs and require confirmation for destructive actions.
 
 ## Current state
+
+- **2026-11-16:** Claude Code's Code Mode docs went live: JavaScript that calls tools,
+  in interactive terminal sessions only (see Tools called from code).
 
 - **2026-11-05:** Gemini function responses accept files, audio, and video (new; see
   Key concepts).
@@ -87,3 +97,4 @@ how LLMs act in the world and the core of every agent.
 - [Gemini API CLI (gemini-api) beta](../../sources/2026/10/2026-10-28-gemini-api-cli-beta.md)
 - [Gemini API changelog, 2026-11-05](../../sources/2026/11/2026-11-06-gemini-api-files-in-function-responses.md)
 - [Gemini API Computer Use generally available](../../sources/2026/11/2026-11-02-gemini-computer-use-ga.md)
+- [Run tool calls from code with Code Mode](../../sources/2026/11/2026-11-16-claude-code-code-mode-docs.md)

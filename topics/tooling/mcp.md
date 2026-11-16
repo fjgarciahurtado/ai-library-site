@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-11-15
+last_reviewed: 2026-11-16
 ---
 
 ## Overview
@@ -100,7 +100,12 @@ the de facto standard, with official SDKs in many languages.
   ([memory](../agents/memory.md)). It claims about 98% less output in one example
   (self-reported). codebase-memory-mcp (MIT, about 48K stars) is a local server with 17
   tools (`trace_path`, `detect_changes`, `get_architecture`, and others) over a
-  persistent graph of code, docs, and infrastructure, with no API key.
+  persistent graph of code, docs, and infrastructure, with no API key. XERJ
+  (Apache-2.0 engine, about 19K stars on 2026-11-16) is a single Rust binary that indexes
+  code, docs, logs, CSV/JSONL, and PDFs locally and serves BM25, vector, and hybrid
+  search through an Elasticsearch-compatible API and a stdio MCP server (`xerj_search`,
+  `xerj_def`); its token-saving figures are self-reported, and its optional Query-1
+  answer model is proprietary.
 
 ## How to use it
 
@@ -142,12 +147,19 @@ the de facto standard, with official SDKs in many languages.
   from a repository's own `.git/config` even on read-only calls such as `git_status`
   (High, fixed 2026-11-11). If you launch servers with `uvx`, pin
   `mcp-server-git>=2026.11.11` so a cached old version is not reused.
+- For local search over a big repo plus its logs and docs, try XERJ: install the binary
+  (`curl -fsSL https://xerj.org/get | sh`; read the script first), start a node with
+  `xerj --insecure --data-dir ~/xerj-data &` (localhost, single user only), run
+  `xerj autoindex ~/my-project`, then `claude mcp add xerj -- /absolute/path/to/xerj mcp`.
 - Build a server when you want one integration usable from many AI clients.
 - Spec releases now follow a fixed six-month schedule (last Tuesday of March and
   September; next `2027-03-30`). Test the Tier 1 SDK betas about six weeks before each
   release.
 
 ## Current state
+
+- **2026-11-16:** XERJ, a local search engine with an MCP server, added (see Key
+  concepts and How to use it).
 
 - **2026-11-13:** The maintainers published a draft file upload and download extension
   (2026-11-10; see Key concepts). Claude Code 2.1.323 now asks you to confirm before
@@ -211,3 +223,4 @@ the de facto standard, with official SDKs in many languages.
 - [MCP reference servers 2026.11.11: security fixes](../../sources/2026/11/2026-11-12-mcp-git-filesystem-servers-security-fixes.md)
 - [A More Predictable Release Cycle for MCP](../../sources/2026/11/2026-11-12-mcp-six-month-release-cycle.md)
 - [Exploring File Uploads and Downloads in MCP](../../sources/2026/11/2026-11-13-mcp-file-uploads-extension.md)
+- [XERJ: local search engine and MCP server for agents](../../sources/2026/11/2026-11-16-xerj-local-search-mcp-server.md)
