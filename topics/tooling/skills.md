@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-11-16
+last_reviewed: 2026-11-17
 ---
 
 ## Overview
@@ -121,7 +121,15 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
   sessions reload mods in `.claude/skills` when their files change.
 - **Discovery in Copilot:** VS Code's customizations browser (preview, 2026-10-28)
   lists skills, MCP servers, and plugins from available sources in one place, and a repo
-  can suggest default plugins in `.github/copilot/settings.json`.
+  can suggest default plugins in `.github/copilot/settings.json`. Since 2026-11-16,
+  GitHub Enterprise Cloud admins can set `strictPluginOnlyCustomization` so Copilot
+  skills, custom agents, hooks, MCP servers, and executable extensions load only from
+  plugins or managed settings, not from user or project files (pair with
+  `strictKnownMarketplaces` to limit marketplaces; Copilot Business and Enterprise).
+- **Code review as skills:** Alibaba's Open Code Review installs as skills
+  (`npx skills add alibaba/open-code-review`). Its `open-code-review-delegate` skill
+  lets the host agent run the review with OCR's file selection and rules, without a
+  separate API key (see [coding agents](coding-agents.md)).
 
 ## How to use it
 
@@ -134,6 +142,10 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
   the lockfile, and let Dependabot propose updates you review like any dependency.
 
 ## Current state
+
+- **2026-11-17:** GitHub Copilot admins can require skills, hooks, agents, and MCP
+  servers to come only from plugins or managed settings (see Discovery in Copilot).
+  Open Code Review (Alibaba) adds review skills for any Agent Skills agent.
 
 - **2026-11-16:** Anthropic updated its document skills (2026-11-14; see Office
   documents), and craft, a new design-process skill pack, was added (see Front-end
@@ -198,3 +210,5 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 - [Claude Code release 2.1.325](../../sources/2026/11/2026-11-16-claude-code-2-1-325.md)
 - [Update docx, pptx, xlsx, and pdf skills](../../sources/2026/11/2026-11-16-anthropic-office-skills-update.md)
 - [craft: design skills for AI agents](../../sources/2026/11/2026-11-16-craft-design-skills-plugin.md)
+- [Control where GitHub Copilot customizations come from](../../sources/2026/11/2026-11-17-copilot-plugin-only-customizations.md)
+- [Open Code Review (Alibaba)](../../sources/2026/11/2026-11-17-open-code-review-alibaba.md)

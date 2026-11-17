@@ -2,7 +2,7 @@
 title: "Security for LLM apps and agents"
 tags: [security, safety, agents, mcp]
 related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
-last_reviewed: 2026-11-16
+last_reviewed: 2026-11-17
 ---
 
 ## Overview
@@ -175,6 +175,14 @@ to limit what the agent can do if it is fooled.
 
 ## Current state
 
+- **2026-11-17:** Claude Code 2.1.326 (2026-11-16) stops describing destructive Bash
+  commands (`find -delete`, `cat a > b`, `sort -o`) as searches or reads in the
+  transcript, shows `claude purge` prompts even when stdout is redirected, warns when
+  permission rules or settings files could not be saved or parsed, and logs managed
+  PreToolUse hook refusals to OpenTelemetry. GitHub Copilot admins (Enterprise Cloud)
+  can now require skills, hooks, agents, and MCP servers to come only from plugins or
+  managed settings (`strictPluginOnlyCustomization`), closing the gap where a cloned
+  repository's own customizations load code.
 - **2026-11-16:** Claude Code 2.1.325 (2026-11-13) closes more gaps: compound Bash
   commands that could run without asking, an allow rule that could run a different
   program than the one named, relative deny rules such as `Read(./.env)` that stopped
@@ -258,3 +266,5 @@ to limit what the agent can do if it is fooled.
 - [MCP reference servers 2026.11.11: security fixes](../../sources/2026/11/2026-11-12-mcp-git-filesystem-servers-security-fixes.md)
 - [Claude Code release 2.1.323](../../sources/2026/11/2026-11-13-claude-code-2-1-323.md)
 - [Claude Code release 2.1.325](../../sources/2026/11/2026-11-16-claude-code-2-1-325.md)
+- [Claude Code release 2.1.326](../../sources/2026/11/2026-11-17-claude-code-2-1-326.md)
+- [Control where GitHub Copilot customizations come from](../../sources/2026/11/2026-11-17-copilot-plugin-only-customizations.md)

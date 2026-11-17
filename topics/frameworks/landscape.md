@@ -2,7 +2,7 @@
 title: "Agent and LLM framework landscape"
 tags: [frameworks, agents, sdk]
 related: [agents/agent-patterns, agents/tool-use, tooling/mcp]
-last_reviewed: 2026-11-15
+last_reviewed: 2026-11-17
 ---
 
 ## Overview
@@ -149,17 +149,24 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 | Microsoft Agent Framework | Python 1.25.0 / .NET 1.28.0 | 2026-11-07 / 2026-11-09 | 1.0 GA on 2026-04-03; Python 1.23 moved to MCP 2.x and 1.25 adds callable MCP discovery approval policies; .NET 1.28 adds a GA computer tool (`FoundryAITool.CreateComputerTool()`); .NET 1.26 had breaking AG-UI auth-scope and Docker parameter changes (checked 2026-11-12 on GitHub) |
 | OpenAI Agents SDK (Python) | 0.24.0 | 2026-10-15 | Still 0.x; adds MCP annotations on converted tools (checked 2026-10-26) |
 | Google ADK (Python) | 2.14.0 | 2026-11-07 | Execution environments and A2A stable, multi-run evals, `ToolArgsMatcher`; breaking: enum tool args arrive as enum members (checked 2026-11-09) |
-| Pydantic AI | 2.67.0 | 2026-11-10 | Near-daily minor releases; 2.67 adds durable sub-agents and nested instruction files (checked 2026-11-11 on GitHub) |
+| Pydantic AI | 2.69.0 | 2026-11-16 | Near-daily minor releases; 2.67 added durable sub-agents and nested instruction files; 2.69 adds `ToolBudgets`, `KubernetesSandbox`, `WindowsWorkspace`, and agent peer messaging (checked 2026-11-17 on GitHub) |
 | Claude Agent SDK (Python) | 0.2.177 | 2026-11-03 | Bundles Claude Code 2.1.317; `HookMatcher(on_failure="block")` makes hooks fail closed (checked 2026-11-03) |
 | Claude Agent SDK (TypeScript) | 0.3.319 | 2026-11-06 | Parity with Claude Code 2.1.319; adds MCP tasks in the background (`CLAUDE_AUTO_BACKGROUND_TASKS=1`); 0.3.317 added `onFailure: "block"` on hook matchers (checked 2026-11-09) |
 | CrewAI | 1.15.30 | 2026-10-24 | 1.15.0 on 2026-06-25; 1.15.29 (2026-10-23) promoted AgentExecutor out of experimental (checked 2026-10-27 on GitHub) |
-| LlamaIndex | 0.14.25 | 2026-09-21 | Patch release (removes deprecated IPEX integrations); no newer `llama-index-core` on PyPI (checked 2026-11-06) |
+| LlamaIndex | 0.14.26 | 2026-11-13 | Maintenance release: integrations raise their minimum Python version (breaking) and add Claude 5.5 and GPT-6 models; still no 0.15 or 1.0 (checked 2026-11-17 on GitHub and PyPI) |
 | LangGraph | 1.2.18 | 2026-10-26 | 1.2.0 on 2026-05-12; 1.2.18 snapshots `DeltaChannel` every 100 updates instead of 1000 (faster reads on long threads, more storage; `snapshot_frequency=1000` restores the old value) (checked 2026-10-27 on GitHub) |
 | DSPy | 3.4.1 | 2026-10-12 | 3.4.0 on 2026-09-25; 3.0.0 on 2025-08-12 (checked 2026-10-22) |
 | Vercel AI SDK | 7.x | 2026-06-25 (7.0) | Latest 7.x patch not checked; date from Vercel's announcement (checked 2026-10-16) |
 
 Release features are described under Key concepts.
 
+- **2026-11-17:** Pydantic AI 2.69.0 (2026-11-16) adds tool budgets that answer the model
+  instead of raising, Kubernetes and Windows sandboxes, and peer messaging. OpenAI Agents
+  SDK 0.24.0-alpha.8 (2026-11-16) adds per-call tool approvals, non-OpenAI model clients
+  (LiteLLM, AnyLLM, custom), realtime voice in sessions, and checkpoints that keep budget
+  usage; it has upgrade steps (back up saved state, replace bare `"*"` network rules).
+  LlamaIndex 0.14.26 (2026-11-13) is the first release in almost two months and only a
+  maintenance release.
 - **2026-11-13:** Self-hosted Claude Managed Agents (2026-11-12) lets you run the whole
   Managed Agents service yourself, with the same API, so the SDKs and `ant` CLI work
   unchanged. Claude Agent SDK (Python) 0.2.178–0.2.181 and LangGraph 1.2.19–1.2.21 (to
@@ -174,11 +181,11 @@ Release features are described under Key concepts.
 
 ## Open questions
 
-- Add a primary source for a LlamaIndex major release. None exists yet: on 2026-11-06
-  the GitHub release feed and PyPI (`llama-index-core`) both still ended at 0.14.25
-  (2026-09-21), with no 0.15 or 1.0. Releases have slowed from monthly (April–May) to
-  every one to two months (0.14.23 on 06-24, 0.14.24 on 08-19, 0.14.25 on 09-21). Keep
-  checking; if nothing ships by December, note LlamaIndex as slowing down.
+- Is LlamaIndex heading for a 0.15 or 1.0? Partly answered (2026-11-17): 0.14.26
+  shipped on 2026-11-13 (source added), but it is maintenance only. Releases now come
+  about every two months (06-24, 08-19, 09-21, 11-13) and add model support rather than
+  framework features, so treat LlamaIndex as maintained but slowing. Still no 0.15 or
+  1.0 on GitHub or PyPI.
 - When will DSPy 3.5 remove the legacy LM interfaces? No date given (checked
   2026-10-12).
 
@@ -215,3 +222,6 @@ Release features are described under Key concepts.
 - [Claude Agent SDK (TypeScript) v0.3.319](../../sources/2026/11/2026-11-09-claude-agent-sdk-ts-0-3-319.md)
 - [Google ADK (Python) v2.14.0](../../sources/2026/11/2026-11-09-google-adk-python-v2-14.md)
 - [Self-hosted Claude Managed Agents](../../sources/2026/11/2026-11-13-self-hosted-claude-managed-agents.md)
+- [Pydantic AI v2.69.0](../../sources/2026/11/2026-11-17-pydantic-ai-v2-69.md)
+- [OpenAI Agents SDK v0.24.0-alpha.8](../../sources/2026/11/2026-11-17-openai-agents-sdk-alpha-8.md)
+- [LlamaIndex v0.14.26](../../sources/2026/11/2026-11-17-llamaindex-v0-14-26.md)

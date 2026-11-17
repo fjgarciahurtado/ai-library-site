@@ -2,7 +2,7 @@
 title: "Tool use (function calling)"
 tags: [tool-use, agents, structured-output]
 related: [agents/agent-patterns, tooling/mcp, tooling/skills]
-last_reviewed: 2026-11-16
+last_reviewed: 2026-11-17
 ---
 
 ## Overview
@@ -66,9 +66,15 @@ how LLMs act in the world and the core of every agent.
 - Prefer a few well-designed tools over many overlapping ones.
 - Return concise, high-signal results; truncate or paginate big outputs.
 - Return errors as tool results (with an error flag) so the model can recover.
-- Validate inputs and require confirmation for destructive actions.
+- Validate inputs and require confirmation for destructive actions. Frameworks now build
+  this in: the OpenAI Agents SDK 0.24 previews (alpha.8, 2026-11-16) let you review a
+  Python tool call's arguments and approve or reject it, optionally for the rest of the
+  session.
 
 ## Current state
+
+- **2026-11-17:** OpenAI Agents SDK 0.24.0-alpha.8 adds per-call approval of Python
+  tools and deferred tool schemas via `ToolSearch` (preview only).
 
 - **2026-11-16:** Claude Code's Code Mode docs went live: JavaScript that calls tools,
   in interactive terminal sessions only (see Tools called from code).
@@ -98,3 +104,4 @@ how LLMs act in the world and the core of every agent.
 - [Gemini API changelog, 2026-11-05](../../sources/2026/11/2026-11-06-gemini-api-files-in-function-responses.md)
 - [Gemini API Computer Use generally available](../../sources/2026/11/2026-11-02-gemini-computer-use-ga.md)
 - [Run tool calls from code with Code Mode](../../sources/2026/11/2026-11-16-claude-code-code-mode-docs.md)
+- [OpenAI Agents SDK v0.24.0-alpha.8](../../sources/2026/11/2026-11-17-openai-agents-sdk-alpha-8.md)

@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-11-16
+last_reviewed: 2026-11-17
 ---
 
 ## Overview
@@ -94,6 +94,7 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   once rather than each call; a hook matching the `REPL` tool can read the code. Code
   stops after 10 minutes unless it runs in the background (up to 2 hours, auto or bypass
   mode), and Code Mode sessions resume only with Code Mode on (docs read 2026-11-16).
+  Since 2.1.326 (2026-11-16) it also works with agent teams enabled.
   Good for repeated edits across files, filtered searches, and parallel commands.
 - **Effort:** in Claude Code, typing `ultrathink` runs that one turn at `xhigh` effort on
   the 5.5-generation models and Fable 5.1 (2.1.311, 2026-10-26;
@@ -174,8 +175,12 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - **Comparing models on one task:** VS Code 1.143 (2026-10-22) has this built in as a
   preview (`sessions.chat.compareAgents.enabled`). Each model works in its own session,
   and a judge model can pick the best result or **Synthesize** a merge. Before, people
-  ran parallel worktrees by hand. The same release made the Copilot harness (Copilot
-  SDK, Agent Host) the default for new VS Code sessions and lets admins require plugins
+  ran parallel worktrees by hand. VS Code 1.146 (week of 2026-11-09) lets the agent run
+  comparisons itself (experimental: enable `Compare Models`, then the agent tools) and
+  adds an experimental inbox across all workspaces' sessions. VS Code 1.143 made the
+  Copilot harness (Copilot SDK, Agent Host) the default for new VS Code sessions; 1.146
+  deprecates the old Local harness, which is removed in February 2027 (pick **Copilot**
+  under **Session Target** and recheck your customizations). 1.143 also lets admins require plugins
   with `enabledPlugins`, which then install automatically. VS Code 1.145 (2026-11-04)
   lets nested sessions use a different agent harness (preview,
   `chat.agentHost.multipleChatProviders.enabled`), and a working set keeps or undoes
@@ -235,7 +240,12 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   Quick, Standard, and Deep levels per organization or repository and can review every
   repository in an organization (since 2026-10-19); `@claude review stop` ends an
   always-on subscription (2.1.307). The official marketplace's `code-review` plugin
-  prints to the terminal unless `--comment` is passed (since 2026-10-27).
+  prints to the terminal unless `--comment` is passed (since 2026-10-27). For a free,
+  local alternative, Alibaba's Open Code Review (Apache-2.0) runs as a CLI
+  (`npm install -g @alibaba-group/open-code-review`, then `ocr review`) or as skills
+  (`npx skills add alibaba/open-code-review`); its delegation mode lets your own coding
+  agent do the review with OCR's file selection and rules. Its precision and token
+  claims against Claude Code are Alibaba's own (2026-11-17).
 
 ## How to use it
 
@@ -256,6 +266,12 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
+- **2026-11-17:** Claude Code 2.1.326 (2026-11-16) lets Code Mode run with agent teams
+  and warns about incomplete tool rules, malformed plugin fields, and unsaved settings.
+  VS Code 1.146 deprecates the Local harness (removed February 2027) and adds
+  agent-driven model comparisons, an inbox view, and in-chat MCP re-authentication;
+  Gemini 4 Carbon joins Copilot. Alibaba's Open Code Review adds a local review CLI and
+  skills (see Reviewing agent-written code).
 - **2026-11-16:** Claude Code 2.1.325 (2026-11-13) changes permission defaults for
   sandboxed Bash, skills in scheduled tasks, and git outside the project (see
   Permissions), and fixes more permission gaps (see [security](../practices/security.md)).
@@ -347,3 +363,7 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [Codex CLI 0.168.0](../../sources/2026/11/2026-11-13-codex-cli-0-168.md)
 - [Claude Code release 2.1.325](../../sources/2026/11/2026-11-16-claude-code-2-1-325.md)
 - [Run tool calls from code with Code Mode](../../sources/2026/11/2026-11-16-claude-code-code-mode-docs.md)
+- [Claude Code release 2.1.326](../../sources/2026/11/2026-11-17-claude-code-2-1-326.md)
+- [VS Code retires the Local harness in February 2027](../../sources/2026/11/2026-11-17-vscode-retires-local-harness.md)
+- [GitHub Copilot weekly releases: November 9](../../sources/2026/11/2026-11-17-copilot-weekly-releases-nov-9.md)
+- [Open Code Review (Alibaba)](../../sources/2026/11/2026-11-17-open-code-review-alibaba.md)
