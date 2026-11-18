@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-11-16
+last_reviewed: 2026-11-18
 ---
 
 ## Overview
@@ -151,6 +151,9 @@ the de facto standard, with official SDKs in many languages.
   (`curl -fsSL https://xerj.org/get | sh`; read the script first), start a node with
   `xerj --insecure --data-dir ~/xerj-data &` (localhost, single user only), run
   `xerj autoindex ~/my-project`, then `claude mcp add xerj -- /absolute/path/to/xerj mcp`.
+- When a server needs a token in its config, add it in Claude Code with
+  `claude mcp add-json <name> -` and paste the JSON on stdin (2.1.327 and later), so the
+  token stays out of shell history.
 - Build a server when you want one integration usable from many AI clients.
 - Spec releases now follow a fixed six-month schedule (last Tuesday of March and
   September; next `2027-03-30`). Test the Tier 1 SDK betas about six weeks before each
@@ -158,6 +161,13 @@ the de facto standard, with official SDKs in many languages.
 
 ## Current state
 
+- **2026-11-18:** Claude Code 2.1.327 (2026-11-17) adds `claude mcp add-json <name> -`
+  (see How to use it) and stops project-scope `claude mcp add` and `remove` from
+  deleting other top-level keys, such as `$schema`, from `.mcp.json`.
+  [Codex CLI 0.170.0](https://github.com/openai/codex/releases/tag/rust-v0.170.0)
+  (2026-11-18) adds experimental support for identically named MCP servers across
+  environments. GitHub Copilot Evals can now test MCP tools (see
+  [evals](../practices/evals.md)).
 - **2026-11-16:** XERJ, a local search engine with an MCP server, added (see Key
   concepts and How to use it).
 
@@ -224,3 +234,5 @@ the de facto standard, with official SDKs in many languages.
 - [A More Predictable Release Cycle for MCP](../../sources/2026/11/2026-11-12-mcp-six-month-release-cycle.md)
 - [Exploring File Uploads and Downloads in MCP](../../sources/2026/11/2026-11-13-mcp-file-uploads-extension.md)
 - [XERJ: local search engine and MCP server for agents](../../sources/2026/11/2026-11-16-xerj-local-search-mcp-server.md)
+- [Claude Code release 2.1.327](../../sources/2026/11/2026-11-18-claude-code-2-1-327.md)
+- [GitHub Copilot Evals is now in public preview](../../sources/2026/11/2026-11-18-github-copilot-evals-preview.md)

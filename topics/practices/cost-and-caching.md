@@ -2,7 +2,7 @@
 title: "Cost and caching"
 tags: [cost, caching, tokens]
 related: [fundamentals/tokens-and-context, models/claude, fundamentals/reasoning-models]
-last_reviewed: 2026-11-15
+last_reviewed: 2026-11-18
 ---
 
 ## Overview
@@ -132,6 +132,8 @@ on the date shown; prices change often, so recheck before relying on them.
 | Claude Opus 5.5 | $4 / $0.20 / $20 | Fast mode $8 / $40 (GA since 2026-10-15) | 2026-10-20 |
 | Claude Sonnet 5.5 | $2 / $0.10 / $10 | Cache reads cut from $0.20, around 2026-10-07 per Simon Willison (the docs give no date) | 2026-10-08 |
 | Claude Haiku 5.5 | $0.10 / $0.01 / $0.50 | Prompts ≤100K; 5x above. Batch halves both tiers | 2026-10-08 |
+| GPT-6.2 Astra | $8 / $0.40 / $40 | Cache writes $10 (30 min) or $20 (12 h). Fast 2x; Ultrafast 3x until 2027-02-28, then 6x; Batch 50%; background windows 30–40% off | 2026-11-18 |
+| GPT-6.2 Sol | $2 / $0.10 / $10 | Same price as 6.1 Sol; cache writes $2.50 (30 min); background windows 30–40% off | 2026-11-18 |
 | GPT-6 Astra | $10 / $1.00 / $50 | Above 272K input: input 2x, output 1.5x (all GPT-6). Fast $20 / $2 / $100; Ultrafast $60 / $6 / $300; Batch and Flex $5 / $0.50 / $25 | 2026-10-21 |
 | GPT-6.1 Sol | $2 / $0.10 / $10 | Fast $4 / $0.20 / $20; Ultrafast $12 / $0.60 / $60; Batch and Flex $1 / $0.05 / $5 | 2026-10-21 |
 | Kimi K3.1 Pro (Moonshot) | $2 / not checked / $10 | From Simon Willison's post, not Moonshot's pricing page. Highspeed variant costs 2x; cached input costs the same | 2026-10-23 |
@@ -156,6 +158,13 @@ legacy, costs $1 / $5.
 
 ## Current state
 
+- **2026-11-18:** OpenAI's GPT-6.2 Astra (2026-11-17) costs 20% less than GPT-6 Astra
+  ($8 / $40), with cached input cut from $1 to $0.40; GPT-6.2 Sol keeps Sol's price. New
+  background completion windows in the Responses API (beta) cut token rates by 30% for a
+  2-hour window or 40% for 8 hours, a middle option between real-time and Batch (50%).
+  Anthropic's linked billing (beta, 2026-11-17) lets an app's customers pay for their own
+  Claude usage from their own organization, with their own spend cap (see
+  [Claude](../models/claude.md)).
 - **2026-11-13:** Gemini 4 Hydrogen (GA 2026-11-12) costs $1.50 / $7.50, double 3.8
   Flash's current price but the same as 3.8 Flash after its 2027-01-01 increase, and
   about 75% below Carbon and Argon once they double on 2026-12-01. Google reports that
@@ -211,3 +220,5 @@ legacy, costs $1 / $5.
 - [Introducing Claude Fable 5.2 and Claude Mythos 5.2](../../sources/2026/11/2026-11-10-claude-fable-mythos-5-2.md)
 - [Gemini Decisions API](../../sources/2026/11/2026-11-12-gemini-decisions-api.md)
 - [Introducing Gemini 4 Hydrogen](../../sources/2026/11/2026-11-13-gemini-4-hydrogen.md)
+- [GPT-6.2 Astra and Sol, background completion windows](../../sources/2026/11/2026-11-18-gpt-6-2-astra-sol.md)
+- [Claude API linked billing (beta)](../../sources/2026/11/2026-11-18-claude-linked-billing-beta.md)

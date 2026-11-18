@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-11-17
+last_reviewed: 2026-11-18
 ---
 
 ## Overview
@@ -245,7 +245,9 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   (`npm install -g @alibaba-group/open-code-review`, then `ocr review`) or as skills
   (`npx skills add alibaba/open-code-review`); its delegation mode lets your own coding
   agent do the review with OCR's file selection and rules. Its precision and token
-  claims against Claude Code are Alibaba's own (2026-11-17).
+  claims against Claude Code are Alibaba's own (2026-11-17). GitHub Copilot code review
+  has an Adaptive setting (preview, 2026-11-17) that picks Lite, Balanced, or Max per PR
+  by risk, capped by the configured maximum, and can flag secrets in review comments.
 
 ## How to use it
 
@@ -266,6 +268,17 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
+- **2026-11-18:** Claude Code 2.1.327 (2026-11-17) adds `claude mcp add-json <name> -`
+  (server JSON from stdin, keeping tokens out of shell history) and a `/status` list of
+  broken agents, skills, commands, keybindings, and hook matchers that never match; run
+  `/status` after editing customizations. It also fixes Remote Control deleting `.env`
+  files in worktree mode and `/export` overwriting files. GitHub's Ignite releases
+  (2026-11-17): Copilot browser use (public preview) drives your signed-in Chrome from
+  the CLI (`/plugin` → browser use), the Copilot app, VS Code, and JetBrains; Copilot
+  code review can pick its own effort (Adaptive: Lite, Balanced, or Max per PR) and
+  read related public repos; GPT-6.2 Astra and Sol are in Copilot. Prime Radiant's
+  external sandboxes run a coding agent's commands in a separate Linux VM (see
+  [security](../practices/security.md)).
 - **2026-11-17:** Claude Code 2.1.326 (2026-11-16) lets Code Mode run with agent teams
   and warns about incomplete tool rules, malformed plugin fields, and unsaved settings.
   VS Code 1.146 deprecates the Local harness (removed February 2027) and adds
@@ -367,3 +380,7 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [VS Code retires the Local harness in February 2027](../../sources/2026/11/2026-11-17-vscode-retires-local-harness.md)
 - [GitHub Copilot weekly releases: November 9](../../sources/2026/11/2026-11-17-copilot-weekly-releases-nov-9.md)
 - [Open Code Review (Alibaba)](../../sources/2026/11/2026-11-17-open-code-review-alibaba.md)
+- [Claude Code release 2.1.327](../../sources/2026/11/2026-11-18-claude-code-2-1-327.md)
+- [Let GitHub Copilot interact with your browser](../../sources/2026/11/2026-11-18-copilot-browser-use.md)
+- [Copilot code review: adaptive effort, secret detection, and more](../../sources/2026/11/2026-11-18-copilot-code-review-adaptive-effort.md)
+- [External sandboxes for coding agents](../../sources/2026/11/2026-11-18-external-sandboxes-coding-agents.md)

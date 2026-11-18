@@ -2,7 +2,7 @@
 title: "Security for LLM apps and agents"
 tags: [security, safety, agents, mcp]
 related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
-last_reviewed: 2026-11-17
+last_reviewed: 2026-11-18
 ---
 
 ## Overview
@@ -175,6 +175,17 @@ to limit what the agent can do if it is fooled.
 
 ## Current state
 
+- **2026-11-18:** Prime Radiant published experimental external sandboxes (2026-11-16):
+  the agent stays on the host and its commands run in a Linux VM that sees only mounted
+  folders, with no network unless an allow-list proxy is on. The proxy can swap a
+  placeholder for a real API key so the agent never holds it. Adapters exist for Claude
+  Code (`CLAUDE_CODE_SHELL_PREFIX`; Bash only, Read and Edit still run on the host),
+  Codex (exec-server), and Pi (all tools). Copilot's security review specialist can now
+  run GitHub secret scanning on your changes (`/security-review`; enable with
+  `/settings aiSecretDetection on` in the CLI), and agents can call it as a subagent.
+  Claude Code 2.1.327 (2026-11-17) adds `claude mcp add-json <name> -` to keep MCP tokens
+  out of shell history, and fixes Remote Control deleting git-ignored files such as
+  `.env` in worktree mode and an approved command still running after Stop.
 - **2026-11-17:** Claude Code 2.1.326 (2026-11-16) stops describing destructive Bash
   commands (`find -delete`, `cat a > b`, `sort -o`) as searches or reads in the
   transcript, shows `claude purge` prompts even when stdout is redirected, warns when
@@ -268,3 +279,6 @@ to limit what the agent can do if it is fooled.
 - [Claude Code release 2.1.325](../../sources/2026/11/2026-11-16-claude-code-2-1-325.md)
 - [Claude Code release 2.1.326](../../sources/2026/11/2026-11-17-claude-code-2-1-326.md)
 - [Control where GitHub Copilot customizations come from](../../sources/2026/11/2026-11-17-copilot-plugin-only-customizations.md)
+- [External sandboxes for coding agents](../../sources/2026/11/2026-11-18-external-sandboxes-coding-agents.md)
+- [Secret scanning on demand for developers and agents](../../sources/2026/11/2026-11-18-copilot-secret-scanning-agents.md)
+- [Claude Code release 2.1.327](../../sources/2026/11/2026-11-18-claude-code-2-1-327.md)

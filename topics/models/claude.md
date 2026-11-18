@@ -2,7 +2,7 @@
 title: "Claude (Anthropic)"
 tags: [anthropic, llm, reasoning, cost]
 related: [models/gpt, models/gemini, tooling/skills, tooling/mcp, tooling/coding-agents]
-last_reviewed: 2026-11-15
+last_reviewed: 2026-11-18
 ---
 
 ## Overview
@@ -174,8 +174,16 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 - Stream long requests. Use the Models API for live capability data; since 2026-10-15 it
   also reports whether a model accepts `between_tools` thinking.
 - Try lower effort on a strong model before adding a cascade of smaller models.
+- If you build an app on Claude and want customers to pay for their own usage, use
+  linked billing (beta since 2026-11-17, header `user-profiles-billing-2026-10-01`):
+  customers link their organization by OAuth with a monthly cap, and each request sets
+  `billing_policy` with `bill_to: "user_profile"` or `"self"`. Only organizations that
+  pay Anthropic directly can link, and your data terms (not theirs) apply.
 
 ## Current state
+
+- **2026-11-18:** Linked billing entered beta on the Claude API (2026-11-17; see How to
+  use it).
 
 - **2026-11-13:** Self-hosted Claude Managed Agents launched (2026-11-12): you host the
   service, its database, and the sandboxes, and choose the inference provider. Access is
@@ -242,3 +250,4 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 - [Introducing Claude Fable 5.2 and Claude Mythos 5.2](../../sources/2026/11/2026-11-10-claude-fable-mythos-5-2.md)
 - [How Claude marks AI-generated content](../../sources/2026/11/2026-11-10-claude-marks-ai-generated-content.md)
 - [Self-hosted Claude Managed Agents](../../sources/2026/11/2026-11-13-self-hosted-claude-managed-agents.md)
+- [Claude API linked billing (beta)](../../sources/2026/11/2026-11-18-claude-linked-billing-beta.md)

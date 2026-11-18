@@ -2,7 +2,7 @@
 title: "GPT (OpenAI)"
 tags: [openai, llm, reasoning]
 related: [models/claude, models/gemini, tooling/coding-agents]
-last_reviewed: 2026-11-08
+last_reviewed: 2026-11-18
 ---
 
 ## Overview
@@ -12,13 +12,17 @@ merged the separate GPT and "o-series" reasoning lines into one family. A series
 releases followed through 2026, and GPT-6 arrived in September 2026 in three tiers:
 Astra in early September, then Sol and Luna at API prices 50% below GPT-5.6 promotional
 pricing. GPT-6.1 Sol replaced GPT-6 Sol on 2026-09-29. GPT-6.1 Terra, a mid-priced
-model between Sol and Luna, followed on 2026-10-26.
+model between Sol and Luna, followed on 2026-10-26. GPT-6.2 Astra and GPT-6.2 Sol
+arrived on 2026-11-17: Astra at a lower price than GPT-6 Astra, Sol at the same price as
+GPT-6.1 Sol with a newer knowledge cutoff.
 
 ## Key concepts
 
-- **GPT-6 tiers:** Astra (`gpt-6-astra`, flagship; OpenAI claims state of the art on
+- **GPT-6 tiers:** Astra (`gpt-6.2-astra` since 2026-11-17, for demanding reasoning and
+  coding; GPT-6 Astra, `gpt-6-astra`, was launched with claims of state of the art on
   computer use, browsing, software engineering, cybersecurity, and professional work),
-  Sol (`gpt-6.1-sol`, near-Astra quality at lower cost), Terra (`gpt-6.1-terra`, since
+  Sol (`gpt-6.2-sol` since 2026-11-17, for everyday coding and agent work, near-Astra
+  quality at lower cost), Terra (`gpt-6.1-terra`, since
   2026-10-26; fast and mid-priced, aimed at visual reasoning, computer use, and clear
   writing), Luna (`gpt-6-luna`, cheapest and fastest). According to OpenAI's Ted
   Sanders, Terra matches Astra and Sol on vision and computer use while being much
@@ -58,19 +62,30 @@ model between Sol and Luna, followed on 2026-10-26.
 ## How to use it
 
 - Pick a tier by cost and difficulty, as with other vendors.
-- All GPT-6 models have a 1.05M-token context window and 128K output (as of 2026-10-06),
-  but inputs above 272K tokens cost 2x for input and 1.5x for output. Terra's model
-  page (2026-10-27) gives a maximum input of 922K tokens and does not mention the
-  long-input surcharge.
+- All GPT-6 models have a 1.05M-token context window (922K maximum input) and 128K
+  output, but prompts above 272K input tokens cost 2x for input and cache rates and 1.5x
+  for output on the whole request. This includes GPT-6.1 Terra: its model page states
+  the surcharge (checked 2026-11-18), and GPT-6.2 Astra and Sol.
 - Prices per 1M tokens (input / cached input / output, as of 2026-10-06; Terra as of
-  2026-10-26):
+  2026-10-26; GPT-6.2 as of 2026-11-17):
 
 | Model | Price | Knowledge cutoff |
 |---|---|---|
+| GPT-6.2 Astra | $8 / $0.40 / $40 | 2026-05-18 |
 | GPT-6 Astra | $10 / $1.00 / $50 | 2026-04-30 |
+| GPT-6.2 Sol | $2 / $0.10 / $10 | 2026-06-01 |
 | GPT-6.1 Sol | $2 / $0.10 / $10 | 2026-04-30 |
 | GPT-6.1 Terra | $1 / $0.05 / $5 | 2026-06-01 |
 | GPT-6 Luna | $0.10 / $0.01 / $0.50 | 2026-05-18 |
+
+- GPT-6.2 Astra and Sol reject reasoning effort `none`. Tool calling needs the Responses
+  API, which with GPT-6.2 changes how reasoning is kept when you edit a conversation
+  prefix and how top-level `instructions` are handled; read OpenAI's migration guide
+  before switching. Both are in ChatGPT, Codex, the API, and GitHub Copilot.
+- For jobs that can wait, background completion windows (Responses API beta, since
+  2026-11-17) give 30% off standard rates for a 2-hour window and 40% off for 8 hours, on
+  GPT-6.2 Astra and Sol, GPT-6.1 Terra, and GPT-6 Luna (see
+  [cost and caching](../practices/cost-and-caching.md)).
 
 - GPT-6.1 Terra supports reasoning effort from `none` to `max`, and in the Responses API
   it can use computer use, hosted shell, apply patch, skills, MCP, and tool search. It
@@ -106,6 +121,10 @@ model between Sol and Luna, followed on 2026-10-26.
 
 ## Current state
 
+- **2026-11-18:** GPT-6.2 Astra and Sol (2026-11-17) and background completion windows
+  are new (see Key concepts and How to use it). The announcement post returned 403, so
+  OpenAI's benchmark claims are unchecked; Simon Willison reports Astra 6.2 scores below
+  Claude Fable 5.2 on several benchmarks, without figures.
 - **2026-11-05:** `gpt-6-cyber` and Images 2.6 are new (see Key concepts). Their
   announcement posts return 403, so GPT-6-Cyber benchmarks and Images 2.6 prices are
   not recorded.
@@ -125,9 +144,12 @@ model between Sol and Luna, followed on 2026-10-26.
 - When was the Decisions API first announced? Secondary coverage says DevDay
   (2026-09-29); OpenAI's changelog gives the beta release date as 2026-10-06. Latency
   figures such as ~150 ms come only from secondary reports.
-- Does GPT-6.1 Terra charge more for inputs above 272K tokens, as the other GPT-6 models
-  do? Its model page does not say (checked 2026-10-27). Its benchmark figures are also
-  unchecked, because the announcement post returned 403.
+- GPT-6.1 Terra long-input pricing: answered 2026-11-18. Its model page now states the
+  same surcharge as the other GPT-6 models (2x input and cache rates, 1.5x output above
+  272K input tokens). Its benchmark figures are still unchecked, because the
+  announcement post returned 403.
+- Is GPT-6 Astra retired or repriced now that GPT-6.2 Astra exists? The changelog of
+  2026-11-17 announces no deprecation.
 - What changed in the Model Spec update of 2026-10-29? Both the announcement and the
   versioned spec page could be fetched only partly (checked 2026-10-30); the changelog
   is on GitHub.
@@ -148,3 +170,4 @@ model between Sol and Luna, followed on 2026-10-26.
 - [OpenAI API credits for ChatGPT plans](../../sources/2026/10/2026-10-30-openai-api-credits-chatgpt-plans.md)
 - [OpenAI Images 2.6](../../sources/2026/11/2026-11-05-gpt-image-2-6-sunburst-flare.md)
 - [GPT-6-Cyber model (API docs)](../../sources/2026/11/2026-11-06-gpt-6-cyber.md)
+- [GPT-6.2 Astra and Sol, background completion windows](../../sources/2026/11/2026-11-18-gpt-6-2-astra-sol.md)

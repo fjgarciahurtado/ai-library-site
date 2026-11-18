@@ -2,7 +2,7 @@
 title: "Evaluating LLM applications"
 tags: [evals, prompting, agents]
 related: [practices/prompting, agents/agent-patterns]
-last_reviewed: 2026-11-16
+last_reviewed: 2026-11-18
 ---
 
 ## Overview
@@ -70,8 +70,15 @@ models in general; your own evals tell you what works for your use case.
    for simple single-turn ones), and report confidence intervals and per-category
    results. The open-source Inspect framework and Anthropic's Petri toolkit (built on
    Inspect) handle running, logging, and grading.
+7. To test your own agent customizations (skills, custom agents, MCP tools), GitHub
+   Copilot Evals (preview since 2026-11-17) adds an `/eval` command in VS Code, the
+   Copilot CLI, and the Copilot app. It checks both the result and the agent's process
+   and compares runs before and after a change.
 
 ## Current state
+
+- **2026-11-18:** GitHub Copilot Evals entered public preview (2026-11-17), built on the
+  local Vally eval tool (see How to use it, step 7).
 
 - **2026-11-16:** Anthropic published "Building strong safety evaluations" (2026-11-13),
   a checklist for designing, running, and reporting evals (see Validity, Grader
@@ -102,3 +109,4 @@ models in general; your own evals tell you what works for your use case.
 - [Google ADK (Python) v2.14.0](../../sources/2026/11/2026-11-09-google-adk-python-v2-14.md)
 - [Claude Code release 2.1.319](../../sources/2026/11/2026-11-09-claude-code-2-1-319.md)
 - [Building strong safety evaluations](../../sources/2026/11/2026-11-16-anthropic-strong-safety-evaluations.md)
+- [GitHub Copilot Evals is now in public preview](../../sources/2026/11/2026-11-18-github-copilot-evals-preview.md)

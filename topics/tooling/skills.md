@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-11-17
+last_reviewed: 2026-11-18
 ---
 
 ## Overview
@@ -136,13 +136,23 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 - Write the `description` carefully: it decides when the skill is used.
 - Keep `SKILL.md` focused; move long reference material into separate files.
 - Include scripts for steps that must be exact.
-- Test that the skill triggers on the right requests and not on the wrong ones.
+- Test that the skill triggers on the right requests and not on the wrong ones. Copilot
+  users can automate this with Copilot Evals (`/eval`, preview since 2026-11-17), which
+  runs repeatable tasks against a skill and compares runs before and after a change.
+- For ready-made plugins, install selectively from large marketplaces such as
+  `wshobson/agents` (`/plugin marketplace add wshobson/agents`; 94 plugins, generated
+  for Claude Code, Codex, Cursor, Copilot, and others): each loaded plugin adds its
+  descriptions to the context.
 - Review third-party skills before installing: they can contain instructions and code.
 - To share skills across a team and several agents, pin them in an APM `apm.yml`, commit
   the lockfile, and let Dependabot propose updates you review like any dependency.
 
 ## Current state
 
+- **2026-11-18:** GitHub Copilot Evals (public preview, 2026-11-17) tests skills, custom
+  agents, and MCP tools with `/eval` (see How to use it). Source note added for the
+  `wshobson/agents` plugin marketplace (MIT, one Markdown source generated for seven
+  harnesses).
 - **2026-11-17:** GitHub Copilot admins can require skills, hooks, agents, and MCP
   servers to come only from plugins or managed settings (see Discovery in Copilot).
   Open Code Review (Alibaba) adds review skills for any Agent Skills agent.
@@ -212,3 +222,5 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 - [craft: design skills for AI agents](../../sources/2026/11/2026-11-16-craft-design-skills-plugin.md)
 - [Control where GitHub Copilot customizations come from](../../sources/2026/11/2026-11-17-copilot-plugin-only-customizations.md)
 - [Open Code Review (Alibaba)](../../sources/2026/11/2026-11-17-open-code-review-alibaba.md)
+- [GitHub Copilot Evals is now in public preview](../../sources/2026/11/2026-11-18-github-copilot-evals-preview.md)
+- [wshobson/agents: multi-harness plugins, agents, and skills](../../sources/2026/11/2026-11-18-wshobson-agents-plugin-marketplace.md)
