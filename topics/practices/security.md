@@ -2,7 +2,7 @@
 title: "Security for LLM apps and agents"
 tags: [security, safety, agents, mcp]
 related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
-last_reviewed: 2026-11-18
+last_reviewed: 2026-11-19
 ---
 
 ## Overview
@@ -175,6 +175,11 @@ to limit what the agent can do if it is fooled.
 
 ## Current state
 
+- **2026-11-19:** REA, an MCP server and CLI for agent-driven reverse engineering
+  (binaries, Electron apps, APKs, firmware, packet captures), is one of the fastest-rising
+  agent repos. Its README warns that look-alike repos copy its name: install only from
+  `morluto/rea` or the `rea-agents` npm package, a reminder that popular agent tools
+  attract impostors.
 - **2026-11-18:** Prime Radiant published experimental external sandboxes (2026-11-16):
   the agent stays on the host and its commands run in a Linux VM that sees only mounted
   folders, with no network unless an allow-list proxy is on. The proxy can swap a
@@ -282,3 +287,4 @@ to limit what the agent can do if it is fooled.
 - [External sandboxes for coding agents](../../sources/2026/11/2026-11-18-external-sandboxes-coding-agents.md)
 - [Secret scanning on demand for developers and agents](../../sources/2026/11/2026-11-18-copilot-secret-scanning-agents.md)
 - [Claude Code release 2.1.327](../../sources/2026/11/2026-11-18-claude-code-2-1-327.md)
+- [REA: reverse engineering with agents](../../sources/2026/11/2026-11-19-rea-reverse-engineering-agents.md)

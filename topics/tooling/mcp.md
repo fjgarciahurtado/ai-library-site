@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-11-18
+last_reviewed: 2026-11-19
 ---
 
 ## Overview
@@ -161,6 +161,13 @@ the de facto standard, with official SDKs in many languages.
 
 ## Current state
 
+- **2026-11-19:** GitHub added eight verified MCP connectors to Copilot (public preview,
+  2026-11-18): Box, Buildkite, Calendly, ClickUp, Mixpanel, Supabase, Webflow, and Wix
+  (Copilot CLI: `/mcp` → Connectors). Enterprises that allowlist MCP servers one by one
+  must add them. Claude Code 2.1.328 lets `mcp_tool` hooks fail closed with
+  `"onFailure": "block"`. REA (`npx rea-agents setup`) is a popular MCP server that lets
+  agents reverse engineer binaries, Electron apps, APKs, and firmware, using Ghidra, IDA,
+  or Hopper for native code (see [security](../practices/security.md)).
 - **2026-11-18:** Claude Code 2.1.327 (2026-11-17) adds `claude mcp add-json <name> -`
   (see How to use it) and stops project-scope `claude mcp add` and `remove` from
   deleting other top-level keys, such as `$schema`, from `.mcp.json`.
@@ -236,3 +243,6 @@ the de facto standard, with official SDKs in many languages.
 - [XERJ: local search engine and MCP server for agents](../../sources/2026/11/2026-11-16-xerj-local-search-mcp-server.md)
 - [Claude Code release 2.1.327](../../sources/2026/11/2026-11-18-claude-code-2-1-327.md)
 - [GitHub Copilot Evals is now in public preview](../../sources/2026/11/2026-11-18-github-copilot-evals-preview.md)
+- [Claude Code release 2.1.328](../../sources/2026/11/2026-11-19-claude-code-2-1-328.md)
+- [Connect Supabase, Box, Calendly, and more to Copilot](../../sources/2026/11/2026-11-19-copilot-connectors-supabase-box-calendly.md)
+- [REA: reverse engineering with agents](../../sources/2026/11/2026-11-19-rea-reverse-engineering-agents.md)

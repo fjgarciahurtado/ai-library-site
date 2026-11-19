@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-11-18
+last_reviewed: 2026-11-19
 ---
 
 ## Overview
@@ -149,6 +149,11 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 
 ## Current state
 
+- **2026-11-19:** GitHub Copilot team customizations are GA (2026-11-18) on Business and
+  Enterprise: a team maintainer picks Agent Plugins (from built-in, enterprise, or any
+  repository-hosted marketplace) that are on by default for the team's direct members in
+  VS Code, the Copilot app, and Copilot CLI. Organization and enterprise policy still
+  wins, and members can switch a plugin off where allowed.
 - **2026-11-18:** GitHub Copilot Evals (public preview, 2026-11-17) tests skills, custom
   agents, and MCP tools with `/eval` (see How to use it). Source note added for the
   `wshobson/agents` plugin marketplace (MIT, one Markdown source generated for seven
@@ -224,3 +229,4 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 - [Open Code Review (Alibaba)](../../sources/2026/11/2026-11-17-open-code-review-alibaba.md)
 - [GitHub Copilot Evals is now in public preview](../../sources/2026/11/2026-11-18-github-copilot-evals-preview.md)
 - [wshobson/agents: multi-harness plugins, agents, and skills](../../sources/2026/11/2026-11-18-wshobson-agents-plugin-marketplace.md)
+- [Customize GitHub Copilot for your team](../../sources/2026/11/2026-11-19-copilot-team-plugin-defaults.md)

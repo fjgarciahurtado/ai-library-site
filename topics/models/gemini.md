@@ -2,7 +2,7 @@
 title: "Gemini (Google)"
 tags: [google, llm, multimodal]
 related: [models/claude, models/gpt, models/open-weight]
-last_reviewed: 2026-11-15
+last_reviewed: 2026-11-19
 ---
 
 ## Overview
@@ -10,8 +10,10 @@ last_reviewed: 2026-11-15
 Gemini is Google DeepMind's model family, used in the Gemini app, Google products, and
 through the Gemini API and Vertex AI. Gemini is natively multimodal (text, images, audio,
 video) and known for long context. Its most capable model is Gemini 4 Carbon (GA since
-2026-11-10); Gemini 4 Argon (public since 2026-10-13) remains the recommended everyday
-model, and Gemini 4 Hydrogen (GA 2026-11-12) is the cheap, fast model of the family. Google also publishes the open-weight Gemma models (see
+2026-11-10). Gemini 4 Neon (GA 2026-11-18) sits below it for frequent complex work,
+Gemini 4 Argon (public since 2026-10-13) remains available, and Gemini 4 Hydrogen (GA
+2026-11-12) is the cheap, fast model that Google now calls the default for everyday
+coding and agent work (Neon guide, 2026-11-18). Google also publishes the open-weight Gemma models (see
 [open-weight models](open-weight.md)).
 
 ## Key concepts
@@ -21,10 +23,20 @@ model, and Gemini 4 Hydrogen (GA 2026-11-12) is the cheap, fast model of the fam
 - **Gemma:** Google's open-weight family, separate from Gemini. A fine-tuned Gemma
   powers an on-device scam detector built with Singapore's government (2026-10-14, not
   released; see [open-weight models](open-weight.md)).
-- **Current lineup (as of 2026-11-13):**
+- **Current lineup (as of 2026-11-19):**
+  - *Gemini 4 Neon* (`gemini-4-neon`, GA 2026-11-18, paid tier only) sits between
+    Hydrogen and Carbon for high-frequency complex tasks in software engineering,
+    knowledge work, and science. 1M shared context, 64K synchronous output (long decode
+    to 1M), thinking low/medium/high (default)/xhigh, implicit caching only, no sampling
+    parameters. Function calling, structured outputs, Search grounding, and the
+    Antigravity agent in Managed Agents; computer use is not listed. Google gives no
+    benchmark figures. Also in GitHub Copilot. Not on Gemini Enterprise Agent Platform
+    as of 2026-11-19.
   - *Gemini 4 Carbon* (`gemini-4-carbon`, Stable, GA 2026-11-10) is the strongest model,
     for long multi-step coding, debugging, and research. It uses more tokens than Argon
-    to explore and verify, so Google still recommends Argon for most everyday work.
+    to explore and verify, so the Carbon launch (2026-11-10) recommended Argon for most
+    everyday work; the Neon guide (2026-11-18) instead names Hydrogen as the everyday
+    default. The two Google pages disagree; the newer one is likely current.
     Same limits as Argon (1M shared context, 64K default output, up to 1M with long
     decode, thinking low/medium/high, implicit caching only) plus computer use, code
     execution, file search, and Search/Maps grounding; Batch, Flex, and Priority
@@ -34,7 +46,9 @@ model, and Gemini 4 Hydrogen (GA 2026-11-12) is the cheap, fast model of the fam
     GitHub Copilot. Safety figures (Google): 0% on Gray Swan's indirect prompt-injection
     benchmark and a 0.8% per-attempt breach rate against an adaptive red-team agent
     (Argon 3.1%). Google also reports first place on CursorBench 4.0, WANDR, and
-    AutomationBench (vendor claims). Pydantic AI supports it since 2.67.
+    AutomationBench (vendor claims). Pydantic AI supports it since 2.67. GA on Gemini
+    Enterprise Agent Platform (Vertex AI) since 2026-11-10, with "Carbon for cyber"
+    there too, and supported by the Deferred tier on the global endpoint (2026-11-16).
   - *Gemini 4 Argon* (`gemini-4-argon`) is the everyday frontier model (see below).
   - *Gemini 4 Hydrogen* (`gemini-4-hydrogen`, GA 2026-11-12) is the lowest-cost Gemini 4
     model, built for fast execution: 1M input and up to 1M output tokens, thinking
@@ -43,7 +57,8 @@ model, and Gemini 4 Hydrogen (GA 2026-11-12) is the cheap, fast model of the fam
     vs 18.2%, over 5x fewer fabricated claims) and as a worker or verifier under Carbon;
     in Antigravity's Orchestrator, mixing Carbon and Hydrogen came close to Carbon alone
     with about 24% less quota (Google's figures). It is the default model of the
-    Antigravity agent in Gemini Managed Agents. No "Flash" name is used for Gemini 4.
+    Antigravity agent in Gemini Managed Agents, and GA on Gemini Enterprise Agent
+    Platform since 2026-11-12. No "Flash" name is used for Gemini 4.
   - *Gemini 3.8 Flash* (GA 2026-09-02) was the newest Flash model before Hydrogen,
     aimed at long-horizon coding, agents, and enterprise workflows: 1M input and 64K
     output tokens, text, image, video, audio, and PDF input, thinking levels, and
@@ -109,7 +124,8 @@ model, and Gemini 4 Hydrogen (GA 2026-11-12) is the cheap, fast model of the fam
 - Use Gemini for heavy video and audio input, where it has long been strong.
 - Prices per 1M tokens (input / output, paid tier, as of 2026-10-07; Argon as of
   2026-10-14; Carbon as of 2026-11-10): 4 Carbon and 4 Argon both $2 / $10 until
-  2026-11-30, then $4 / $20; 4 Hydrogen $1.50 / $7.50 ($0.075 cached input, flat
+  2026-11-30, then $4 / $20; 4 Neon $3 / $15 ($0.15 cached input, flat, as of
+  2026-11-18); 4 Hydrogen $1.50 / $7.50 ($0.075 cached input, flat
   across the context window, as of 2026-11-12); 3.8 Flash
   $0.75 / $3.75 (doubling on 2027-01-01; 3.7 Flash was priced the same), 3.5 Flash
   $1.50 / $9.00 (deprecated; no longer on the pricing page on 2026-11-03), 3.1 Pro
@@ -153,6 +169,14 @@ model, and Gemini 4 Hydrogen (GA 2026-11-12) is the cheap, fast model of the fam
 
 ## Current state
 
+- **2026-11-19:** Gemini 4 Neon is GA on the paid Gemini API (2026-11-18) at $3 / $15,
+  between Hydrogen and Carbon. Switching from another Gemini 4 model needs only a new
+  model ID, but Neon defaults to `high` thinking (Carbon and Argon: `medium`). From 3.8
+  Flash or older, drop sampling parameters and `cached_content`, raise output caps and
+  timeouts; the `gemini-api-dev` skill can automate this. The same day the API gained
+  Office and OpenDocument input and slicing of documents, spreadsheets, video, and
+  audio. Google Cloud's release notes confirm Carbon (2026-11-10) and Hydrogen
+  (2026-11-12) are GA on Gemini Enterprise Agent Platform; Neon is not yet listed.
 - **2026-11-13:** Gemini 4 Hydrogen is GA (2026-11-12) at $1.50 / $7.50, about 25%
   below Carbon and Argon now and about 75% below them after their price rise. Google
   ships one cheap Gemini 4 model rather than separate Flash and Flash-Lite tiers (so far).
@@ -166,10 +190,15 @@ model, and Gemini 4 Hydrogen (GA 2026-11-12) is the cheap, fast model of the fam
 ## Open questions
 
 - Smaller Gemini 4 models: answered 2026-11-13. Gemini 4 Hydrogen (2026-11-12) is the
-  small, cheap Gemini 4 model. Still open: whether a Flash-Lite-class model will follow,
-  and whether Hydrogen is on Vertex AI (the announcement does not say).
-- Gemini 4 Carbon's availability on Gemini Enterprise Agent Platform (Vertex AI) and in
-  Gemini CLI is not stated in the launch posts (checked 2026-11-11).
+  small, cheap Gemini 4 model. Still open: whether a Flash-Lite-class model will follow.
+  Hydrogen on Vertex AI: answered 2026-11-19 (GA on Gemini Enterprise Agent Platform
+  since 2026-11-12).
+- Gemini 4 on Gemini Enterprise Agent Platform and Gemini CLI: partly answered
+  2026-11-19. Carbon is GA there since 2026-11-10 (release notes). Still open: when Neon
+  arrives there, and whether Gemini CLI supports Carbon or Neon (its 0.69.0 release of
+  2026-11-19 does not say).
+- Gemini 4 Neon has no Google blog post or benchmark figures; only the changelog and the
+  "What's new" guide describe it (checked 2026-11-19).
 - Computer Use GA (2026-10-30): pricing answered on 2026-11-03 (regular tokens at the
   model's price, no free tier). Still open: rate limits, and the docs page still does
   not say GA.
@@ -208,3 +237,5 @@ model, and Gemini 4 Hydrogen (GA 2026-11-12) is the cheap, fast model of the fam
 - [Gemini 4 Carbon is now available](../../sources/2026/11/2026-11-11-gemini-4-carbon-available.md)
 - [Gemini Decisions API](../../sources/2026/11/2026-11-12-gemini-decisions-api.md)
 - [Introducing Gemini 4 Hydrogen](../../sources/2026/11/2026-11-13-gemini-4-hydrogen.md)
+- [Gemini 4 Neon](../../sources/2026/11/2026-11-19-gemini-4-neon.md)
+- [Gemini Enterprise Agent Platform release notes, November 2026](../../sources/2026/11/2026-11-19-gemini-agent-platform-november-releases.md)

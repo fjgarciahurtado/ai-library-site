@@ -2,7 +2,7 @@
 title: "Cost and caching"
 tags: [cost, caching, tokens]
 related: [fundamentals/tokens-and-context, models/claude, fundamentals/reasoning-models]
-last_reviewed: 2026-11-18
+last_reviewed: 2026-11-19
 ---
 
 ## Overview
@@ -158,6 +158,11 @@ legacy, costs $1 / $5.
 
 ## Current state
 
+- **2026-11-19:** Gemini 4 Neon (GA 2026-11-18) costs $3 / $15 per 1M tokens, with
+  implicit-cache hits at $0.15 and no explicit caching. It is pricier than Carbon and
+  Argon until their rise to $4 / $20 on 2026-11-30, and defaults to `high` thinking.
+  The Gemini API can now slice documents, spreadsheets, video, and audio (page ranges,
+  tabs, cell ranges, time intervals) so you pay only for the part you send.
 - **2026-11-18:** OpenAI's GPT-6.2 Astra (2026-11-17) costs 20% less than GPT-6 Astra
   ($8 / $40), with cached input cut from $1 to $0.40; GPT-6.2 Sol keeps Sol's price. New
   background completion windows in the Responses API (beta) cut token rates by 30% for a
@@ -222,3 +227,4 @@ legacy, costs $1 / $5.
 - [Introducing Gemini 4 Hydrogen](../../sources/2026/11/2026-11-13-gemini-4-hydrogen.md)
 - [GPT-6.2 Astra and Sol, background completion windows](../../sources/2026/11/2026-11-18-gpt-6-2-astra-sol.md)
 - [Claude API linked billing (beta)](../../sources/2026/11/2026-11-18-claude-linked-billing-beta.md)
+- [Gemini 4 Neon](../../sources/2026/11/2026-11-19-gemini-4-neon.md)

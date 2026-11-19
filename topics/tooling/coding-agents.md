@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-11-18
+last_reviewed: 2026-11-19
 ---
 
 ## Overview
@@ -265,9 +265,21 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   `/plugin install ponytail@ponytail` (also for Codex). It makes the agent check
   existing code, the standard library, and platform features before writing new code,
   and adds `/ponytail-review` for diffs. Its savings figures are the author's own.
+- When an agent must wait for PR review or CI, have it run `gh event listen <PR URL>`
+  (GitHub CLI 2.105.0+, preview, 2026-11-18) rather than a sleep-and-poll loop; it exits
+  after the first event and prints JSON.
 
 ## Current state
 
+- **2026-11-19:** Claude Code 2.1.328 (about 2026-11-18) adds `"onFailure": "block"` for
+  `mcp_tool` hooks (a failing hook blocks the action), auto mode for Opus 4.6 and Sonnet
+  4.6 on Bedrock, Google Cloud, Foundry, and the Claude apps gateway, and fixes scheduled
+  tasks being erased and zsh commands with `=` words failing. GitHub CLI 2.105.0 adds
+  `gh event listen <PR URL>` (preview, needs Event Streams access): an agent waits for a
+  review, check suite, or merge conflict in one command instead of polling. GitHub
+  (2026-11-18) also made team plugin defaults GA for Copilot Business and Enterprise
+  (team → **Customize Copilot**), added eight connectors including Supabase and
+  Buildkite (`/mcp` → Connectors in Copilot CLI), and added Gemini 4 Neon to Copilot.
 - **2026-11-18:** Claude Code 2.1.327 (2026-11-17) adds `claude mcp add-json <name> -`
   (server JSON from stdin, keeping tokens out of shell history) and a `/status` list of
   broken agents, skills, commands, keybindings, and hook matchers that never match; run
@@ -384,3 +396,7 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [Let GitHub Copilot interact with your browser](../../sources/2026/11/2026-11-18-copilot-browser-use.md)
 - [Copilot code review: adaptive effort, secret detection, and more](../../sources/2026/11/2026-11-18-copilot-code-review-adaptive-effort.md)
 - [External sandboxes for coding agents](../../sources/2026/11/2026-11-18-external-sandboxes-coding-agents.md)
+- [Claude Code release 2.1.328](../../sources/2026/11/2026-11-19-claude-code-2-1-328.md)
+- [Wait for pull request events with GitHub CLI](../../sources/2026/11/2026-11-19-gh-event-listen-pr-events.md)
+- [Connect Supabase, Box, Calendly, and more to Copilot](../../sources/2026/11/2026-11-19-copilot-connectors-supabase-box-calendly.md)
+- [Customize GitHub Copilot for your team](../../sources/2026/11/2026-11-19-copilot-team-plugin-defaults.md)
