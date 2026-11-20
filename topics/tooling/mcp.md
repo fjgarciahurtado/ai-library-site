@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-11-19
+last_reviewed: 2026-11-20
 ---
 
 ## Overview
@@ -161,6 +161,13 @@ the de facto standard, with official SDKs in many languages.
 
 ## Current state
 
+- **2026-11-20:** Claude Code 2.1.329 shows a remote HTTP server's JSON-RPC refusal
+  error as a "Server message" row in `/mcp`, which helps debug auth and connection
+  failures. The Gemini API's tool retrieval (preview) accepts `defer_loading` on remote
+  MCP servers (see [tool use](../agents/tool-use.md)). New server: rust-anything
+  (`cargo install rust-anything && rust-anything setup` registers it in Claude Code,
+  Codex, Cursor, Gemini CLI, and OpenCode) gives agents record, replay, and diff tools
+  for porting code to Rust (see [coding agents](coding-agents.md)).
 - **2026-11-19:** GitHub added eight verified MCP connectors to Copilot (public preview,
   2026-11-18): Box, Buildkite, Calendly, ClickUp, Mixpanel, Supabase, Webflow, and Wix
   (Copilot CLI: `/mcp` → Connectors). Enterprises that allowlist MCP servers one by one
@@ -246,3 +253,5 @@ the de facto standard, with official SDKs in many languages.
 - [Claude Code release 2.1.328](../../sources/2026/11/2026-11-19-claude-code-2-1-328.md)
 - [Connect Supabase, Box, Calendly, and more to Copilot](../../sources/2026/11/2026-11-19-copilot-connectors-supabase-box-calendly.md)
 - [REA: reverse engineering with agents](../../sources/2026/11/2026-11-19-rea-reverse-engineering-agents.md)
+- [Claude Code release 2.1.329](../../sources/2026/11/2026-11-20-claude-code-2-1-329.md)
+- [rust-anything: incremental Rust rewrites](../../sources/2026/11/2026-11-20-rust-anything-incremental-rust-rewrites.md)

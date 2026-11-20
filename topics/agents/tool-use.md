@@ -2,7 +2,7 @@
 title: "Tool use (function calling)"
 tags: [tool-use, agents, structured-output]
 related: [agents/agent-patterns, tooling/mcp, tooling/skills]
-last_reviewed: 2026-11-17
+last_reviewed: 2026-11-20
 ---
 
 ## Overview
@@ -22,7 +22,12 @@ how LLMs act in the world and the core of every agent.
 - **Strict mode:** guarantees arguments match the schema exactly.
 - **Server tools:** tools the provider runs for you (web search, web fetch, code execution).
 - **Tool search / deferred loading:** with many tools, load definitions only when needed
-  to save context.
+  to save context. Now offered by Anthropic (tool search), OpenAI's Agents SDK
+  (`ToolSearch`, alpha), and the Gemini API (tool retrieval, preview since 2026-11-19:
+  `defer_loading: true` on tools or remote MCP servers plus a `{"type": "tool_search"}`
+  tool, or `execution: "client"` for your own retrieval; Gemini 3.6 and later).
+  Pydantic AI's `ToolBridge` (2.71.0) does the same inside the framework with
+  `tool_search`, `tool_describe`, and `tool_call`, which keeps the prompt cache stable.
 - **Programmatic tool calling:** the model writes code that calls your tools, so large
   intermediate results never enter its context. "Code mode" proxies apply this to MCP:
   MCPtoCodeMode (2026-10-22) puts any set of MCP servers behind `search`, `describe`, and
@@ -73,6 +78,11 @@ how LLMs act in the world and the core of every agent.
 
 ## Current state
 
+- **2026-11-20:** Gemini API tool retrieval (preview, 2026-11-19) brings deferred tool
+  loading to Gemini, including for remote MCP servers. Pydantic AI 2.71.0 adds
+  `ToolBridge` (search-describe-call over large tool sets) and `PermissionRule` to
+  allow, ask, or deny tool and shell calls by rule.
+
 - **2026-11-17:** OpenAI Agents SDK 0.24.0-alpha.8 adds per-call approval of Python
   tools and deferred tool schemas via `ToolSearch` (preview only).
 
@@ -91,6 +101,8 @@ how LLMs act in the world and the core of every agent.
 - Best practices for very large tool catalogues (hundreds of tools). Two approaches so
   far: tool search / deferred loading, and code-mode proxies that hide tools behind
   search and execute (2026-10-22). There is no independent comparison of the two yet.
+  By 2026-11-20 deferred loading is supported by Anthropic, Google, and OpenAI's Agents
+  SDK, so it is the de facto default; code mode remains vendor- or proxy-specific.
 
 ## Sources
 
@@ -105,3 +117,5 @@ how LLMs act in the world and the core of every agent.
 - [Gemini API Computer Use generally available](../../sources/2026/11/2026-11-02-gemini-computer-use-ga.md)
 - [Run tool calls from code with Code Mode](../../sources/2026/11/2026-11-16-claude-code-code-mode-docs.md)
 - [OpenAI Agents SDK v0.24.0-alpha.8](../../sources/2026/11/2026-11-17-openai-agents-sdk-alpha-8.md)
+- [Gemini API: tool retrieval (preview) and Genie 4 GA](../../sources/2026/11/2026-11-20-gemini-api-tool-retrieval-preview.md)
+- [Pydantic AI v2.71.0](../../sources/2026/11/2026-11-20-pydantic-ai-v2-71.md)

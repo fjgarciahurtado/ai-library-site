@@ -2,7 +2,7 @@
 title: "Agent and LLM framework landscape"
 tags: [frameworks, agents, sdk]
 related: [agents/agent-patterns, agents/tool-use, tooling/mcp]
-last_reviewed: 2026-11-17
+last_reviewed: 2026-11-20
 ---
 
 ## Overview
@@ -148,8 +148,8 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 |---|---|---|---|
 | Microsoft Agent Framework | Python 1.25.0 / .NET 1.28.0 | 2026-11-07 / 2026-11-09 | 1.0 GA on 2026-04-03; Python 1.23 moved to MCP 2.x and 1.25 adds callable MCP discovery approval policies; .NET 1.28 adds a GA computer tool (`FoundryAITool.CreateComputerTool()`); .NET 1.26 had breaking AG-UI auth-scope and Docker parameter changes (checked 2026-11-12 on GitHub) |
 | OpenAI Agents SDK (Python) | 0.24.0 | 2026-10-15 | Still 0.x; adds MCP annotations on converted tools (checked 2026-10-26) |
-| Google ADK (Python) | 2.14.0 | 2026-11-07 | Execution environments and A2A stable, multi-run evals, `ToolArgsMatcher`; breaking: enum tool args arrive as enum members (checked 2026-11-09) |
-| Pydantic AI | 2.69.0 | 2026-11-16 | Near-daily minor releases; 2.67 added durable sub-agents and nested instruction files; 2.69 adds `ToolBudgets`, `KubernetesSandbox`, `WindowsWorkspace`, and agent peer messaging (checked 2026-11-17 on GitHub) |
+| Google ADK (Python) | 2.15.0 | 2026-11-19 | Non-blocking tools in live agents, `pass_at_k` evals and per-argument tool scoring, fsspec artifacts; breaking: Visual Agent Builder removed, dynamic instruction routing on by default (checked 2026-11-20) |
+| Pydantic AI | 2.71.0 | 2026-11-18 | Near-daily minor releases; 2.69 added `ToolBudgets` and Kubernetes/Windows sandboxes; 2.71 adds harness capabilities (`WrapUpAtLimits`, `RequireVerification`, …), `PermissionRule`, `Goal`, `ToolBridge`; breaking: `PeerNetwork` renamed `PeerConnection` (checked 2026-11-20 on GitHub) |
 | Claude Agent SDK (Python) | 0.2.177 | 2026-11-03 | Bundles Claude Code 2.1.317; `HookMatcher(on_failure="block")` makes hooks fail closed (checked 2026-11-03) |
 | Claude Agent SDK (TypeScript) | 0.3.319 | 2026-11-06 | Parity with Claude Code 2.1.319; adds MCP tasks in the background (`CLAUDE_AUTO_BACKGROUND_TASKS=1`); 0.3.317 added `onFailure: "block"` on hook matchers (checked 2026-11-09) |
 | CrewAI | 1.15.30 | 2026-10-24 | 1.15.0 on 2026-06-25; 1.15.29 (2026-10-23) promoted AgentExecutor out of experimental (checked 2026-10-27 on GitHub) |
@@ -160,6 +160,12 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 
 Release features are described under Key concepts.
 
+- **2026-11-20:** Google ADK 2.15.0 (2026-11-19) keeps live voice agents responsive
+  while tools run, adds pass@k metrics and per-argument tool scoring to `adk eval`, and
+  removes the Visual Agent Builder. Pydantic AI 2.71.0 (2026-11-18) packages
+  coding-agent-style safeguards as capabilities: permission rules for tools and shell,
+  `Goal` for unattended runs, budget and limit reporting, verification, and
+  `ToolBridge` for large tool sets.
 - **2026-11-17:** Pydantic AI 2.69.0 (2026-11-16) adds tool budgets that answer the model
   instead of raising, Kubernetes and Windows sandboxes, and peer messaging. OpenAI Agents
   SDK 0.24.0-alpha.8 (2026-11-16) adds per-call tool approvals, non-OpenAI model clients
@@ -225,3 +231,5 @@ Release features are described under Key concepts.
 - [Pydantic AI v2.69.0](../../sources/2026/11/2026-11-17-pydantic-ai-v2-69.md)
 - [OpenAI Agents SDK v0.24.0-alpha.8](../../sources/2026/11/2026-11-17-openai-agents-sdk-alpha-8.md)
 - [LlamaIndex v0.14.26](../../sources/2026/11/2026-11-17-llamaindex-v0-14-26.md)
+- [Google ADK (Python) v2.15.0](../../sources/2026/11/2026-11-20-google-adk-v2-15.md)
+- [Pydantic AI v2.71.0](../../sources/2026/11/2026-11-20-pydantic-ai-v2-71.md)

@@ -2,7 +2,7 @@
 title: "Gemini (Google)"
 tags: [google, llm, multimodal]
 related: [models/claude, models/gpt, models/open-weight]
-last_reviewed: 2026-11-19
+last_reviewed: 2026-11-20
 ---
 
 ## Overview
@@ -144,7 +144,9 @@ coding and agent work (Neon guide, 2026-11-18). Google also publishes the open-w
   "..." --agent deep-research-preview-04-2026 --background --stream=false`. Use
   `-o json` and `--dry-run` from agents, and pin a version in CI. It is separate from
   Gemini CLI, the coding agent, which since 0.66.0 (2026-10-27) warns that it is not yet
-  optimised for Gemini 4.
+  optimised for Gemini 4. As of 2026-11-20 (v0.71.0 nightly) its model list has no
+  Gemini 4 model at all (newest: 3.8 Flash), and its docs point Gemini 4 users to
+  Antigravity.
 - Function calling: since 2026-11-05, function responses can carry Office and
   OpenDocument files, audio, and video (inline or as file URIs) in GenerateContent and
   the Interactions API. PPT, ODP, and ODS inputs are accepted (ODS: the first sheet's
@@ -169,6 +171,13 @@ coding and agent work (Neon guide, 2026-11-18). Google also publishes the open-w
 
 ## Current state
 
+- **2026-11-20:** Genie 4 (`models/genie-4`), the real-time interactive world model, is
+  GA on the Interactions API (2026-11-19) at $1.50 input, $9 text output, and $17.50
+  video output per 1M tokens (about $0.10 per second of video). Tool retrieval
+  (preview) defers tool and MCP schemas until needed on Gemini 3.6 and later (see
+  [tool use](../agents/tool-use.md)). The Gemini API changelog now lives at
+  aistudio.google.com/docs/changelog (the ai.google.dev URL redirects). Gemini CLI still
+  has no Gemini 4 model.
 - **2026-11-19:** Gemini 4 Neon is GA on the paid Gemini API (2026-11-18) at $3 / $15,
   between Hydrogen and Carbon. Switching from another Gemini 4 model needs only a new
   model ID, but Neon defaults to `high` thinking (Carbon and Argon: `medium`). From 3.8
@@ -195,8 +204,9 @@ coding and agent work (Neon guide, 2026-11-18). Google also publishes the open-w
   since 2026-11-12).
 - Gemini 4 on Gemini Enterprise Agent Platform and Gemini CLI: partly answered
   2026-11-19. Carbon is GA there since 2026-11-10 (release notes). Still open: when Neon
-  arrives there, and whether Gemini CLI supports Carbon or Neon (its 0.69.0 release of
-  2026-11-19 does not say).
+  arrives there. Gemini CLI: answered 2026-11-20, no Gemini 4 model (Carbon, Neon,
+  Hydrogen, or Argon) is in its model list, release notes up to the v0.71.0 nightly, or
+  docs; Google points to Antigravity instead.
 - Gemini 4 Neon has no Google blog post or benchmark figures; only the changelog and the
   "What's new" guide describe it (checked 2026-11-19).
 - Computer Use GA (2026-10-30): pricing answered on 2026-11-03 (regular tokens at the
@@ -239,3 +249,5 @@ coding and agent work (Neon guide, 2026-11-18). Google also publishes the open-w
 - [Introducing Gemini 4 Hydrogen](../../sources/2026/11/2026-11-13-gemini-4-hydrogen.md)
 - [Gemini 4 Neon](../../sources/2026/11/2026-11-19-gemini-4-neon.md)
 - [Gemini Enterprise Agent Platform release notes, November 2026](../../sources/2026/11/2026-11-19-gemini-agent-platform-november-releases.md)
+- [Gemini API: tool retrieval (preview) and Genie 4 GA](../../sources/2026/11/2026-11-20-gemini-api-tool-retrieval-preview.md)
+- [Gemini CLI v0.69.0 and its Gemini 4 model support](../../sources/2026/11/2026-11-20-gemini-cli-0-69-model-support.md)

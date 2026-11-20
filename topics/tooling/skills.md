@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-11-19
+last_reviewed: 2026-11-20
 ---
 
 ## Overview
@@ -149,6 +149,11 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 
 ## Current state
 
+- **2026-11-20:** ARIS (Auto-claude-code-research-in-sleep, about 19.5k stars) bundles
+  about 83 Markdown skills for ML research (literature, experiments, review, rebuttals,
+  slides) with an executor-plus-reviewer loop across two models. Install in Claude Code
+  with `claude plugin marketplace add wanshuiyin/Auto-claude-code-research-in-sleep`
+  and `claude plugin install aris@aris`, then `/aris:setup`.
 - **2026-11-19:** GitHub Copilot team customizations are GA (2026-11-18) on Business and
   Enterprise: a team maintainer picks Agent Plugins (from built-in, enterprise, or any
   repository-hosted marketplace) that are on by default for the team's direct members in
@@ -230,3 +235,4 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 - [GitHub Copilot Evals is now in public preview](../../sources/2026/11/2026-11-18-github-copilot-evals-preview.md)
 - [wshobson/agents: multi-harness plugins, agents, and skills](../../sources/2026/11/2026-11-18-wshobson-agents-plugin-marketplace.md)
 - [Customize GitHub Copilot for your team](../../sources/2026/11/2026-11-19-copilot-team-plugin-defaults.md)
+- [ARIS: Markdown skills for autonomous ML research](../../sources/2026/11/2026-11-20-aris-autonomous-research-skills.md)

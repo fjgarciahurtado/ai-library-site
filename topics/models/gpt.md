@@ -2,7 +2,7 @@
 title: "GPT (OpenAI)"
 tags: [openai, llm, reasoning]
 related: [models/claude, models/gemini, tooling/coding-agents]
-last_reviewed: 2026-11-18
+last_reviewed: 2026-11-20
 ---
 
 ## Overview
@@ -39,7 +39,8 @@ GPT-6.1 Sol with a newer knowledge cutoff.
 - **Reasoning built in:** reasoning effort is configurable instead of being a separate model line.
 - **Surfaces:** ChatGPT, Codex (coding agent), and the API (Responses API, Agents API,
   Agents SDK, and the Decisions API for typed classification answers).
-- **Voice:** GPT-Live (`gpt-live-1`) integrates natively with the Decisions API (since
+- **Voice:** GPT-Live (`gpt-live-1`; `gpt-live-1.1` since 2026-11-19, with better
+  multilingual pronunciation and transcription) integrates natively with the Decisions API (since
   2026-10-15): it can delegate to Decisions directly, or Decisions calls can fire on
   transcript deltas, so a voice app can classify and act while the user is still
   speaking (no pricing or latency figures given). Since 2026-10-16 prompt-to-voice lets
@@ -121,6 +122,10 @@ GPT-6.1 Sol with a newer knowledge cutoff.
 
 ## Current state
 
+- **2026-11-20:** `gpt-live-1.1` (2026-11-19) improves multilingual voice; standby
+  pauses inference in idle GPT-Live WebRTC sessions, which should lower the cost of
+  long sessions (no figures given). Codex CLI 0.171.0 (2026-11-20) adds GPT-6.2 Sol and
+  Astra and makes Sol the default (see [coding agents](../tooling/coding-agents.md)).
 - **2026-11-18:** GPT-6.2 Astra and Sol (2026-11-17) and background completion windows
   are new (see Key concepts and How to use it). The announcement post returned 403, so
   OpenAI's benchmark claims are unchecked; Simon Willison reports Astra 6.2 scores below
@@ -171,3 +176,5 @@ GPT-6.1 Sol with a newer knowledge cutoff.
 - [OpenAI Images 2.6](../../sources/2026/11/2026-11-05-gpt-image-2-6-sunburst-flare.md)
 - [GPT-6-Cyber model (API docs)](../../sources/2026/11/2026-11-06-gpt-6-cyber.md)
 - [GPT-6.2 Astra and Sol, background completion windows](../../sources/2026/11/2026-11-18-gpt-6-2-astra-sol.md)
+- [GPT-Live-1.1 and standby for Live sessions](../../sources/2026/11/2026-11-20-gpt-live-1-1-standby.md)
+- [OpenAI Codex CLI 0.171.0](../../sources/2026/11/2026-11-20-codex-cli-0-171.md)

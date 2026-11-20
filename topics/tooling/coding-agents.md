@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-11-19
+last_reviewed: 2026-11-20
 ---
 
 ## Overview
@@ -94,7 +94,11 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   once rather than each call; a hook matching the `REPL` tool can read the code. Code
   stops after 10 minutes unless it runs in the background (up to 2 hours, auto or bypass
   mode), and Code Mode sessions resume only with Code Mode on (docs read 2026-11-16).
-  Since 2.1.326 (2026-11-16) it also works with agent teams enabled.
+  Since 2.1.326 (2026-11-16) it also works with agent teams enabled. Since 2.1.329
+  (2026-11-19) it also runs with OpenTelemetry events and metrics on (one event per
+  tool call; tracing still disables it) and with telemetry or feature flags off. In
+  2.1.329 a `PreToolUse` hook that errors no longer refuses a script's tool call: set
+  `"onFailure": "block"` on the hook to keep it fail-closed.
   Good for repeated edits across files, filtered searches, and parallel commands.
 - **Effort:** in Claude Code, typing `ultrathink` runs that one turn at `xhigh` effort on
   the 5.5-generation models and Fable 5.1 (2.1.311, 2026-10-26;
@@ -271,6 +275,17 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
+- **2026-11-20:** Claude Code 2.1.329 (about 2026-11-19): `/tasks` lists and stops
+  scheduled tasks, `/loop` wakeups, the goal, and forks (`x` to stop); tasks saved by
+  older versions must be re-created in new sessions; `/code-review` with no target
+  reviews the whole branch; `/mcp` shows a remote server's refusal error; and Code Mode
+  hook behaviour changed (see Code Mode). Codex CLI 0.171.0 (2026-11-20) makes GPT-6.2
+  Sol the default, turns on the TUI workspace, and adds `codex exec --remote <ADDR>`
+  and `/rc`. Gemini CLI 0.69.0 (2026-11-19) adds `/stats heatmap` and `/model <name>`;
+  it still lists no Gemini 4 model (checked 2026-11-20). rust-anything is a new MCP
+  server, skill, and CLI that lets an agent port code to Rust unit by unit, replaying
+  recorded behaviour against each unit (`cargo install rust-anything`, then
+  `rust-anything setup`).
 - **2026-11-19:** Claude Code 2.1.328 (about 2026-11-18) adds `"onFailure": "block"` for
   `mcp_tool` hooks (a failing hook blocks the action), auto mode for Opus 4.6 and Sonnet
   4.6 on Bedrock, Google Cloud, Foundry, and the Claude apps gateway, and fixes scheduled
@@ -400,3 +415,7 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [Wait for pull request events with GitHub CLI](../../sources/2026/11/2026-11-19-gh-event-listen-pr-events.md)
 - [Connect Supabase, Box, Calendly, and more to Copilot](../../sources/2026/11/2026-11-19-copilot-connectors-supabase-box-calendly.md)
 - [Customize GitHub Copilot for your team](../../sources/2026/11/2026-11-19-copilot-team-plugin-defaults.md)
+- [Claude Code release 2.1.329](../../sources/2026/11/2026-11-20-claude-code-2-1-329.md)
+- [OpenAI Codex CLI 0.171.0](../../sources/2026/11/2026-11-20-codex-cli-0-171.md)
+- [Gemini CLI v0.69.0 and its Gemini 4 model support](../../sources/2026/11/2026-11-20-gemini-cli-0-69-model-support.md)
+- [rust-anything: incremental Rust rewrites](../../sources/2026/11/2026-11-20-rust-anything-incremental-rust-rewrites.md)
