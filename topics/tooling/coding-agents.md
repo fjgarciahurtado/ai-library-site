@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-11-20
+last_reviewed: 2026-11-22
 ---
 
 ## Overview
@@ -21,9 +21,13 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   (Anthropic, 2026-10-14). Since 2026-11-04, GitHub Copilot is also a provider in Xcode's
   built-in coding assistant (public preview, Xcode 27.3 beta, any Copilot plan), and
   since the week of 2026-11-02 it runs in JetBrains Air; Copilot CLI has a `/settings`
-  dashboard for plugins and MCP servers. GPT-6.1 Terra is in the Codex catalogue (since
-  2026-10-27; see [GPT](../models/gpt.md)), and Codex Memory v2 is on by default for new
-  profiles (see [memory](../agents/memory.md)).
+  dashboard for plugins and MCP servers. Codex CLI 0.171.0 (2026-11-20) makes GPT-6.2 Sol
+  the default model (see [GPT](../models/gpt.md)), and Codex Memory v2 is on by default
+  for new profiles (see [memory](../agents/memory.md)). Claude Code 2.1.321 (2026-11-09)
+  made Fable 5.2 the default Fable model. Gemini CLI 0.69.0 (2026-11-19) adds
+  `/stats heatmap` and `/model <name>` but still lists no Gemini 4 model (checked
+  2026-11-20; see [Gemini](../models/gemini.md)). As of 2026-11-19 Copilot offers Fable
+  5.2, GPT-6.2 Astra and Sol, and Gemini 4 Carbon and Neon.
 - **Switching tools:** Codex's `/import` copies a Claude Code or Cursor setup
   (instructions, skills, hooks, MCP servers, subagents, memories) into Codex; in the CLI
   it is a one-time copy (Codex docs, read 2026-11-05; see [memory](../agents/memory.md)).
@@ -65,7 +69,12 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   default (`sandbox.autoAllowBashIfSandboxed: true` restores that), scheduled tasks and
   `/loop` ask before running a skill that declares `allowed-tools` or hooks (allow it
   with `Skill(name)` in `permissions.allow`), and read-only git commands in untrusted
-  repositories ask first (`--add-dir` allows them).
+  repositories ask first (`--add-dir` allows them). Since 2.1.328 (2026-11-18) auto mode
+  also works for Opus 4.6 and Sonnet 4.6 on Bedrock, Google Cloud, Foundry, and the
+  Claude apps gateway. For a boundary outside the agent itself, Prime Radiant's
+  experimental external sandboxes (2026-11-16) run Claude Code's Bash, Codex, or Pi
+  commands in a throwaway Linux VM that sees only allowed folders and hosts (see
+  [security](../practices/security.md)).
 - **Extensibility:** [skills](skills.md), slash commands, hooks, subagents, plugins,
   and [MCP](mcp.md) servers. Hooks used as guardrails should fail closed: since 2.1.295
   (2026-10-08), Claude Code hooks can set `onFailure: "block"` so that a hook that
@@ -81,7 +90,13 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   heartbeat every 30 seconds in `claude -p` and SDK sessions, and plugins can declare
   supported versions with `engines["claude-code"]` in `plugin.json`. Since 2.1.321
   (2026-11-09), mods that Claude writes turn on without asking in auto and bypass modes.
-  Gemini CLI 0.68.0 (2026-11-10) adds a `SubagentStop` hook event.
+  Gemini CLI 0.68.0 (2026-11-10) adds a `SubagentStop` hook event. Since 2.1.328
+  (2026-11-18) `mcp_tool` hooks also accept `"onFailure": "block"`. Since 2.1.327
+  (2026-11-17) `/status` lists broken agents, skills, commands, keybindings, and hook
+  matchers that never match, and since 2.1.326 incomplete tool rules, malformed plugin
+  fields, and unsaved settings produce warnings. On GitHub Copilot Business and
+  Enterprise, admins can set default Agent Plugins per team (GA 2026-11-18; see
+  [skills](skills.md)).
 - **Code Mode:** Claude Code 2.1.323 adds an experimental opt-in mode in which Claude
   writes JavaScript that calls its tools, instead of one tool call per model turn, so
   intermediate results need not pass through the context. Turn it on with
@@ -120,7 +135,9 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   does not expire. Since 2.1.319 (2026-11-06), finished subagents stay in `/tasks`, and a
   self-paced `/loop` ends when a turn does not reschedule (`CLAUDE_CODE_LOOP_KEEPALIVE=1`
   restores the old behaviour); `/claude-api latency-optimize` reviews API code for
-  latency.
+  latency. Since 2.1.329 (2026-11-19) `/tasks` lists and stops scheduled tasks, `/loop`
+  wakeups, the goal, and forks (`x` to stop); tasks saved by older versions must be
+  re-created. 2.1.328 fixed scheduled tasks being erased.
 - **Observability:** Claude Code emits OpenTelemetry with GenAI attributes (2.1.300),
   and fields that explain why auto mode allowed or blocked a tool call (2.1.301). The
   `claude_code.safety_event` event added in 2.1.307 was removed again in 2.1.312
@@ -176,6 +193,9 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   session, lot-map (MIT, 2026-11) draws a live map of tool calls, model steps, hooks,
   skills, and subagents beside the chat (`claude plugin marketplace add alexeyw/lot-map`,
   then `claude plugin install lot-map@lot-map`; `/lot-map` opens it in narrow terminals).
+  To port code to Rust, rust-anything (2026-11) is a CLI, MCP server, and skill that has
+  the agent rewrite one unit at a time and checks each unit by replaying recorded
+  behaviour (`cargo install rust-anything`, then `rust-anything setup`).
 - **Comparing models on one task:** VS Code 1.143 (2026-10-22) has this built in as a
   preview (`sessions.chat.compareAgents.enabled`). Each model works in its own session,
   and a judge model can pick the best result or **Synthesize** a merge. Before, people
@@ -216,12 +236,16 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   closes, runs them on remote machines or in the cloud, and lets GitHub Mobile and other
   clients continue them through the open Agent Host Protocol. The same release added
   experimental desktop computer use (`chat.agentHost.computerUse.enabled`, then
-  `/computer on`). Codex CLI has a similar command center: `codex agents` (with
+  `/computer on`). Copilot browser use (public preview, 2026-11-17) drives your
+  signed-in Chrome from Copilot CLI (`/plugin` → browser use), the Copilot app, VS Code,
+  and JetBrains. Codex CLI has a similar command center: `codex agents` (with
   `--no-daemon` since 0.167.0, 2026-11-06), `codex queue --resume` (0.166), unread
   markers, and backend switching in the session picker. Codex 0.168.0 (2026-11-13) adds
   side conversations in a pane beside the main chat (`features.tui_workspace`), a model
   provider browser (Sessions → Model providers), audio attachments, and OSC 777 terminal
-  notifications (`tui.notification_method = "osc777"`).
+  notifications (`tui.notification_method = "osc777"`). Codex 0.171.0 (2026-11-20) turns
+  the workspace view on by default and adds `codex exec --remote <ADDR>` to run against
+  an existing app server.
 - **SDKs:** for example the Claude Agent SDK packages the Claude Code harness as a
   library for building your own agents. The GitHub Copilot SDK is being renamed the
   Microsoft Copilot SDK (2026-10-28).
@@ -244,7 +268,8 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   Quick, Standard, and Deep levels per organization or repository and can review every
   repository in an organization (since 2026-10-19); `@claude review stop` ends an
   always-on subscription (2.1.307). The official marketplace's `code-review` plugin
-  prints to the terminal unless `--comment` is passed (since 2026-10-27). For a free,
+  prints to the terminal unless `--comment` is passed (since 2026-10-27), and since
+  2.1.329 (2026-11-19) `/code-review` with no target reviews the whole branch. For a free,
   local alternative, Alibaba's Open Code Review (Apache-2.0) runs as a CLI
   (`npm install -g @alibaba-group/open-code-review`, then `ocr review`) or as skills
   (`npx skills add alibaba/open-code-review`); its delegation mode lets your own coding
@@ -272,59 +297,20 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - When an agent must wait for PR review or CI, have it run `gh event listen <PR URL>`
   (GitHub CLI 2.105.0+, preview, 2026-11-18) rather than a sleep-and-poll loop; it exits
   after the first event and prints JSON.
+- After editing skills, agents, hooks, or keybindings in Claude Code, run `/status` to
+  catch entries that are broken or never match (2.1.327+).
 
 ## Current state
 
-- **2026-11-20:** Claude Code 2.1.329 (about 2026-11-19): `/tasks` lists and stops
-  scheduled tasks, `/loop` wakeups, the goal, and forks (`x` to stop); tasks saved by
-  older versions must be re-created in new sessions; `/code-review` with no target
-  reviews the whole branch; `/mcp` shows a remote server's refusal error; and Code Mode
-  hook behaviour changed (see Code Mode). Codex CLI 0.171.0 (2026-11-20) makes GPT-6.2
-  Sol the default, turns on the TUI workspace, and adds `codex exec --remote <ADDR>`
-  and `/rc`. Gemini CLI 0.69.0 (2026-11-19) adds `/stats heatmap` and `/model <name>`;
-  it still lists no Gemini 4 model (checked 2026-11-20). rust-anything is a new MCP
-  server, skill, and CLI that lets an agent port code to Rust unit by unit, replaying
-  recorded behaviour against each unit (`cargo install rust-anything`, then
-  `rust-anything setup`).
-- **2026-11-19:** Claude Code 2.1.328 (about 2026-11-18) adds `"onFailure": "block"` for
-  `mcp_tool` hooks (a failing hook blocks the action), auto mode for Opus 4.6 and Sonnet
-  4.6 on Bedrock, Google Cloud, Foundry, and the Claude apps gateway, and fixes scheduled
-  tasks being erased and zsh commands with `=` words failing. GitHub CLI 2.105.0 adds
-  `gh event listen <PR URL>` (preview, needs Event Streams access): an agent waits for a
-  review, check suite, or merge conflict in one command instead of polling. GitHub
-  (2026-11-18) also made team plugin defaults GA for Copilot Business and Enterprise
-  (team → **Customize Copilot**), added eight connectors including Supabase and
-  Buildkite (`/mcp` → Connectors in Copilot CLI), and added Gemini 4 Neon to Copilot.
-- **2026-11-18:** Claude Code 2.1.327 (2026-11-17) adds `claude mcp add-json <name> -`
-  (server JSON from stdin, keeping tokens out of shell history) and a `/status` list of
-  broken agents, skills, commands, keybindings, and hook matchers that never match; run
-  `/status` after editing customizations. It also fixes Remote Control deleting `.env`
-  files in worktree mode and `/export` overwriting files. GitHub's Ignite releases
-  (2026-11-17): Copilot browser use (public preview) drives your signed-in Chrome from
-  the CLI (`/plugin` → browser use), the Copilot app, VS Code, and JetBrains; Copilot
-  code review can pick its own effort (Adaptive: Lite, Balanced, or Max per PR) and
-  read related public repos; GPT-6.2 Astra and Sol are in Copilot. Prime Radiant's
-  external sandboxes run a coding agent's commands in a separate Linux VM (see
-  [security](../practices/security.md)).
-- **2026-11-17:** Claude Code 2.1.326 (2026-11-16) lets Code Mode run with agent teams
-  and warns about incomplete tool rules, malformed plugin fields, and unsaved settings.
-  VS Code 1.146 deprecates the Local harness (removed February 2027) and adds
-  agent-driven model comparisons, an inbox view, and in-chat MCP re-authentication;
-  Gemini 4 Carbon joins Copilot. Alibaba's Open Code Review adds a local review CLI and
-  skills (see Reviewing agent-written code).
-- **2026-11-16:** Claude Code 2.1.325 (2026-11-13) changes permission defaults for
-  sandboxed Bash, skills in scheduled tasks, and git outside the project (see
-  Permissions), and fixes more permission gaps (see [security](../practices/security.md)).
-  The Code Mode docs page is now live (see Code Mode).
-
-- **2026-11-13:** Claude Code 2.1.323 (2026-11-12) adds experimental, opt-in Code Mode
-  (see Code Mode), plugin version ranges, hook heartbeats in headless runs, and many
-  permission fixes (see [security](../practices/security.md)). Codex CLI 0.168.0
-  (2026-11-13) adds side conversations and a model provider browser.
-- **2026-11-10:** Claude Code 2.1.321 (2026-11-09) makes Claude Fable 5.2 the default
-  Fable model (saved Fable 5.1 picks move to it; see [Claude](../models/claude.md)) and
-  fixes an MCP OAuth token leak and several permission gaps; 2.1.322 (2026-11-10) adds
-  fast mode on Vertex AI. Fable 5.2 is also in GitHub Copilot.
+- **2026-11-20:** Claude Code is shipping a release almost daily (2.1.325 to 2.1.329 in
+  the week to 2026-11-19), mostly permission defaults, Code Mode, and background-task
+  changes, all folded into the sections above. Code Mode is still experimental and its
+  hook behaviour changed in 2.1.329 (see Code Mode).
+- **2026-11-19:** `gh event listen` (GitHub CLI 2.105.0) is a preview that needs Event
+  Streams access (waitlist), and Copilot's eight new connectors and browser use are in
+  public preview; Copilot team plugin defaults are GA.
+- **2026-11-17:** VS Code's Local harness is deprecated and will be removed in February
+  2027; move sessions to the Copilot harness (see Comparing models).
 - **2026-10-31:** Fast mode on Opus 4.8 is deprecated and will be removed on 2026-11-30;
   move fast-mode sessions to Opus 5.5 (see [Claude](../models/claude.md)).
 
@@ -332,7 +318,6 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 - How much does Claude Code's Code Mode save in tokens or time? The docs (read
   2026-11-16) explain how to turn it on but give no figures.
-
 - Which Xcode version first ships `xcrun agent plugin path`, needed by Apple's `xcode`
   Claude Code plugin? Neither the PR nor the marketplace entry says (checked 2026-11-06).
 - How teams should review the volume of code agents produce. Partly answered

@@ -2,7 +2,7 @@
 title: "Security for LLM apps and agents"
 tags: [security, safety, agents, mcp]
 related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
-last_reviewed: 2026-11-19
+last_reviewed: 2026-11-22
 ---
 
 ## Overview
@@ -29,7 +29,12 @@ to limit what the agent can do if it is fooled.
   Skills, prompts, and MCP servers can be pinned like code dependencies: APM declares
   them in `apm.yml` with a lockfile, and since 2026-11-04 Dependabot opens version-update
   PRs for them (version updates only, no security advisories yet; see
-  [skills](../tooling/skills.md)).
+  [skills](../tooling/skills.md)). Popular agent tools attract impostors: REA (an MCP
+  server and CLI for reverse engineering binaries, apps, and firmware) warns that
+  look-alike repos copy its name (install only from `morluto/rea` or the `rea-agents`
+  npm package, 2026-11). Cloned repositories can also carry their own skills, hooks, and
+  MCP servers; GitHub Copilot admins (Enterprise Cloud) can require these to come only
+  from plugins or managed settings (`strictPluginOnlyCustomization`, 2026-11-17).
 - **Sensitive data exposure:** secrets in prompts, logs, or training data.
 - **Improper output handling:** passing model output unchecked into shells, SQL, or HTML.
 - **Unbounded consumption:** runaway loops and cost attacks.
@@ -51,7 +56,10 @@ to limit what the agent can do if it is fooled.
   2026. Google released Gemini 4 Argon first only to cybersecurity partners; its Fairwind
   Program, which gives vetted defenders Argon without cyber guardrails, is expanding to
   hundreds more partners (2026-10-13). OpenAI's `gpt-6-cyber` (2026-11-05) is API-only
-  for organisations approved for its Daybreak Red programme.
+  for organisations approved for its Daybreak Red programme. Claude Fable 5.2
+  (2026-11-09) blocks high-risk cyber requests (they are routed to Opus 4.8), while
+  Mythos 5.2 is available through the Cyber Verification Program and powers Claude
+  Security.
 - **Defensive programmes:** Anthropic's Cyber Mission (2026-10-08) runs a Critical
   Infrastructure Defense Program with eleven founding partners (including CrowdStrike,
   Palo Alto Networks, and Dragos), and OSS Scanner, a free opt-in vulnerability scanner
@@ -94,7 +102,16 @@ to limit what the agent can do if it is fooled.
   fetched by `web_fetch` could stall the process, and escape compacted transcripts so
   tool output cannot forge messages; Microsoft Agent Framework (Python) 1.23.0 makes
   AG-UI endpoints declare an authorization scope and renames the Docker shell's
-  `extra_run_args` to `unsafe_extra_run_args`.
+  `extra_run_args` to `unsafe_extra_run_args`. The pace did not slow in November
+  2026: 2.1.319 to 2.1.327 (2026-11-06 to 2026-11-17) fixed wildcard allow rules such as
+  `Bash(ls*)` skipping prompts, deny rules missed through `sudo`, `env`, `cp`/`mv` into a
+  directory, quoted words, or after `cd` (relative rules such as `Read(./.env)`),
+  compound commands and crafted environment prefixes that ran without asking, an allow
+  rule that could run a different program, Write and Edit ignoring `Read` deny rules,
+  the sandbox switching off mid-session, MCP OAuth refresh tokens sent to another host
+  after a redirect, destructive Bash commands shown as reads, and Remote Control deleting
+  git-ignored files such as `.env` in worktree mode. Since 2.1.325 sandboxed Bash prompts
+  again by default and plugin install warnings say plugins can run code.
 - **Approval fatigue:** when users approve almost every prompt (about 93% in Claude Code,
   per Anthropic), permission prompts stop protecting anyone. Sandboxing that removes most
   prompts is safer than asking more often. Model-judged auto-approval is the other
@@ -114,6 +131,17 @@ to limit what the agent can do if it is fooled.
 - Grant least privilege: scoped tokens, read-only where possible, no production secrets.
 - Run agents in sandboxes or containers; restrict network egress. Prefer hardened
   standard isolation (gVisor, VMs, Seatbelt, bubblewrap) to home-made components.
+  Prime Radiant's external sandboxes (experimental, 2026-11-16) keep the agent on the
+  host and run its commands in a Linux VM that sees only mounted folders, with no network
+  unless an allow-list proxy is on; the proxy swaps a placeholder for the real API key so
+  the agent never holds it. Adapters exist for Claude Code (`CLAUDE_CODE_SHELL_PREFIX`;
+  Bash only, Read and Edit still run on the host), Codex (exec-server), and Pi (all
+  tools).
+- Scan agent changes for secrets: Copilot's security review specialist runs GitHub
+  secret scanning (`/security-review`; `/settings aiSecretDetection on` in the CLI,
+  2026-11-17), and agents can call it as a subagent. Add MCP servers with
+  `claude mcp add-json <name> -` (Claude Code 2.1.327+) so tokens stay out of shell
+  history.
 - Remember that allowed domains can still leak data: an attacker's API key in a workspace
   file can send data to an allowlisted API. Pin outbound credentials to the session.
 - Do not parse project files, settings, or hooks before the user has trusted the project.
@@ -155,11 +183,11 @@ to limit what the agent can do if it is fooled.
 - Enable `sandbox.allowNestedUserNamespaces` (Claude Code 2.1.305, Linux) only if you
   need Chromium or rootless podman inside the sandbox; the changelog warns that it
   weakens the sandbox's file protections.
-- Upgrade Claude Code to 2.1.319 or later (2026-11-06) if you use auto or accept-edits
-  mode. It fixes a Bash permission bypass through a crafted environment prefix, a `sed`
-  command that skipped checks, deny rules that missed commands with quoted words, a
-  sandbox escape when creating a worktree, and `/rewind` following directory symlinks.
-  For unattended runs, `permissions.denyInsteadOfPrompting` denies rather than waits.
+- Keep Claude Code current (2.1.325 or later as of 2026-11-22) if you use auto or
+  accept-edits mode, and review any wildcard Bash allow rules; 2.1.323 warns at startup
+  about allow rules with `*` in a variable value. Self-hosted runners started with
+  `--trust-workspace false` also block repository hooks and skills (2.1.319). For
+  unattended runs, `permissions.denyInsteadOfPrompting` denies rather than waits.
 - Open untrusted Windows files or installers in a disposable machine rather than on the
   host: sandbox-mcp's `sandbox_detonate` and `sandbox_install_test` tools run them in
   Windows Sandbox and record what changed (see [MCP](../tooling/mcp.md)).
@@ -175,66 +203,14 @@ to limit what the agent can do if it is fooled.
 
 ## Current state
 
-- **2026-11-19:** REA, an MCP server and CLI for agent-driven reverse engineering
-  (binaries, Electron apps, APKs, firmware, packet captures), is one of the fastest-rising
-  agent repos. Its README warns that look-alike repos copy its name: install only from
-  `morluto/rea` or the `rea-agents` npm package, a reminder that popular agent tools
-  attract impostors.
-- **2026-11-18:** Prime Radiant published experimental external sandboxes (2026-11-16):
-  the agent stays on the host and its commands run in a Linux VM that sees only mounted
-  folders, with no network unless an allow-list proxy is on. The proxy can swap a
-  placeholder for a real API key so the agent never holds it. Adapters exist for Claude
-  Code (`CLAUDE_CODE_SHELL_PREFIX`; Bash only, Read and Edit still run on the host),
-  Codex (exec-server), and Pi (all tools). Copilot's security review specialist can now
-  run GitHub secret scanning on your changes (`/security-review`; enable with
-  `/settings aiSecretDetection on` in the CLI), and agents can call it as a subagent.
-  Claude Code 2.1.327 (2026-11-17) adds `claude mcp add-json <name> -` to keep MCP tokens
-  out of shell history, and fixes Remote Control deleting git-ignored files such as
-  `.env` in worktree mode and an approved command still running after Stop.
-- **2026-11-17:** Claude Code 2.1.326 (2026-11-16) stops describing destructive Bash
-  commands (`find -delete`, `cat a > b`, `sort -o`) as searches or reads in the
-  transcript, shows `claude purge` prompts even when stdout is redirected, warns when
-  permission rules or settings files could not be saved or parsed, and logs managed
-  PreToolUse hook refusals to OpenTelemetry. GitHub Copilot admins (Enterprise Cloud)
-  can now require skills, hooks, agents, and MCP servers to come only from plugins or
-  managed settings (`strictPluginOnlyCustomization`), closing the gap where a cloned
-  repository's own customizations load code.
-- **2026-11-16:** Claude Code 2.1.325 (2026-11-13) closes more gaps: compound Bash
-  commands that could run without asking, an allow rule that could run a different
-  program than the one named, relative deny rules such as `Read(./.env)` that stopped
-  applying after `cd`, case-sensitive matching of plugin MCP deny rules, and sandbox gaps
-  around worktree settings, hooks, and shared git folders; it also fixes a zstd decoding
-  issue. It tightens defaults: sandboxed Bash prompts again unless
-  `sandbox.autoAllowBashIfSandboxed: true`, skills with tools or hooks need an explicit
-  `Skill(name)` allow rule in scheduled tasks, and plugin install warnings say plugins
-  can run code with access to your files and shell (see
-  [coding agents](../tooling/coding-agents.md)).
-
-- **2026-11-13:** Claude Code 2.1.323 (2026-11-12) fixes another batch of permission
-  gaps: wildcard allow rules such as `Bash(ls*)` could skip prompts, deny rules missed
-  commands run through `sudo` or `env`, Write and Edit could write to paths under a `Read`
-  deny rule, the sandbox could switch off mid-session, and `--permission-mode auto` could
-  start in a looser mode when auto mode was unavailable (now Manual). It warns at startup
-  about allow rules with `*` in a variable value, stops saving "don't ask again" rules
-  that look like secrets, and runs its own git and ripgrep without most of its tokens.
-  Update, and review any wildcard Bash allow rules.
-
-- **2026-11-12:** The MCP reference servers published six advisories on 2026-11-11 and
-  fixed them in 2026.11.11: arbitrary command execution through repository Git config
-  in `mcp-server-git` (High), a `--repository` confinement bypass, two path escapes in
-  the filesystem server (symlink swap, `move_file`), and SSRF and robots.txt bypasses in
-  the fetch server (Low).
-
-- **2026-11-10:** Claude Code 2.1.321 (2026-11-09) fixes MCP OAuth sending refresh tokens
-  to another host after a redirect, a read-only Bash command running outside the
-  sandbox without a prompt, and deny rules missing the target of `cp`/`mv` into a
-  directory. Mods that Claude writes now turn on without asking in auto and bypass
-  modes, and their own tool calls skip permission prompts (deny rules still apply).
-  Claude Fable 5.2 blocks high-risk cyber requests (routed to Opus 4.8); Mythos 5.2 is
-  available through the Cyber Verification Program and powers Claude Security.
-- **2026-11-09:** Claude Code 2.1.319 fixes several permission and sandbox bypasses (see
-  How to use it). Self-hosted runners started with `--trust-workspace false` now also
-  block repository hooks and skills.
+- **2026-11-19:** Claude Code is fixing permission and sandbox gaps in nearly every
+  release (2.1.319 to 2.1.328 in two weeks; see Sandbox escapes). Expect more; update
+  often.
+- **2026-11-18:** Prime Radiant's external sandboxes are experimental, and Copilot's
+  on-demand secret scanning is new (see How to use it).
+- **2026-11-12:** The MCP reference servers fixed six advisories in 2026.11.11, including
+  command execution through repository Git config in `mcp-server-git` (High); upgrade
+  (see How to use it and [MCP](../tooling/mcp.md)).
 - **2026-11-04:** Dependabot support for APM-pinned skills and MCP servers covers
   version updates only; no advisory database for skills exists yet.
 

@@ -2,7 +2,7 @@
 title: "Claude (Anthropic)"
 tags: [anthropic, llm, reasoning, cost]
 related: [models/gpt, models/gemini, tooling/skills, tooling/mcp, tooling/coding-agents]
-last_reviewed: 2026-11-18
+last_reviewed: 2026-11-22
 ---
 
 ## Overview
@@ -182,20 +182,13 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 
 ## Current state
 
-- **2026-11-18:** Linked billing entered beta on the Claude API (2026-11-17; see How to
+- **2026-11-18:** Linked billing is in beta on the Claude API (2026-11-17; see How to
   use it).
-
-- **2026-11-13:** Self-hosted Claude Managed Agents launched (2026-11-12): you host the
-  service, its database, and the sandboxes, and choose the inference provider. Access is
-  through the Anthropic account team; some hosted-only features are missing (see the
-  docs' "differences" page). Claude Code 2.1.323 adds an experimental Code Mode (see
-  [coding agents](../tooling/coding-agents.md)).
-
-- **2026-11-10:** Claude Fable 5.2 and Mythos 5.2 released (2026-11-09) at $8 / $40,
-  20% below 5.1; default Fable model in Claude Code 2.1.321 and available in GitHub
-  Copilot. Retirement not before 2027-11-09. The models overview (2026-11-11) gives
-  Fable 5.2 a June 2026 knowledge cutoff and still recommends Opus 5.5 as the default
-  starting model, with Fable 5.2 for demanding reasoning and long-horizon agent work.
+- **2026-11-13:** Self-hosted Claude Managed Agents (2026-11-12) is available only
+  through the Anthropic account team, and some hosted-only features are missing (see the
+  docs' "differences" page).
+- **2026-11-10:** Fable 5.2 is the newest model (2026-11-09; see How to use it), but the
+  models overview (2026-11-11) still recommends Opus 5.5 as the default starting model.
   Haiku 4.5 is still Active with no deprecation notice (checked 2026-11-11).
 - **2026-10-30:** Fast mode on Opus 4.8 is deprecated and will be removed on 2026-11-30;
   move `speed: "fast"` traffic to Opus 5.5. Opus 4.8 itself stays Active (retirement not

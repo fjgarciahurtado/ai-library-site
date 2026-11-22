@@ -2,7 +2,7 @@
 title: "Agent and LLM framework landscape"
 tags: [frameworks, agents, sdk]
 related: [agents/agent-patterns, agents/tool-use, tooling/mcp]
-last_reviewed: 2026-11-20
+last_reviewed: 2026-11-22
 ---
 
 ## Overview
@@ -160,30 +160,21 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 
 Release features are described under Key concepts.
 
-- **2026-11-20:** Google ADK 2.15.0 (2026-11-19) keeps live voice agents responsive
-  while tools run, adds pass@k metrics and per-argument tool scoring to `adk eval`, and
-  removes the Visual Agent Builder. Pydantic AI 2.71.0 (2026-11-18) packages
-  coding-agent-style safeguards as capabilities: permission rules for tools and shell,
-  `Goal` for unattended runs, budget and limit reporting, verification, and
-  `ToolBridge` for large tool sets.
-- **2026-11-17:** Pydantic AI 2.69.0 (2026-11-16) adds tool budgets that answer the model
-  instead of raising, Kubernetes and Windows sandboxes, and peer messaging. OpenAI Agents
-  SDK 0.24.0-alpha.8 (2026-11-16) adds per-call tool approvals, non-OpenAI model clients
-  (LiteLLM, AnyLLM, custom), realtime voice in sessions, and checkpoints that keep budget
-  usage; it has upgrade steps (back up saved state, replace bare `"*"` network rules).
-  LlamaIndex 0.14.26 (2026-11-13) is the first release in almost two months and only a
-  maintenance release.
-- **2026-11-13:** Self-hosted Claude Managed Agents (2026-11-12) lets you run the whole
-  Managed Agents service yourself, with the same API, so the SDKs and `ant` CLI work
-  unchanged. Claude Agent SDK (Python) 0.2.178–0.2.181 and LangGraph 1.2.19–1.2.21 (to
-  2026-11-12) added no new features, so the table keeps the last feature releases.
-- **2026-11-12:** A2UI 1.0 is stable (2026-11-11; see Key concepts), adding
-  bidirectional function calls and accessibility support.
-- **2026-11-09:** OpenAI Agents SDK has shipped only previews since 0.24.0 (latest
-  0.24.0-alpha.7, 2026-11-08). They add `RunBudget` limits, self-managed session
-  storage, context and compaction hooks, A2A adapters, and a strict default write policy
-  for new Environments, with breaking changes such as `Turn.get_result()` replacing
-  `wait()` (alpha.6). Expect these in the next stable release.
+- **2026-11-20:** Pydantic AI 2.71.0 (2026-11-18) packages coding-agent-style
+  safeguards as capabilities (permission rules for tools and shell, `Goal` for
+  unattended runs, budget and limit reporting, verification, `ToolBridge`); with
+  near-daily releases, expect the table row to go stale fast.
+- **2026-11-17:** OpenAI Agents SDK is still on previews of the next release (latest
+  0.24.0-alpha.8, 2026-11-16). Since alpha.6 they add `RunBudget` limits, self-managed
+  session storage, context and compaction hooks, A2A adapters, a strict default write
+  policy for new Environments, per-call tool approvals, non-OpenAI model clients
+  (LiteLLM, AnyLLM, custom), and realtime voice in sessions. Breaking changes include
+  `Turn.get_result()` replacing `wait()`; alpha.8 asks you to back up saved state and
+  replace bare `"*"` network rules. Expect these in the next stable release.
+- **2026-11-13:** Claude Agent SDK (Python) 0.2.178–0.2.181 and LangGraph 1.2.19–1.2.21
+  (to 2026-11-12) added no new features, so the table keeps the last feature releases.
+  Self-hosted Claude Managed Agents launched on 2026-11-12 (see
+  [Claude](../models/claude.md)).
 
 ## Open questions
 

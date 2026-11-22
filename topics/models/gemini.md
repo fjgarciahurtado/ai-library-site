@@ -2,7 +2,7 @@
 title: "Gemini (Google)"
 tags: [google, llm, multimodal]
 related: [models/claude, models/gpt, models/open-weight]
-last_reviewed: 2026-11-20
+last_reviewed: 2026-11-22
 ---
 
 ## Overview
@@ -110,9 +110,25 @@ coding and agent work (Neon guide, 2026-11-18). Google also publishes the open-w
   8:1, 1K–4K output at every ratio, up to 14 reference images. Its predecessor
   `gemini-3.1-flash-image` is deprecated, with no shutdown date yet.
 - **Antigravity:** Google's agent preview (`antigravity-preview-09-2026` since
-  2026-09-17) uses PascalCase tool parameters and line-range file edits.
+  2026-09-17) uses PascalCase tool parameters and line-range file edits. Gemini CLI has
+  no Gemini 4 model (checked 2026-11-20 up to the v0.71.0 nightly); Google points to
+  Antigravity for Gemini 4 coding work.
+- **World model:** Genie 4 (`models/genie-4`), a real-time interactive world model, is
+  GA on the Interactions API (2026-11-19) at $1.50 input, $9 text output, and $17.50
+  video output per 1M tokens (about $0.10 per second of video).
+- **Documents and media input:** since 2026-11-18 the API accepts Office and
+  OpenDocument files and can slice documents, spreadsheets, video, and audio (page
+  ranges, tabs, cell ranges, time intervals) so only the part you need is sent and
+  billed.
+- **Changelog location:** the Gemini API changelog now lives at
+  aistudio.google.com/docs/changelog (the ai.google.dev URL redirects, noted
+  2026-11-20).
 
 ## How to use it
+
+- Moving between Gemini 4 models needs only a new model ID. Moving from 3.8 Flash or
+  older to Gemini 4: drop sampling parameters and `cached_content`, and raise output caps
+  and timeouts; the `gemini-api-dev` skill can automate this (Neon guide, 2026-11-18).
 
 - The Gemini API docs moved from ai.google.dev to aistudio.google.com/docs, and the
   Vertex AI docs now live under "Gemini Enterprise Agent Platform" on
@@ -171,27 +187,13 @@ coding and agent work (Neon guide, 2026-11-18). Google also publishes the open-w
 
 ## Current state
 
-- **2026-11-20:** Genie 4 (`models/genie-4`), the real-time interactive world model, is
-  GA on the Interactions API (2026-11-19) at $1.50 input, $9 text output, and $17.50
-  video output per 1M tokens (about $0.10 per second of video). Tool retrieval
-  (preview) defers tool and MCP schemas until needed on Gemini 3.6 and later (see
-  [tool use](../agents/tool-use.md)). The Gemini API changelog now lives at
-  aistudio.google.com/docs/changelog (the ai.google.dev URL redirects). Gemini CLI still
-  has no Gemini 4 model.
-- **2026-11-19:** Gemini 4 Neon is GA on the paid Gemini API (2026-11-18) at $3 / $15,
-  between Hydrogen and Carbon. Switching from another Gemini 4 model needs only a new
-  model ID, but Neon defaults to `high` thinking (Carbon and Argon: `medium`). From 3.8
-  Flash or older, drop sampling parameters and `cached_content`, raise output caps and
-  timeouts; the `gemini-api-dev` skill can automate this. The same day the API gained
-  Office and OpenDocument input and slicing of documents, spreadsheets, video, and
-  audio. Google Cloud's release notes confirm Carbon (2026-11-10) and Hydrogen
-  (2026-11-12) are GA on Gemini Enterprise Agent Platform; Neon is not yet listed.
-- **2026-11-13:** Gemini 4 Hydrogen is GA (2026-11-12) at $1.50 / $7.50, about 25%
-  below Carbon and Argon now and about 75% below them after their price rise. Google
-  ships one cheap Gemini 4 model rather than separate Flash and Flash-Lite tiers (so far).
-- **2026-11-11:** Gemini 4 Carbon is GA (2026-11-10). Carbon and Argon cost $2 / $10
-  until 2026-11-30, then $4 / $20.
-- **Coming dates:** Gemini 2.5 Pro and 2.5 Flash are routed to 3.8 Flash and 3.5
+- **2026-11-20:** Tool retrieval (preview) defers tool and MCP schemas until needed on
+  Gemini 3.6 and later (see [tool use](../agents/tool-use.md)).
+- **2026-11-19:** Gemini 4 Neon (GA 2026-11-18) is not yet on Gemini Enterprise Agent
+  Platform; Carbon (2026-11-10) and Hydrogen (2026-11-12) are GA there. Neon defaults
+  to `high` thinking (Carbon and Argon: `medium`), so check output costs when switching.
+- **Coming dates:** Gemini 4 Carbon and Argon go from $2 / $10 to $4 / $20 after
+  2026-11-30. Gemini 2.5 Pro and 2.5 Flash are routed to 3.8 Flash and 3.5
   Flash-Lite from 2026-12-01, with breaking changes (migrate before then; see Key
   concepts). Omni 1.1 Flash calls route to Omni 1.2 Flash from 2026-12-03. 3.8 Flash
   and 3.6 Flash prices double on 2027-01-01.

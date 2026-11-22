@@ -2,7 +2,7 @@
 title: "Cost and caching"
 tags: [cost, caching, tokens]
 related: [fundamentals/tokens-and-context, models/claude, fundamentals/reasoning-models]
-last_reviewed: 2026-11-19
+last_reviewed: 2026-11-22
 ---
 
 ## Overview
@@ -141,6 +141,7 @@ on the date shown; prices change often, so recheck before relying on them.
 | Gemini Decision 1 | $0.10 / not listed / none | Decisions API only; input billed once per request | 2026-11-12 |
 | Gemini 4 Argon | $2 / $0.10 / $10 | Introductory; $4 / $20 after 2026-11-30 (same as Opus 5.5). Cached price applies to implicit cache hits only. 1M shared input-output limit | 2026-10-15 |
 | Gemini 4 Hydrogen | $1.50 / $0.075 / $7.50 | Flat across the 1M context; free tier too. Cheapest Gemini 4 model; replaces 3.8 Flash for most work | 2026-11-13 |
+| Gemini 4 Neon | $3 / $0.15 / $15 | Paid tier only; implicit caching only (no explicit caching); `high` thinking by default, so output costs more than the price suggests | 2026-11-19 |
 | Gemini 3.1 Pro Preview | $2.00 / $0.20 / $12.00 | Above 200K: $4.00 / $0.40 / $18.00 | 2026-10-07 |
 | Gemini 2.5 Pro | $1.25 / $0.125 / $10.00 | Above 200K: $2.50 / $0.25 / $15.00. Deprecated 2026-11-02; from 2026-12-01 routed to and billed as 3.8 Flash | 2026-10-07 |
 | Gemini 3.8 Flash | $0.75 / $0.075 / $3.75 | Doubles to $1.50 / $0.15 / $7.50 on 2027-01-01; cache storage $0.50 per 1M per hour (rising to $1.00) | 2026-10-06 |
@@ -158,26 +159,19 @@ legacy, costs $1 / $5.
 
 ## Current state
 
-- **2026-11-19:** Gemini 4 Neon (GA 2026-11-18) costs $3 / $15 per 1M tokens, with
-  implicit-cache hits at $0.15 and no explicit caching. It is pricier than Carbon and
-  Argon until their rise to $4 / $20 on 2026-11-30, and defaults to `high` thinking.
-  The Gemini API can now slice documents, spreadsheets, video, and audio (page ranges,
-  tabs, cell ranges, time intervals) so you pay only for the part you send.
-- **2026-11-18:** OpenAI's GPT-6.2 Astra (2026-11-17) costs 20% less than GPT-6 Astra
-  ($8 / $40), with cached input cut from $1 to $0.40; GPT-6.2 Sol keeps Sol's price. New
-  background completion windows in the Responses API (beta) cut token rates by 30% for a
-  2-hour window or 40% for 8 hours, a middle option between real-time and Batch (50%).
-  Anthropic's linked billing (beta, 2026-11-17) lets an app's customers pay for their own
-  Claude usage from their own organization, with their own spend cap (see
-  [Claude](../models/claude.md)).
-- **2026-11-13:** Gemini 4 Hydrogen (GA 2026-11-12) costs $1.50 / $7.50, double 3.8
-  Flash's current price but the same as 3.8 Flash after its 2027-01-01 increase, and
-  about 75% below Carbon and Argon once they double on 2026-12-01. Google reports that
-  pairing Carbon with Hydrogen workers used about 24% less quota than Carbon alone.
-
-- **2026-11-10:** Claude Fable 5.2 (2026-11-09) costs 20% less than Fable 5.1 ($8 / $40).
-  Anthropic says it matches Opus 5.5's best FrontierCode score at `high` effort for about
-  half the cost per task (vendor figure); worth testing before defaulting to Opus.
+- **2026-11-19:** Gemini 4 Neon ($3 / $15) costs more than Carbon and Argon until their
+  rise to $4 / $20 after 2026-11-30, then less. The Gemini API can now slice documents,
+  spreadsheets, video, and audio (page ranges, tabs, cell ranges, time intervals) so you
+  pay only for the part you send.
+- **2026-11-18:** OpenAI's background completion windows (Responses API, beta) cut token
+  rates by 30% for a 2-hour window or 40% for 8 hours, a middle option between real-time
+  and Batch (50%). Anthropic's linked billing (beta, 2026-11-17) lets an app's customers
+  pay for their own Claude usage from their own organization, with their own spend cap
+  (see [Claude](../models/claude.md)). Both are betas and may change.
+- **2026-11-13:** Google reports that pairing Gemini 4 Carbon with Hydrogen workers used
+  about 24% less quota than Carbon alone (vendor figure). Anthropic likewise says Fable
+  5.2 at `high` effort matches Opus 5.5's best FrontierCode score for about half the
+  cost per task (2026-11-09, vendor figure); worth testing before defaulting to Opus.
 - **Coming dates:** fast mode on Claude Opus 4.8 stops working on 2026-11-30 (fast
   requests return an error, no fallback; move them to Opus 5.5 fast mode). Gemini 4
   Carbon and Argon go from $2 / $10 to $4 / $20 after 2026-11-30. Gemini 2.5 Pro and 2.5

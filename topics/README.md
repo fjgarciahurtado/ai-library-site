@@ -8,7 +8,7 @@ Long-lived knowledge pages, kept current. Each page cites the source notes it dr
 
 - [Embeddings](fundamentals/embeddings.md) (reviewed 2026-11-09)
 - [Large language models](fundamentals/llms.md) (reviewed 2026-11-15)
-- [Reasoning models and extended thinking](fundamentals/reasoning-models.md) (reviewed 2026-10-18)
+- [Reasoning models and extended thinking](fundamentals/reasoning-models.md) (reviewed 2026-11-22)
 - [Retrieval-augmented generation (RAG)](fundamentals/rag.md) (reviewed 2026-11-08)
 - [Tokens and context windows](fundamentals/tokens-and-context.md) (reviewed 2026-11-15)
 - [Training and fine-tuning](fundamentals/training-and-fine-tuning.md) (reviewed 2026-11-15)
@@ -16,30 +16,30 @@ Long-lived knowledge pages, kept current. Each page cites the source notes it dr
 
 ## Models
 
-- [Claude (Anthropic)](models/claude.md) (reviewed 2026-11-18)
-- [GPT (OpenAI)](models/gpt.md) (reviewed 2026-11-20)
-- [Gemini (Google)](models/gemini.md) (reviewed 2026-11-20)
+- [Claude (Anthropic)](models/claude.md) (reviewed 2026-11-22)
+- [GPT (OpenAI)](models/gpt.md) (reviewed 2026-11-22)
+- [Gemini (Google)](models/gemini.md) (reviewed 2026-11-22)
 - [Open-weight models](models/open-weight.md) (reviewed 2026-11-15)
 
 ## Agents
 
 - [Agent patterns](agents/agent-patterns.md) (reviewed 2026-11-09)
 - [Memory for agents](agents/memory.md) (reviewed 2026-11-09)
-- [Tool use (function calling)](agents/tool-use.md) (reviewed 2026-11-20)
+- [Tool use (function calling)](agents/tool-use.md) (reviewed 2026-11-22)
 
 ## Tooling
 
-- [Agent skills](tooling/skills.md) (reviewed 2026-11-20)
-- [Coding agents](tooling/coding-agents.md) (reviewed 2026-11-20)
-- [Model Context Protocol (MCP)](tooling/mcp.md) (reviewed 2026-11-20)
+- [Agent skills](tooling/skills.md) (reviewed 2026-11-22)
+- [Coding agents](tooling/coding-agents.md) (reviewed 2026-11-22)
+- [Model Context Protocol (MCP)](tooling/mcp.md) (reviewed 2026-11-22)
 
 ## Frameworks
 
-- [Agent and LLM framework landscape](frameworks/landscape.md) (reviewed 2026-11-20)
+- [Agent and LLM framework landscape](frameworks/landscape.md) (reviewed 2026-11-22)
 
 ## Practices
 
-- [Cost and caching](practices/cost-and-caching.md) (reviewed 2026-11-19)
-- [Evaluating LLM applications](practices/evals.md) (reviewed 2026-11-18)
+- [Cost and caching](practices/cost-and-caching.md) (reviewed 2026-11-22)
+- [Evaluating LLM applications](practices/evals.md) (reviewed 2026-11-22)
 - [Prompting and context engineering](practices/prompting.md) (reviewed 2026-11-09)
-- [Security for LLM apps and agents](practices/security.md) (reviewed 2026-11-19)
+- [Security for LLM apps and agents](practices/security.md) (reviewed 2026-11-22)

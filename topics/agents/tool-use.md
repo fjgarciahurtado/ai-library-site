@@ -2,7 +2,7 @@
 title: "Tool use (function calling)"
 tags: [tool-use, agents, structured-output]
 related: [agents/agent-patterns, tooling/mcp, tooling/skills]
-last_reviewed: 2026-11-20
+last_reviewed: 2026-11-22
 ---
 
 ## Overview
@@ -74,23 +74,14 @@ how LLMs act in the world and the core of every agent.
 - Validate inputs and require confirmation for destructive actions. Frameworks now build
   this in: the OpenAI Agents SDK 0.24 previews (alpha.8, 2026-11-16) let you review a
   Python tool call's arguments and approve or reject it, optionally for the rest of the
-  session.
+  session, and Pydantic AI 2.71.0 (2026-11-18) adds `PermissionRule` to allow, ask, or
+  deny tool and shell calls by rule.
 
 ## Current state
 
-- **2026-11-20:** Gemini API tool retrieval (preview, 2026-11-19) brings deferred tool
-  loading to Gemini, including for remote MCP servers. Pydantic AI 2.71.0 adds
-  `ToolBridge` (search-describe-call over large tool sets) and `PermissionRule` to
-  allow, ask, or deny tool and shell calls by rule.
-
-- **2026-11-17:** OpenAI Agents SDK 0.24.0-alpha.8 adds per-call approval of Python
-  tools and deferred tool schemas via `ToolSearch` (preview only).
-
-- **2026-11-16:** Claude Code's Code Mode docs went live: JavaScript that calls tools,
-  in interactive terminal sessions only (see Tools called from code).
-
-- **2026-11-05:** Gemini function responses accept files, audio, and video (new; see
-  Key concepts).
+- **2026-11-20:** Deferred tool loading is in preview or alpha at two of the three
+  vendors (Gemini tool retrieval, OpenAI Agents SDK `ToolSearch`); expect GA and API
+  changes. Claude Code's Code Mode is still experimental.
 - **2026-10-30:** Gemini API Computer Use is GA on Gemini 4 Argon, 3.8 Flash, and 3.5
   Flash-Lite; rate limits are not yet published.
 - **2026-10-22:** MCPtoCodeMode's claim of about 5.7× fewer input tokens is

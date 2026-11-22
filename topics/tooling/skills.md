@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-11-20
+last_reviewed: 2026-11-22
 ---
 
 ## Overview
@@ -29,7 +29,15 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
   including ChatGPT, Codex, Cursor, GitHub Copilot, and VS Code, so a skill is portable
   across agents.
 - **Plugins:** bundles of skills, commands, hooks, agents, and MCP servers that can be
-  shared through marketplaces (Claude Code plugins).
+  shared through marketplaces (Claude Code plugins). Since Claude Code 2.1.323
+  (2026-11-12) a plugin can declare the versions it supports with
+  `engines["claude-code"]` in `plugin.json`; outside that range it is not installed,
+  updated, or loaded. `claude plugin validate` type-checks TypeScript hook modules
+  (`--strict` fails on findings), and a plugin's `agent` setting is deprecated. Authors
+  who rely on recent hook or mod features should add an `engines` range.
+- **Skills in unattended runs:** since Claude Code 2.1.325 (2026-11-13) scheduled tasks
+  and `/loop` ask before running a skill that declares `allowed-tools` or hooks; add
+  `Skill(name)` to `permissions.allow` for unattended use.
 - **Skills API:** `/v1/skills` manages skills on the Claude API; it is generally
   available and no longer needs the beta header (as of 2026-10-04).
 - **Long sessions in Claude Code:** since 2.1.304 (2026-10-19) the full skill list is
@@ -126,6 +134,20 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
   skills, custom agents, hooks, MCP servers, and executable extensions load only from
   plugins or managed settings, not from user or project files (pair with
   `strictKnownMarketplaces` to limit marketplaces; Copilot Business and Enterprise).
+  Since 2026-11-18 (GA, Business and Enterprise), a team maintainer can pick Agent
+  Plugins from built-in, enterprise, or repository-hosted marketplaces that are on by
+  default for the team's members in VS Code, the Copilot app, and Copilot CLI
+  (team → **Customize Copilot**); organization and enterprise policy still wins.
+- **Research skill pack:** ARIS (Auto-claude-code-research-in-sleep, about 19.5k stars
+  on 2026-11-20) bundles about 83 Markdown skills for ML research (literature,
+  experiments, review, rebuttals, slides) with a loop where one model does the work and
+  another reviews it: `claude plugin marketplace add
+  wanshuiyin/Auto-claude-code-research-in-sleep`, then `claude plugin install aris@aris`
+  and `/aris:setup`.
+- **Writing less code:** Ponytail (plugin and skill, 2026-11) makes agents write the
+  smallest change that works and adds review and audit commands (see
+  [coding agents](coding-agents.md)). Its star count (about 189,000 but only 449
+  watchers) looks inflated, so judge it by its `SKILL.md`.
 - **Code review as skills:** Alibaba's Open Code Review installs as skills
   (`npx skills add alibaba/open-code-review`). Its `open-code-review-delegate` skill
   lets the host agent run the review with OCR's file selection and rules, without a
@@ -149,47 +171,12 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 
 ## Current state
 
-- **2026-11-20:** ARIS (Auto-claude-code-research-in-sleep, about 19.5k stars) bundles
-  about 83 Markdown skills for ML research (literature, experiments, review, rebuttals,
-  slides) with an executor-plus-reviewer loop across two models. Install in Claude Code
-  with `claude plugin marketplace add wanshuiyin/Auto-claude-code-research-in-sleep`
-  and `claude plugin install aris@aris`, then `/aris:setup`.
-- **2026-11-19:** GitHub Copilot team customizations are GA (2026-11-18) on Business and
-  Enterprise: a team maintainer picks Agent Plugins (from built-in, enterprise, or any
-  repository-hosted marketplace) that are on by default for the team's direct members in
-  VS Code, the Copilot app, and Copilot CLI. Organization and enterprise policy still
-  wins, and members can switch a plugin off where allowed.
-- **2026-11-18:** GitHub Copilot Evals (public preview, 2026-11-17) tests skills, custom
-  agents, and MCP tools with `/eval` (see How to use it). Source note added for the
-  `wshobson/agents` plugin marketplace (MIT, one Markdown source generated for seven
-  harnesses).
-- **2026-11-17:** GitHub Copilot admins can require skills, hooks, agents, and MCP
-  servers to come only from plugins or managed settings (see Discovery in Copilot).
-  Open Code Review (Alibaba) adds review skills for any Agent Skills agent.
-
-- **2026-11-16:** Anthropic updated its document skills (2026-11-14; see Office
-  documents), and craft, a new design-process skill pack, was added (see Front-end
-  design pack). Claude Code 2.1.325 (2026-11-13) makes scheduled tasks and `/loop` ask
-  before running a skill that declares `allowed-tools` or hooks; add `Skill(name)` to
-  `permissions.allow` for unattended use. Skills folders inside `--plugin-dir` plugins
-  no longer load from a session started above them.
-
-- **2026-11-13:** Claude Code 2.1.323 (2026-11-12) lets a plugin declare the Claude Code
-  versions it supports with `engines["claude-code"]` in `plugin.json`; outside that
-  range it is not installed, updated, or loaded, and install picks the newest fitting
-  version. `claude plugin validate` now type-checks TypeScript hook modules (`--strict`
-  fails on findings), and a plugin's `agent` setting is deprecated. Plugin and skill
-  authors should add an `engines` range when they rely on recent hook or mod features.
-
-- **2026-11-12:** Ponytail (plugin and skill that makes agents write the smallest change
-  that works, with review and audit commands) added to the library. It installs from
-  its own marketplace in Claude Code and Codex. Its star count (about 189,000, but only
-  449 watchers) looks inflated, so judge it by its `SKILL.md`. See
-  [coding agents](coding-agents.md).
-
-- **2026-11-10:** Taste Skill (about 112,600 stars, +3,700 in a week) added to the
-  library; Impeccable (about 101,700 stars on 2026-11-04) and Humanizer (about 64,500)
-  keep rising. Claude Code 2.1.321 changes nested skill loading (see Key concepts).
+- **2026-11-18:** Copilot Evals for skills is a public preview (see How to use it).
+- **2026-11-17:** Copilot's plugin-only customization policy is new (see Discovery in
+  Copilot); expect other vendors to add similar controls.
+- **2026-11-10:** Star counts for popular design and writing skills keep climbing: Taste
+  Skill about 112,600 (+3,700 in a week), Impeccable about 101,700 (2026-11-04), and
+  Humanizer about 64,500.
 
 ## Open questions
 

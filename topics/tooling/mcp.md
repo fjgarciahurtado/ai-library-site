@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-11-20
+last_reviewed: 2026-11-22
 ---
 
 ## Overview
@@ -57,7 +57,9 @@ the de facto standard, with official SDKs in many languages.
   preview): 26 services such as Slack, Figma, Notion, Sentry, and Linear, shared across
   the Copilot app, Copilot CLI (`/mcp` → **Connectors**), VS Code, cloud sessions, and
   GitHub Mobile (all plans; Business and Enterprise need the `Editor preview features`
-  policy). VS Code's customizations browser lists MCP servers next to skills and plugins.
+  policy). Eight more were added on 2026-11-18 (Box, Buildkite, Calendly, ClickUp,
+  Mixpanel, Supabase, Webflow, Wix); enterprises that allowlist MCP servers one by one
+  must add them. VS Code's customizations browser lists MCP servers next to skills and plugins.
 - **Adoption of the stateless spec:** Claude Code negotiates the 2026-07-28 protocol by
   default for local stdio servers since 2.1.292 (2026-10-06; opt out with
   `MCP_PROTOCOL_NEGOTIATION=legacy`, and servers that do not answer fall back to the old
@@ -81,11 +83,23 @@ the de facto standard, with official SDKs in many languages.
   2.1.314 (2026-10-30), servers that also work signed out are used without sign-in when
   their stored sign-in breaks. For organizations: since 2.1.305, `allowedMcpServers` no
   longer filters `managed-mcp.json` stdio servers that use `${VAR}` only in `env`, so
-  list servers you mean to block in `deniedMcpServers`.
+  list servers you mean to block in `deniedMcpServers`. Since 2.1.323 (2026-11-12)
+  Claude asks you to confirm before finishing an MCP server sign-in, even in auto and
+  bypass modes, and project `.mcp.json` approvals must match the server's exact name.
+  2.1.327 (2026-11-17) stopped project-scope `claude mcp add` and `remove` from deleting
+  other top-level keys such as `$schema` from `.mcp.json`; 2.1.328 lets `mcp_tool` hooks
+  fail closed with `"onFailure": "block"`; and since 2.1.329 (2026-11-19) `/mcp` shows a
+  remote HTTP server's JSON-RPC refusal error as a "Server message" row, which helps
+  debug auth and connection failures.
 - **Client behaviour in Codex:** since Codex CLI 0.164.0 (2026-10-23) MCP connections
   can sign in with Codex account grants or a dedicated sign-in, including OAuth clients
   that need a secret; tool-list changes apply within a turn, and coordinated OAuth
-  refresh is on by default.
+  refresh is on by default. [Codex CLI 0.170.0](https://github.com/openai/codex/releases/tag/rust-v0.170.0)
+  (2026-11-18) adds experimental support for identically named MCP servers across
+  environments.
+- **Deferred loading:** the Gemini API's tool retrieval (preview, 2026-11-19) accepts
+  `defer_loading` on remote MCP servers, so their schemas load only when needed (see
+  [tool use](../agents/tool-use.md)).
 - **Notable new servers (October 2026):** MCPtoCodeMode (MIT) puts all your MCP servers
   behind three tools (`search`, `describe`, `execute`); the model writes JavaScript that
   runs in a QuickJS sandbox with no network or filesystem, and the project claims about
@@ -106,6 +120,15 @@ the de facto standard, with official SDKs in many languages.
   search through an Elasticsearch-compatible API and a stdio MCP server (`xerj_search`,
   `xerj_def`); its token-saving figures are self-reported, and its optional Query-1
   answer model is proprietary.
+- **Notable new servers (November 2026):** REA (`npx rea-agents setup`) lets agents
+  reverse engineer binaries, Electron apps, APKs, and firmware, using Ghidra, IDA, or
+  Hopper for native code; install only from `morluto/rea`, as look-alike repos exist
+  (see [security](../practices/security.md)). rust-anything
+  (`cargo install rust-anything && rust-anything setup` registers it in Claude Code,
+  Codex, Cursor, Gemini CLI, and OpenCode) gives agents record, replay, and diff tools
+  for porting code to Rust (see [coding agents](coding-agents.md)). Scrapling (about
+  101,000 stars) and Context7 (about 64,500) were rising in GitHub trends on 2026-11-11
+  (see How to use it).
 
 ## How to use it
 
@@ -161,47 +184,16 @@ the de facto standard, with official SDKs in many languages.
 
 ## Current state
 
-- **2026-11-20:** Claude Code 2.1.329 shows a remote HTTP server's JSON-RPC refusal
-  error as a "Server message" row in `/mcp`, which helps debug auth and connection
-  failures. The Gemini API's tool retrieval (preview) accepts `defer_loading` on remote
-  MCP servers (see [tool use](../agents/tool-use.md)). New server: rust-anything
-  (`cargo install rust-anything && rust-anything setup` registers it in Claude Code,
-  Codex, Cursor, Gemini CLI, and OpenCode) gives agents record, replay, and diff tools
-  for porting code to Rust (see [coding agents](coding-agents.md)).
-- **2026-11-19:** GitHub added eight verified MCP connectors to Copilot (public preview,
-  2026-11-18): Box, Buildkite, Calendly, ClickUp, Mixpanel, Supabase, Webflow, and Wix
-  (Copilot CLI: `/mcp` → Connectors). Enterprises that allowlist MCP servers one by one
-  must add them. Claude Code 2.1.328 lets `mcp_tool` hooks fail closed with
-  `"onFailure": "block"`. REA (`npx rea-agents setup`) is a popular MCP server that lets
-  agents reverse engineer binaries, Electron apps, APKs, and firmware, using Ghidra, IDA,
-  or Hopper for native code (see [security](../practices/security.md)).
-- **2026-11-18:** Claude Code 2.1.327 (2026-11-17) adds `claude mcp add-json <name> -`
-  (see How to use it) and stops project-scope `claude mcp add` and `remove` from
-  deleting other top-level keys, such as `$schema`, from `.mcp.json`.
-  [Codex CLI 0.170.0](https://github.com/openai/codex/releases/tag/rust-v0.170.0)
-  (2026-11-18) adds experimental support for identically named MCP servers across
-  environments. GitHub Copilot Evals can now test MCP tools (see
+- **2026-11-20:** Deferred tool loading for MCP servers is spreading across vendors
+  (Gemini API preview; see [tool use](../agents/tool-use.md)).
+- **2026-11-19:** GitHub Copilot connectors, including the eight added on 2026-11-18,
+  are still in public preview. GitHub Copilot Evals (preview) can test MCP tools (see
   [evals](../practices/evals.md)).
-- **2026-11-16:** XERJ, a local search engine with an MCP server, added (see Key
-  concepts and How to use it).
-
-- **2026-11-13:** The maintainers published a draft file upload and download extension
-  (2026-11-10; see Key concepts). Claude Code 2.1.323 now asks you to confirm before
-  Claude finishes an MCP server sign-in, even in auto and bypass modes, and project
-  `.mcp.json` approvals must match the server's exact name.
-
-- **2026-11-12:** Six security advisories for the reference servers (2026-11-11): a High
-  command-execution bug in `mcp-server-git`, two path escapes in the filesystem server,
-  and two low-severity bypasses in the fetch server. Upgrade to 2026.11.11 or later. The
-  MCP maintainers also moved the spec to a six-month release cycle (SEP-3398); the next
-  version is `2027-03-30`.
-
-- **2026-11-11:** Scrapling (about 101,000 stars) and Context7 (about 64,500 stars) are
-  rising in GitHub trends; see How to use it.
-- **2026-11-09:** Claude Code and the TypeScript Agent SDK now run MCP tasks in the
-  background (see Key concepts). Claude Code 2.1.319 also fixed older-handshake servers
-  failing to connect or returning empty results.
-- **2026-10-28:** GitHub Copilot connectors are still in preview.
+- **2026-11-13:** The file upload and download extension is a draft (2026-11-10; see Key
+  concepts); the maintainers aim to stabilise it by the end of 2026.
+- **2026-11-12:** Reference servers fixed six advisories in 2026.11.11 (see How to use
+  it), and the spec moved to a six-month release cycle (SEP-3398); the next version is
+  `2027-03-30`.
 
 ## Open questions
 

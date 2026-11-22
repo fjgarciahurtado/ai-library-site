@@ -2,7 +2,7 @@
 title: "Evaluating LLM applications"
 tags: [evals, prompting, agents]
 related: [practices/prompting, agents/agent-patterns]
-last_reviewed: 2026-11-18
+last_reviewed: 2026-11-22
 ---
 
 ## Overview
@@ -38,7 +38,11 @@ models in general; your own evals tell you what works for your use case.
   access and their freedom to publish. Anthropic's 2026 scheme defines three tiers:
   (1) narrow access with lab approval to publish; (2) broader information and
   publication without approval, subject to fixed redaction categories; (3)
-  "employee-like" internal access plus the same publication rights.
+  "employee-like" internal access plus the same publication rights. As of 2026-10-15 a
+  six-person METR team is embedded at Tier 3; Anthropic cannot veto publication, only
+  redact customer data, privileged legal material, and architecture details. SecureBio
+  (Tier 2-style review of the CBRN chapter), Accenture, Faculty, and Hugging Face are at
+  earlier stages.
 - **Validity:** an eval result is only as good as its design. Anthropic's guidance on
   safety evals (2026-11-13) applies to any eval: measure the construct you care about
   (for example an "appropriate response" rate rather than a raw refusal rate), pair
@@ -79,21 +83,10 @@ models in general; your own evals tell you what works for your use case.
 
 - **2026-11-18:** GitHub Copilot Evals entered public preview (2026-11-17), built on the
   local Vally eval tool (see How to use it, step 7).
-
-- **2026-11-16:** Anthropic published "Building strong safety evaluations" (2026-11-13),
-  a checklist for designing, running, and reporting evals (see Validity, Grader
-  validation, and How to use it).
-
-- **2026-11-09:** Google ADK 2.14.0 (2026-11-07) adds multi-run evals and semantic
-  tool-argument matching (see How to use it). Claude Code 2.1.319 adds
-  `/claude-api latency-optimize`, which tests faster API settings against your own eval.
-
-- **2026-10-15:** Anthropic embedded a six-person METR team with employee-like access
-  (Tier 3). Anthropic cannot veto publication, only redact customer data, privileged
-  legal material, and architecture details. SecureBio (Tier 2-style review of the CBRN
-  chapter), Accenture, Faculty, and Hugging Face are at earlier stages.
-- **2026-10-13:** A paper showed that capabilities can be provably hidden from
-  elicitation (see Limits of capability evals).
+- **2026-11-20:** Framework eval tooling is moving toward repeated runs: Google ADK
+  added multi-run evals in 2.14.0 (2026-11-07) and `pass_at_k` metrics with
+  per-argument tool scoring in 2.15.0 (2026-11-19; see
+  [frameworks](../frameworks/landscape.md)).
 
 ## Open questions
 

@@ -1,7 +1,7 @@
 ---
 title: "Microsoft Agent Framework (Python) 1.23.0"
 url: https://github.com/microsoft/agent-framework/releases/tag/python-1.23.0
-archived:
+archived: https://web.archive.org/web/20261024210431/https://github.com/microsoft/agent-framework/releases/tag/python-1.23.0
 type: release
 author: Microsoft
 date_published: 2026-10-22

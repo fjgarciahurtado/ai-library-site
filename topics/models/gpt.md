@@ -2,7 +2,7 @@
 title: "GPT (OpenAI)"
 tags: [openai, llm, reasoning]
 related: [models/claude, models/gemini, tooling/coding-agents]
-last_reviewed: 2026-11-20
+last_reviewed: 2026-11-22
 ---
 
 ## Overview
@@ -122,27 +122,23 @@ GPT-6.1 Sol with a newer knowledge cutoff.
 
 ## Current state
 
-- **2026-11-20:** `gpt-live-1.1` (2026-11-19) improves multilingual voice; standby
-  pauses inference in idle GPT-Live WebRTC sessions, which should lower the cost of
-  long sessions (no figures given). Codex CLI 0.171.0 (2026-11-20) adds GPT-6.2 Sol and
-  Astra and makes Sol the default (see [coding agents](../tooling/coding-agents.md)).
+- **2026-11-20:** GPT-Live standby (2026-11-19) pauses inference in idle WebRTC
+  sessions, which should lower the cost of long sessions (no figures given). GPT-6.2
+  Sol is now the Codex CLI default (0.171.0; see
+  [coding agents](../tooling/coding-agents.md)).
 - **2026-11-18:** GPT-6.2 Astra and Sol (2026-11-17) and background completion windows
-  are new (see Key concepts and How to use it). The announcement post returned 403, so
-  OpenAI's benchmark claims are unchecked; Simon Willison reports Astra 6.2 scores below
-  Claude Fable 5.2 on several benchmarks, without figures.
-- **2026-11-05:** `gpt-6-cyber` and Images 2.6 are new (see Key concepts). Their
-  announcement posts return 403, so GPT-6-Cyber benchmarks and Images 2.6 prices are
-  not recorded.
+  (beta) are new (see Key concepts and How to use it). Simon Willison reports Astra 6.2
+  scores below Claude Fable 5.2 on several benchmarks, without figures.
 - **2026-10-29:** ChatGPT's $100, $200, and $500 plans now include an equal amount of
   expiring API credits for one API organization (reported by Simon Willison; OpenAI's
-  help article returned 403). OpenAI also published an updated Model Spec the same day,
-  which could not be read (see Open questions).
-- **2026-10-26:** GPT-6.1 Terra is rolling out in GitHub Copilot; its benchmark claims
-  are unchecked (announcement returned 403).
-- **2026-10-22:** Decisions API GA; latency and pricing claims at GA are unchecked
-  (announcement returned 403).
+  help article returned 403; see Open questions).
 
 ## Open questions
+
+- OpenAI's announcement posts keep returning 403 to automated reads, so vendor
+  benchmark claims are unchecked for GPT-6.2 Astra and Sol (2026-11-17), `gpt-6-cyber`
+  (2026-11-05), GPT-6.1 Terra (2026-10-26), and the Decisions API GA latency figures
+  (2026-10-22); Images 2.6 prices are not recorded.
 
 - The exact release date of GPT-6 Astra; the Sol and Luna announcement says only "early
   September 2026".
