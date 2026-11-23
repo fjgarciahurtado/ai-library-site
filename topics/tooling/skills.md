@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-11-22
+last_reviewed: 2026-11-23
 ---
 
 ## Overview
@@ -165,11 +165,22 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
   `wshobson/agents` (`/plugin marketplace add wshobson/agents`; 94 plugins, generated
   for Claude Code, Codex, Cursor, Copilot, and others): each loaded plugin adds its
   descriptions to the context.
+- For diagrams in docs and slides, use diagram-design. It draws editorial HTML and SVG
+  diagrams and redraws Mermaid, draw.io, Excalidraw, or PlantUML files. Install it with
+  `npx skills add cathrynlavery/diagram-design`, or in Claude Code with
+  `/plugin marketplace add cathrynlavery/diagram-design` then
+  `/plugin install diagram-design@diagram-design`.
+- fast-anything ships as a skill, a plugin, and an MCP server from one repo (see
+  [coding agents](coding-agents.md)), a packaging pattern more repos now follow.
 - Review third-party skills before installing: they can contain instructions and code.
 - To share skills across a team and several agents, pin them in an APM `apm.yml`, commit
   the lockfile, and let Dependabot propose updates you review like any dependency.
 
 ## Current state
+
+- **2026-11-23:** diagram-design has about 70,400 stars (+3,000 in a week) and ships for
+  Claude Code, Codex, Copilot, Droid, and Pi from one repo. fast-anything gained about
+  2,200 stars in its first two days.
 
 - **2026-11-18:** Copilot Evals for skills is a public preview (see How to use it).
 - **2026-11-17:** Copilot's plugin-only customization policy is new (see Discovery in
@@ -223,3 +234,5 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 - [wshobson/agents: multi-harness plugins, agents, and skills](../../sources/2026/11/2026-11-18-wshobson-agents-plugin-marketplace.md)
 - [Customize GitHub Copilot for your team](../../sources/2026/11/2026-11-19-copilot-team-plugin-defaults.md)
 - [ARIS: Markdown skills for autonomous ML research](../../sources/2026/11/2026-11-20-aris-autonomous-research-skills.md)
+- [diagram-design: editorial diagrams skill](../../sources/2026/11/2026-11-23-diagram-design-editorial-diagrams-skill.md)
+- [fast-anything: port only the slow functions to Rust](../../sources/2026/11/2026-11-23-fast-anything-port-hot-paths.md)

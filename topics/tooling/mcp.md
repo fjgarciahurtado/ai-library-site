@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-11-22
+last_reviewed: 2026-11-23
 ---
 
 ## Overview
@@ -178,11 +178,20 @@ the de facto standard, with official SDKs in many languages.
   `claude mcp add-json <name> -` and paste the JSON on stdin (2.1.327 and later), so the
   token stays out of shell history.
 - Build a server when you want one integration usable from many AI clients.
+- To keep a company MCP server private, follow Google's Cloud Run pattern (2026-11-20):
+  internal-only ingress, IAM that admits only the agent platform's service identity,
+  private DNS for the one hostname, and a second check of the user's OAuth token inside
+  the server. The same split works on other clouds.
 - Spec releases now follow a fixed six-month schedule (last Tuesday of March and
   September; next `2027-03-30`). Test the Tier 1 SDK betas about six weeks before each
   release.
 
 ## Current state
+
+- **2026-11-23:** Google published a reference setup for private Cloud Run MCP servers
+  behind Gemini Enterprise (2026-11-20), and Ollama 0.40.17 brings deferred MCP tool
+  loading to Claude Code sessions on local models (see
+  [coding agents](coding-agents.md)).
 
 - **2026-11-20:** Deferred tool loading for MCP servers is spreading across vendors
   (Gemini API preview; see [tool use](../agents/tool-use.md)).
@@ -247,3 +256,4 @@ the de facto standard, with official SDKs in many languages.
 - [REA: reverse engineering with agents](../../sources/2026/11/2026-11-19-rea-reverse-engineering-agents.md)
 - [Claude Code release 2.1.329](../../sources/2026/11/2026-11-20-claude-code-2-1-329.md)
 - [rust-anything: incremental Rust rewrites](../../sources/2026/11/2026-11-20-rust-anything-incremental-rust-rewrites.md)
+- [How to securely connect internal Cloud Run MCP servers to Gemini Enterprise](../../sources/2026/11/2026-11-23-private-cloud-run-mcp-gemini-enterprise.md)

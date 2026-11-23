@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-11-22
+last_reviewed: 2026-11-23
 ---
 
 ## Overview
@@ -299,8 +299,24 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   after the first event and prints JSON.
 - After editing skills, agents, hooks, or keybindings in Claude Code, run `/status` to
   catch entries that are broken or never match (2.1.327+).
+- Recurring scheduled tasks and `/loop` in Claude Code run for up to 30 days (2.1.330+;
+  was 7), long enough for week-long monitoring jobs. Easel, a built-in mod, draws charts
+  in the session on Pro and Max (macOS and Linux); turn automatic charts off in
+  `/config`.
+- To speed up a slow app without rewriting it, fast-anything profiles it and has the
+  agent port only the hot functions to Rust, checked by replaying recorded calls:
+  `/plugin marketplace add EL4CTEO/fast-anything`, then
+  `/fast-anything:fast python app.py` (also an MCP server; the benchmarks are the
+  author's own).
+- To run Claude Code on local models, use `ollama launch claude`. From Ollama 0.40.17 it
+  supports deferred tool loading, so MCP tools no longer fill a small model's context.
 
 ## Current state
+
+- **2026-11-23:** Claude Code 2.1.330 (2026-11-20) extends `/loop` and scheduled tasks
+  to 30 days, adds Easel charts, applies org settings at enterprise sign-in, and brings
+  `/fork` and `/workflows` to VS Code. Ollama 0.40.17 (2026-11-21) adds deferred tool
+  loading to `ollama launch claude`.
 
 - **2026-11-20:** Claude Code is shipping a release almost daily (2.1.325 to 2.1.329 in
   the week to 2026-11-19), mostly permission defaults, Code Mode, and background-task
@@ -404,3 +420,6 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [OpenAI Codex CLI 0.171.0](../../sources/2026/11/2026-11-20-codex-cli-0-171.md)
 - [Gemini CLI v0.69.0 and its Gemini 4 model support](../../sources/2026/11/2026-11-20-gemini-cli-0-69-model-support.md)
 - [rust-anything: incremental Rust rewrites](../../sources/2026/11/2026-11-20-rust-anything-incremental-rust-rewrites.md)
+- [Claude Code release 2.1.330](../../sources/2026/11/2026-11-23-claude-code-2-1-330.md)
+- [fast-anything: port only the slow functions to Rust](../../sources/2026/11/2026-11-23-fast-anything-port-hot-paths.md)
+- [Ollama v0.40.17](../../sources/2026/11/2026-11-23-ollama-v0-40-17.md)

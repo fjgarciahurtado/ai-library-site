@@ -19,7 +19,7 @@ Long-lived knowledge pages, kept current. Each page cites the source notes it dr
 - [Claude (Anthropic)](models/claude.md) (reviewed 2026-11-22)
 - [GPT (OpenAI)](models/gpt.md) (reviewed 2026-11-22)
 - [Gemini (Google)](models/gemini.md) (reviewed 2026-11-22)
-- [Open-weight models](models/open-weight.md) (reviewed 2026-11-15)
+- [Open-weight models](models/open-weight.md) (reviewed 2026-11-23)
 
 ## Agents
 
@@ -29,9 +29,9 @@ Long-lived knowledge pages, kept current. Each page cites the source notes it dr
 
 ## Tooling
 
-- [Agent skills](tooling/skills.md) (reviewed 2026-11-22)
-- [Coding agents](tooling/coding-agents.md) (reviewed 2026-11-22)
-- [Model Context Protocol (MCP)](tooling/mcp.md) (reviewed 2026-11-22)
+- [Agent skills](tooling/skills.md) (reviewed 2026-11-23)
+- [Coding agents](tooling/coding-agents.md) (reviewed 2026-11-23)
+- [Model Context Protocol (MCP)](tooling/mcp.md) (reviewed 2026-11-23)
 
 ## Frameworks
 

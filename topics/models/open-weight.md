@@ -2,7 +2,7 @@
 title: "Open-weight models"
 tags: [open-source, llm, deployment, fine-tuning]
 related: [fundamentals/training-and-fine-tuning, practices/cost-and-caching]
-last_reviewed: 2026-11-15
+last_reviewed: 2026-11-23
 ---
 
 ## Overview
@@ -45,7 +45,7 @@ As of 2026-10-22, checked against official model cards and announcements:
 | Qwen3.5-397B-A17B | 2026-02-16 | 397B / 17B (MoE) | 262K native, ~1M with YaRN | Apache 2.0 |
 | Flint (Recursive, coding agents) | 2026-10-21 (on Ollama) | 39.8B / ~2.5B (MoE), per model card | 262K | Apache 2.0 |
 | Gemma 4 (E2B to 31B) | 2026-04-03 | 2.3B effective to 31B dense; 26B A4B MoE | 128K–256K | Apache 2.0 |
-| Kimi K3.1 Pro (Moonshot; weights due by 2026-11-04) | 2026-10-23 (API) | "3T-class"; no details | 1M | not stated |
+| Kimi K3.1 Pro (Moonshot) | 2026-10-23 (API); weights ~2026-11-02 | 2.8T / 104B (MoE, MXFP4) | 1M | Kimi K3.1-Pro License (MIT-style; agreement for MaaS over $20M/yr, attribution above 100M MAU) |
 | Mistral Large 4 | 2026-10-06 (API preview); weights public by 2026-11-01 | ~1T / 49B (52B with embeddings; multimodal MoE) | 1M | Mistral Ecosystem Open-Weight License (modified MIT; MaaS needs a commercial licence) |
 | Mistral Large 3 | 2025-12-02 | ~675B / 41B (MoE) | 256K | Apache 2.0 |
 | gpt-oss-120b / gpt-oss-20b (OpenAI) | 2025-08 | 117B / 5.1B; 21B / 3.6B (MoE, MXFP4) | not stated on model cards | Apache 2.0 |
@@ -107,8 +107,13 @@ Moonshot's Kimi K3.1 Pro (2026-10-23, `kimi-k3.1-pro`, plus a 2–3× faster `-h
 variant at twice the price) has 1M context and is on Moonshot's API, apps, and Kimi
 Code. On Moonshot's figures it scores 65.7% on Terminal-Bench 4.0 (Opus 5.5: 66.4%), and
 Artificial Analysis ranks it second behind Opus 5.5 (both reported by Simon Willison, as
-is the $2 / $10 price). Moonshot promises full weights by 2026-11-04 but names no
-licence.
+is the $2 / $10 price). The weights are on Hugging Face (around 2026-11-02, so the
+promise to release them by 2026-11-04 was kept). The model has 2.8T total and 104B
+active parameters across 896 experts (16 routed plus 2 shared per token), hybrid KDA and
+Gated DSA attention, a vision encoder, and MXFP4 weights from quantization-aware
+training. The custom licence is MIT-style, but API hosts with more than $20M a year in
+revenue need a separate agreement, and products above 100M monthly users must credit
+Kimi in the UI. The recommended engines are vLLM, SGLang, and TokenSpeed.
 
 Ollama 0.40.12 (2026-10-27) added Liquid AI's LFM3 small models: a 1.7B text model with
 256K context, plus vision, audio (18 languages), and omni variants, and d1 2B decision
@@ -162,6 +167,11 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 
 ## Current state
 
+- **2026-11-23:** Kimi K3.1 Pro weights are confirmed on Hugging Face (2.8T / 104B MoE,
+  custom MIT-style licence). Ollama 0.40.17 (2026-11-21) adds Thinking Machines'
+  Inkling 2 Mini (`ollama run inkling-2-mini`; 26B / 5.4B active, text and images,
+  Apple silicon only for now, licence not stated).
+
 - **2026-11-11:** Meta released Muse Ember (2026-11-09), a low-cost agent model that is
   API-only like the other Muse models, so Meta still has no open-weight release since
   Llama 4. Meta reports it ahead of GPT-6 Luna and Claude Haiku 5.5 on Terminal-Bench
@@ -172,8 +182,8 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
   decision models (9b, 35b, and 27b-vl, the larger two with image input) that return
   choices, yes/no probabilities, or ratings. Recurrent and vision models now serve
   concurrent requests, and Qwen3/Qwen3.5 support YaRN long context.
-- **2026-10-23:** Kimi K3.1 Pro launched on Moonshot's API; weights were promised by
-  2026-11-04 (see above and Open questions).
+- **2026-10-23:** Kimi K3.1 Pro launched on Moonshot's API; the weights followed in
+  early November (see above).
 
 ## Open questions
 
@@ -198,9 +208,12 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 - Did Llama 4 Behemoth ever ship? No primary source has been found.
 - Did Alibaba's Qwen 3.7 Max (May 2026) ship as API-only, without weights? Only a
   secondary report says so (noted 2026-10-04); no primary source has been found.
-- Kimi K3.1 Pro: check on or after 2026-11-04 whether the weights shipped, under which
-  licence, and with what architecture. The price comes from Simon Willison, not from
-  Moonshot's pricing page.
+- Kimi K3.1 Pro: the weights, licence, and architecture were answered on 2026-11-23
+  from the model card. Still open: the exact weight release date (Hugging Face shows
+  only relative dates), whether the $2 / $10 price (from Simon Willison) matches
+  Moonshot's pricing page, and what the newer `Kimi-K3` repo contains.
+- Inkling 2 Mini (Thinking Machines): under which licence are the weights published, and
+  is there a primary announcement? Ollama's notes (2026-11-21) give neither.
 - GLM: a primary source was added on 2026-10-28 (GLM-5.3 model card and licence). Still
   open: GLM-5.3's active parameter count and context limit, which the card does not
   state, and its exact weight release date (only a secondary report gives 2026-08-29).
@@ -243,3 +256,5 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 - [LFM3-1.7B model card and licence](../../sources/2026/10/2026-10-29-liquid-lfm3-model-card-licence.md)
 - [Mistral Large 4 model card](../../sources/2026/11/2026-11-01-mistral-large-4-model-card.md)
 - [Ollama v0.40.15](../../sources/2026/11/2026-11-09-ollama-v0-40-15.md)
+- [Kimi K3.1 Pro model card and licence](../../sources/2026/11/2026-11-23-kimi-k3-1-pro-model-card.md)
+- [Ollama v0.40.17](../../sources/2026/11/2026-11-23-ollama-v0-40-17.md)
