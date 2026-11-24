@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-11-23
+last_reviewed: 2026-11-24
 ---
 
 ## Overview
@@ -172,12 +172,21 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
   `/plugin install diagram-design@diagram-design`.
 - fast-anything ships as a skill, a plugin, and an MCP server from one repo (see
   [coding agents](coding-agents.md)), a packaging pattern more repos now follow.
+- For artifacts kept as local files (slides, UI mock-ups, dashboards, whiteboards,
+  docs), try open-artifact. It needs Node.js 22.18 or later. Download
+  `open-artifact-plugins.zip` from its GitHub release, add the extracted folder as a
+  Claude Code marketplace, and install `open-artifact@open-artifact`. Or copy the
+  `open-artifact` skill folder into any agent's skills folder. It runs locally with no
+  account or upload.
 - Review third-party skills before installing: they can contain instructions and code.
 - To share skills across a team and several agents, pin them in an APM `apm.yml`, commit
   the lockfile, and let Dependabot propose updates you review like any dependency.
 
 ## Current state
 
+- **2026-11-24:** open-artifact (formerly `baoyu-design`, Apache-2.0) had about 460
+  stars in its first week. It is one plugin and skill bundle for Claude Code, Codex,
+  Cursor, Copilot, and Antigravity that keeps artifacts as local files.
 - **2026-11-23:** diagram-design has about 70,400 stars (+3,000 in a week) and ships for
   Claude Code, Codex, Copilot, Droid, and Pi from one repo. fast-anything gained about
   2,200 stars in its first two days.
@@ -236,3 +245,4 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 - [ARIS: Markdown skills for autonomous ML research](../../sources/2026/11/2026-11-20-aris-autonomous-research-skills.md)
 - [diagram-design: editorial diagrams skill](../../sources/2026/11/2026-11-23-diagram-design-editorial-diagrams-skill.md)
 - [fast-anything: port only the slow functions to Rust](../../sources/2026/11/2026-11-23-fast-anything-port-hot-paths.md)
+- [open-artifact: local, agent-agnostic artifacts](../../sources/2026/11/2026-11-24-open-artifact-local-agent-artifacts.md)

@@ -2,7 +2,7 @@
 title: "Claude (Anthropic)"
 tags: [anthropic, llm, reasoning, cost]
 related: [models/gpt, models/gemini, tooling/skills, tooling/mcp, tooling/coding-agents]
-last_reviewed: 2026-11-22
+last_reviewed: 2026-11-24
 ---
 
 ## Overview
@@ -130,8 +130,17 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
   2026, per the models overview checked 2026-11-11). Haiku 4.5 (200K context, 64K output, $1 / $5) is superseded but still listed
   as Active, with retirement "not sooner than 2026-10-15". That date has passed, but
   there was still no deprecation notice on 2026-10-22. Anthropic gives at least 60 days'
-  notice, so it cannot retire before late December 2026. Sonnet 4.5 (deprecated 2026-09-30) retires on 2026-11-30; Opus 4.5 is
-  active until at least 2026-11-24.
+  notice, so it cannot retire before late December 2026 (still no notice on 2026-11-24).
+  Sonnet 4.5 (deprecated 2026-09-30) retires on 2026-11-30. Opus 4.5
+  (`claude-opus-4-5-20251101` and alias `claude-opus-4-5`) was deprecated on 2026-11-23
+  and retires on 2027-01-22; move it to `claude-opus-5-5` using the Opus 5.5 migration
+  guide.
+- For zero data retention on the most capable models, eligible organisations can ask
+  their account team for Enterprise Frontier Safeguards (beta since 2026-11-23).
+  Encrypted safety data goes to a bucket you own, Anthropic human review is off, and it
+  applies per workspace (not the Default Workspace, Files API, Batch results, code
+  execution, or Managed Agents). Accepting its terms also turns on Access Transparency,
+  which cannot be turned off.
 - Haiku 5.5 (released 2026-10-07) is the first Haiku with effort control and supports
   computer and browser use. Anthropic reports 72.4% on OSWorld 2.1 (offline subset) and
   39.2% on Terminal-Bench 4.0. Claude Code 2.1.293 made it the default Haiku.
@@ -182,6 +191,10 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 
 ## Current state
 
+- **2026-11-24:** Opus 4.5 is deprecated (2026-11-23) and retires on 2027-01-22; Sonnet
+  4.5 retires on 2026-11-30. Enterprise Frontier Safeguards (zero data retention with
+  customer-owned safety storage) entered beta the same day. Haiku 4.5 still has no
+  deprecation notice.
 - **2026-11-18:** Linked billing is in beta on the Claude API (2026-11-17; see How to
   use it).
 - **2026-11-13:** Self-hosted Claude Managed Agents (2026-11-12) is available only
@@ -203,7 +216,9 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
   2% grants? Anthropic says it will publish this in the coming months (noted 2026-10-19).
 - Haiku 4.5 retirement date: still not announced (checked 2026-11-02). The deprecations
   page lists it as Active with "not sooner than 2026-10-15", a date already past, and
-  Haiku 5.5 is not yet named as its replacement. Still unchanged on 2026-11-10.
+  Haiku 5.5 is not yet named as its replacement. Still unchanged on 2026-11-24, when the
+  page was rechecked after Opus 4.5 was deprecated: Haiku 4.5 is the only 4.5 model
+  without a deprecation date.
 - Text watermark: answered 2026-11-10 (model list in Key concepts; no public text
   detector, detection API in private preview). Still open: when detection opens up, and
   why Opus 4.6 and the 4.5 models are unmarked on cloud partners.
@@ -244,3 +259,4 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 - [How Claude marks AI-generated content](../../sources/2026/11/2026-11-10-claude-marks-ai-generated-content.md)
 - [Self-hosted Claude Managed Agents](../../sources/2026/11/2026-11-13-self-hosted-claude-managed-agents.md)
 - [Claude API linked billing (beta)](../../sources/2026/11/2026-11-18-claude-linked-billing-beta.md)
+- [Claude Platform release notes: Opus 4.5 deprecated, Enterprise Frontier Safeguards beta](../../sources/2026/11/2026-11-24-claude-opus-4-5-deprecation-efs.md)

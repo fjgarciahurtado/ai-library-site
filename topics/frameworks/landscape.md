@@ -2,7 +2,7 @@
 title: "Agent and LLM framework landscape"
 tags: [frameworks, agents, sdk]
 related: [agents/agent-patterns, agents/tool-use, tooling/mcp]
-last_reviewed: 2026-11-22
+last_reviewed: 2026-11-24
 ---
 
 ## Overview
@@ -30,8 +30,13 @@ now start from vendor SDKs and add a framework only when it clearly helps.
     nothing, or returns an invalid value blocks the action; connecting to an older CLI
     with the option set raises `CLIConnectionError`. TypeScript 0.3.317 also removed the
     `file_unchanged` Read result (breaking: a repeated Read now returns the content).
-  - OpenAI SDKs and the OpenAI Agents SDK (still 0.x; 0.23 hardened sandboxes,
-    sessions, MCP, and realtime agents).
+  - OpenAI SDKs and the OpenAI Agents SDK (stable line still 0.x; 0.23 hardened
+    sandboxes, sessions, MCP, and realtime agents; 0.26 (2026-11-24) makes an input
+    guardrail tripwire stop queued tools and changes Docker sandbox mounts). A 1.0 line
+    is in GitHub-only alpha: 1.0.0-alpha.2 (2026-11-23) adds `ResumableSession`, which
+    saves history and pending approvals together (Redis store supported), and
+    experimental `RunConfig.tool_execution` hooks that rewrite tool inputs, outputs, and
+    declarations.
   - Google's Agent Development Kit (ADK); 2.11 added run cancellation, tool approval in
     workflows, SQLite memory, and opt-in MCP SDK 2.x support. 2.13 (2026-10-22)
     promoted 12 experimental features to stable. It added classifier nodes for routing
@@ -147,7 +152,7 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 | Framework | Latest stable | Date | Note |
 |---|---|---|---|
 | Microsoft Agent Framework | Python 1.25.0 / .NET 1.28.0 | 2026-11-07 / 2026-11-09 | 1.0 GA on 2026-04-03; Python 1.23 moved to MCP 2.x and 1.25 adds callable MCP discovery approval policies; .NET 1.28 adds a GA computer tool (`FoundryAITool.CreateComputerTool()`); .NET 1.26 had breaking AG-UI auth-scope and Docker parameter changes (checked 2026-11-12 on GitHub) |
-| OpenAI Agents SDK (Python) | 0.24.0 | 2026-10-15 | Still 0.x; adds MCP annotations on converted tools (checked 2026-10-26) |
+| OpenAI Agents SDK (Python) | 0.26.0 | 2026-11-24 | Breaking: Docker sandboxes need `DockerVolumeMountStrategy`; tripwires stop queued tools; 1.0.0-alpha.2 in preview (checked 2026-11-24) |
 | Google ADK (Python) | 2.15.0 | 2026-11-19 | Non-blocking tools in live agents, `pass_at_k` evals and per-argument tool scoring, fsspec artifacts; breaking: Visual Agent Builder removed, dynamic instruction routing on by default (checked 2026-11-20) |
 | Pydantic AI | 2.71.0 | 2026-11-18 | Near-daily minor releases; 2.69 added `ToolBudgets` and Kubernetes/Windows sandboxes; 2.71 adds harness capabilities (`WrapUpAtLimits`, `RequireVerification`, …), `PermissionRule`, `Goal`, `ToolBridge`; breaking: `PeerNetwork` renamed `PeerConnection` (checked 2026-11-20 on GitHub) |
 | Claude Agent SDK (Python) | 0.2.177 | 2026-11-03 | Bundles Claude Code 2.1.317; `HookMatcher(on_failure="block")` makes hooks fail closed (checked 2026-11-03) |
@@ -160,6 +165,10 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 
 Release features are described under Key concepts.
 
+- **2026-11-24:** OpenAI Agents SDK 0.26.0 is out (breaking for Docker sandbox mounts
+  and custom trace providers), and a 1.0 line has started as GitHub-only alphas
+  (1.0.0-alpha.2, 2026-11-23) with resumable sessions that survive pending approvals.
+  The 0.24 previews described below have shipped in the 0.2x releases.
 - **2026-11-20:** Pydantic AI 2.71.0 (2026-11-18) packages coding-agent-style
   safeguards as capabilities (permission rules for tools and shell, `Goal` for
   unattended runs, budget and limit reporting, verification, `ToolBridge`); with
@@ -224,3 +233,4 @@ Release features are described under Key concepts.
 - [LlamaIndex v0.14.26](../../sources/2026/11/2026-11-17-llamaindex-v0-14-26.md)
 - [Google ADK (Python) v2.15.0](../../sources/2026/11/2026-11-20-google-adk-v2-15.md)
 - [Pydantic AI v2.71.0](../../sources/2026/11/2026-11-20-pydantic-ai-v2-71.md)
+- [OpenAI Agents SDK v0.26.0 and v1.0.0-alpha.2](../../sources/2026/11/2026-11-24-openai-agents-sdk-v0-26.md)

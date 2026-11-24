@@ -2,7 +2,7 @@
 title: "Open-weight models"
 tags: [open-source, llm, deployment, fine-tuning]
 related: [fundamentals/training-and-fine-tuning, practices/cost-and-caching]
-last_reviewed: 2026-11-23
+last_reviewed: 2026-11-24
 ---
 
 ## Overview
@@ -167,6 +167,10 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 
 ## Current state
 
+- **2026-11-24:** Z.ai's GLM-5.4 (2026-11-23), its first looped transformer, has no open
+  weights so far. It is available only through Z.ai's Coding Plan, so GLM-5.3 is still
+  the newest open GLM model.
+
 - **2026-11-23:** Kimi K3.1 Pro weights are confirmed on Hugging Face (2.8T / 104B MoE,
   custom MIT-style licence). Ollama 0.40.17 (2026-11-21) adds Thinking Machines'
   Inkling 2 Mini (`ollama run inkling-2-mini`; 26B / 5.4B active, text and images,
@@ -258,3 +262,4 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 - [Ollama v0.40.15](../../sources/2026/11/2026-11-09-ollama-v0-40-15.md)
 - [Kimi K3.1 Pro model card and licence](../../sources/2026/11/2026-11-23-kimi-k3-1-pro-model-card.md)
 - [Ollama v0.40.17](../../sources/2026/11/2026-11-23-ollama-v0-40-17.md)
+- [GLM-5.4: Z.ai's first loop transformer (Simon Willison)](../../sources/2026/11/2026-11-24-glm-5-4-loop-transformer.md)

@@ -2,7 +2,7 @@
 title: "Transformers"
 tags: [transformers, llm]
 related: [fundamentals/llms, fundamentals/tokens-and-context, fundamentals/embeddings]
-last_reviewed: 2026-11-15
+last_reviewed: 2026-11-24
 ---
 
 ## Overview
@@ -57,6 +57,12 @@ You rarely work with the architecture directly when using an API, but it explain
 
 ## Current state
 
+- **2026-11-24:** Looped (recurrent-depth) transformers have reached products. A group of
+  weight-shared layers runs several times per token, giving depth without more
+  parameters. Z.ai's GLM-5.4 (2026-11-23, Coding Plan only, no open weights so far) and
+  Thinking Machines' Inkling 2 Mini (2026-11-20) both use this design. Z.ai has not
+  published benchmark figures (see Open questions).
+
 - **2026-11-15:** Decoder-only MoE transformers remain the dominant design, and hybrid
   or sparse attention is in production in leading open models (Qwen3.5, February 2026;
   DeepSeek V4, April 2026; GLM-5.3, August 2026). DeepSeek-V4.1-Flash (2026-09-10) is a
@@ -66,6 +72,10 @@ You rarely work with the architecture directly when using an API, but it explain
   publish their architectures.
 
 ## Open questions
+
+- GLM-5.4: how many loop iterations, at what extra compute, and with what benchmark
+  gains over GLM-5.3? Z.ai's post (<https://z.ai/blog/glm-5.4>) could not be read
+  automatically on 2026-11-24. The library's note uses Simon Willison's write-up.
 
 - Will non-attention or hybrid architectures overtake transformers for long context?
 
@@ -79,3 +89,4 @@ You rarely work with the architecture directly when using an API, but it explain
 - [Mistral Large 4](../../sources/2026/10/2026-10-07-mistral-large-4.md)
 - [gpt-oss model card](../../sources/2026/10/2026-10-19-gpt-oss-model-card.md)
 - [GLM-5.3 model card](../../sources/2026/10/2026-10-28-glm-5-3-model-card.md)
+- [GLM-5.4: Z.ai's first loop transformer (Simon Willison)](../../sources/2026/11/2026-11-24-glm-5-4-loop-transformer.md)

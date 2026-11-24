@@ -2,7 +2,7 @@
 title: "Security for LLM apps and agents"
 tags: [security, safety, agents, mcp]
 related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
-last_reviewed: 2026-11-22
+last_reviewed: 2026-11-24
 ---
 
 ## Overview
@@ -203,6 +203,12 @@ to limit what the agent can do if it is fooled.
 
 ## Current state
 
+- **2026-11-24:** OpenAI and Cisco open-sourced Shirudo (2026-11-23, BSD 2-Clause), a
+  Linux runtime for temporary eBPF "shields" that block an exploit path in a running
+  process until a patch ships. Shields are signed, can run in monitor mode first, and
+  need an operator's approval. OpenAI demonstrated Codex writing one. This is an
+  example of agents used for defence, with a human approving each mitigation.
+
 - **2026-11-19:** Claude Code is fixing permission and sandbox gaps in nearly every
   release (2.1.319 to 2.1.328 in two weeks; see Sandbox escapes). Expect more; update
   often.
@@ -264,3 +270,4 @@ to limit what the agent can do if it is fooled.
 - [Secret scanning on demand for developers and agents](../../sources/2026/11/2026-11-18-copilot-secret-scanning-agents.md)
 - [Claude Code release 2.1.327](../../sources/2026/11/2026-11-18-claude-code-2-1-327.md)
 - [REA: reverse engineering with agents](../../sources/2026/11/2026-11-19-rea-reverse-engineering-agents.md)
+- [OpenAI and Cisco introduce Shirudo](../../sources/2026/11/2026-11-24-openai-cisco-shirudo.md)

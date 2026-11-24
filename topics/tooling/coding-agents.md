@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-11-23
+last_reviewed: 2026-11-24
 ---
 
 ## Overview
@@ -310,8 +310,26 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   author's own).
 - To run Claude Code on local models, use `ollama launch claude`. From Ollama 0.40.17 it
   supports deferred tool loading, so MCP tools no longer fill a small model's context.
+  Codex CLI does the same for optional stdio MCP servers since 0.172.0: they start on
+  their first tool call.
+- If Claude Code fails behind a proxy or gateway, run `claude doctor` (2.1.331 or later
+  shows API reachability and the HTTP status). If the proxy cuts off compressed
+  responses, set `CLAUDE_CODE_DISABLE_RESPONSE_COMPRESSION=1`.
+- Plugin authors can list `optionalDependencies` in the manifest (Claude Code 2.1.331) so
+  users can remove a dependency plugin on its own. If you manage marketplaces through
+  `extraKnownMarketplaces`, they auto-update by default in releases from 2026-11-30;
+  add `"autoUpdate": false` to an entry to pin it.
+- On GitHub, assigning an issue to an agent now moves it to In progress on the new
+  repository boards (public preview, 2026-11-23), and linked PRs move it to In review.
+  Agents can read and set statuses through the GitHub MCP server.
 
 ## Current state
+
+- **2026-11-24:** Claude Code 2.1.331 (2026-11-23) brings Code Mode to Bedrock, Google
+  Cloud, Foundry, and Claude Platform on AWS, adds an API check to `claude doctor`, and
+  fixes MCP calls that could hang for 30 minutes. Codex CLI 0.172.0 (2026-11-24) starts
+  optional MCP servers lazily and adds per-tool approval for app tools. GitHub issue
+  statuses and boards track agent-assigned issues (public preview).
 
 - **2026-11-23:** Claude Code 2.1.330 (2026-11-20) extends `/loop` and scheduled tasks
   to 30 days, adds Easel charts, applies org settings at enterprise sign-in, and brings
@@ -423,3 +441,6 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [Claude Code release 2.1.330](../../sources/2026/11/2026-11-23-claude-code-2-1-330.md)
 - [fast-anything: port only the slow functions to Rust](../../sources/2026/11/2026-11-23-fast-anything-port-hot-paths.md)
 - [Ollama v0.40.17](../../sources/2026/11/2026-11-23-ollama-v0-40-17.md)
+- [Claude Code release 2.1.331](../../sources/2026/11/2026-11-24-claude-code-2-1-331.md)
+- [OpenAI Codex CLI 0.172.0](../../sources/2026/11/2026-11-24-codex-cli-0-172.md)
+- [GitHub issue statuses and repository boards (public preview)](../../sources/2026/11/2026-11-24-github-issue-statuses-boards.md)
