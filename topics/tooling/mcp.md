@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-11-23
+last_reviewed: 2026-11-25
 ---
 
 ## Overview
@@ -188,6 +188,12 @@ the de facto standard, with official SDKs in many languages.
 
 ## Current state
 
+- **2026-11-25:** MCP servers can now serve skills to Claude Code (2.1.332, beta; they
+  appear as `server:skill`). The official Apify MCP server (v0.23.0, 2026-11-24, MIT,
+  about 17.8k stars) gives agents the Apify Store's scrapers for search, maps,
+  e-commerce, and social sites: `claude mcp add apify "https://mcp.apify.com" -t http`,
+  and limit tools with `?tools=...`. The MCP blog marked two years of MCP on 2026-11-24
+  (anniversary post, no new features).
 - **2026-11-23:** Google published a reference setup for private Cloud Run MCP servers
   behind Gemini Enterprise (2026-11-20), and Ollama 0.40.17 brings deferred MCP tool
   loading to Claude Code sessions on local models (see
@@ -257,3 +263,5 @@ the de facto standard, with official SDKs in many languages.
 - [Claude Code release 2.1.329](../../sources/2026/11/2026-11-20-claude-code-2-1-329.md)
 - [rust-anything: incremental Rust rewrites](../../sources/2026/11/2026-11-20-rust-anything-incremental-rust-rewrites.md)
 - [How to securely connect internal Cloud Run MCP servers to Gemini Enterprise](../../sources/2026/11/2026-11-23-private-cloud-run-mcp-gemini-enterprise.md)
+- [Claude Code release 2.1.332](../../sources/2026/11/2026-11-25-claude-code-2-1-332.md)
+- [Apify MCP server](../../sources/2026/11/2026-11-25-apify-mcp-server.md)

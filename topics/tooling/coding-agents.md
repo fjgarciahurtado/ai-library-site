@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-11-24
+last_reviewed: 2026-11-25
 ---
 
 ## Overview
@@ -325,6 +325,14 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
+- **2026-11-25:** Claude Code 2.1.332 (2026-11-25, about 150 changes) adds skills from
+  MCP servers (beta), a `PreSkillShellCommand` hook, an OpenTelemetry
+  `assistant_response` event, and many hang and auto-compaction fixes. On cloud
+  providers Sonnet 5.5 and Opus 5.5 become defaults on some, and Foundry's Sonnet 4,
+  Opus 4, and Opus 4.1 are marked retired. The TypeScript Agent SDK 0.3.332 changes
+  `setPermissionMode()` to resolve with `{ mode }`. Anthropic's Claude Security plugin
+  0.13.0 brings multi-agent vulnerability scans with a live view (see
+  [security](../practices/security.md)).
 - **2026-11-24:** Claude Code 2.1.331 (2026-11-23) brings Code Mode to Bedrock, Google
   Cloud, Foundry, and Claude Platform on AWS, adds an API check to `claude doctor`, and
   fixes MCP calls that could hang for 30 minutes. Codex CLI 0.172.0 (2026-11-24) starts
@@ -444,3 +452,4 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [Claude Code release 2.1.331](../../sources/2026/11/2026-11-24-claude-code-2-1-331.md)
 - [OpenAI Codex CLI 0.172.0](../../sources/2026/11/2026-11-24-codex-cli-0-172.md)
 - [GitHub issue statuses and repository boards (public preview)](../../sources/2026/11/2026-11-24-github-issue-statuses-boards.md)
+- [Claude Code release 2.1.332](../../sources/2026/11/2026-11-25-claude-code-2-1-332.md)

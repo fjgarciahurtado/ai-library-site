@@ -2,7 +2,7 @@
 title: "Open-weight models"
 tags: [open-source, llm, deployment, fine-tuning]
 related: [fundamentals/training-and-fine-tuning, practices/cost-and-caching]
-last_reviewed: 2026-11-24
+last_reviewed: 2026-11-25
 ---
 
 ## Overview
@@ -40,7 +40,7 @@ As of 2026-10-22, checked against official model cards and announcements:
 | DeepSeek-V4.1-Flash | 2026-09-10 | 552B / 8B prefill, 16B decode (encoder-decoder MoE) | 1M | MIT |
 | DeepSeek-V4-Pro | 2026-04-24 | 1.6T / 49B (MoE) | 1M | MIT |
 | DeepSeek-V4-Flash | 2026-04-24 | 284B / 13B (MoE) | 1M | MIT |
-| Qwen3.8-Flash-Next | 2026-08 | 125B / 6B (MoE), plus 51B n-gram embeddings | 262K native, 1M with RoPE scaling | Qwen Community 1.0 (custom) |
+| Qwen3.8-Flash-Next | 2026-08 | 125B / 6B (MoE), plus 51B n-gram embeddings | 262K native, 1M with RoPE scaling | Qwen Community 1.0 (MIT-style; separate licence for MaaS or coding/office-assistant businesses, UI attribution above 100M MAU or $20M/month) |
 | GLM-5.3 (Z.ai) | 2026-08-14 (weights ~2026-08-29) | 753B; active not stated (MoE) | not stated (benchmarks up to 1M) | GLM-5.3 License (MIT-style; security review for MaaS providers over $10B revenue) |
 | Qwen3.5-397B-A17B | 2026-02-16 | 397B / 17B (MoE) | 262K native, ~1M with YaRN | Apache 2.0 |
 | Flint (Recursive, coding agents) | 2026-10-21 (on Ollama) | 39.8B / ~2.5B (MoE), per model card | 262K | Apache 2.0 |
@@ -167,6 +167,10 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 
 ## Current state
 
+- **2026-11-25:** The Qwen Community 1.0 licence (Qwen3.8-Flash-Next) was read: it is
+  MIT-style, but anyone running a model-as-a-service or a coding or office assistant
+  business needs a separate licence from Qwen before commercial use. That carve-out is
+  wider than Mistral Large 4's or Kimi K3.1 Pro's, which target API hosting only.
 - **2026-11-24:** Z.ai's GLM-5.4 (2026-11-23), its first looped transformer, has no open
   weights so far. It is available only through Z.ai's Coding Plan, so GLM-5.3 is still
   the newest open GLM model.
@@ -207,8 +211,12 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
   restricts model-as-a-service use (Large 3 was Apache 2.0), as GLM-5.3's does. The
   trend is toward weights that stay open except for competing API hosts. The exact date
   the Large 4 repo went public is not known.
-- What does the Qwen Community 1.0 licence allow for commercial use? It has not been read
-  yet.
+- What does the Qwen Community 1.0 licence allow for commercial use? Answered
+  2026-11-25 from the Qwen3.8-Flash-Next LICENSE file: commercial use is allowed, but a
+  company running a model-as-a-service or an "AI Work Assistant" (coding or office
+  productivity) business needs a separate licence from Qwen first, and products above
+  100M MAU or $20M monthly revenue must show the model name. Still open: which other
+  Qwen repos use it (Qwen3.5-397B-A17B and Qwen3.8-27B are Apache 2.0).
 - Did Llama 4 Behemoth ever ship? No primary source has been found.
 - Did Alibaba's Qwen 3.7 Max (May 2026) ship as API-only, without weights? Only a
   secondary report says so (noted 2026-10-04); no primary source has been found.
@@ -263,3 +271,4 @@ half of those. See [cost and caching](../practices/cost-and-caching.md).
 - [Kimi K3.1 Pro model card and licence](../../sources/2026/11/2026-11-23-kimi-k3-1-pro-model-card.md)
 - [Ollama v0.40.17](../../sources/2026/11/2026-11-23-ollama-v0-40-17.md)
 - [GLM-5.4: Z.ai's first loop transformer (Simon Willison)](../../sources/2026/11/2026-11-24-glm-5-4-loop-transformer.md)
+- [Qwen Community License 1.0 (Qwen3.8-Flash-Next)](../../sources/2026/11/2026-11-25-qwen-community-licence-1-0.md)

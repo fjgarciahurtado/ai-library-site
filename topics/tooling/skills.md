@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-11-24
+last_reviewed: 2026-11-25
 ---
 
 ## Overview
@@ -184,6 +184,12 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 
 ## Current state
 
+- **2026-11-25:** Claude Code 2.1.332 (2026-11-25) can load skills served by MCP
+  servers (beta, shown as `server:skill`), so a team can ship skills alongside its tools
+  from one server. A new `PreSkillShellCommand` hook fires before a skill runs a shell
+  command, a control point for third-party skills. Anthropic's Claude Security plugin
+  v0.13.0 (2026-11-24) adds an `attack-surface-analysis` skill; install with
+  `/plugin install claude-security@claude-plugins-official`.
 - **2026-11-24:** open-artifact (formerly `baoyu-design`, Apache-2.0) had about 460
   stars in its first week. It is one plugin and skill bundle for Claude Code, Codex,
   Cursor, Copilot, and Antigravity that keeps artifacts as local files.
@@ -246,3 +252,5 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 - [diagram-design: editorial diagrams skill](../../sources/2026/11/2026-11-23-diagram-design-editorial-diagrams-skill.md)
 - [fast-anything: port only the slow functions to Rust](../../sources/2026/11/2026-11-23-fast-anything-port-hot-paths.md)
 - [open-artifact: local, agent-agnostic artifacts](../../sources/2026/11/2026-11-24-open-artifact-local-agent-artifacts.md)
+- [Claude Code release 2.1.332](../../sources/2026/11/2026-11-25-claude-code-2-1-332.md)
+- [Claude Security plugin v0.13.0](../../sources/2026/11/2026-11-25-claude-security-plugin-v0-13.md)

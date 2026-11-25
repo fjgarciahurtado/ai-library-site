@@ -2,7 +2,7 @@
 title: "Retrieval-augmented generation (RAG)"
 tags: [rag, embeddings, prompting]
 related: [fundamentals/embeddings, agents/tool-use, agents/memory]
-last_reviewed: 2026-11-08
+last_reviewed: 2026-11-25
 ---
 
 ## Overview
@@ -43,11 +43,20 @@ citable without retraining the model, and lets you work with private data.
 
 1. Corpus fits in context and changes rarely? Try putting it in the prompt with caching first.
 2. Otherwise start with hybrid search and good chunking; add reranking if precision is low.
+   Managed services (OpenAI file search, Gemini File Search, Google Agent Retrieval with
+   `SearchDocuments`) do the ingest and hybrid search for you and return citations.
 3. Evaluate retrieval separately from generation: did the right passages come back?
 4. Ask the model to cite sources and to say when the context does not contain the answer.
 
 ## Current state
 
+- **2026-11-25:** Managed "files to cited answers" services keep spreading. Google's
+  Agent Retrieval added managed ingestion and a one-call `SearchDocuments` in public
+  preview (2026-11-24): Cloud Storage files (PDF, Office, text, video) are chunked and
+  embedded with Gemini Embedding 2, searched with hybrid search and optional reranking,
+  and returned with page ranges or video timestamps. REST `v1beta` only, us-east4 and
+  europe-west4. OpenAI's healthcare configurations (2026-11-24) pair web search with a
+  dedicated medical-source index, another form of curated retrieval behind one API.
 - **2026-11-08:** The trend is still from fixed pipelines toward agentic retrieval, where
   the model calls search tools as needed, and toward long-context-plus-caching for small
   corpora. Longer cache lifetimes (OpenAI's 12-hour cache since 2026-10-20) make the
@@ -66,3 +75,5 @@ citable without retraining the model, and lets you work with private data.
 - [Pydantic AI v2.61.0](../../sources/2026/10/2026-10-26-pydantic-ai-v2-61.md)
 - [Context Mode](../../sources/2026/10/2026-10-26-context-mode-tool-output-sandbox.md)
 - [codebase-memory-mcp](../../sources/2026/10/2026-10-30-codebase-memory-mcp-code-graph.md)
+- [Managed ingestion and SearchDocuments in Agent Retrieval](../../sources/2026/11/2026-11-25-google-agent-retrieval-searchdocuments.md)
+- [OpenAI API: healthcare model configurations](../../sources/2026/11/2026-11-25-openai-healthcare-model-configurations.md)

@@ -2,7 +2,7 @@
 title: "GPT (OpenAI)"
 tags: [openai, llm, reasoning]
 related: [models/claude, models/gemini, tooling/coding-agents]
-last_reviewed: 2026-11-22
+last_reviewed: 2026-11-25
 ---
 
 ## Overview
@@ -122,6 +122,14 @@ GPT-6.1 Sol with a newer knowledge cutoff.
 
 ## Current state
 
+- **2026-11-25:** OpenAI released healthcare model configurations for the Responses
+  API (2026-11-24): `gpt-6.2-astra-healthcare`, `gpt-6.2-sol-healthcare`,
+  `gpt-6-astra-healthcare`, and `gpt-6.1-sol-healthcare` pair each model with a
+  clinical harness and a medical-source web search index. Standard prices match the
+  base models (6.2 Astra $8 / $0.40 / $40; 6.2 Sol $2 / $0.10 / $10 per 1M input /
+  cached / output), as a promotion "at least through December 31, 2026". Legal
+  configurations (`gpt-6.2-astra-law`) are also on the pricing page. `chat-latest` now
+  tracks the newest ChatGPT model; OpenAI recommends GPT-6.2 for production.
 - **2026-11-20:** GPT-Live standby (2026-11-19) pauses inference in idle WebRTC
   sessions, which should lower the cost of long sessions (no figures given). GPT-6.2
   Sol is now the Codex CLI default (0.171.0; see
@@ -150,7 +158,11 @@ GPT-6.1 Sol with a newer knowledge cutoff.
   272K input tokens). Its benchmark figures are still unchecked, because the
   announcement post returned 403.
 - Is GPT-6 Astra retired or repriced now that GPT-6.2 Astra exists? The changelog of
-  2026-11-17 announces no deprecation.
+  2026-11-17 announces no deprecation. On 2026-11-24 OpenAI still launched a
+  `gpt-6-astra-healthcare` configuration at GPT-6 Astra's old price, so it is not retired.
+- How are the healthcare configurations selected in a request (as the `model` value, or
+  another parameter), and do they need a BAA? The changelog and pricing page do not say
+  (checked 2026-11-25).
 - What changed in the Model Spec update of 2026-10-29? Both the announcement and the
   versioned spec page could be fetched only partly (checked 2026-10-30); the changelog
   is on GitHub.
@@ -174,3 +186,4 @@ GPT-6.1 Sol with a newer knowledge cutoff.
 - [GPT-6.2 Astra and Sol, background completion windows](../../sources/2026/11/2026-11-18-gpt-6-2-astra-sol.md)
 - [GPT-Live-1.1 and standby for Live sessions](../../sources/2026/11/2026-11-20-gpt-live-1-1-standby.md)
 - [OpenAI Codex CLI 0.171.0](../../sources/2026/11/2026-11-20-codex-cli-0-171.md)
+- [OpenAI API: healthcare model configurations](../../sources/2026/11/2026-11-25-openai-healthcare-model-configurations.md)

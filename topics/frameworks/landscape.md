@@ -2,7 +2,7 @@
 title: "Agent and LLM framework landscape"
 tags: [frameworks, agents, sdk]
 related: [agents/agent-patterns, agents/tool-use, tooling/mcp]
-last_reviewed: 2026-11-24
+last_reviewed: 2026-11-25
 ---
 
 ## Overview
@@ -154,7 +154,7 @@ Latest versions from GitHub release feeds or PyPI, with the check date in each r
 | Microsoft Agent Framework | Python 1.25.0 / .NET 1.28.0 | 2026-11-07 / 2026-11-09 | 1.0 GA on 2026-04-03; Python 1.23 moved to MCP 2.x and 1.25 adds callable MCP discovery approval policies; .NET 1.28 adds a GA computer tool (`FoundryAITool.CreateComputerTool()`); .NET 1.26 had breaking AG-UI auth-scope and Docker parameter changes (checked 2026-11-12 on GitHub) |
 | OpenAI Agents SDK (Python) | 0.26.0 | 2026-11-24 | Breaking: Docker sandboxes need `DockerVolumeMountStrategy`; tripwires stop queued tools; 1.0.0-alpha.2 in preview (checked 2026-11-24) |
 | Google ADK (Python) | 2.15.0 | 2026-11-19 | Non-blocking tools in live agents, `pass_at_k` evals and per-argument tool scoring, fsspec artifacts; breaking: Visual Agent Builder removed, dynamic instruction routing on by default (checked 2026-11-20) |
-| Pydantic AI | 2.71.0 | 2026-11-18 | Near-daily minor releases; 2.69 added `ToolBudgets` and Kubernetes/Windows sandboxes; 2.71 adds harness capabilities (`WrapUpAtLimits`, `RequireVerification`, …), `PermissionRule`, `Goal`, `ToolBridge`; breaking: `PeerNetwork` renamed `PeerConnection` (checked 2026-11-20 on GitHub) |
+| Pydantic AI | 2.74.0 | 2026-11-24 | Near-daily minor releases; 2.69 added `ToolBudgets` and Kubernetes/Windows sandboxes; 2.71 added harness capabilities (`WrapUpAtLimits`, `RequireVerification`, …), `PermissionRule`, `Goal`, `ToolBridge`; 2.74 adds a cross-provider `ComputerTool`/`ComputerUse()` and a `CDPBrowser` capability, and fixes six advisories (four in `PlaywrightBrowser`) (checked 2026-11-25 on GitHub) |
 | Claude Agent SDK (Python) | 0.2.177 | 2026-11-03 | Bundles Claude Code 2.1.317; `HookMatcher(on_failure="block")` makes hooks fail closed (checked 2026-11-03) |
 | Claude Agent SDK (TypeScript) | 0.3.319 | 2026-11-06 | Parity with Claude Code 2.1.319; adds MCP tasks in the background (`CLAUDE_AUTO_BACKGROUND_TASKS=1`); 0.3.317 added `onFailure: "block"` on hook matchers (checked 2026-11-09) |
 | CrewAI | 1.15.30 | 2026-10-24 | 1.15.0 on 2026-06-25; 1.15.29 (2026-10-23) promoted AgentExecutor out of experimental (checked 2026-10-27 on GitHub) |
@@ -169,6 +169,12 @@ Release features are described under Key concepts.
   and custom trace providers), and a 1.0 line has started as GitHub-only alphas
   (1.0.0-alpha.2, 2026-11-23) with resumable sessions that survive pending approvals.
   The 0.24 previews described below have shipped in the 0.2x releases.
+- **2026-11-25:** Pydantic AI 2.74.0 (2026-11-24) wraps OpenAI's, Anthropic's, and
+  Google's computer-use tools behind one `ComputerTool` contract, with `desktop=True`
+  sandboxes and a Chrome DevTools Protocol browser; upgrade if you use
+  `PlaywrightBrowser` (four security fixes). The Claude Agent SDK for TypeScript 0.3.332
+  (2026-11-25) adds the `PreSkillShellCommand` hook and changes `setPermissionMode()` to
+  resolve with `{ mode }`.
 - **2026-11-20:** Pydantic AI 2.71.0 (2026-11-18) packages coding-agent-style
   safeguards as capabilities (permission rules for tools and shell, `Goal` for
   unattended runs, budget and limit reporting, verification, `ToolBridge`); with
@@ -234,3 +240,5 @@ Release features are described under Key concepts.
 - [Google ADK (Python) v2.15.0](../../sources/2026/11/2026-11-20-google-adk-v2-15.md)
 - [Pydantic AI v2.71.0](../../sources/2026/11/2026-11-20-pydantic-ai-v2-71.md)
 - [OpenAI Agents SDK v0.26.0 and v1.0.0-alpha.2](../../sources/2026/11/2026-11-24-openai-agents-sdk-v0-26.md)
+- [Pydantic AI v2.74.0: computer use and CDP browser](../../sources/2026/11/2026-11-25-pydantic-ai-v2-74-computer-use.md)
+- [Claude Code release 2.1.332](../../sources/2026/11/2026-11-25-claude-code-2-1-332.md)

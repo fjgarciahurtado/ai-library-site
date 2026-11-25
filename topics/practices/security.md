@@ -2,7 +2,7 @@
 title: "Security for LLM apps and agents"
 tags: [security, safety, agents, mcp]
 related: [tooling/mcp, tooling/skills, tooling/coding-agents, agents/tool-use]
-last_reviewed: 2026-11-24
+last_reviewed: 2026-11-25
 ---
 
 ## Overview
@@ -203,6 +203,14 @@ to limit what the agent can do if it is fooled.
 
 ## Current state
 
+- **2026-11-25:** Anthropic's Claude Security plugin 0.13.0 (2026-11-24) runs a
+  multi-agent scan inside Claude Code: agents map the codebase, hunt for
+  vulnerabilities, and verify each finding; output is Markdown, JSONL, or SARIF, plus
+  optional patch files. New: an attack surface analysis skill, a live scan view, and a
+  `claude-security` CLI. Install with
+  `/plugin install claude-security@claude-plugins-official`. Pydantic AI 2.74.0 fixed
+  four advisories in its Playwright browser tool. Claude Code 2.1.332 adds a
+  `PreSkillShellCommand` hook to vet shell commands that skills run.
 - **2026-11-24:** OpenAI and Cisco open-sourced Shirudo (2026-11-23, BSD 2-Clause), a
   Linux runtime for temporary eBPF "shields" that block an exploit path in a running
   process until a patch ships. Shields are signed, can run in monitor mode first, and
@@ -271,3 +279,4 @@ to limit what the agent can do if it is fooled.
 - [Claude Code release 2.1.327](../../sources/2026/11/2026-11-18-claude-code-2-1-327.md)
 - [REA: reverse engineering with agents](../../sources/2026/11/2026-11-19-rea-reverse-engineering-agents.md)
 - [OpenAI and Cisco introduce Shirudo](../../sources/2026/11/2026-11-24-openai-cisco-shirudo.md)
+- [Claude Security plugin v0.13.0](../../sources/2026/11/2026-11-25-claude-security-plugin-v0-13.md)
