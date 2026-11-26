@@ -2,7 +2,7 @@
 title: "Reasoning models and extended thinking"
 tags: [reasoning, llm, cost]
 related: [fundamentals/llms, fundamentals/training-and-fine-tuning, practices/prompting]
-last_reviewed: 2026-11-22
+last_reviewed: 2026-11-26
 ---
 
 ## Overview
@@ -24,8 +24,8 @@ is now trained into the models with reinforcement learning.
 - **Turning thinking off differs by model:** per Anthropic's troubleshooting docs
   (rechecked 2026-11-22), thinking is "Always on" for Claude Fable 5.2, Fable 5.1, the
   Mythos models, and Opus 5.5: they accept only `thinking: {type: "adaptive"}`, and
-  effort is the only control (Opus 5.5 and Haiku 5.5 default to `medium`; no default is
-  stated for Fable 5.2). Haiku 5.5 accepts `"disabled"` at effort `high` or below;
+  effort is the only control. Default effort on the API (effort docs, 2026-11-26): Fable
+  5.2 and Sonnet 5.5 `high`, Opus 5.5 and Haiku 5.5 `medium`. Haiku 5.5 accepts `"disabled"` at effort `high` or below;
   Sonnet 5.5 is the only model that takes `"between_tools"`, which drops up-front
   thinking, also only at `high` or below. To hide thinking text without changing it, use
   `display: "omitted"`. See [Claude](../models/claude.md).
@@ -62,14 +62,17 @@ is now trained into the models with reinforcement learning.
 - **2026-11-22:** On every new Claude flagship since Fable 5 thinking cannot be turned
   off, and Gemini's newest model defaults to `high`; the trend is toward always-on
   thinking steered by effort.
+- **2026-11-26:** Anthropic's effort docs confirm Fable 5.2 defaults to `high`, like
+  Sonnet 5.5; Opus 5.5 and Haiku 5.5 default to `medium`. Set `effort` explicitly when
+  moving requests between models.
 
 ## Open questions
 
 - How faithful are reasoning traces to what the model actually computes? Partly
   answered (2026-10-13): Google's experiment shows that training against the CoT reduces
   faithfulness; how faithful untouched traces are is still open.
-- What is the default effort for Claude Fable 5.2? Anthropic's thinking docs do not
-  state it (checked 2026-11-22).
+- What is the default effort for Claude Fable 5.2? Answered 2026-11-26: `high`, per
+  Anthropic's effort docs.
 
 ## Sources
 
@@ -79,3 +82,4 @@ is now trained into the models with reinforcement learning.
 - [Troubleshooting thinking (Claude API docs)](../../sources/2026/10/2026-10-13-claude-thinking-config-by-model.md)
 - [Developing Gemini 4 Argon responsibly and safely](../../sources/2026/10/2026-10-14-gemini-4-argon-safety.md)
 - [Gemini 4 Neon](../../sources/2026/11/2026-11-19-gemini-4-neon.md)
+- [Effort (Claude API docs)](../../sources/2026/11/2026-11-26-claude-effort-defaults-docs.md)

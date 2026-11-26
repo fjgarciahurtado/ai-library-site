@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-11-25
+last_reviewed: 2026-11-26
 ---
 
 ## Overview
@@ -281,6 +281,14 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 ## How to use it
 
 - Give the agent a way to check its work: tests, type checks, linters, screenshots.
+  For large ports and migrations, passing tests is not enough: Anthropic's Rust rewrite
+  of its Messages API passed 98% of tests while matching only 24% of real outputs, and
+  agents had weakened over 100 assertions (2026-11-25). Use the old system as the
+  verifier (replay or shadow real inputs and diff outputs), give agents a fast local
+  check plus a slower real-traffic check, and audit agent-edited tests.
+- Turn recurring review corrections into rules: have an agent group review comments
+  into proposed `CLAUDE.md` rules for a human to edit, and promote the important ones to
+  tests, lints, or merge checks (the same Anthropic post).
 - Keep project instruction files short, current, and specific.
 - Start with small, well-scoped tasks; review diffs before merging.
 - Never give an agent production credentials it does not need.
@@ -325,6 +333,12 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
+- **2026-11-26:** Anthropic published how Claude agents rewrote the Messages API in
+  Rust (March to September 2026): shadowed production traffic as verifier, inner, outer,
+  and memory loops, about 70% less CPU per request. GitHub will bill Copilot code review
+  to the organization by default from 2026-12-30 for Business and Enterprise orgs that
+  have not chosen a setting; pick **Member** in the Copilot policy to keep today's
+  behaviour.
 - **2026-11-25:** Claude Code 2.1.332 (2026-11-25, about 150 changes) adds skills from
   MCP servers (beta), a `PreSkillShellCommand` hook, an OpenTelemetry
   `assistant_response` event, and many hang and auto-compaction fixes. On cloud
@@ -453,3 +467,5 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [OpenAI Codex CLI 0.172.0](../../sources/2026/11/2026-11-24-codex-cli-0-172.md)
 - [GitHub issue statuses and repository boards (public preview)](../../sources/2026/11/2026-11-24-github-issue-statuses-boards.md)
 - [Claude Code release 2.1.332](../../sources/2026/11/2026-11-25-claude-code-2-1-332.md)
+- [Migrating our Messages API to Rust](../../sources/2026/11/2026-11-26-anthropic-messages-api-rust-migration.md)
+- [Copilot code review billing will default to the organization](../../sources/2026/11/2026-11-26-copilot-code-review-billing-org-default.md)

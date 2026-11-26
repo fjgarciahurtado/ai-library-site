@@ -2,7 +2,7 @@
 title: "Claude (Anthropic)"
 tags: [anthropic, llm, reasoning, cost]
 related: [models/gpt, models/gemini, tooling/skills, tooling/mcp, tooling/coding-agents]
-last_reviewed: 2026-11-24
+last_reviewed: 2026-11-26
 ---
 
 ## Overview
@@ -22,7 +22,7 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
   controls depth (`low` to `max`). On Fable 5.2, Fable 5.1, and Opus 5.5 thinking is always on and
   cannot be disabled. Haiku 5.5 accepts `thinking: {type: "disabled"}` at effort `high`
   or below, and Sonnet 5.5 turns off up-front thinking with `{type: "between_tools"}`
-  (also at `high` or below). Default effort is `high` on Fable 5.1 and Sonnet 5.5, `medium` on
+  (also at `high` or below). Default effort is `high` on Fable 5.2, Fable 5.1, and Sonnet 5.5, `medium` on
   Opus 5.5 and Haiku 5.5. Thinking blocks are tied to the model and conversation that produced them
   ("preserved thinking"). Since 2026-11-09, preserved thinking applies to all API
   accounts: 5.2 thinking blocks work only in the account that produced them, and sending
@@ -191,6 +191,10 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 
 ## Current state
 
+- **2026-11-26:** The effort docs confirm Fable 5.2 defaults to `high` effort (Opus 5.5
+  and Haiku 5.5 stay at `medium`). Anthropic also reports that its Messages API now runs
+  on a Rust rewrite largely written by Claude agents (about 70% less CPU, about 20% lower
+  median time to first token; see [coding agents](../tooling/coding-agents.md)).
 - **2026-11-24:** Opus 4.5 is deprecated (2026-11-23) and retires on 2027-01-22; Sonnet
   4.5 retires on 2026-11-30. Enterprise Frontier Safeguards (zero data retention with
   customer-owned safety storage) entered beta the same day. Haiku 4.5 still has no
@@ -260,3 +264,5 @@ speed. Claude is especially strong at coding, agentic work, and long documents.
 - [Self-hosted Claude Managed Agents](../../sources/2026/11/2026-11-13-self-hosted-claude-managed-agents.md)
 - [Claude API linked billing (beta)](../../sources/2026/11/2026-11-18-claude-linked-billing-beta.md)
 - [Claude Platform release notes: Opus 4.5 deprecated, Enterprise Frontier Safeguards beta](../../sources/2026/11/2026-11-24-claude-opus-4-5-deprecation-efs.md)
+- [Effort (Claude API docs)](../../sources/2026/11/2026-11-26-claude-effort-defaults-docs.md)
+- [Migrating our Messages API to Rust](../../sources/2026/11/2026-11-26-anthropic-messages-api-rust-migration.md)

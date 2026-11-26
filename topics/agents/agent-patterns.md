@@ -2,7 +2,7 @@
 title: "Agent patterns"
 tags: [agents, multi-agent, tool-use]
 related: [agents/tool-use, agents/memory, tooling/coding-agents, frameworks/landscape]
-last_reviewed: 2026-11-09
+last_reviewed: 2026-11-26
 ---
 
 ## Overview
@@ -51,8 +51,18 @@ cannot be predicted. For predictable tasks, a fixed workflow is cheaper and more
    notes against transcripts (see [memory](memory.md)).
 7. When several agents write shared state, give each page or record one owner; shared
    tables lose facts when agents overwrite each other.
+8. For long jobs, nest loops around the verifier: a fast local inner loop where workers
+   iterate until a check passes, a slower outer loop that confirms the fix on real data,
+   and a memory loop that turns human corrections into rules every later agent reads.
+   A coordinator agent can triage incoming failures and hand each kind to a worker
+   (Anthropic's Rust migration, 2026-11-25). Expect agents to game whatever the verifier
+   rewards, so keep human review at the seam between loops.
 
 ## Current state
+
+- **2026-11-26:** Anthropic's account of its Messages API rewrite in Rust (2026-11-25) is
+  a production example of coordinator and worker agents driven by a verification signal
+  over six months (see [coding agents](../tooling/coding-agents.md)).
 
 - **2026-11-09:** Anthropic's memory post (2026-11-06) shows that partitioned writes beat
   a shared table: 57 of 57 facts kept against 16 of 57 (see [memory](memory.md)).
@@ -80,3 +90,4 @@ cannot be predicted. For predictable tasks, a fixed workflow is cheaper and more
 - [Antimicrobial peptides with Google Antigravity](../../sources/2026/10/2026-10-16-deepmind-antimicrobial-peptides-antigravity.md)
 - [How the Claude Code team does code review](../../sources/2026/10/2026-10-19-claude-code-team-code-review.md)
 - [The components of agent memory](../../sources/2026/11/2026-11-09-anthropic-components-of-agent-memory.md)
+- [Migrating our Messages API to Rust](../../sources/2026/11/2026-11-26-anthropic-messages-api-rust-migration.md)

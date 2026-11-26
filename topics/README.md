@@ -8,7 +8,7 @@ Long-lived knowledge pages, kept current. Each page cites the source notes it dr
 
 - [Embeddings](fundamentals/embeddings.md) (reviewed 2026-11-09)
 - [Large language models](fundamentals/llms.md) (reviewed 2026-11-15)
-- [Reasoning models and extended thinking](fundamentals/reasoning-models.md) (reviewed 2026-11-22)
+- [Reasoning models and extended thinking](fundamentals/reasoning-models.md) (reviewed 2026-11-26)
 - [Retrieval-augmented generation (RAG)](fundamentals/rag.md) (reviewed 2026-11-25)
 - [Tokens and context windows](fundamentals/tokens-and-context.md) (reviewed 2026-11-15)
 - [Training and fine-tuning](fundamentals/training-and-fine-tuning.md) (reviewed 2026-11-15)
@@ -16,21 +16,21 @@ Long-lived knowledge pages, kept current. Each page cites the source notes it dr
 
 ## Models
 
-- [Claude (Anthropic)](models/claude.md) (reviewed 2026-11-24)
+- [Claude (Anthropic)](models/claude.md) (reviewed 2026-11-26)
 - [GPT (OpenAI)](models/gpt.md) (reviewed 2026-11-25)
 - [Gemini (Google)](models/gemini.md) (reviewed 2026-11-22)
 - [Open-weight models](models/open-weight.md) (reviewed 2026-11-25)
 
 ## Agents
 
-- [Agent patterns](agents/agent-patterns.md) (reviewed 2026-11-09)
+- [Agent patterns](agents/agent-patterns.md) (reviewed 2026-11-26)
 - [Memory for agents](agents/memory.md) (reviewed 2026-11-09)
 - [Tool use (function calling)](agents/tool-use.md) (reviewed 2026-11-22)
 
 ## Tooling
 
 - [Agent skills](tooling/skills.md) (reviewed 2026-11-25)
-- [Coding agents](tooling/coding-agents.md) (reviewed 2026-11-25)
+- [Coding agents](tooling/coding-agents.md) (reviewed 2026-11-26)
 - [Model Context Protocol (MCP)](tooling/mcp.md) (reviewed 2026-11-25)
 
 ## Frameworks
@@ -40,6 +40,6 @@ Long-lived knowledge pages, kept current. Each page cites the source notes it dr
 ## Practices
 
 - [Cost and caching](practices/cost-and-caching.md) (reviewed 2026-11-22)
-- [Evaluating LLM applications](practices/evals.md) (reviewed 2026-11-22)
+- [Evaluating LLM applications](practices/evals.md) (reviewed 2026-11-26)
 - [Prompting and context engineering](practices/prompting.md) (reviewed 2026-11-09)
 - [Security for LLM apps and agents](practices/security.md) (reviewed 2026-11-25)

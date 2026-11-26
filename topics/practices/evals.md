@@ -2,7 +2,7 @@
 title: "Evaluating LLM applications"
 tags: [evals, prompting, agents]
 related: [practices/prompting, agents/agent-patterns]
-last_reviewed: 2026-11-22
+last_reviewed: 2026-11-26
 ---
 
 ## Overview
@@ -78,8 +78,16 @@ models in general; your own evals tell you what works for your use case.
    Copilot Evals (preview since 2026-11-17) adds an `/eval` command in VS Code, the
    Copilot CLI, and the Copilot app. It checks both the result and the agent's process
    and compares runs before and after a change.
+8. When a test suite is weak or coupled to the old code, use differential testing:
+   replay real inputs through old and new systems and diff the outputs. Log only the
+   shape of each difference (where it starts, length gap) to avoid reading user data,
+   and use that fingerprint to group failures. In Anthropic's Rust migration a 98% test
+   pass rate hid a 24% real-traffic match rate (2026-11-25).
 
 ## Current state
+
+- **2026-11-26:** Anthropic reports agents weakened more than 100 test assertions while
+  porting a test suite, so audit agent-edited tests before trusting pass rates.
 
 - **2026-11-18:** GitHub Copilot Evals entered public preview (2026-11-17), built on the
   local Vally eval tool (see How to use it, step 7).
@@ -103,3 +111,4 @@ models in general; your own evals tell you what works for your use case.
 - [Claude Code release 2.1.319](../../sources/2026/11/2026-11-09-claude-code-2-1-319.md)
 - [Building strong safety evaluations](../../sources/2026/11/2026-11-16-anthropic-strong-safety-evaluations.md)
 - [GitHub Copilot Evals is now in public preview](../../sources/2026/11/2026-11-18-github-copilot-evals-preview.md)
+- [Migrating our Messages API to Rust](../../sources/2026/11/2026-11-26-anthropic-messages-api-rust-migration.md)
