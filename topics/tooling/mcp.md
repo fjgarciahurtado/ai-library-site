@@ -2,7 +2,7 @@
 title: "Model Context Protocol (MCP)"
 tags: [mcp, tool-use, security]
 related: [agents/tool-use, tooling/skills, practices/security]
-last_reviewed: 2026-11-25
+last_reviewed: 2026-11-27
 ---
 
 ## Overview
@@ -188,6 +188,10 @@ the de facto standard, with official SDKs in many languages.
 
 ## Current state
 
+- **2026-11-27:** VS Code 1.148 (2026-11-25) adds a fullscreen button for MCP Apps (editor
+  area or Secondary Side Bar), and its Agent Host Protocol 1.1.0 can represent skills
+  served over MCP (SEP-2640), so skills-over-MCP now has a second client after Claude
+  Code.
 - **2026-11-25:** MCP servers can now serve skills to Claude Code (2.1.332, beta; they
   appear as `server:skill`). The official Apify MCP server (v0.23.0, 2026-11-24, MIT,
   about 17.8k stars) gives agents the Apify Store's scrapers for search, maps,
@@ -265,3 +269,4 @@ the de facto standard, with official SDKs in many languages.
 - [How to securely connect internal Cloud Run MCP servers to Gemini Enterprise](../../sources/2026/11/2026-11-23-private-cloud-run-mcp-gemini-enterprise.md)
 - [Claude Code release 2.1.332](../../sources/2026/11/2026-11-25-claude-code-2-1-332.md)
 - [Apify MCP server](../../sources/2026/11/2026-11-25-apify-mcp-server.md)
+- [VS Code 1.148](../../sources/2026/11/2026-11-27-vs-code-1-148-agent-sessions.md)

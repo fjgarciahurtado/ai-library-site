@@ -2,7 +2,7 @@
 title: "Coding agents"
 tags: [coding-agents, agents, cli, ide]
 related: [agents/agent-patterns, tooling/skills, tooling/mcp, practices/security]
-last_reviewed: 2026-11-26
+last_reviewed: 2026-11-27
 ---
 
 ## Overview
@@ -209,7 +209,12 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
   lets nested sessions use a different agent harness (preview,
   `chat.agentHost.multipleChatProviders.enabled`), and a working set keeps or undoes
   pending agent edits. VS Code 1.143 also has an experimental local MAI Code 1.1 Flash
-  model (needs a 96 GB NVIDIA GPU).
+  model (needs a 96 GB NVIDIA GPU). VS Code 1.148 (2026-11-25) can run agent sessions
+  inside Dev Containers (experimental,
+  `chat.agentHost.devContainer.environments.enabled`; `...handoff.enabled` moves an
+  existing session into one) or sandbox profiles (`chat.agent.sandbox.profiles.enabled`),
+  keeps the machine awake during runs (`sessions.keepAwakeWhileWorking`, preview), and
+  starts responses about 30% sooner.
 - **Letting the tool pick models:** GitHub Copilot Fusion (GA 2026-10-28) routes each
   prompt across several models, using a single model, a cascade (cheap draft, escalate if
   needed), or a critique loop, at Standard, High, or Max effort. GitHub reports Fusion Max
@@ -333,6 +338,11 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 
 ## Current state
 
+- **2026-11-27:** VS Code 1.148 (2026-11-25) adds experimental Dev Container and
+  sandbox-profile isolation for agent sessions, a keep-awake setting for long runs, an
+  experimental session inbox (`sessions.list.inboxEnabled`), password prompts for agent
+  shell commands, and **Chat: Open Worktree Cleanup**. No Claude Code, Codex, or Gemini
+  CLI feature release appeared on 2026-11-26 (Codex 0.174 is still in alpha).
 - **2026-11-26:** Anthropic published how Claude agents rewrote the Messages API in
   Rust (March to September 2026): shadowed production traffic as verifier, inner, outer,
   and memory loops, about 70% less CPU per request. GitHub will bill Copilot code review
@@ -469,3 +479,4 @@ that open pull requests by themselves. In 2026 they are the most widely used kin
 - [Claude Code release 2.1.332](../../sources/2026/11/2026-11-25-claude-code-2-1-332.md)
 - [Migrating our Messages API to Rust](../../sources/2026/11/2026-11-26-anthropic-messages-api-rust-migration.md)
 - [Copilot code review billing will default to the organization](../../sources/2026/11/2026-11-26-copilot-code-review-billing-org-default.md)
+- [VS Code 1.148](../../sources/2026/11/2026-11-27-vs-code-1-148-agent-sessions.md)

@@ -2,7 +2,7 @@
 title: "Agent skills"
 tags: [skills, agents, anthropic]
 related: [tooling/mcp, agents/tool-use, tooling/coding-agents]
-last_reviewed: 2026-11-25
+last_reviewed: 2026-11-27
 ---
 
 ## Overview
@@ -184,6 +184,13 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 
 ## Current state
 
+- **2026-11-27:** Two practical new skill packs. joggernaut (MIT, about 66 stars) has
+  seven skills that diagnose slow or flaky GitHub Actions CI, apply a fix, and measure
+  it; install with `/plugin marketplace add usejog/joggernaut` then
+  `/plugin install jog@joggernaut`. The NestJS team ships six official skills for NestJS
+  12 (`npx @nestjs/skills add --agent claude`, or the `nestjs@nestjs` plugin). VS Code
+  1.148 (2026-11-25) lets extensions represent skills served over MCP (SEP-2640), the
+  second client after Claude Code to handle them.
 - **2026-11-25:** Claude Code 2.1.332 (2026-11-25) can load skills served by MCP
   servers (beta, shown as `server:skill`), so a team can ship skills alongside its tools
   from one server. A new `PreSkillShellCommand` hook fires before a skill runs a shell
@@ -254,3 +261,6 @@ then loads the rest. Skills package *know-how*; [MCP](mcp.md) provides *connecti
 - [open-artifact: local, agent-agnostic artifacts](../../sources/2026/11/2026-11-24-open-artifact-local-agent-artifacts.md)
 - [Claude Code release 2.1.332](../../sources/2026/11/2026-11-25-claude-code-2-1-332.md)
 - [Claude Security plugin v0.13.0](../../sources/2026/11/2026-11-25-claude-security-plugin-v0-13.md)
+- [joggernaut: skills for faster GitHub Actions CI](../../sources/2026/11/2026-11-27-joggernaut-ci-speed-skills.md)
+- [NestJS official agent skills](../../sources/2026/11/2026-11-27-nestjs-official-agent-skills.md)
+- [VS Code 1.148](../../sources/2026/11/2026-11-27-vs-code-1-148-agent-sessions.md)

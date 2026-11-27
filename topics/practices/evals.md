@@ -2,7 +2,7 @@
 title: "Evaluating LLM applications"
 tags: [evals, prompting, agents]
 related: [practices/prompting, agents/agent-patterns]
-last_reviewed: 2026-11-26
+last_reviewed: 2026-11-27
 ---
 
 ## Overview
@@ -83,8 +83,18 @@ models in general; your own evals tell you what works for your use case.
    shape of each difference (where it starts, length gap) to avoid reading user data,
    and use that fingerprint to group failures. In Anthropic's Rust migration a 98% test
    pass rate hid a 24% real-traffic match rate (2026-11-25).
+9. For long-horizon agents, grade the final state of the environment (files, app
+   databases, device state) rather than comparing the agent's steps to a reference
+   path; long tasks have many valid routes. OS-Omni (2026-11-26) does this for tasks
+   averaging 67 human steps, and reports results per platform because averages hide
+   large gaps.
 
 ## Current state
+
+- **2026-11-27:** OS-Omni, a 300-task computer-use benchmark across six platforms plus
+  desktop-and-phone workflows, puts the best agent (Claude Opus 5.5) at 68.5% against
+  77.3% for humans. Agents beat humans on Linux but trail by 25–34 points on macOS and
+  iOS. These are the authors' own runs (v1 paper), not yet independently reproduced.
 
 - **2026-11-26:** Anthropic reports agents weakened more than 100 test assertions while
   porting a test suite, so audit agent-edited tests before trusting pass rates.
@@ -98,7 +108,10 @@ models in general; your own evals tell you what works for your use case.
 
 ## Open questions
 
-- How to evaluate multi-hour autonomous agent runs affordably.
+- How to evaluate multi-hour autonomous agent runs affordably. Partly answered
+  (2026-11-27): OS-Omni shows a workable design (state-based checkers, step budgets of
+  300–650, per-step timeouts), but its tasks take humans minutes, not hours, and the
+  paper's cost per run was not read. Still open for genuinely multi-hour runs.
 - Will other frontier labs give evaluators comparable (Tier 3) access? None had
   announced it as of 2026-10-16.
 
@@ -112,3 +125,4 @@ models in general; your own evals tell you what works for your use case.
 - [Building strong safety evaluations](../../sources/2026/11/2026-11-16-anthropic-strong-safety-evaluations.md)
 - [GitHub Copilot Evals is now in public preview](../../sources/2026/11/2026-11-18-github-copilot-evals-preview.md)
 - [Migrating our Messages API to Rust](../../sources/2026/11/2026-11-26-anthropic-messages-api-rust-migration.md)
+- [OS-Omni: computer-use benchmark](../../sources/2026/11/2026-11-27-os-omni-computer-use-benchmark.md)

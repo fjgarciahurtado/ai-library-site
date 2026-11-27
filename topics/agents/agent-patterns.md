@@ -2,7 +2,7 @@
 title: "Agent patterns"
 tags: [agents, multi-agent, tool-use]
 related: [agents/tool-use, agents/memory, tooling/coding-agents, frameworks/landscape]
-last_reviewed: 2026-11-26
+last_reviewed: 2026-11-27
 ---
 
 ## Overview
@@ -60,6 +60,10 @@ cannot be predicted. For predictable tasks, a fixed workflow is cheaper and more
 
 ## Current state
 
+- **2026-11-27:** OS-Omni (2026-11-26) measures long computer-use tasks (about 67
+  human steps each) across six platforms: the best agent reaches 68.5% versus 77.3% for
+  humans, with the weakest results on iOS and macOS (see [evals](../practices/evals.md)).
+
 - **2026-11-26:** Anthropic's account of its Messages API rewrite in Rust (2026-11-25) is
   a production example of coordinator and worker agents driven by a verification signal
   over six months (see [coding agents](../tooling/coding-agents.md)).
@@ -81,7 +85,10 @@ cannot be predicted. For predictable tasks, a fixed workflow is cheaper and more
 
 ## Open questions
 
-- Reliable ways to evaluate long-horizon agents.
+- Reliable ways to evaluate long-horizon agents. Partly answered (2026-11-27): grade
+  the final environment state, run many platforms, and report per-platform results, as
+  OS-Omni does (see [evals](../practices/evals.md)). Still open: tasks lasting hours
+  rather than minutes, and independent reproduction of such benchmarks.
 
 ## Sources
 
@@ -91,3 +98,4 @@ cannot be predicted. For predictable tasks, a fixed workflow is cheaper and more
 - [How the Claude Code team does code review](../../sources/2026/10/2026-10-19-claude-code-team-code-review.md)
 - [The components of agent memory](../../sources/2026/11/2026-11-09-anthropic-components-of-agent-memory.md)
 - [Migrating our Messages API to Rust](../../sources/2026/11/2026-11-26-anthropic-messages-api-rust-migration.md)
+- [OS-Omni: computer-use benchmark](../../sources/2026/11/2026-11-27-os-omni-computer-use-benchmark.md)
